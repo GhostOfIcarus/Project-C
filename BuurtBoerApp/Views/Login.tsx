@@ -8,7 +8,7 @@ interface LoginScreenProps {
 
 const LoginScreen = (props: LoginScreenProps) => {
   
-  const login = () => props.navigation.navigate("Home")
+  const login = () => props.navigation.navigate("Schedule")
 
   
 
