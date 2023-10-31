@@ -8,7 +8,7 @@ interface LoginScreenProps {
 
 const LoginScreen = (props: LoginScreenProps) => {
   
-  const login = () => props.navigation.navigate("Schedule")
+  const Schedule = () => props.navigation.navigate("Schedule")
 
   const ForgotPassword = () => props.navigation.navigate("ForgotPassword")
 
@@ -36,17 +36,17 @@ const LoginScreen = (props: LoginScreenProps) => {
         <TouchableOpacity onPress={ForgotPassword}>
           <Text style={{ color: '#099F91', marginVertical: 10, marginHorizontal: 5 }}>Wachtwoord vergeten?</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.buttons} onPress={login}>
+        <TouchableOpacity style={styles.buttons} onPress={Schedule}>
           <Text style={{ color: 'white', textAlign: 'center' }}>Login</Text>
         </TouchableOpacity>
         <View style={styles.centered_text}>
           <Text style={{ color: 'black' }}>OF</Text>
         </View>
 
-        <TouchableOpacity style={styles.buttons} onPress={login}>
+        <TouchableOpacity style={styles.buttons} onPress={Schedule}>
           <Text style={{ color: 'white', textAlign: 'center' }}>Login met Google</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.buttons} onPress={login}>
+        <TouchableOpacity style={styles.buttons} onPress={Schedule}>
           <Text style={{ color: 'white', textAlign: 'center' }}>Login met Microsoft</Text>
         </TouchableOpacity>
       </View>

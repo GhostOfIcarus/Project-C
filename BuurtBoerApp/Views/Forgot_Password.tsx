@@ -8,7 +8,7 @@ interface LoginScreenProps {
 
 const Forgot_Password = (props: LoginScreenProps) => {
   
-  const login = () => props.navigation.navigate("Schedule")
+  const ChangePasswordScreen = () => props.navigation.navigate("ChangePassword")
 
   
 
@@ -29,10 +29,8 @@ const Forgot_Password = (props: LoginScreenProps) => {
           style={styles.input}
           // Handle username input
         />
-        
-       
-        <TouchableOpacity style={styles.buttons} onPress={login}>
-          <Text style={{ color: 'white', textAlign: 'center' }}>Login</Text>
+        <TouchableOpacity style={styles.buttons} onPress={ChangePasswordScreen}>
+          <Text style={{ color: 'white', textAlign: 'center' }}>Verstuur</Text>
         </TouchableOpacity>
         
       </View>
@@ -74,7 +72,8 @@ const styles = StyleSheet.create({
     paddingVertical: 25,
     marginHorizontal: 20,
     marginVertical: 5,
-    color: 'black'
+    color: 'black',
+    fontSize: 20,
   },
   input: {
     height: 40,
@@ -95,7 +94,7 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     padding: 10,
     borderRadius: 10,
-    marginVertical: 5,
+    marginVertical: 55,
     marginHorizontal: 5,
     shadowColor: '#000',
     shadowOffset: { width: 5, height: 20 },
