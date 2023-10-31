@@ -1,6 +1,6 @@
 // LoginScreen.js
 import React from 'react';
-import { View, TextInput, Button, StyleSheet, Alert, Image, Text, TouchableOpacity, KeyboardAvoidingView, ScrollView   } from 'react-native';
+import { View, Dimensions, TextInput, Button, StyleSheet, Alert, Image, Text, TouchableOpacity, KeyboardAvoidingView, ScrollView   } from 'react-native';
 
 interface LoginScreenProps {
   navigation: any;
@@ -56,9 +56,9 @@ const LoginScreen = (props: LoginScreenProps) => {
 
 const styles = StyleSheet.create({
   container: {
-    flexGrow: 1,
+    flex: 1,
     justifyContent: 'center',
-    padding: 25,
+    padding: 16,
     backgroundColor: '#D9D9D9',
   },
   login_div: {
@@ -67,26 +67,26 @@ const styles = StyleSheet.create({
     padding: 16,
     backgroundColor: '#fff',
     shadowColor: 'black',
-    shadowRadius: 10,
+    shadowRadius: 5,
   },
   img_div: {
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#099F91',
-    paddingHorizontal: 20,
-    paddingVertical: 25,
-    marginHorizontal: 20,
-    marginVertical: 5,
+    paddingHorizontal: '10%',
+    paddingVertical: '5%',
+    marginHorizontal: '8%',
+    marginVertical: '2%',
   },
   input: {
-    height: 40,
+    height: '7%',
     color: '#979797',
     borderBottomWidth: 1,
     borderBottomColor: 'gray',
-    marginBottom: 12,
+    marginBottom: '1%',
     paddingLeft: 8,
     marginTop: 10,
-    marginHorizontal: 5,
+    marginHorizontal: '2%',
   },
   image: {
     backgroundColor: '#099F91',
@@ -99,10 +99,10 @@ const styles = StyleSheet.create({
     backgroundColor: '#F9834C',
     color: 'white',
     fontWeight: '600',
-    padding: 10,
+    padding: '2%',
     borderRadius: 10,
-    marginVertical: 5,
-    marginHorizontal: 5,
+    marginVertical: '1%',
+    marginHorizontal: '1%',
     shadowColor: '#000',
     shadowOffset: { width: 5, height: 20 },
     shadowOpacity: 0.5,
@@ -110,5 +110,8 @@ const styles = StyleSheet.create({
     elevation: 5, // For Android
   },
 });
+
+
+
 
 export default LoginScreen;
