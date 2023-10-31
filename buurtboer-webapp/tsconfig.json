@@ -1,20 +1,26 @@
 {
   "compilerOptions": {
-    "target": "ES6", // or your desired target version
-    "module": "ESNext", // or your desired module system (e.g., "CommonJS", "ES6", "ESNext")
-    "jsx": "react", // Set to "react" for React JSX support
-    "strict": true, // Enable strict mode
-    "esModuleInterop": true, // Enable ES module interoperability
-    "skipLibCheck": true, // Skip type checking of declaration files (optional, can be useful for large projects)
-    "forceConsistentCasingInFileNames": true, // Enforce consistent file naming (e.g., Foo.ts and foo.ts can't exist in the same folder)
-    "outDir": "./dist", // Output directory for compiled files (optional, specify your desired output directory)
-    // Add other options as needed
+    "target": "es5",
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "noFallthroughCasesInSwitch": true,
+    "module": "esnext",
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true,
+    "jsx": "react-jsx"
   },
   "include": [
-    "src/**/*.ts",
-    "src/**/*.tsx"
-  ],
-  "exclude": [
-    "node_modules"
+    "src"
   ]
 }
