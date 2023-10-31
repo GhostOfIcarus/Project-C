@@ -10,7 +10,7 @@ const LoginScreen = (props: LoginScreenProps) => {
   
   const login = () => props.navigation.navigate("Schedule")
 
-  
+  const ForgotPassword = () => props.navigation.navigate("ForgotPassword")
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
@@ -33,7 +33,7 @@ const LoginScreen = (props: LoginScreenProps) => {
           secureTextEntry
           // Handle password input
         />
-        <TouchableOpacity onPress={login}>
+        <TouchableOpacity onPress={ForgotPassword}>
           <Text style={{ color: '#099F91', marginVertical: 10, marginHorizontal: 5 }}>Wachtwoord vergeten?</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.buttons} onPress={login}>
