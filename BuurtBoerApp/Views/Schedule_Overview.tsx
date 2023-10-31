@@ -1,10 +1,12 @@
 // HomeScreen.js
 import React from 'react';
-import { View, TextInput, Button, StyleSheet, Alert, Image, Text, TouchableOpacity, KeyboardAvoidingView, ScrollView   } from 'react-native';
+import { View, TextInput, Button, StyleSheet, Alert, Image, Text, TouchableOpacity, KeyboardAvoidingView, ScrollView, Dimensions } from 'react-native';
 
 interface WeekOverviewScreenProps {
   navigation: any;
 }
+
+const { width, height } = Dimensions.get('window');
 
 const WeekOverviewScreen = (props: WeekOverviewScreenProps) => {
   return (
@@ -16,6 +18,7 @@ const WeekOverviewScreen = (props: WeekOverviewScreenProps) => {
               style={styles.image}
             />
           </View>
+
           <View style={styles.rightContent}>
             <View style={styles.centered_text_square}>
               <Text style={styles.top_text}>Rooster overzicht</Text>
@@ -32,7 +35,6 @@ const WeekOverviewScreen = (props: WeekOverviewScreenProps) => {
           <TouchableOpacity style={styles.buttons}>
             <Text style={{ color: 'white', textAlign: 'center' }}>Vul Rooster in</Text>
           </TouchableOpacity>
-
         </View>
       </View>
       
@@ -45,29 +47,28 @@ const styles = StyleSheet.create({
   container: 
   {
     flexGrow: 1,
-    justifyContent: 'center',
+    flexDirection: 'column',
     backgroundColor: '#D9D9D9',
   },
   top_bar_div: {
     flexDirection: 'row', // Use row direction for horizontal layout
-    width: '100%',
-    height: 105,
+    width: width,
+    height: height * 0.15,
     justifyContent: 'center',
     backgroundColor: '#099F91',
     shadowColor: 'black',
     shadowRadius: 10,
-    marginTop: -20,
   },
   top_text: {
     color: 'white',
     textAlign: 'center',
-    fontSize: 30,
-    marginTop: 10,
+    fontSize: width * 0.06,
+    marginTop: height * 0.02,
     fontWeight: 'bold',
-    width: '100%'
+    width: width
   },
   leftContent: {
-    paddingLeft: 25,
+    paddingLeft: width * 0.05,
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -78,18 +79,18 @@ const styles = StyleSheet.create({
   },
   image: {
     backgroundColor: '#099F91',
-    height: 75,
-    width: 75,
+    height: width * 0.20,
+    width: width * 0.20,
   },
   schedule_div: 
   {
     flex: 1,
     justifyContent: 'center',
-    paddingHorizontal: 20,
-    paddingVertical: 25,
-    marginHorizontal: 20,
-    marginVertical: 250,
-    backgroundColor: '#fff',
+    paddingHorizontal: width * 0.05,
+    paddingVertical: width * 0.05,
+    marginHorizontal: height * 0.05,
+    marginVertical: height * 0.25,
+    backgroundColor: 'white',
     shadowColor: 'black',
     shadowRadius: 10,
   },
@@ -97,19 +98,18 @@ const styles = StyleSheet.create({
   {
     justifyContent: 'center',
     alignItems: 'center',
-    marginBottom: 20,
+    marginBottom: height * 0.01,
   },
   padding:
   {
-    padding: 25,
+    padding: width * 0.025,
   },
   centered_text: 
   { color: 'black', 
   fontWeight: '600', 
-  fontSize: 20, 
+  fontSize: width * 0.05, 
   textAlign: 'center', 
   },
-  
   buttons: 
   {
     backgroundColor: '#F9834C',
