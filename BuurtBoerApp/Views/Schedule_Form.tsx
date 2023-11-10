@@ -1,17 +1,18 @@
 // HomeScreen.js
-import React from 'react';
+import React, { useState } from 'react';
 import { View, TextInput, Button, StyleSheet, Alert, Image, Text, TouchableOpacity, KeyboardAvoidingView, ScrollView, Dimensions } from 'react-native';
+import { CheckBox } from 'react-native-elements'
 
-interface WeekOverviewScreenProps {
+interface WeekOverviewFormProps {
   navigation: any;
 }
 
 const { width, height } = Dimensions.get('window');
 
-const WeekOverviewScreen = (props: WeekOverviewScreenProps) => {
-  
-  const Schedule_Form = () => props.navigation.navigate("Schedule_Form")
+const WeekOverviewForm = (props: WeekOverviewFormProps) => {
 
+    const [isChecked, setIsChecked] = useState(false);
+    
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <View style={styles.top_bar_div}>
@@ -31,12 +32,17 @@ const WeekOverviewScreen = (props: WeekOverviewScreenProps) => {
 
       <View style={styles.padding}>
         <View style={styles.schedule_div}>
-          <View style={styles.centered_text_square}>
-              <Text style={styles.centered_text}>U heeft uw Rooster voor deze week nog niet ingevuld.</Text>
-          </View>
+            <View style={styles.centered_text_square}>
+                <CheckBox style={styles.unchecked_box}
+                    checked={isChecked}
+                    onPress={() => setIsChecked(!isChecked)}
+                    containerStyle={{ width: 25}}
+                />
+                <Text style={styles.centered_text}>Monday</Text>
+            </View>
 
-          <TouchableOpacity style={styles.buttons} onPress={Schedule_Form}>
-            <Text style={{ color: 'white', textAlign: 'center' }}>Vul Rooster in</Text>
+          <TouchableOpacity style={styles.buttons}>
+            <Text style={{ color: 'white', textAlign: 'center' }}>Indienen</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -99,6 +105,7 @@ const styles = StyleSheet.create({
   },
   centered_text_square: 
   {
+    flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
     marginBottom: height * 0.01,
@@ -128,6 +135,10 @@ const styles = StyleSheet.create({
     shadowRadius: 10,
     elevation: 5, // For Android
   },
+  unchecked_box:
+  {
+    color: 'Black'
+  },
 });
 
-export default WeekOverviewScreen;
+export default WeekOverviewForm;
