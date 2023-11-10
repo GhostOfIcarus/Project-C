@@ -11,7 +11,15 @@ const { width, height } = Dimensions.get('window');
 
 const WeekOverviewForm = (props: WeekOverviewFormProps) => {
 
-    const [isChecked, setIsChecked] = useState(false);
+    const [isMonday, setMonday] = useState(false);
+    const [isTuesday, setTuesday] = useState(false);
+    const [isWednesday, setWednesday] = useState(false);
+    const [isThursday, setThursday] = useState(false);
+    const [isFriday, setFriday] = useState(false);
+    const [isSaturday, setSaturday] = useState(false);
+    const [isSunday, setSunday] = useState(false);
+
+
     
   return (
     <ScrollView contentContainerStyle={styles.container}>
@@ -32,13 +40,67 @@ const WeekOverviewForm = (props: WeekOverviewFormProps) => {
 
       <View style={styles.padding}>
         <View style={styles.schedule_div}>
+
+            {/* Monday */}
             <View style={styles.centered_text_square}>
                 <CheckBox style={styles.unchecked_box}
-                    checked={isChecked}
-                    onPress={() => setIsChecked(!isChecked)}
-                    containerStyle={{ width: 25}}
+                    checked={isMonday}
+                    onPress={() => setMonday(!isMonday)}
+                    containerStyle={{ width: 25, marginLeft: -20}}
                 />
-                <Text style={styles.centered_text}>Monday</Text>
+                <Text style={styles.centered_text}>Maandag</Text>
+            </View>
+
+            {/* Tuesday */}
+            <View style={styles.centered_text_square}>
+                <CheckBox style={styles.unchecked_box}
+                    checked={isTuesday}
+                    onPress={() => setTuesday(!isTuesday)}
+                    containerStyle={{ width: 25, marginLeft: -20}}
+                />
+                <Text style={styles.centered_text}>Dinsdag</Text>
+            </View>
+
+            {/* Wednesday */}
+            <View style={styles.centered_text_square}>
+                <CheckBox style={styles.unchecked_box}
+                    checked={isWednesday}
+                    onPress={() => setWednesday(!isWednesday)}
+                    containerStyle={{ width: 25, marginLeft: -20}}
+                />
+                <Text style={styles.centered_text}>Woensdag</Text>
+            </View>
+            <View style={styles.centered_text_square}>
+                <CheckBox style={styles.unchecked_box}
+                    checked={isThursday}
+                    onPress={() => setThursday(!isThursday)}
+                    containerStyle={{ width: 25, marginLeft: -20}}
+                />
+                <Text style={styles.centered_text}>Donderdag</Text>
+            </View>
+            <View style={styles.centered_text_square}>
+                <CheckBox style={styles.unchecked_box}
+                    checked={isFriday}
+                    onPress={() => setFriday(!isFriday)}
+                    containerStyle={{ width: 25, marginLeft: -20}}
+                />
+                <Text style={styles.centered_text}>Vrijdag</Text>
+            </View>
+            <View style={styles.centered_text_square}>
+                <CheckBox style={styles.unchecked_box}
+                    checked={isSaturday}
+                    onPress={() => setSaturday(!isSaturday)}
+                    containerStyle={{ width: 25, marginLeft: -20}}
+                />
+                <Text style={styles.centered_text}>Zaterdag</Text>
+            </View>
+            <View style={styles.centered_text_square}>
+                <CheckBox style={styles.unchecked_box}
+                    checked={isSunday}
+                    onPress={() => setSunday(!isSunday)}
+                    containerStyle={{ width: 25, marginLeft: -20}}
+                />
+                <Text style={styles.centered_text}>Zondag</Text>
             </View>
 
           <TouchableOpacity style={styles.buttons}>
@@ -98,7 +160,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: width * 0.05,
     paddingVertical: width * 0.05,
     marginHorizontal: height * 0.05,
-    marginVertical: height * 0.25,
+    marginVertical: height * 0.05,
     backgroundColor: 'white',
     shadowColor: 'black',
     shadowRadius: 10,
@@ -108,7 +170,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    marginBottom: height * 0.01,
   },
   padding:
   {
@@ -137,7 +198,7 @@ const styles = StyleSheet.create({
   },
   unchecked_box:
   {
-    color: 'Black'
+    width: 50
   },
 });
 
