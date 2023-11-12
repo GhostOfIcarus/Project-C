@@ -25,8 +25,8 @@ function App() {
   ];
 
   const errors: { email: string; Pass: string } = {
-    email: 'invalid email poopyhead',
-    Pass: 'invalid password dipshit',
+    email: 'invalid email',
+    Pass: 'invalid password',
   };
 
   const renderErrorMessage = (name: string) =>
