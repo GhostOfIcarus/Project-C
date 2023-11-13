@@ -13,34 +13,36 @@ const Change_Password = (props: LoginScreenProps) => {
   
 
   return (
-    <ScrollView contentContainerStyle={styles.container}>
-      <View style={styles.login_div}>
-        <View style={styles.img_div}>
-          <Image
-            source={require('./img/buurtboer_logo.png')}
-            style={styles.image}
+    <KeyboardAvoidingView style={{ flex: 1 }}>
+      <ScrollView contentContainerStyle={styles.container}>
+        <View style={styles.login_div}>
+          <View style={styles.img_div}>
+            <Image
+              source={require('./img/buurtboer_logo.png')}
+              style={styles.image}
+            />
+          </View>
+          <View style={styles.password_forgot_div}>
+              <Text style={styles.password_forgot}>Wachtwoord vergeten </Text>
+          </View>
+          <TextInput
+            placeholder="Nieuw wachtwoord"
+            style={styles.input}
+            // Handle username input
           />
-        </View>
-        <View style={styles.password_forgot_div}>
-            <Text style={styles.password_forgot}>Wachtwoord vergeten </Text>
-        </View>
-        <TextInput
-          placeholder="Nieuw wachtwoord"
-          style={styles.input}
-          // Handle username input
-        />
-        <TextInput
-          placeholder="Herhaal wachtwoord"
-          style={styles.input}
-          // Handle username input
-        />
+          <TextInput
+            placeholder="Herhaal wachtwoord"
+            style={styles.input}
+            // Handle username input
+          />
+          
         
-       
-        <TouchableOpacity style={styles.buttons} onPress={login}>
-          <Text style={{ color: 'white', textAlign: 'center' }}>Login</Text>
-        </TouchableOpacity>
-      </View>
-    </ScrollView>
+          <TouchableOpacity style={styles.buttons} onPress={login}>
+            <Text style={{ color: 'white', textAlign: 'center' }}>Verstuur</Text>
+          </TouchableOpacity>
+        </View>
+      </ScrollView>
+    </KeyboardAvoidingView>
   );
 };
 
@@ -88,7 +90,6 @@ const styles = StyleSheet.create({
       borderBottomColor: 'gray',
       marginBottom: 12,
       paddingLeft: 8,
-      marginTop: 10,
       marginHorizontal: 5,
     },
     image: {
@@ -100,7 +101,7 @@ const styles = StyleSheet.create({
       fontWeight: '600',
       padding: 10,
       borderRadius: 10,
-      marginVertical: 55,
+      marginVertical: 15,
       marginHorizontal: 5,
       shadowColor: '#000',
       shadowOffset: { width: 5, height: 20 },

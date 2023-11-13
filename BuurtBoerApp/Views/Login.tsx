@@ -13,50 +13,51 @@ const LoginScreen = (props: LoginScreenProps) => {
   const ForgotPassword = () => props.navigation.navigate("ForgotPassword")
 
   return (
-    <ScrollView contentContainerStyle={styles.container}>
-      <View style={styles.login_div}>
-        <View style={styles.img_div}>
-          <Image
-            source={require('./img/buurtboer_logo.png')}
-            style={styles.image}
+    <KeyboardAvoidingView style={{ flex: 1 }}>
+      <ScrollView contentContainerStyle={styles.container}>
+        <View style={styles.login_div}>
+          <View style={styles.img_div}>
+            <Image
+              source={require('./img/buurtboer_logo.png')}
+              style={styles.image}
+            />
+          </View>
+
+          <TextInput
+            placeholder="E-mail"
+            style={styles.input}
+            // Handle username input
           />
-        </View>
+          <TextInput
+            placeholder="Wachtwoord"
+            style={styles.input}
+            secureTextEntry
+            // Handle password input
+          />
+          <TouchableOpacity onPress={ForgotPassword}>
+            <Text style={{ color: '#099F91', marginVertical: 10, marginHorizontal: 5 }}>Wachtwoord vergeten?</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.buttons} onPress={Schedule}>
+            <Text style={{ color: 'white', textAlign: 'center' }}>Login</Text>
+          </TouchableOpacity>
+          <View style={styles.centered_text}>
+            <Text style={{ color: 'black' }}>OF</Text>
+          </View>
 
-        <TextInput
-          placeholder="E-mail"
-          style={styles.input}
-          // Handle username input
-        />
-        <TextInput
-          placeholder="Wachtwoord"
-          style={styles.input}
-          secureTextEntry
-          // Handle password input
-        />
-        <TouchableOpacity onPress={ForgotPassword}>
-          <Text style={{ color: '#099F91', marginVertical: 10, marginHorizontal: 5 }}>Wachtwoord vergeten?</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.buttons} onPress={Schedule}>
-          <Text style={{ color: 'white', textAlign: 'center' }}>Login</Text>
-        </TouchableOpacity>
-        <View style={styles.centered_text}>
-          <Text style={{ color: 'black' }}>OF</Text>
+          <TouchableOpacity style={styles.buttons} onPress={Schedule}>
+            <Text style={{ color: 'white', textAlign: 'center' }}>Login met Google</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.buttons} onPress={Schedule}>
+            <Text style={{ color: 'white', textAlign: 'center' }}>Login met Microsoft</Text>
+          </TouchableOpacity>
         </View>
-
-        <TouchableOpacity style={styles.buttons} onPress={Schedule}>
-          <Text style={{ color: 'white', textAlign: 'center' }}>Login met Google</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.buttons} onPress={Schedule}>
-          <Text style={{ color: 'white', textAlign: 'center' }}>Login met Microsoft</Text>
-        </TouchableOpacity>
-      </View>
-    </ScrollView>
+      </ScrollView>
+    </KeyboardAvoidingView>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     justifyContent: 'center',
     padding: 16,
     backgroundColor: '#D9D9D9',
