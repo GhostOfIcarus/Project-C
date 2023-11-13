@@ -1,4 +1,5 @@
 import React, { useState, FormEvent } from 'react';
+import { Link, BrowserRouter as Router } from 'react-router-dom';  
 import logo from './img/buurtboer_logo.png'; 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './Stylesheets/Login.css';
@@ -63,6 +64,9 @@ function App() {
         <input type='email' placeholder='Email' name='Email' required />
         {renderErrorMessage('email')}
         <input type='password' placeholder='Wachtwoord' name='Pass' required />
+        <Router basename="/Forgot_Password">
+          {/* Your routes and components */}
+        </Router>
         <div className='forgot-password'>Wachtwoord vergeten?</div>
          <div className='button-box'>
            <button className='button'>Login</button>
