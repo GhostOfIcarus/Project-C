@@ -27,3 +27,5 @@ const AppNavigator = () => {
 };
 
 export default AppNavigator;
+
+// ur stupid
