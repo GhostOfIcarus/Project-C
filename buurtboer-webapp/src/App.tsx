@@ -1,11 +1,15 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
-import Login from './Views/Login'; // corrected import statement
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import Login from './Views/Login';
+import ForgotPassword from './Views/Forgot_Password';
 
 function App() {
   return (
-    <Login />
+    <Router>
+      <Routes>
+        <Route path="/" element={<Login />} />
+        <Route path="/Forgot_Password" element={<ForgotPassword />} />
+      </Routes>
+    </Router>
   );
 }
 

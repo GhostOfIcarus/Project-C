@@ -1,23 +1,7 @@
-import React, { useState, FormEvent } from 'react';
-import logo from './img/buurtboer_logo.png'; 
-import 'bootstrap/dist/css/bootstrap.min.css';
+import logo from './img/buurtboer_logo.png';
 import './Stylesheets/Forgot_Password.css';
 
-interface User {
-  email: string;
-  password: string;
-}
-
-interface ErrorMessages {
-  name: string;
-  message: string;
-}
-
-function App() {
-  const [errorMessages, setErrorMessages] = useState<ErrorMessages>({ name: '', message: '' });
-  const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
-
-
+function Forgot_Password() {
   return (
     <>
         <div className="container">
@@ -32,4 +16,4 @@ function App() {
   );
 }
 
-export default App;
+export default Forgot_Password;
