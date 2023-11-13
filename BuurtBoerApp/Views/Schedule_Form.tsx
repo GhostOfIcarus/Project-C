@@ -1,7 +1,7 @@
 // HomeScreen.js
 import React, { useState } from 'react';
 import { View, TextInput, Button, StyleSheet, Alert, Image, Text, TouchableOpacity, KeyboardAvoidingView, ScrollView, Dimensions } from 'react-native';
-import CheckBox from '@react-native-community/checkbox';
+import { CheckBox } from 'react-native-elements'
 
 interface WeekOverviewFormProps {
   navigation: any;
@@ -11,16 +11,16 @@ const { width, height } = Dimensions.get('window');
 
 const WeekOverviewForm = (props: WeekOverviewFormProps) => {
 
-  const Schedule_Form_Inac = () => props.navigation.navigate("Schedule_Form_Inac") 
+    const [isMonday, setMonday] = useState(false);
+    const [isTuesday, setTuesday] = useState(false);
+    const [isWednesday, setWednesday] = useState(false);
+    const [isThursday, setThursday] = useState(false);
+    const [isFriday, setFriday] = useState(false);
+    const [isSaturday, setSaturday] = useState(false);
+    const [isSunday, setSunday] = useState(false);
 
-  const [isMonday, setMonday] = useState(false);
-  const [isTuesday, setTuesday] = useState(false);
-  const [isWednesday, setWednesday] = useState(false);
-  const [isThursday, setThursday] = useState(false);
-  const [isFriday, setFriday] = useState(false);
-  const [isSaturday, setSaturday] = useState(false);
-  const [isSunday, setSunday] = useState(false);
 
+    
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <View style={styles.top_bar_div}>
@@ -44,9 +44,9 @@ const WeekOverviewForm = (props: WeekOverviewFormProps) => {
             {/* Monday */}
             <View style={styles.centered_text_square}>
                 <CheckBox style={styles.unchecked_box}
-                    disabled={false}
-                    value={isMonday}
-                    onValueChange={(newValue) => setMonday(newValue)}
+                    checked={isMonday}
+                    onPress={() => setMonday(!isMonday)}
+                    containerStyle={{ width: 25, marginLeft: -20}}
                 />
                 <Text style={styles.centered_text}>Maandag</Text>
             </View>
@@ -54,9 +54,9 @@ const WeekOverviewForm = (props: WeekOverviewFormProps) => {
             {/* Tuesday */}
             <View style={styles.centered_text_square}>
                 <CheckBox style={styles.unchecked_box}
-                    disabled={false}
-                    value={isTuesday}
-                    onValueChange={(newValue) => setTuesday(newValue)}
+                    checked={isTuesday}
+                    onPress={() => setTuesday(!isTuesday)}
+                    containerStyle={{ width: 25, marginLeft: -20}}
                 />
                 <Text style={styles.centered_text}>Dinsdag</Text>
             </View>
@@ -64,54 +64,46 @@ const WeekOverviewForm = (props: WeekOverviewFormProps) => {
             {/* Wednesday */}
             <View style={styles.centered_text_square}>
                 <CheckBox style={styles.unchecked_box}
-                    disabled={false}
-                    value={isWednesday}
-                    onValueChange={(newValue) => setWednesday(newValue)}
+                    checked={isWednesday}
+                    onPress={() => setWednesday(!isWednesday)}
+                    containerStyle={{ width: 25, marginLeft: -20}}
                 />
                 <Text style={styles.centered_text}>Woensdag</Text>
             </View>
-
-            {/* Thursday */}
             <View style={styles.centered_text_square}>
                 <CheckBox style={styles.unchecked_box}
-                    disabled={false}
-                    value={isThursday}
-                    onValueChange={(newValue) => setThursday(newValue)}
+                    checked={isThursday}
+                    onPress={() => setThursday(!isThursday)}
+                    containerStyle={{ width: 25, marginLeft: -20}}
                 />
                 <Text style={styles.centered_text}>Donderdag</Text>
             </View>
-
-            {/* Friday */}
             <View style={styles.centered_text_square}>
                 <CheckBox style={styles.unchecked_box}
-                    disabled={false}
-                    value={isFriday}
-                    onValueChange={(newValue) => setFriday(newValue)}
+                    checked={isFriday}
+                    onPress={() => setFriday(!isFriday)}
+                    containerStyle={{ width: 25, marginLeft: -20}}
                 />
                 <Text style={styles.centered_text}>Vrijdag</Text>
             </View>
-
-            {/* Saturday */}
             <View style={styles.centered_text_square}>
                 <CheckBox style={styles.unchecked_box}
-                    disabled={false}
-                    value={isSaturday}
-                    onValueChange={(newValue) => setSaturday(newValue)}
+                    checked={isSaturday}
+                    onPress={() => setSaturday(!isSaturday)}
+                    containerStyle={{ width: 25, marginLeft: -20}}
                 />
                 <Text style={styles.centered_text}>Zaterdag</Text>
             </View>
-
-            {/* Sunday */}
             <View style={styles.centered_text_square}>
                 <CheckBox style={styles.unchecked_box}
-                    disabled={false}
-                    value={isSunday}
-                    onValueChange={(newValue) => setSunday(newValue)}
+                    checked={isSunday}
+                    onPress={() => setSunday(!isSunday)}
+                    containerStyle={{ width: 25, marginLeft: -20}}
                 />
                 <Text style={styles.centered_text}>Zondag</Text>
             </View>
 
-          <TouchableOpacity style={styles.buttons} onPress={Schedule_Form_Inac}>
+          <TouchableOpacity style={styles.buttons}>
             <Text style={{ color: 'white', textAlign: 'center' }}>Indienen</Text>
           </TouchableOpacity>
         </View>
@@ -189,7 +181,7 @@ const styles = StyleSheet.create({
   fontSize: width * 0.05, 
   textAlign: 'center', 
   },
-  buttons:
+  buttons: 
   {
     backgroundColor: '#F9834C',
     color: 'white',
@@ -206,7 +198,7 @@ const styles = StyleSheet.create({
   },
   unchecked_box:
   {
-    
+    width: 50
   },
 });
 
