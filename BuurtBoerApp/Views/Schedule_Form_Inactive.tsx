@@ -40,10 +40,16 @@ const WeekOverviewFormInact = (props: WeekOverviewFormInactProps) => {
 
       <View style={styles.padding}>
         <View style={styles.schedule_div}>
+            
+            <View style={styles.week_div}>
+              <Text style={styles.centered_text_white}>{"\n"}Week{"\n"}43{"\n"}</Text>
+            </View>
+            
+            <Text style={styles.centered_text_white}> </Text>
 
             {/* Monday */}
-            <View style={styles.centered_text_square}>
-                <CheckBox style={styles.unchecked_box}
+            <View style={styles.checkbox_text_div}>
+                <CheckBox
                     disabled={true}
                     value={isMonday}
                     onValueChange={(newValue) => setMonday(newValue)}
@@ -52,8 +58,8 @@ const WeekOverviewFormInact = (props: WeekOverviewFormInactProps) => {
             </View>
 
             {/* Tuesday */}
-            <View style={styles.centered_text_square}>
-                <CheckBox style={styles.unchecked_box}
+            <View style={styles.checkbox_text_div}>
+                <CheckBox
                     disabled={true}
                     value={!isTuesday}
                     onValueChange={(newValue) => setTuesday(newValue)}
@@ -62,8 +68,8 @@ const WeekOverviewFormInact = (props: WeekOverviewFormInactProps) => {
             </View>
 
             {/* Wednesday */}
-            <View style={styles.centered_text_square}>
-                <CheckBox style={styles.unchecked_box}
+            <View style={styles.checkbox_text_div}>
+                <CheckBox
                     disabled={true}
                     value={!isWednesday}
                     onValueChange={(newValue) => setWednesday(newValue)}
@@ -72,8 +78,8 @@ const WeekOverviewFormInact = (props: WeekOverviewFormInactProps) => {
             </View>
 
             {/* Thursday */}
-            <View style={styles.centered_text_square}>
-                <CheckBox style={styles.unchecked_box}
+            <View style={styles.checkbox_text_div}>
+                <CheckBox
                     disabled={true}
                     value={isThursday}
                     onValueChange={(newValue) => setThursday(newValue)}
@@ -82,8 +88,8 @@ const WeekOverviewFormInact = (props: WeekOverviewFormInactProps) => {
             </View>
 
             {/* Friday */}
-            <View style={styles.centered_text_square}>
-                <CheckBox style={styles.unchecked_box}
+            <View style={styles.checkbox_text_div}>
+                <CheckBox
                     disabled={true}
                     value={isFriday}
                     onValueChange={(newValue) => setFriday(newValue)}
@@ -92,8 +98,8 @@ const WeekOverviewFormInact = (props: WeekOverviewFormInactProps) => {
             </View>
 
             {/* Saturday */}
-            <View style={styles.centered_text_square}>
-                <CheckBox style={styles.unchecked_box}
+            <View style={styles.checkbox_text_div}>
+                <CheckBox
                     disabled={true}
                     value={isSaturday}
                     onValueChange={(newValue) => setSaturday(newValue)}
@@ -102,14 +108,16 @@ const WeekOverviewFormInact = (props: WeekOverviewFormInactProps) => {
             </View>
 
             {/* Sunday */}
-            <View style={styles.centered_text_square}>
-                <CheckBox style={styles.unchecked_box}
+            <View style={styles.checkbox_text_div}>
+                <CheckBox
                     disabled={true}
                     value={isSunday}
                     onValueChange={(newValue) => setSunday(newValue)}
                 />
                 <Text style={styles.centered_text}>Zondag</Text>
             </View>
+
+            <Text style={styles.centered_text_white}> </Text>
 
           <TouchableOpacity style={styles.buttons} onPress={Schedule_Form}>
             <Text style={{ color: 'white', textAlign: 'center' }}>Bewerken</Text>
@@ -166,7 +174,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     paddingHorizontal: width * 0.05,
-    paddingVertical: width * 0.05,
+    paddingBottom: width * 0.05,
     marginHorizontal: height * 0.05,
     marginVertical: height * 0.05,
     backgroundColor: 'white',
@@ -178,16 +186,42 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
+    marginBottom: 17,
+  },
+  schedule_padding_div: 
+  {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingVertical: height * 0.01
+  },
+  week_div:
+  {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#099F91',
+    marginHorizontal: width * 0.2
+  },
+  checkbox_text_div: 
+  {
+    paddingVertical: height * 0.01,
+    flexDirection: 'row',
+    marginLeft: width * 0.15,
   },
   padding:
   {
     padding: width * 0.025,
   },
   centered_text: 
-  { color: 'black', 
-  fontWeight: '600', 
-  fontSize: width * 0.05, 
-  textAlign: 'center', 
+  { color: 'gray', 
+    fontSize: width * 0.05, 
+    textAlign: 'center', 
+  },
+  centered_text_white: 
+  { color: 'white', 
+    fontSize: width * 0.05, 
+    textAlign: 'center', 
   },
   buttons:
   {
@@ -203,10 +237,6 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.5,
     shadowRadius: 10,
     elevation: 5, // For Android
-  },
-  unchecked_box:
-  {
-    
   },
 });
 

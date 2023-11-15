@@ -109,9 +109,8 @@ const styles = StyleSheet.create({
   },
   centered_text: 
   { color: 'black', 
-  fontWeight: '600', 
-  fontSize: width * 0.05, 
-  textAlign: 'center', 
+    fontSize: width * 0.05, 
+    textAlign: 'center', 
   },
   buttons: 
   {
