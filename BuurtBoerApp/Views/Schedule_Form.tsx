@@ -67,14 +67,14 @@ const WeekOverviewForm = (props: WeekOverviewFormProps) => {
       </View>
 
       <View style={basestyles.schedule_padding}>
-        <View style={basestyles.schedule_div}>
+        <View style={basestyles.schedule_div_form}>
             
             <View style={basestyles.schedule_week_div}>
               <Text style={basestyles.centered_text_white}>{"\n"}Week{"\n"}43{"\n"}</Text>
             </View>
             
             {/* Monday */}
-            <View style={[basestyles.checkbox_text_div, basestyles.topPadding]}>
+            <View style={[basestyles.checkbox_text_div, basestyles.top_padding]}>
                 <CheckBox
                     disabled={isDisabled}
                     value={isMonday}

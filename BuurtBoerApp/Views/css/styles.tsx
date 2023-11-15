@@ -53,7 +53,7 @@ export const basestyles = StyleSheet.create({
     },
 
     // schedule
-    schedule_div: 
+    schedule_div_overview: 
     {
         flex: 1,
         justifyContent: 'center',
@@ -61,6 +61,18 @@ export const basestyles = StyleSheet.create({
         paddingVertical: width * 0.05,
         marginHorizontal: height * 0.05,
         marginVertical: height * 0.25,
+        backgroundColor: 'white',
+        shadowColor: 'black',
+        shadowRadius: 10,
+    },
+    schedule_div_form: 
+    {
+        flex: 1,
+        justifyContent: 'center',
+        paddingHorizontal: width * 0.05,
+        paddingBottom: width * 0.05,
+        marginHorizontal: height * 0.05,
+        marginVertical: height * 0.05,
         backgroundColor: 'white',
         shadowColor: 'black',
         shadowRadius: 10,
@@ -136,7 +148,7 @@ export const basestyles = StyleSheet.create({
     {
         padding: width * 0.025,
     },
-    topPadding:
+    top_padding:
     {
         paddingTop: width * 0.04,
     },

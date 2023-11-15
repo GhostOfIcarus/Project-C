@@ -29,7 +29,7 @@ const WeekOverviewScreen = (props: WeekOverviewScreenProps) => {
       </View>
 
       <View style={basestyles.schedule_padding}>
-        <View style={basestyles.schedule_div}>
+        <View style={basestyles.schedule_div_overview}>
           <View style={basestyles.centered_text_div}>
               <Text style={basestyles.centered_text_black}>U heeft uw Rooster voor deze week nog niet ingevuld.</Text>
           </View>
