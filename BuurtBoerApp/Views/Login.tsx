@@ -1,5 +1,5 @@
 // LoginScreen.js
-import React from 'react';
+import React, { useState } from 'react';
 import { View, Dimensions, TextInput, Button, StyleSheet, Alert, Image, Text, TouchableOpacity, KeyboardAvoidingView, ScrollView   } from 'react-native';
 
 interface LoginScreenProps {
@@ -7,8 +7,26 @@ interface LoginScreenProps {
 }
 
 const LoginScreen = (props: LoginScreenProps) => {
+
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
+
+  const handlePasswordChange = (text: string) => {
+    setPassword(text);
+  };
+
+  const handleConfirmPasswordChange = (text: string) => {
+    setConfirmPassword(text);
+  };
+
+  const toggleShowPassword = () => {
+    setShowPassword(!showPassword);
+  };
   
   const Schedule = () => props.navigation.navigate("Schedule")
+
+  const Create_Account = () => props.navigation.navigate("CreateAccount")
 
   const ForgotPassword = () => props.navigation.navigate("ForgotPassword")
 
@@ -29,14 +47,23 @@ const LoginScreen = (props: LoginScreenProps) => {
             // Handle username input
           />
           <TextInput
-            placeholder="Wachtwoord"
-            style={styles.input}
-            secureTextEntry
+           placeholder="Wachtwoord"
+           style={styles.input}
+           secureTextEntry={!showPassword}
+           onChangeText={handlePasswordChange}
+           value={password}
             // Handle password input
           />
-          <TouchableOpacity onPress={ForgotPassword}>
-            <Text style={{ color: '#099F91', marginVertical: 10, marginHorizontal: 5 }}>Wachtwoord vergeten?</Text>
-          </TouchableOpacity>
+          <View style={styles.forgotPasswordRow}>
+            <TouchableOpacity onPress={ForgotPassword}>
+              <Text style={{ color: '#099F91', marginVertical: 10, marginHorizontal: 5 }}>Wachtwoord vergeten?</Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={toggleShowPassword}>
+              <Text style={{ color: '#099F91', marginVertical: 10, marginHorizontal: 5 }}>
+                {showPassword ? 'Verberg wachtwoord' : 'Toon wachtwoord'}
+              </Text>
+            </TouchableOpacity>
+          </View>
           <TouchableOpacity style={styles.buttons} onPress={Schedule}>
             <Text style={{ color: 'white', textAlign: 'center' }}>Login</Text>
           </TouchableOpacity>
@@ -47,7 +74,7 @@ const LoginScreen = (props: LoginScreenProps) => {
           <TouchableOpacity style={styles.buttons} onPress={Schedule}>
             <Text style={{ color: 'white', textAlign: 'center' }}>Login met Google</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.buttons} onPress={Schedule}>
+          <TouchableOpacity style={styles.buttons} onPress={Create_Account}>
             <Text style={{ color: 'white', textAlign: 'center' }}>Login met Microsoft</Text>
           </TouchableOpacity>
         </View>
@@ -70,6 +97,11 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     shadowColor: 'black',
     shadowRadius: 5,
+  },
+  forgotPasswordRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
   },
   img_div: {
     justifyContent: 'center',
