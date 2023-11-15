@@ -18,38 +18,47 @@ export const basestyles = StyleSheet.create({
     {
         flexDirection: 'row',
         width: width,
-        height: height * 0.15,
-        justifyContent: 'center',
+        height: height * 0.1,
         backgroundColor: '#099F91',
         shadowColor: 'black',
         shadowRadius: 10,
     },
-    nav_bar_text: 
+    nav_bar_settings_div:
     {
-        color: 'white',
-        textAlign: 'center',
-        fontSize: width * 0.06,
-        marginTop: height * 0.02,
-        fontWeight: 'bold',
-        width: width,
+        flex: 0.2,
+        justifyContent: 'center',
+        alignItems: 'center',
+        width: width * 0.2,
+        height: height * 0.1,
+        backgroundColor: '#099F91',
     },
     nav_bar_image_div: 
     {
-        paddingLeft: width * 0.05,
+        flex: 0.2,
         justifyContent: 'center',
-        alignItems: 'center',
+        paddingLeft: width * 0.02
     },
     nav_bar_title_div: 
     {
-        flex: 1,
+        flex: 0.6,
+        width: width * 0.6,
         justifyContent: 'center',
-        alignItems: 'center',
+    },
+    nav_bar_settings:
+    {
+        height: width * 0.1,
+        width: width * 0.1,
     },
     nav_bar_image:
     {
-        backgroundColor: '#099F91',
-        height: width * 0.20,
-        width: width * 0.20,
+        height: width * 0.16,
+        width: width * 0.16,
+    },
+    nav_bar_title: 
+    {
+        color: 'white',
+        fontSize: width * 0.06,
+        fontWeight: 'bold',
     },
 
     // schedule

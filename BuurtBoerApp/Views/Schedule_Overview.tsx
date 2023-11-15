@@ -14,6 +14,7 @@ const WeekOverviewScreen = (props: WeekOverviewScreenProps) => {
   return (
     <ScrollView contentContainerStyle={basestyles.container}>
       <View style={basestyles.nav_bar_div}>
+
           <View style={basestyles.nav_bar_image_div}>
             <Image
               source={require('./img/buurtboer_logo_no_texto.png')}
@@ -22,9 +23,14 @@ const WeekOverviewScreen = (props: WeekOverviewScreenProps) => {
           </View>
 
           <View style={basestyles.nav_bar_title_div}>
-            <View style={basestyles.centered_text_div}>
-              <Text style={basestyles.nav_bar_text}>Rooster overzicht</Text>
-            </View>
+              <Text style={basestyles.nav_bar_title}>Rooster overzicht</Text>
+          </View>
+
+          <View style={basestyles.nav_bar_settings_div}>
+            <Image
+                source={require('./img/settings_icon.png')}
+                style={basestyles.nav_bar_settings}
+              />
           </View>
       </View>
 
