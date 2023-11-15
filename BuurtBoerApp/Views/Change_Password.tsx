@@ -1,6 +1,7 @@
 // LoginScreen.js
 import React, { useState } from 'react';
-import { View, TextInput, Button, StyleSheet, Alert, Image, Text, TouchableOpacity, KeyboardAvoidingView, ScrollView   } from 'react-native';
+import { View, TextInput, StyleSheet, Image, Text, TouchableOpacity, KeyboardAvoidingView, ScrollView } from 'react-native';
+import { before_login } from './css/before_login';
 
 interface LoginScreenProps {
   navigation: any;
@@ -27,37 +28,37 @@ const Change_Password = (props: LoginScreenProps) => {
 
   return (
     <KeyboardAvoidingView style={{ flex: 1 }}>
-      <ScrollView contentContainerStyle={styles.container}>
-        <View style={styles.login_div}>
-          <View style={styles.img_div}>
+      <ScrollView contentContainerStyle={before_login.container}>
+        <View style={before_login.content_div}>
+          <View style={before_login.img_div}>
             <Image
               source={require('./img/buurtboer_logo.png')}
-              style={styles.image}
+              style={before_login.image}
             />
           </View>
-          <View style={styles.change_password_div}>
-              <Text style={styles.change_password}>Wachtwoord vergeten </Text>
+          <View style={before_login.content_header_div}>
+              <Text style={before_login.content_header}>Wachtwoord vergeten </Text>
           </View>
           <TextInput
             placeholder="Nieuw wachtwoord"
-            style={styles.input}
+            style={before_login.input}
             secureTextEntry={!showPassword}
             onChangeText={handlePasswordChange}
             value={password}
           />
           <TextInput
             placeholder="Herhaal wachtwoord"
-            style={styles.input}
+            style={before_login.input}
             secureTextEntry={!showPassword}
             onChangeText={handleConfirmPasswordChange}
             value={confirmPassword}
           />
           <TouchableOpacity onPress={toggleShowPassword}>
-            <Text style={{ color: '#099F91', textAlign: 'center', marginTop: 10 }}>
+            <Text style={{ color: '#099F91', marginVertical: '2%', textAlign: 'center', marginTop: 10 }}>
               {showPassword ? 'Verberg wachtwoord' : 'Toon wachtwoord'}
             </Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.buttons} onPress={login}>
+          <TouchableOpacity style={before_login.buttons} onPress={login}>
             <Text style={{ color: 'white', textAlign: 'center' }}>Verstuur</Text>
           </TouchableOpacity>
           

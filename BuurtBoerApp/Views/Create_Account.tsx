@@ -1,6 +1,7 @@
 // LoginScreen.js
 import React, { useState } from 'react';
-import { View, TextInput, Button, StyleSheet, Alert, Image, Text, TouchableOpacity, KeyboardAvoidingView, ScrollView   } from 'react-native';
+import { View, TextInput, Image, Text, TouchableOpacity, KeyboardAvoidingView, ScrollView } from 'react-native';
+import { before_login } from './css/before_login';
 
 interface LoginScreenProps {
   navigation: any;
@@ -27,37 +28,37 @@ const Forgot_Password = (props: LoginScreenProps) => {
   
     return (
       <KeyboardAvoidingView style={{ flex: 1 }}>
-        <ScrollView contentContainerStyle={styles.container}>
-          <View style={styles.login_div}>
-            <View style={styles.img_div}>
+        <ScrollView contentContainerStyle={before_login.container}>
+          <View style={before_login.content_div}>
+            <View style={before_login.img_div}>
               <Image
                 source={require('./img/buurtboer_logo.png')}
-                style={styles.image}
+                style={before_login.image}
               />
             </View>
-            <View style={styles.create_account_div}>
-                <Text style={styles.create_account}>Account aanmaken</Text>
+            <View style={before_login.content_header_div}>
+                <Text style={before_login.content_header}>Account aanmaken</Text>
             </View>
             <TextInput
               placeholder="Nieuw wachtwoord"
-              style={styles.input}
+              style={before_login.input}
               secureTextEntry={!showPassword}
               onChangeText={handlePasswordChange}
               value={password}
             />
             <TextInput
               placeholder="Herhaal wachtwoord"
-              style={styles.input}
+              style={before_login.input}
               secureTextEntry={!showPassword}
               onChangeText={handleConfirmPasswordChange}
               value={confirmPassword}
             />
             <TouchableOpacity onPress={toggleShowPassword}>
-              <Text style={{ color: '#099F91', textAlign: 'center', marginTop: 10 }}>
+              <Text style={{ color: '#099F91', marginVertical: '2%', textAlign: 'center', marginTop: 10 }}>
                 {showPassword ? 'Verberg wachtwoord' : 'Toon wachtwoord'}
               </Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.buttons} onPress={login}>
+            <TouchableOpacity style={before_login.buttons} onPress={login}>
               <Text style={{ color: 'white', textAlign: 'center' }}>Verstuur</Text>
             </TouchableOpacity>
             
@@ -66,69 +67,5 @@ const Forgot_Password = (props: LoginScreenProps) => {
       </KeyboardAvoidingView>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flexGrow: 1,
-    justifyContent: 'center',
-    padding: 25,
-    backgroundColor: '#D9D9D9',
-  },
-  login_div: {
-    flex: 1,
-    justifyContent: 'center',
-    padding: 16,
-    backgroundColor: '#fff',
-    shadowColor: 'black',
-    shadowRadius: 10,
-  },
-  img_div: {
-    alignItems: 'center',
-    backgroundColor: '#099F91',
-    paddingHorizontal: 20,
-    paddingVertical: 25,
-    marginHorizontal: 20,
-    marginVertical: 5,
-  },
-  create_account_div:{
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  create_account: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    paddingHorizontal: 20,
-    paddingVertical: 25,
-    marginHorizontal: 20,
-    color: 'black',
-    fontSize: 20,
-  },
-  input: {
-    height: 40,
-    color: '#979797',
-    borderBottomWidth: 1,
-    borderBottomColor: 'gray',
-    marginBottom: 12,
-    paddingLeft: 8,
-    marginHorizontal: 5,
-  },
-  image: {
-    backgroundColor: '#099F91',
-  },
-  buttons: {
-    backgroundColor: '#F9834C',
-    color: 'white',
-    fontWeight: '600',
-    padding: 10,
-    borderRadius: 10,
-    marginVertical: 15,
-    marginHorizontal: 5,
-    shadowColor: '#000',
-    shadowOffset: { width: 5, height: 20 },
-    shadowOpacity: 0.5,
-    shadowRadius: 10,
-    elevation: 5, // For Android
-  },
-});
 
 export default Forgot_Password;
