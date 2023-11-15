@@ -8,6 +8,7 @@ import ForgotPasswordScreen from './Forgot_Password';
 import Schedule_Form from './Schedule_Form';
 import Schedule_Form_Inac from './Schedule_Form_Inactive';
 import ChangePassword from './Change_Password';
+import CreateAccount from './Create_Account';
 
 const { Navigator, Screen} = createStackNavigator();
 
@@ -21,9 +22,12 @@ const AppNavigator = () => {
         <Screen name='Schedule_Form_Inac' component={Schedule_Form_Inac} options={{headerShown: false}}></Screen>
         <Screen name='ForgotPassword' component={ForgotPasswordScreen} options={{headerShown: false}}></Screen>
         <Screen name='ChangePassword' component={ChangePassword} options={{headerShown: false}}></Screen>
+        <Screen name='CreateAccount' component={CreateAccount} options={{headerShown: false}}></Screen>
       </Navigator>
     </NavigationContainer>
   );
 };
 
 export default AppNavigator;
+
+// ur stupid

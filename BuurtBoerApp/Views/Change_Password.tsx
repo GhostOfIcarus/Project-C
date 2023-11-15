@@ -1,5 +1,5 @@
 // LoginScreen.js
-import React from 'react';
+import React, { useState } from 'react';
 import { View, TextInput, Button, StyleSheet, Alert, Image, Text, TouchableOpacity, KeyboardAvoidingView, ScrollView   } from 'react-native';
 
 interface LoginScreenProps {
@@ -7,40 +7,63 @@ interface LoginScreenProps {
 }
 
 const Change_Password = (props: LoginScreenProps) => {
-  
-  const login = () => props.navigation.navigate("Login")
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
 
-  
+  const handlePasswordChange = (text: string) => {
+    setPassword(text);
+  };
+
+  const handleConfirmPasswordChange = (text: string) => {
+    setConfirmPassword(text);
+  };
+
+  const toggleShowPassword = () => {
+    setShowPassword(!showPassword);
+  };
+
+  const login = () => props.navigation.navigate("Login");
 
   return (
-    <ScrollView contentContainerStyle={styles.container}>
-      <View style={styles.login_div}>
-        <View style={styles.img_div}>
-          <Image
-            source={require('./img/buurtboer_logo.png')}
-            style={styles.image}
+    <KeyboardAvoidingView style={{ flex: 1 }}>
+      <ScrollView contentContainerStyle={styles.container}>
+        <View style={styles.login_div}>
+          <View style={styles.img_div}>
+            <Image
+              source={require('./img/buurtboer_logo.png')}
+              style={styles.image}
+            />
+          </View>
+          <View style={styles.change_password_div}>
+              <Text style={styles.change_password}>Wachtwoord vergeten </Text>
+          </View>
+          <TextInput
+            placeholder="Nieuw wachtwoord"
+            style={styles.input}
+            secureTextEntry={!showPassword}
+            onChangeText={handlePasswordChange}
+            value={password}
           />
+          <TextInput
+            placeholder="Herhaal wachtwoord"
+            style={styles.input}
+            secureTextEntry={!showPassword}
+            onChangeText={handleConfirmPasswordChange}
+            value={confirmPassword}
+          />
+          <TouchableOpacity onPress={toggleShowPassword}>
+            <Text style={{ color: '#099F91', textAlign: 'center', marginTop: 10 }}>
+              {showPassword ? 'Verberg wachtwoord' : 'Toon wachtwoord'}
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.buttons} onPress={login}>
+            <Text style={{ color: 'white', textAlign: 'center' }}>Verstuur</Text>
+          </TouchableOpacity>
+          
         </View>
-        <View style={styles.password_forgot_div}>
-            <Text style={styles.password_forgot}>Wachtwoord vergeten </Text>
-        </View>
-        <TextInput
-          placeholder="Nieuw wachtwoord"
-          style={styles.input}
-          // Handle username input
-        />
-        <TextInput
-          placeholder="Herhaal wachtwoord"
-          style={styles.input}
-          // Handle username input
-        />
-        
-       
-        <TouchableOpacity style={styles.buttons} onPress={login}>
-          <Text style={{ color: 'white', textAlign: 'center' }}>Login</Text>
-        </TouchableOpacity>
-      </View>
-    </ScrollView>
+      </ScrollView>
+    </KeyboardAvoidingView>
   );
 };
 
@@ -67,11 +90,11 @@ const styles = StyleSheet.create({
       marginHorizontal: 20,
       marginVertical: 5,
     },
-    password_forgot_div:{
+    change_password_div:{
       justifyContent: 'center',
       alignItems: 'center',
     },
-    password_forgot: {
+    change_password: {
       justifyContent: 'center',
       alignItems: 'center',
       paddingHorizontal: 20,
@@ -88,7 +111,6 @@ const styles = StyleSheet.create({
       borderBottomColor: 'gray',
       marginBottom: 12,
       paddingLeft: 8,
-      marginTop: 10,
       marginHorizontal: 5,
     },
     image: {
@@ -100,7 +122,7 @@ const styles = StyleSheet.create({
       fontWeight: '600',
       padding: 10,
       borderRadius: 10,
-      marginVertical: 55,
+      marginVertical: 15,
       marginHorizontal: 5,
       shadowColor: '#000',
       shadowOffset: { width: 5, height: 20 },

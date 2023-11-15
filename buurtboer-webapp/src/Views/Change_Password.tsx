@@ -1,7 +1,6 @@
 import React, { useState, FormEvent } from 'react';
 import logo from './img/buurtboer_logo.png'; 
-import 'bootstrap/dist/css/bootstrap.min.css';
-import './Stylesheets/Change_Password.css';
+import styling from './Stylesheets/Change_Password.module.css';
 
 interface User {
   email: string;
@@ -20,7 +19,7 @@ function App() {
 
   return (
     <>
-        <div className="container">
+        <div className={styling.container}>
             <p>wachtwoord vergeten</p>
             <input type="password" placeholder="Wachtwoord" /> 
             <input type="password" placeholder="Wachtwoord opnieuw invullen" /> 
