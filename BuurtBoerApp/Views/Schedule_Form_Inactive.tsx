@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import { View, TextInput, Button, Switch, StyleSheet, Alert, Image, Text, TouchableOpacity, KeyboardAvoidingView, ScrollView, Dimensions } from 'react-native';
 import CheckBox from '@react-native-community/checkbox';
+import { basestyles } from './css/styles';
 
 interface WeekOverviewFormInactProps {
   navigation: any;
@@ -24,18 +25,18 @@ const WeekOverviewFormInact = (props: WeekOverviewFormInactProps) => {
   const [isSunday, setSunday] = useState(false);
 
   return (
-    <ScrollView contentContainerStyle={styles.container}>
-      <View style={styles.top_bar_div}>
-          <View style={styles.leftContent}>
+    <ScrollView contentContainerStyle={basestyles.container}>
+      <View style={basestyles.nav_bar_div}>
+          <View style={basestyles.nav_bar_image_div}>
             <Image
               source={require('./img/buurtboer_logo_no_texto.png')}
-              style={styles.image}
+              style={basestyles.nav_bar_image}
             />
           </View>
 
-          <View style={styles.rightContent}>
+          <View style={basestyles.nav_bar_title_div}>
             <View style={styles.centered_text_square}>
-              <Text style={styles.top_text}>Rooster overzicht</Text>
+              <Text style={basestyles.nav_bar_text}>Rooster overzicht</Text>
             </View>
           </View>
       </View>
@@ -137,44 +138,6 @@ const WeekOverviewFormInact = (props: WeekOverviewFormInactProps) => {
 
 
 const styles = StyleSheet.create({
-  container: 
-  {
-    flexGrow: 1,
-    flexDirection: 'column',
-    backgroundColor: '#D9D9D9',
-  },
-  top_bar_div: {
-    flexDirection: 'row', // Use row direction for horizontal layout
-    width: width,
-    height: height * 0.15,
-    justifyContent: 'center',
-    backgroundColor: '#099F91',
-    shadowColor: 'black',
-    shadowRadius: 10,
-  },
-  top_text: {
-    color: 'white',
-    textAlign: 'center',
-    fontSize: width * 0.06,
-    marginTop: height * 0.02,
-    fontWeight: 'bold',
-    width: width
-  },
-  leftContent: {
-    paddingLeft: width * 0.05,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  rightContent: {
-    flex: 1, // Takes 1/2 of the available space
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  image: {
-    backgroundColor: '#099F91',
-    height: width * 0.20,
-    width: width * 0.20,
-  },
   schedule_div: 
   {
     flex: 1,
