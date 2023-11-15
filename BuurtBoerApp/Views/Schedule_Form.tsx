@@ -1,13 +1,16 @@
-// HomeScreen.js
 import React, { useState } from 'react';
-import { View, TextInput, Button, Switch, StyleSheet, Alert, Image, Text, TouchableOpacity, KeyboardAvoidingView, ScrollView, Dimensions } from 'react-native';
+import { View, Switch, Image, Text, TouchableOpacity, ScrollView } from 'react-native';
+import { basestyles } from './css/styles';
 import CheckBox from '@react-native-community/checkbox';
 
-interface WeekOverviewFormProps {
+interface WeekOverviewFormProps 
+{
   navigation: any;
 }
 
-const { width, height } = Dimensions.get('window');
+let isActive = false;
+let buttonText = 'Indienen';
+let isDisabled = false;
 
 const WeekOverviewForm = (props: WeekOverviewFormProps) => {
 
@@ -23,110 +26,134 @@ const WeekOverviewForm = (props: WeekOverviewFormProps) => {
   const [isSaturday, setSaturday] = useState(false);
   const [isSunday, setSunday] = useState(false);
 
+  let changeStatus = (Status: boolean) =>
+  {
+    if (Status)
+    {
+      buttonText = 'Indienen';
+    }
+    else
+    {
+      buttonText = 'Bewerken';
+    }
+
+    if (Status)
+    {
+      isDisabled = false;
+    }
+    else
+    {
+      isDisabled = true;
+    }
+
+    isActive = !Status;
+  }
+
   return (
-    <ScrollView contentContainerStyle={styles.container}>
-      <View style={styles.top_bar_div}>
-          <View style={styles.leftContent}>
+    <ScrollView contentContainerStyle={basestyles.container}>
+      <View style={basestyles.nav_bar_div}>
+          <View style={basestyles.nav_bar_image_div}>
             <Image
               source={require('./img/buurtboer_logo_no_texto.png')}
-              style={styles.image}
+              style={basestyles.nav_bar_image}
             />
           </View>
 
-          <View style={styles.rightContent}>
-            <View style={styles.centered_text_square}>
-              <Text style={styles.top_text}>Rooster overzicht</Text>
+          <View style={basestyles.nav_bar_title_div}>
+            <View style={basestyles.centered_text_div}>
+              <Text style={basestyles.nav_bar_text}>Rooster overzicht</Text>
             </View>
           </View>
       </View>
 
-      <View style={styles.padding}>
-        <View style={styles.schedule_div}>
+      <View style={basestyles.schedule_padding}>
+        <View style={basestyles.schedule_div}>
             
-            <View style={styles.week_div}>
-              <Text style={styles.centered_text_white}>{"\n"}Week{"\n"}43{"\n"}</Text>
+            <View style={basestyles.schedule_week_div}>
+              <Text style={basestyles.centered_text_white}>{"\n"}Week{"\n"}43{"\n"}</Text>
             </View>
             
             {/* Monday */}
-            <View style={[styles.checkbox_text_div, styles.topPadding]}>
+            <View style={[basestyles.checkbox_text_div, basestyles.topPadding]}>
                 <CheckBox
-                    disabled={false}
+                    disabled={isDisabled}
                     value={isMonday}
                     onValueChange={(newValue) => setMonday(newValue)}
                 />
-                <Text style={styles.centered_text}>Maandag</Text>
+                <Text style={basestyles.centered_text_black}>Maandag</Text>
             </View>
 
             {/* Tuesday */}
-            <View style={styles.checkbox_text_div}>
+            <View style={basestyles.checkbox_text_div}>
                 <CheckBox
-                    disabled={false}
+                    disabled={isDisabled}
                     value={isTuesday}
                     onValueChange={(newValue) => setTuesday(newValue)}
                 />
-                <Text style={styles.centered_text}>Dinsdag</Text>
+                <Text style={basestyles.centered_text_black}>Dinsdag</Text>
             </View>
 
             {/* Wednesday */}
-            <View style={styles.checkbox_text_div}>
+            <View style={basestyles.checkbox_text_div}>
                 <CheckBox
-                    disabled={false}
+                    disabled={isDisabled}
                     value={isWednesday}
                     onValueChange={(newValue) => setWednesday(newValue)}
                 />
-                <Text style={styles.centered_text}>Woensdag</Text>
+                <Text style={basestyles.centered_text_black}>Woensdag</Text>
             </View>
 
             {/* Thursday */}
-            <View style={styles.checkbox_text_div}>
+            <View style={basestyles.checkbox_text_div}>
                 <CheckBox
-                    disabled={false}
+                    disabled={isDisabled}
                     value={isThursday}
                     onValueChange={(newValue) => setThursday(newValue)}
                 />
-                <Text style={styles.centered_text}>Donderdag</Text>
+                <Text style={basestyles.centered_text_black}>Donderdag</Text>
             </View>
 
             {/* Friday */}
-            <View style={styles.checkbox_text_div}>
+            <View style={basestyles.checkbox_text_div}>
                 <CheckBox
-                    disabled={false}
+                    disabled={isDisabled}
                     value={isFriday}
                     onValueChange={(newValue) => setFriday(newValue)}
                 />
-                <Text style={styles.centered_text}>Vrijdag</Text>
+                <Text style={basestyles.centered_text_black}>Vrijdag</Text>
             </View>
 
             {/* Saturday */}
-            <View style={styles.checkbox_text_div}>
+            <View style={basestyles.checkbox_text_div}>
                 <CheckBox
-                    disabled={false}
+                    disabled={isDisabled}
                     value={isSaturday}
                     onValueChange={(newValue) => setSaturday(newValue)}
                 />
-                <Text style={styles.centered_text}>Zaterdag</Text>
+                <Text style={basestyles.centered_text_black}>Zaterdag</Text>
             </View>
 
             {/* Sunday */}
-            <View style={styles.checkbox_text_div}>
+            <View style={basestyles.checkbox_text_div}>
                 <CheckBox
-                    disabled={false}
+                    disabled={isDisabled}
                     value={isSunday}
                     onValueChange={(newValue) => setSunday(newValue)}
                 />
-                <Text style={styles.centered_text}>Zondag</Text>
+                <Text style={basestyles.centered_text_black}>Zondag</Text>
             </View>
 
-            <View style={styles.switch_text_div}>
-              <Text style={styles.centered_text_smol}>Onthoud Rooster</Text>
+            {/* Keep schedule switch */}
+            <View style={basestyles.switch_text_div}>
+              <Text style={basestyles.centered_text_small}>Onthoud Rooster</Text>
               <Switch
                 onValueChange={previousState => setSchedule(previousState)}
                 value={isSchedule}
               />
             </View>
 
-          <TouchableOpacity style={styles.buttons} onPress={Schedule_Form_Inactive}>
-            <Text style={{ color: 'white', textAlign: 'center' }}>Indienen</Text>
+          <TouchableOpacity style={basestyles.button} onPress={Schedule_Form_Inactive}>
+            <Text style={{ color: 'white', textAlign: 'center' }}>{buttonText}</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -135,132 +162,7 @@ const WeekOverviewForm = (props: WeekOverviewFormProps) => {
   );
 };
 
-
-const styles = StyleSheet.create({
-  container: 
-  {
-    flexGrow: 1,
-    flexDirection: 'column',
-    backgroundColor: '#D9D9D9',
-  },
-  top_bar_div: {
-    flexDirection: 'row', // Use row direction for horizontal layout
-    width: width,
-    height: height * 0.15,
-    justifyContent: 'center',
-    backgroundColor: '#099F91',
-    shadowColor: 'black',
-    shadowRadius: 10,
-  },
-  top_text: {
-    color: 'white',
-    textAlign: 'center',
-    fontSize: width * 0.06,
-    marginTop: height * 0.02,
-    fontWeight: 'bold',
-    width: width
-  },
-  leftContent: {
-    paddingLeft: width * 0.05,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  rightContent: {
-    flex: 1, // Takes 1/2 of the available space
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  image: {
-    backgroundColor: '#099F91',
-    height: width * 0.20,
-    width: width * 0.20,
-  },
-  schedule_div: 
-  {
-    flex: 1,
-    justifyContent: 'center',
-    paddingHorizontal: width * 0.05,
-    paddingBottom: width * 0.05,
-    marginHorizontal: height * 0.05,
-    marginVertical: height * 0.05,
-    backgroundColor: 'white',
-    shadowColor: 'black',
-    shadowRadius: 10,
-  },
-  centered_text_square: 
-  {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginBottom: 17,
-  },
-  schedule_padding_div: 
-  {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    paddingVertical: height * 0.01
-  },
-  week_div:
-  {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#099F91',
-    marginHorizontal: width * 0.2
-  },
-  checkbox_text_div: 
-  {
-    paddingVertical: height * 0.01,
-    flexDirection: 'row',
-    marginLeft: width * 0.1,
-  },
-  switch_text_div: 
-  {
-    paddingVertical: height * 0.01,
-    flexDirection: 'row',
-    marginLeft: width * 0.27,
-  },
-  padding:
-  {
-    padding: width * 0.025,
-  },
-  topPadding:
-  {
-    paddingTop: width * 0.04,
-  },
-  centered_text: 
-  { 
-    color: 'black', 
-    fontSize: width * 0.05, 
-    textAlign: 'center', 
-  },
-  centered_text_smol: 
-  { 
-    paddingTop: height * 0.004,
-    color: 'gray', 
-    fontSize: width * 0.03, 
-  },
-  centered_text_white: 
-  { color: 'white', 
-    fontSize: width * 0.05, 
-    textAlign: 'center', 
-  },
-  buttons:
-  {
-    backgroundColor: '#F9834C',
-    color: 'white',
-    fontWeight: '600',
-    padding: 10,
-    borderRadius: 10,
-    marginVertical: 5,
-    marginHorizontal: 5,
-    shadowColor: '#000',
-    shadowOffset: { width: 5, height: 20 },
-    shadowOpacity: 0.5,
-    shadowRadius: 10,
-    elevation: 5, // For Android
-  },
-});
-
 export default WeekOverviewForm;
+
+
+

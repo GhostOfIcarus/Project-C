@@ -31,7 +31,7 @@ export const basestyles = StyleSheet.create({
         fontSize: width * 0.06,
         marginTop: height * 0.02,
         fontWeight: 'bold',
-        width: width
+        width: width,
     },
     nav_bar_image_div: 
     {
@@ -50,5 +50,94 @@ export const basestyles = StyleSheet.create({
         backgroundColor: '#099F91',
         height: width * 0.20,
         width: width * 0.20,
+    },
+
+    // schedule
+    schedule_div: 
+    {
+        flex: 1,
+        justifyContent: 'center',
+        paddingHorizontal: width * 0.05,
+        paddingVertical: width * 0.05,
+        marginHorizontal: height * 0.05,
+        marginVertical: height * 0.25,
+        backgroundColor: 'white',
+        shadowColor: 'black',
+        shadowRadius: 10,
+    },
+    schedule_week_div:
+    {
+      flexDirection: 'row',
+      justifyContent: 'center',
+      alignItems: 'center',
+      backgroundColor: '#099F91',
+      marginHorizontal: width * 0.2
+    },
+
+    // text
+    centered_text_black:
+    { 
+        color: 'black', 
+        fontSize: width * 0.05, 
+        textAlign: 'center', 
+    },
+    centered_text_white: 
+    { 
+        color: 'white', 
+        fontSize: width * 0.05, 
+        textAlign: 'center', 
+    },
+    centered_text_small: 
+    { 
+      paddingTop: height * 0.004,
+      color: 'gray', 
+      fontSize: width * 0.03, 
+    },
+
+    // text divs
+    centered_text_div: 
+    {
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginBottom: height * 0.01,
+    },
+    checkbox_text_div: 
+    {
+      paddingVertical: height * 0.01,
+      flexDirection: 'row',
+      marginLeft: width * 0.1,
+    },
+    switch_text_div: 
+    {
+      paddingVertical: height * 0.01,
+      flexDirection: 'row',
+      marginLeft: width * 0.27,
+    },
+
+    // buttons
+    button: 
+    {
+        backgroundColor: '#F9834C',
+        color: 'white',
+        fontWeight: '600',
+        padding: 10,
+        borderRadius: 10,
+        marginVertical: 5,
+        marginHorizontal: 5,
+        shadowColor: '#000',
+        shadowOffset: { width: 5, height: 20 },
+        shadowOpacity: 0.5,
+        shadowRadius: 10,
+        elevation: 5,
+    },
+
+    // extra padding
+    schedule_padding:
+    {
+        padding: width * 0.025,
+    },
+    topPadding:
+    {
+        paddingTop: width * 0.04,
     },
 });

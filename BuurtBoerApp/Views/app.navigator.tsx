@@ -1,4 +1,3 @@
-// AppNavigator.js
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -10,7 +9,7 @@ import Schedule_Form_Inac from './Schedule_Form_Inactive';
 import ChangePassword from './Change_Password';
 import CreateAccount from './Create_Account';
 
-const { Navigator, Screen} = createStackNavigator();
+const { Navigator, Screen } = createStackNavigator();
 
 const AppNavigator = () => {
   return (
@@ -29,5 +28,3 @@ const AppNavigator = () => {
 };
 
 export default AppNavigator;
-
-// ur stupid

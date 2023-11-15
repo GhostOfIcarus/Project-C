@@ -1,6 +1,6 @@
 // HomeScreen.js
 import React, { useState } from 'react';
-import { View, TextInput, Button, Switch, StyleSheet, Alert, Image, Text, TouchableOpacity, KeyboardAvoidingView, ScrollView, Dimensions } from 'react-native';
+import { View, Switch, StyleSheet, Image, Text, TouchableOpacity, ScrollView, Dimensions } from 'react-native';
 import CheckBox from '@react-native-community/checkbox';
 import { basestyles } from './css/styles';
 
@@ -51,7 +51,7 @@ const WeekOverviewFormInact = (props: WeekOverviewFormInactProps) => {
             {/* Monday */}
             <View style={[styles.checkbox_text_div, styles.topPadding]}>
                 <CheckBox
-                    disabled={false}
+                    disabled={true}
                     value={isMonday}
                     onValueChange={(newValue) => setMonday(newValue)}
                 />
@@ -61,7 +61,7 @@ const WeekOverviewFormInact = (props: WeekOverviewFormInactProps) => {
             {/* Tuesday */}
             <View style={styles.checkbox_text_div}>
                 <CheckBox
-                    disabled={false}
+                    disabled={true}
                     value={isTuesday}
                     onValueChange={(newValue) => setTuesday(newValue)}
                 />
@@ -71,7 +71,7 @@ const WeekOverviewFormInact = (props: WeekOverviewFormInactProps) => {
             {/* Wednesday */}
             <View style={styles.checkbox_text_div}>
                 <CheckBox
-                    disabled={false}
+                    disabled={true}
                     value={isWednesday}
                     onValueChange={(newValue) => setWednesday(newValue)}
                 />
@@ -81,7 +81,7 @@ const WeekOverviewFormInact = (props: WeekOverviewFormInactProps) => {
             {/* Thursday */}
             <View style={styles.checkbox_text_div}>
                 <CheckBox
-                    disabled={false}
+                    disabled={true}
                     value={isThursday}
                     onValueChange={(newValue) => setThursday(newValue)}
                 />
@@ -91,7 +91,7 @@ const WeekOverviewFormInact = (props: WeekOverviewFormInactProps) => {
             {/* Friday */}
             <View style={styles.checkbox_text_div}>
                 <CheckBox
-                    disabled={false}
+                    disabled={true}
                     value={isFriday}
                     onValueChange={(newValue) => setFriday(newValue)}
                 />
@@ -101,7 +101,7 @@ const WeekOverviewFormInact = (props: WeekOverviewFormInactProps) => {
             {/* Saturday */}
             <View style={styles.checkbox_text_div}>
                 <CheckBox
-                    disabled={false}
+                    disabled={true}
                     value={isSaturday}
                     onValueChange={(newValue) => setSaturday(newValue)}
                 />
@@ -111,7 +111,7 @@ const WeekOverviewFormInact = (props: WeekOverviewFormInactProps) => {
             {/* Sunday */}
             <View style={styles.checkbox_text_div}>
                 <CheckBox
-                    disabled={false}
+                    disabled={true}
                     value={isSunday}
                     onValueChange={(newValue) => setSunday(newValue)}
                 />
