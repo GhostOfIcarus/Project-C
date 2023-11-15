@@ -13,7 +13,7 @@ const LoginScreen = (props: LoginScreenProps) => {
   const ForgotPassword = () => props.navigation.navigate("ForgotPassword")
 
   return (
-    <KeyboardAvoidingView style={{ flex: 1 }}>
+    <KeyboardAvoidingView>
       <ScrollView contentContainerStyle={styles.container}>
         <View style={styles.login_div}>
           <View style={styles.img_div}>
@@ -58,6 +58,7 @@ const LoginScreen = (props: LoginScreenProps) => {
 
 const styles = StyleSheet.create({
   container: {
+    height: Dimensions.get('window').height * 0.9666,
     justifyContent: 'center',
     padding: 16,
     backgroundColor: '#D9D9D9',
@@ -102,7 +103,7 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     padding: '2%',
     borderRadius: 10,
-    marginVertical: '1%',
+    marginVertical: '2%',
     marginHorizontal: '1%',
     shadowColor: '#000',
     shadowOffset: { width: 5, height: 20 },
