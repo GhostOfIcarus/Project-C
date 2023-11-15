@@ -1,18 +1,20 @@
 // HomeScreen.js
 import React, { useState } from 'react';
-import { View, TextInput, Button, StyleSheet, Alert, Image, Text, TouchableOpacity, KeyboardAvoidingView, ScrollView, Dimensions } from 'react-native';
+import { View, TextInput, Button, Switch, StyleSheet, Alert, Image, Text, TouchableOpacity, KeyboardAvoidingView, ScrollView, Dimensions } from 'react-native';
 import CheckBox from '@react-native-community/checkbox';
 
-interface WeekOverviewFormInactProps {
+interface WeekOverviewFormProps {
   navigation: any;
 }
 
 const { width, height } = Dimensions.get('window');
 
-const WeekOverviewFormInact = (props: WeekOverviewFormInactProps) => {
+const WeekOverviewForm = (props: WeekOverviewFormProps) => {
 
   const Schedule_Form_Inactive = () => props.navigation.navigate("Schedule_Form_Inac") 
   
+  const [isSchedule, setSchedule] = useState(false);
+
   const [isMonday, setMonday] = useState(false);
   const [isTuesday, setTuesday] = useState(false);
   const [isWednesday, setWednesday] = useState(false);
@@ -45,10 +47,8 @@ const WeekOverviewFormInact = (props: WeekOverviewFormInactProps) => {
               <Text style={styles.centered_text_white}>{"\n"}Week{"\n"}43{"\n"}</Text>
             </View>
             
-            <Text style={styles.centered_text_white}> </Text>
-
             {/* Monday */}
-            <View style={styles.checkbox_text_div}>
+            <View style={[styles.checkbox_text_div, styles.topPadding]}>
                 <CheckBox
                     disabled={false}
                     value={isMonday}
@@ -117,7 +117,13 @@ const WeekOverviewFormInact = (props: WeekOverviewFormInactProps) => {
                 <Text style={styles.centered_text}>Zondag</Text>
             </View>
 
-            <Text style={styles.centered_text_white}> </Text>
+            <View style={styles.switch_text_div}>
+              <Text style={styles.centered_text_smol}>Onthoud Rooster</Text>
+              <Switch
+                onValueChange={previousState => setSchedule(previousState)}
+                value={isSchedule}
+              />
+            </View>
 
           <TouchableOpacity style={styles.buttons} onPress={Schedule_Form_Inactive}>
             <Text style={{ color: 'white', textAlign: 'center' }}>Indienen</Text>
@@ -207,16 +213,33 @@ const styles = StyleSheet.create({
   {
     paddingVertical: height * 0.01,
     flexDirection: 'row',
-    marginLeft: width * 0.15,
+    marginLeft: width * 0.1,
+  },
+  switch_text_div: 
+  {
+    paddingVertical: height * 0.01,
+    flexDirection: 'row',
+    marginLeft: width * 0.27,
   },
   padding:
   {
     padding: width * 0.025,
   },
+  topPadding:
+  {
+    paddingTop: width * 0.04,
+  },
   centered_text: 
-  { color: 'black', 
+  { 
+    color: 'black', 
     fontSize: width * 0.05, 
     textAlign: 'center', 
+  },
+  centered_text_smol: 
+  { 
+    paddingTop: height * 0.004,
+    color: 'gray', 
+    fontSize: width * 0.03, 
   },
   centered_text_white: 
   { color: 'white', 
@@ -240,4 +263,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default WeekOverviewFormInact;
+export default WeekOverviewForm;

@@ -1,6 +1,6 @@
 // HomeScreen.js
 import React, { useState } from 'react';
-import { View, TextInput, Button, StyleSheet, Alert, Image, Text, TouchableOpacity, KeyboardAvoidingView, ScrollView, Dimensions } from 'react-native';
+import { View, TextInput, Button, Switch, StyleSheet, Alert, Image, Text, TouchableOpacity, KeyboardAvoidingView, ScrollView, Dimensions } from 'react-native';
 import CheckBox from '@react-native-community/checkbox';
 
 interface WeekOverviewFormInactProps {
@@ -13,6 +13,8 @@ const WeekOverviewFormInact = (props: WeekOverviewFormInactProps) => {
 
   const Schedule_Form = () => props.navigation.navigate("Schedule_Form") 
   
+  const [isSchedule, setSchedule] = useState(false);
+
   const [isMonday, setMonday] = useState(false);
   const [isTuesday, setTuesday] = useState(false);
   const [isWednesday, setWednesday] = useState(false);
@@ -45,12 +47,10 @@ const WeekOverviewFormInact = (props: WeekOverviewFormInactProps) => {
               <Text style={styles.centered_text_white}>{"\n"}Week{"\n"}43{"\n"}</Text>
             </View>
             
-            <Text style={styles.centered_text_white}> </Text>
-
             {/* Monday */}
-            <View style={styles.checkbox_text_div}>
+            <View style={[styles.checkbox_text_div, styles.topPadding]}>
                 <CheckBox
-                    disabled={true}
+                    disabled={false}
                     value={isMonday}
                     onValueChange={(newValue) => setMonday(newValue)}
                 />
@@ -60,8 +60,8 @@ const WeekOverviewFormInact = (props: WeekOverviewFormInactProps) => {
             {/* Tuesday */}
             <View style={styles.checkbox_text_div}>
                 <CheckBox
-                    disabled={true}
-                    value={!isTuesday}
+                    disabled={false}
+                    value={isTuesday}
                     onValueChange={(newValue) => setTuesday(newValue)}
                 />
                 <Text style={styles.centered_text}>Dinsdag</Text>
@@ -70,8 +70,8 @@ const WeekOverviewFormInact = (props: WeekOverviewFormInactProps) => {
             {/* Wednesday */}
             <View style={styles.checkbox_text_div}>
                 <CheckBox
-                    disabled={true}
-                    value={!isWednesday}
+                    disabled={false}
+                    value={isWednesday}
                     onValueChange={(newValue) => setWednesday(newValue)}
                 />
                 <Text style={styles.centered_text}>Woensdag</Text>
@@ -80,7 +80,7 @@ const WeekOverviewFormInact = (props: WeekOverviewFormInactProps) => {
             {/* Thursday */}
             <View style={styles.checkbox_text_div}>
                 <CheckBox
-                    disabled={true}
+                    disabled={false}
                     value={isThursday}
                     onValueChange={(newValue) => setThursday(newValue)}
                 />
@@ -90,7 +90,7 @@ const WeekOverviewFormInact = (props: WeekOverviewFormInactProps) => {
             {/* Friday */}
             <View style={styles.checkbox_text_div}>
                 <CheckBox
-                    disabled={true}
+                    disabled={false}
                     value={isFriday}
                     onValueChange={(newValue) => setFriday(newValue)}
                 />
@@ -100,7 +100,7 @@ const WeekOverviewFormInact = (props: WeekOverviewFormInactProps) => {
             {/* Saturday */}
             <View style={styles.checkbox_text_div}>
                 <CheckBox
-                    disabled={true}
+                    disabled={false}
                     value={isSaturday}
                     onValueChange={(newValue) => setSaturday(newValue)}
                 />
@@ -110,14 +110,20 @@ const WeekOverviewFormInact = (props: WeekOverviewFormInactProps) => {
             {/* Sunday */}
             <View style={styles.checkbox_text_div}>
                 <CheckBox
-                    disabled={true}
+                    disabled={false}
                     value={isSunday}
                     onValueChange={(newValue) => setSunday(newValue)}
                 />
                 <Text style={styles.centered_text}>Zondag</Text>
             </View>
 
-            <Text style={styles.centered_text_white}> </Text>
+            <View style={styles.switch_text_div}>
+              <Text style={styles.centered_text_smol}>Onthoud Rooster</Text>
+              <Switch
+                onValueChange={previousState => setSchedule(previousState)}
+                value={isSchedule}
+              />
+            </View>
 
           <TouchableOpacity style={styles.buttons} onPress={Schedule_Form}>
             <Text style={{ color: 'white', textAlign: 'center' }}>Bewerken</Text>
@@ -207,16 +213,33 @@ const styles = StyleSheet.create({
   {
     paddingVertical: height * 0.01,
     flexDirection: 'row',
-    marginLeft: width * 0.15,
+    marginLeft: width * 0.1,
+  },
+  switch_text_div: 
+  {
+    paddingVertical: height * 0.01,
+    flexDirection: 'row',
+    marginLeft: width * 0.27,
   },
   padding:
   {
     padding: width * 0.025,
   },
+  topPadding:
+  {
+    paddingTop: width * 0.04,
+  },
   centered_text: 
-  { color: 'gray', 
+  { 
+    color: 'gray', 
     fontSize: width * 0.05, 
     textAlign: 'center', 
+  },
+  centered_text_smol: 
+  { 
+    paddingTop: height * 0.004,
+    color: 'gray', 
+    fontSize: width * 0.03, 
   },
   centered_text_white: 
   { color: 'white', 
