@@ -1,0 +1,21 @@
+name: Test SSH Connection
+
+on:
+  push:
+    branches:
+      - test
+
+jobs:
+  test-ssh:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Test SSH Connection
+        uses: easingthemes/ssh-deploy@v2
+        with:
+          server: ubuntu-1056428@${{ secrets.SERVER }}
+          key: ${{ secrets.KEY }}
+          script: 'echo "SSH connection successful!"'
