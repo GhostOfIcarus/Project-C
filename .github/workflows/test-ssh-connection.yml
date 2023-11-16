@@ -16,6 +16,9 @@ jobs:
       - name: Test SSH Connection
         uses: easingthemes/ssh-deploy@v2
         with:
-          server: ubuntu-1056428@${{ secrets.SERVER }}
-          key: ${{ secrets.KEY }}
-          script: 'echo "SSH connection successful!"'
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          REMOTE_HOST: ${{ secrets.SSH_HOST }}
+          REMOTE_USER: ubuntu-1056428
+          REMOTE_PORT: 22
+          SOURCE: 'README.md' # Adjust based on your project structure
+          TARGET: '/home/ubuntu-1056428/TestDeploy'
