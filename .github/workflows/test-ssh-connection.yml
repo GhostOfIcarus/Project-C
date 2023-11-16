@@ -16,8 +16,8 @@ jobs:
       - name: Test SSH Connection
         uses: easingthemes/ssh-deploy@v2
         with:
-          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-          REMOTE_HOST: ${{ secrets.SSH_HOST }}
+          SSH_PRIVATE_KEY: ${{ secrets.KEY }}
+          REMOTE_HOST: ${{ secrets.SERVER }}
           REMOTE_USER: ubuntu-1056428
           REMOTE_PORT: 22
           SOURCE: 'README.md' # Adjust based on your project structure
