@@ -15,7 +15,8 @@ let isDisabled = false;
 const WeekOverviewForm = (props: WeekOverviewFormProps) => {
 
   const Schedule_Form_Inactive = () => props.navigation.navigate("Schedule_Form_Inac") 
-  
+  const Settings = () => props.navigation.navigate("Settings")
+
   const [isSchedule, setSchedule] = useState(false);
 
   const [isMonday, setMonday] = useState(false);
@@ -65,10 +66,9 @@ const WeekOverviewForm = (props: WeekOverviewFormProps) => {
         </View>
 
         <View style={basestyles.nav_bar_settings_div}>
-          <Image
-              source={require('./img/settings_icon.png')}
-              style={basestyles.nav_bar_settings}
-            />
+          <TouchableOpacity onPress={Settings}>
+            <Image source={require('./img/settings_icon.png')} style={basestyles.nav_bar_settings} />
+          </TouchableOpacity>
         </View>
       </View>
 

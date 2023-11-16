@@ -19,7 +19,7 @@ export const basestyles = StyleSheet.create({
         flexDirection: 'row',
         width: width,
         height: height * 0.1,
-        backgroundColor: '#099F91',
+        backgroundColor: 'white',
         shadowColor: 'black',
         shadowRadius: 10,
     },
@@ -30,13 +30,14 @@ export const basestyles = StyleSheet.create({
         alignItems: 'center',
         width: width * 0.2,
         height: height * 0.1,
-        backgroundColor: '#099F91',
     },
-    nav_bar_image_div: 
+    nav_bar_image_div:
     {
         flex: 0.2,
         justifyContent: 'center',
-        paddingLeft: width * 0.02
+        paddingLeft: width * 0.02,
+        backgroundColor: '#099F91',
+
     },
     nav_bar_title_div: 
     {
@@ -56,9 +57,9 @@ export const basestyles = StyleSheet.create({
     },
     nav_bar_title: 
     {
-        color: 'white',
+        color: 'black',
         fontSize: width * 0.06,
-        fontWeight: 'bold',
+        paddingLeft: width * 0.05,
     },
 
     // schedule
@@ -88,11 +89,11 @@ export const basestyles = StyleSheet.create({
     },
     schedule_week_div:
     {
-      flexDirection: 'row',
-      justifyContent: 'center',
-      alignItems: 'center',
-      backgroundColor: '#099F91',
-      marginHorizontal: width * 0.2
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#099F91',
+        marginHorizontal: width * 0.2
     },
 
     // text
@@ -110,9 +111,9 @@ export const basestyles = StyleSheet.create({
     },
     centered_text_small: 
     { 
-      paddingTop: height * 0.004,
-      color: 'gray', 
-      fontSize: width * 0.03, 
+        paddingTop: height * 0.004,
+        color: 'gray', 
+        fontSize: width * 0.03, 
     },
 
     // text divs
@@ -124,15 +125,15 @@ export const basestyles = StyleSheet.create({
     },
     checkbox_text_div: 
     {
-      paddingVertical: height * 0.01,
-      flexDirection: 'row',
-      marginLeft: width * 0.1,
+        paddingVertical: height * 0.01,
+        flexDirection: 'row',
+        marginLeft: width * 0.1,
     },
     switch_text_div: 
     {
-      paddingVertical: height * 0.01,
-      flexDirection: 'row',
-      marginLeft: width * 0.27,
+        paddingVertical: height * 0.01,
+        flexDirection: 'row',
+        marginLeft: width * 0.27,
     },
 
     // buttons

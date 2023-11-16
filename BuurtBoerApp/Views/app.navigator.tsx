@@ -8,6 +8,7 @@ import Schedule_Form from './Schedule_Form';
 import Schedule_Form_Inac from './Schedule_Form_Inactive';
 import ChangePassword from './Change_Password';
 import CreateAccount from './Create_Account';
+import Settings from './Settings';
 
 const { Navigator, Screen } = createStackNavigator();
 
@@ -22,6 +23,7 @@ const AppNavigator = () => {
         <Screen name='ForgotPassword' component={ForgotPasswordScreen} options={{headerShown: false}}></Screen>
         <Screen name='ChangePassword' component={ChangePassword} options={{headerShown: false}}></Screen>
         <Screen name='CreateAccount' component={CreateAccount} options={{headerShown: false}}></Screen>
+        <Screen name='Settings' component={Settings} options={{headerShown: false}}></Screen>
       </Navigator>
     </NavigationContainer>
   );
