@@ -13,6 +13,7 @@ const WeekOverviewScreen = (props: WeekOverviewScreenProps) => {
   const { user } = props.route.params;
   
   const Schedule_Form = () => props.navigation.navigate("Schedule_Form")
+  const Settings = () => props.navigation.navigate("Settings")
 
   return (
     <ScrollView contentContainerStyle={basestyles.container}>
@@ -30,10 +31,9 @@ const WeekOverviewScreen = (props: WeekOverviewScreenProps) => {
           </View>
 
           <View style={basestyles.nav_bar_settings_div}>
-            <Image
-                source={require('./img/settings_icon.png')}
-                style={basestyles.nav_bar_settings}
-              />
+            <TouchableOpacity onPress={Settings}>
+              <Image source={require('./img/settings_icon.png')} style={basestyles.nav_bar_settings} />
+            </TouchableOpacity>
           </View>
       </View>
 
