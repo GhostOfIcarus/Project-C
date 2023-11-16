@@ -1,7 +1,16 @@
-// LoginScreen.js
 import React, { useState } from 'react';
-import { View, TextInput, Image, Text, TouchableOpacity, KeyboardAvoidingView, ScrollView } from 'react-native';
+import { View, TextInput, Image, Text, TouchableOpacity, KeyboardAvoidingView, ScrollView, Alert } from 'react-native';
 import { before_login } from './css/before_login';
+import loginData from './../Models/loginData.json';
+
+interface LoginScreenProps {
+  navigation: any;
+}
+
+interface User {
+  email: string;
+  password: string;
+}
 
 interface LoginScreenProps {
   navigation: any;
@@ -9,8 +18,13 @@ interface LoginScreenProps {
 
 const LoginScreen = (props: LoginScreenProps) => {
 
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
+
+  const handleEmailChange = (text: string) => {
+    setEmail(text);
+  };
 
   const handlePasswordChange = (text: string) => {
     setPassword(text);
@@ -18,6 +32,18 @@ const LoginScreen = (props: LoginScreenProps) => {
 
   const toggleShowPassword = () => {
     setShowPassword(!showPassword);
+  };
+
+  const handleLogin = () => {
+    const user = loginData.users.find((u: User) => u.email === email && u.password === password);
+
+    if (user) {
+      // Successful login, navigate to the next page
+      props.navigation.navigate("Schedule", { user });
+    } else {
+      // Invalid login, show an alert
+      Alert.alert('Invalid Credentials', 'Please check your email and password.');
+    }
   };
   
   const Schedule = () => props.navigation.navigate("Schedule")
@@ -40,15 +66,14 @@ const LoginScreen = (props: LoginScreenProps) => {
           <TextInput
             placeholder="E-mail"
             style={before_login.input}
-            // Handle username input
+            onChangeText={handleEmailChange}
           />
           <TextInput
-           placeholder="Wachtwoord"
-           style={before_login.input}
-           secureTextEntry={!showPassword}
-           onChangeText={handlePasswordChange}
-           value={password}
-            // Handle password input
+            placeholder="Wachtwoord"
+            style={before_login.input}
+            secureTextEntry={!showPassword}
+            onChangeText={handlePasswordChange}
+            value={password}
           />
           <View style={before_login.forgotPasswordRow}>
             <TouchableOpacity onPress={ForgotPassword}>
@@ -60,7 +85,7 @@ const LoginScreen = (props: LoginScreenProps) => {
               </Text>
             </TouchableOpacity>
           </View>
-          <TouchableOpacity style={before_login.buttons} onPress={Schedule}>
+          <TouchableOpacity style={before_login.buttons} onPress={handleLogin}>
             <Text style={{ color: 'white', textAlign: 'center' }}>Login</Text>
           </TouchableOpacity>
           <View style={before_login.centered_text}>

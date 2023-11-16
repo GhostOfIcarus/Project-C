@@ -1,16 +1,41 @@
-// LoginScreen.js
-import React from 'react';
-import { View, TextInput, Image, Text, TouchableOpacity, KeyboardAvoidingView, ScrollView } from 'react-native';
+import React, { useState } from 'react';
+import { View, TextInput, Image, Text, TouchableOpacity, KeyboardAvoidingView, ScrollView, Alert } from 'react-native';
 import { before_login } from './css/before_login';
+import loginData from './../Models/loginData.json';
 
-interface LoginScreenProps {
+interface User {
+  email: string;
+  password: string;
+}
+
+interface ForgotPasswordProps {
   navigation: any;
 }
 
-const Forgot_Password = (props: LoginScreenProps) => {
-  
-  const ChangePasswordScreen = () => props.navigation.navigate("ChangePassword")
+const Forgot_Password = (props: ForgotPasswordProps) => {
+  const [email, setEmail] = useState('');
 
+  const ChangePasswordScreen = (user: User) => {
+    // Navigate to the ChangePassword screen and pass the user data
+    props.navigation.navigate("ChangePassword", { user });
+  };
+
+  const handleEmailChange = (text: string) => {
+    setEmail(text);
+  };
+
+  const handleSend = () => {
+    // Check if the entered email exists in the JSON file
+    const user = loginData.users.find((u: User) => u.email === email);
+
+    if (user) {
+      // Email exists, navigate to the ChangePassword screen with user data
+      ChangePasswordScreen(user);
+    } else {
+      // Email doesn't exist, show an alert
+      Alert.alert('Email Not Found', 'The entered email does not exist in our records.');
+    }
+  };
   
 
   return (
@@ -29,9 +54,9 @@ const Forgot_Password = (props: LoginScreenProps) => {
           <TextInput
             placeholder="E-mail"
             style={before_login.input}
-            // Handle username input
+            onChangeText={handleEmailChange}
           />
-          <TouchableOpacity style={[before_login.buttons, before_login.buttons_space]} onPress={ChangePasswordScreen}>
+          <TouchableOpacity style={[before_login.buttons, before_login.buttons_space]} onPress={handleSend}>
             <Text style={{ color: 'white', textAlign: 'center' }}>Verstuur</Text>
           </TouchableOpacity>
           

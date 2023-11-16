@@ -1,13 +1,20 @@
-// LoginScreen.js
 import React, { useState } from 'react';
-import { View, TextInput, StyleSheet, Image, Text, TouchableOpacity, KeyboardAvoidingView, ScrollView } from 'react-native';
+import { View, TextInput, Image, Text, TouchableOpacity, KeyboardAvoidingView, ScrollView, Alert } from 'react-native';
 import { before_login } from './css/before_login';
+import loginData from './../Models/loginData.json';
 
-interface LoginScreenProps {
-  navigation: any;
+interface User {
+  email: string;
+  password: string;
 }
 
-const Change_Password = (props: LoginScreenProps) => {
+interface ChangePasswordProps {
+  navigation: any;
+  route: any;
+}
+
+const Change_Password = (props: ChangePasswordProps) => {
+  const { user } = props.route.params;
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
@@ -25,6 +32,24 @@ const Change_Password = (props: LoginScreenProps) => {
   };
 
   const login = () => props.navigation.navigate("Login");
+
+  const handleChangePassword = () => {
+    if (password === confirmPassword) {
+      // Passwords match, update the password in the JSON file
+      const updatedUsers = loginData.users.map(u =>
+        u.email === user.email ? { ...u, password } : u
+      );
+
+      // Update the JSON file with the new user data
+      loginData.users = updatedUsers;
+
+      Alert.alert('Password Changed', 'Your password has been successfully changed.');
+      login();
+    } else {
+      // Passwords don't match, show an alert
+      Alert.alert('Password Mismatch', 'The entered passwords do not match. Please try again.');
+    }
+  };
 
   return (
     <KeyboardAvoidingView style={{ flex: 1 }}>
@@ -58,7 +83,7 @@ const Change_Password = (props: LoginScreenProps) => {
               {showPassword ? 'Verberg wachtwoord' : 'Toon wachtwoord'}
             </Text>
           </TouchableOpacity>
-          <TouchableOpacity style={before_login.buttons} onPress={login}>
+          <TouchableOpacity style={before_login.buttons} onPress={handleChangePassword}>
             <Text style={{ color: 'white', textAlign: 'center' }}>Verstuur</Text>
           </TouchableOpacity>
           
@@ -67,70 +92,5 @@ const Change_Password = (props: LoginScreenProps) => {
     </KeyboardAvoidingView>
   );
 };
-
-const styles = StyleSheet.create({
-    container: {
-      flexGrow: 1,
-      justifyContent: 'center',
-      padding: 25,
-      backgroundColor: '#D9D9D9',
-    },
-    login_div: {
-      flex: 1,
-      justifyContent: 'center',
-      padding: 16,
-      backgroundColor: '#fff',
-      shadowColor: 'black',
-      shadowRadius: 10,
-    },
-    img_div: {
-      alignItems: 'center',
-      backgroundColor: '#099F91',
-      paddingHorizontal: 20,
-      paddingVertical: 25,
-      marginHorizontal: 20,
-      marginVertical: 5,
-    },
-    change_password_div:{
-      justifyContent: 'center',
-      alignItems: 'center',
-    },
-    change_password: {
-      justifyContent: 'center',
-      alignItems: 'center',
-      paddingHorizontal: 20,
-      paddingVertical: 25,
-      marginHorizontal: 20,
-      marginVertical: 5,
-      color: 'black',
-      fontSize: 20,
-    },
-    input: {
-      height: 40,
-      color: '#979797',
-      borderBottomWidth: 1,
-      borderBottomColor: 'gray',
-      marginBottom: 12,
-      paddingLeft: 8,
-      marginHorizontal: 5,
-    },
-    image: {
-      backgroundColor: '#099F91',
-    },
-    buttons: {
-      backgroundColor: '#F9834C',
-      color: 'white',
-      fontWeight: '600',
-      padding: 10,
-      borderRadius: 10,
-      marginVertical: 15,
-      marginHorizontal: 5,
-      shadowColor: '#000',
-      shadowOffset: { width: 5, height: 20 },
-      shadowOpacity: 0.5,
-      shadowRadius: 10,
-      elevation: 5, // For Android
-    },
-});
 
 export default Change_Password;
