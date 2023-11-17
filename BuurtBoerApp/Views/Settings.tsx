@@ -69,6 +69,10 @@ const SettingsScreen = (props: SettingsProps) => {
             <Text style={{ color: 'white', textAlign: 'center' }}>Verander Wachtwoord</Text>
           </TouchableOpacity>
 
+          <TouchableOpacity style={basestyles.button} onPress={Change_Password}>
+            <Text style={{ color: 'white', textAlign: 'center' }}>Log uit</Text>
+          </TouchableOpacity>
+
         </View>
       </View>
       
