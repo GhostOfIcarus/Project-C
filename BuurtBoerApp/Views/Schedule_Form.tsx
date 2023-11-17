@@ -150,7 +150,7 @@ const WeekOverviewForm = (props: WeekOverviewFormProps) => {
             </View>
 
             {/* Keep schedule switch */}
-            <View style={basestyles.switch_text_div}>
+            <View style={basestyles.switch_right_text_div}>
               <Text style={basestyles.centered_text_small}>Onthoud Rooster</Text>
               <Switch
                 onValueChange={previousState => setSchedule(previousState)}
@@ -161,6 +161,7 @@ const WeekOverviewForm = (props: WeekOverviewFormProps) => {
           <TouchableOpacity style={basestyles.button} onPress={Schedule_Form_Inactive}>
             <Text style={{ color: 'white', textAlign: 'center' }}>{buttonText}</Text>
           </TouchableOpacity>
+          
         </View>
       </View>
       

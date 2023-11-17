@@ -1,6 +1,6 @@
 // HomeScreen.js
-import React from 'react';
-import { View, TextInput, Button, StyleSheet, Alert, Image, Text, TouchableOpacity, KeyboardAvoidingView, ScrollView, Dimensions } from 'react-native';
+import React, { useState } from 'react';
+import { View, Image, Text, TouchableOpacity, ScrollView, Switch } from 'react-native';
 import { basestyles } from './css/styles';
 interface SettingsProps {
   navigation: any;
@@ -9,7 +9,9 @@ interface SettingsProps {
 const SettingsScreen = (props: SettingsProps) => {
   
   const Schedule_Form = () => props.navigation.navigate("Schedule_Form")
-  const Settings = () => props.navigation.navigate("Settings")
+  const Change_Password = () => props.navigation.navigate("Change_Password") 
+
+  const [isNotif, setNotif] = useState(false);
 
   return (
     <ScrollView contentContainerStyle={basestyles.container}>
@@ -34,14 +36,39 @@ const SettingsScreen = (props: SettingsProps) => {
       </View>
 
       <View style={basestyles.schedule_padding}>
-        <View style={basestyles.schedule_div_form}>
-          <View style={basestyles.centered_text_div}>
-              <Text style={basestyles.centered_text_black}>U heeft uw Rooster voor deze week nog niet ingevuld.</Text>
+        <View style={basestyles.settings_div}>
+
+          <View style={basestyles.left_aligned_text_div}>
+              <Text style={basestyles.text_black}>Naam: ...</Text>
           </View>
 
-          <TouchableOpacity style={basestyles.button} onPress={Schedule_Form}>
-            <Text style={{ color: 'white', textAlign: 'center' }}>Vul Rooster in</Text>
+          <View style={basestyles.left_aligned_text_div}>
+              <Text style={basestyles.text_black}>Achternaam: ...</Text>
+          </View>
+
+          <View style={basestyles.left_aligned_text_div}>
+              <Text style={basestyles.text_black}>Bedrijf: ...</Text>
+          </View>
+
+          <View style={basestyles.left_aligned_text_div}>
+              <Text style={basestyles.text_black}>Email: ...</Text>
+          </View>
+
+          <View style={basestyles.switch_left_text_div}>
+
+            <Text style={basestyles.text_black}>Notificaties  </Text>
+
+            <Switch
+              onValueChange={previousState => setNotif(previousState)}
+              value={isNotif}
+            />
+            
+          </View>
+
+          <TouchableOpacity style={basestyles.button} onPress={Change_Password}>
+            <Text style={{ color: 'white', textAlign: 'center' }}>Verander Wachtwoord</Text>
           </TouchableOpacity>
+
         </View>
       </View>
       

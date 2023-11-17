@@ -103,6 +103,12 @@ export const basestyles = StyleSheet.create({
         fontSize: width * 0.05, 
         textAlign: 'center', 
     },
+    text_black:
+    { 
+        color: 'black', 
+        fontSize: width * 0.05, 
+        // textAlign: 'center', 
+    },
     centered_text_white: 
     { 
         color: 'white', 
@@ -129,11 +135,22 @@ export const basestyles = StyleSheet.create({
         flexDirection: 'row',
         marginLeft: width * 0.1,
     },
-    switch_text_div: 
+    switch_right_text_div: 
     {
         paddingVertical: height * 0.01,
         flexDirection: 'row',
         marginLeft: width * 0.27,
+    },
+    switch_left_text_div:
+    {
+        paddingBottom: height * 0.01,
+        flexDirection: 'row',
+        marginLeft: width * 0.05,
+    },
+    left_aligned_text_div: 
+    {
+        marginBottom: height * 0.01,
+        paddingLeft: width * 0.05,
     },
 
     // buttons
@@ -161,5 +178,19 @@ export const basestyles = StyleSheet.create({
     top_padding:
     {
         paddingTop: width * 0.04,
+    },
+
+    //settings
+    settings_div: 
+    {
+        flex: 1,
+        justifyContent: 'center',
+        paddingHorizontal: width * 0.05,
+        paddingVertical: width * 0.05,
+        marginHorizontal: height * 0.05,
+        marginVertical: height * 0.05,
+        backgroundColor: 'white',
+        shadowColor: 'black',
+        shadowRadius: 10,
     },
 });
