@@ -81,11 +81,12 @@ const WeekOverviewForm = (props: WeekOverviewFormProps) => {
             
             {/* Monday */}
             <View style={[basestyles.checkbox_text_div, basestyles.top_padding]}>
-                <CheckBox
-                    disabled={isDisabled}
-                    value={isMonday}
-                    onValueChange={(newValue) => setMonday(newValue)}
-                />
+              <CheckBox
+                disabled={isDisabled}
+                value={isMonday}
+                onValueChange={(newValue) => setMonday(newValue)}
+                tintColors={{ true: '#099F91', false: 'black' }}
+              />
                 <Text style={basestyles.centered_text_black}>Maandag</Text>
             </View>
 
@@ -95,6 +96,7 @@ const WeekOverviewForm = (props: WeekOverviewFormProps) => {
                     disabled={isDisabled}
                     value={isTuesday}
                     onValueChange={(newValue) => setTuesday(newValue)}
+                    tintColors={{ true: '#099F91', false: 'black' }}
                 />
                 <Text style={basestyles.centered_text_black}>Dinsdag</Text>
             </View>
@@ -105,6 +107,7 @@ const WeekOverviewForm = (props: WeekOverviewFormProps) => {
                     disabled={isDisabled}
                     value={isWednesday}
                     onValueChange={(newValue) => setWednesday(newValue)}
+                    tintColors={{ true: '#099F91', false: 'black' }}
                 />
                 <Text style={basestyles.centered_text_black}>Woensdag</Text>
             </View>
@@ -115,6 +118,7 @@ const WeekOverviewForm = (props: WeekOverviewFormProps) => {
                     disabled={isDisabled}
                     value={isThursday}
                     onValueChange={(newValue) => setThursday(newValue)}
+                    tintColors={{ true: '#099F91', false: 'black' }}
                 />
                 <Text style={basestyles.centered_text_black}>Donderdag</Text>
             </View>
@@ -125,6 +129,7 @@ const WeekOverviewForm = (props: WeekOverviewFormProps) => {
                     disabled={isDisabled}
                     value={isFriday}
                     onValueChange={(newValue) => setFriday(newValue)}
+                    tintColors={{ true: '#099F91', false: 'black' }}
                 />
                 <Text style={basestyles.centered_text_black}>Vrijdag</Text>
             </View>
@@ -135,6 +140,7 @@ const WeekOverviewForm = (props: WeekOverviewFormProps) => {
                     disabled={isDisabled}
                     value={isSaturday}
                     onValueChange={(newValue) => setSaturday(newValue)}
+                    tintColors={{ true: '#099F91', false: 'black' }}
                 />
                 <Text style={basestyles.centered_text_black}>Zaterdag</Text>
             </View>
@@ -145,6 +151,7 @@ const WeekOverviewForm = (props: WeekOverviewFormProps) => {
                     disabled={isDisabled}
                     value={isSunday}
                     onValueChange={(newValue) => setSunday(newValue)}
+                    tintColors={{ true: '#099F91', false: 'black' }}
                 />
                 <Text style={basestyles.centered_text_black}>Zondag</Text>
             </View>
@@ -155,6 +162,7 @@ const WeekOverviewForm = (props: WeekOverviewFormProps) => {
               <Switch
                 onValueChange={previousState => setSchedule(previousState)}
                 value={isSchedule}
+                trackColor={{false: "#B6B6B6", true: "#099F91"}}
               />
             </View>
 

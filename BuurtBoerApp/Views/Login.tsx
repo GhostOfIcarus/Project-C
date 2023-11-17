@@ -67,6 +67,7 @@ const LoginScreen = (props: LoginScreenProps) => {
             placeholder="E-mail"
             style={before_login.input}
             onChangeText={handleEmailChange}
+            placeholderTextColor="#979797"
           />
           <TextInput
             placeholder="Wachtwoord"
@@ -74,6 +75,7 @@ const LoginScreen = (props: LoginScreenProps) => {
             secureTextEntry={!showPassword}
             onChangeText={handlePasswordChange}
             value={password}
+            placeholderTextColor="#979797"
           />
           <View style={before_login.forgotPasswordRow}>
             <TouchableOpacity onPress={ForgotPassword}>

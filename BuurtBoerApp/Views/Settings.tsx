@@ -61,6 +61,7 @@ const SettingsScreen = (props: SettingsProps) => {
             <Switch
               onValueChange={previousState => setNotif(previousState)}
               value={isNotif}
+              trackColor={{false: "#B6B6B6", true: "#099F91"}}
             />
             
           </View>
