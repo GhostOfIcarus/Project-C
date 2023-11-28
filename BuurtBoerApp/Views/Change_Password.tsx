@@ -1,12 +1,8 @@
 import React, { useState } from 'react';
-import { View, TextInput, Image, Text, TouchableOpacity, KeyboardAvoidingView, ScrollView, Alert } from 'react-native';
+import { View, TextInput, Image, Text, TouchableOpacity, KeyboardAvoidingView, ScrollView } from 'react-native';
 import { before_login } from './css/before_login';
-import loginData from './../Models/loginData.json';
-
-interface User {
-  email: string;
-  password: string;
-}
+import { handleChangePassword } from './../Controllers/Change_Password';
+import Employee from './../Models/Employee';
 
 interface ChangePasswordProps {
   navigation: any;
@@ -14,7 +10,6 @@ interface ChangePasswordProps {
 }
 
 const Change_Password = (props: ChangePasswordProps) => {
-  const { user } = props.route.params;
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
@@ -27,28 +22,10 @@ const Change_Password = (props: ChangePasswordProps) => {
     setConfirmPassword(text);
   };
 
+  const employee: Employee = props.route.params.employee;
+
   const toggleShowPassword = () => {
     setShowPassword(!showPassword);
-  };
-
-  const login = () => props.navigation.navigate("Login");
-
-  const handleChangePassword = () => {
-    if (password === confirmPassword) {
-      // Passwords match, update the password in the JSON file
-      const updatedUsers = loginData.users.map(u =>
-        u.email === user.email ? { ...u, password } : u
-      );
-
-      // Update the JSON file with the new user data
-      loginData.users = updatedUsers;
-
-      Alert.alert('Password Changed', 'Your password has been successfully changed.');
-      login();
-    } else {
-      // Passwords don't match, show an alert
-      Alert.alert('Password Mismatch', 'The entered passwords do not match. Please try again.');
-    }
   };
 
   return (
@@ -83,7 +60,7 @@ const Change_Password = (props: ChangePasswordProps) => {
               {showPassword ? 'Verberg wachtwoord' : 'Toon wachtwoord'}
             </Text>
           </TouchableOpacity>
-          <TouchableOpacity style={before_login.buttons} onPress={handleChangePassword}>
+          <TouchableOpacity style={before_login.buttons} onPress={() => handleChangePassword(password, confirmPassword, props.navigation, employee)}>
             <Text style={{ color: 'white', textAlign: 'center' }}>Verstuur</Text>
           </TouchableOpacity>
           
