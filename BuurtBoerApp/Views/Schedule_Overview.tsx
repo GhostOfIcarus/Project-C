@@ -10,7 +10,7 @@ interface WeekOverviewScreenProps
 
 const WeekOverviewScreen = (props: WeekOverviewScreenProps) => {
 
-  const { user } = props.route.params;
+  const { employee } = props.route.params;
   
   const Schedule_Form = () => props.navigation.navigate("Schedule_Form")
   const Settings = () => props.navigation.navigate("Settings")
@@ -42,7 +42,7 @@ const WeekOverviewScreen = (props: WeekOverviewScreenProps) => {
           <View style={basestyles.centered_text_div}>
               <Text style={basestyles.centered_text_black}>U heeft uw Rooster voor deze week nog niet ingevuld.</Text>
               <Text style={basestyles.centered_text_black}>
-                Ingelogd als: {user.email}
+                Ingelogd als: {employee.email}
               </Text>
           </View>
 

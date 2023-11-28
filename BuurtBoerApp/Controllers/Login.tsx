@@ -1,17 +1,13 @@
+import Employee from './../Models/Employee';
 import loginData from './../Models/loginData.json';
 import { Alert } from 'react-native';
 
-interface User {
-  email: string;
-  password: string;
-}
-
 export const handleLogin = (email: string, password: string, navigation: any) => {
-  const user = loginData.users.find((u: User) => u.email === email && u.password === password);
+  const employee = loginData.users.find((u: Employee) => u.email === email && u.password === password);
 
-  if (user) {
+  if (employee) {
     // Successful login, navigate to the next page
-    navigation.navigate("Schedule", { user });
+    navigation.navigate("Schedule", { employee: new Employee(employee.email, employee.password) });
   } else {
     // Invalid login, show an alert
     Alert.alert('Invalid Credentials', 'Please check your email and password.');
