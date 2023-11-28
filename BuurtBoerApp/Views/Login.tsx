@@ -1,16 +1,7 @@
 import React, { useState } from 'react';
-import { View, TextInput, Image, Text, TouchableOpacity, KeyboardAvoidingView, ScrollView, Alert } from 'react-native';
+import { View, TextInput, Image, Text, TouchableOpacity, KeyboardAvoidingView, ScrollView } from 'react-native';
 import { before_login } from './css/before_login';
-import loginData from './../Models/loginData.json';
-
-interface LoginScreenProps {
-  navigation: any;
-}
-
-interface User {
-  email: string;
-  password: string;
-}
+import { handleLogin } from './../Controllers/Login';
 
 interface LoginScreenProps {
   navigation: any;
@@ -34,18 +25,6 @@ const LoginScreen = (props: LoginScreenProps) => {
     setShowPassword(!showPassword);
   };
 
-  const handleLogin = () => {
-    const user = loginData.users.find((u: User) => u.email === email && u.password === password);
-
-    if (user) {
-      // Successful login, navigate to the next page
-      props.navigation.navigate("Schedule", { user });
-    } else {
-      // Invalid login, show an alert
-      Alert.alert('Invalid Credentials', 'Please check your email and password.');
-    }
-  };
-  
   const Schedule = () => props.navigation.navigate("Schedule")
 
   const Create_Account = () => props.navigation.navigate("CreateAccount")
@@ -87,7 +66,8 @@ const LoginScreen = (props: LoginScreenProps) => {
               </Text>
             </TouchableOpacity>
           </View>
-          <TouchableOpacity style={before_login.buttons} onPress={handleLogin}>
+
+          <TouchableOpacity style={before_login.buttons} onPress={() => handleLogin(email, password, props.navigation)}>
             <Text style={{ color: 'white', textAlign: 'center' }}>Login</Text>
           </TouchableOpacity>
           <View style={before_login.centered_text}>
