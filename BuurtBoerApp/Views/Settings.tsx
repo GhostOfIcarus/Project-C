@@ -100,7 +100,7 @@ const SettingsScreen = (props: SettingsProps) => {
             <Text style={{ color: 'white', textAlign: 'center' }}>{t('changePassword')}</Text>
           </TouchableOpacity>
 
-          <TouchableOpacity style={basestyles.button} onPress={Change_Password}>
+          <TouchableOpacity style={basestyles.button} onPress={Login}>
             <Text style={{ color: 'white', textAlign: 'center' }}>{t('logout')}</Text>
           </TouchableOpacity>
 
