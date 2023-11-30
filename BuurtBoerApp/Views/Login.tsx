@@ -1,15 +1,32 @@
-import React, { useState } from 'react';
-import { View, TextInput, Image, Text, TouchableOpacity, KeyboardAvoidingView, ScrollView } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { Switch, View, TextInput, Image, Text, TouchableOpacity, KeyboardAvoidingView, ScrollView } from 'react-native';
 import { before_login } from './css/before_login';
 import { handleLogin } from './../Controllers/Login';
 import { useTranslation } from 'react-i18next';
 import i18next from './../Controllers/i18next';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 interface LoginScreenProps {
   navigation: any;
 }
 
 const LoginScreen = (props: LoginScreenProps) => {
+
+  useEffect(() => {
+    const checkLoggedIn = async () => {
+      const user = await AsyncStorage.getItem('user');
+
+      if (user) {
+        const employee = JSON.parse(user);
+        props.navigation.reset({
+          index: 0,
+          routes: [{ name: 'Schedule', params: { employee } }],
+        });
+      }
+    };
+
+    checkLoggedIn();
+  }, []);
 
   const { t } = useTranslation();
 
@@ -25,6 +42,7 @@ const LoginScreen = (props: LoginScreenProps) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
+  const [rememberMe, setRememberMe] = useState(false);
 
   const handleEmailChange = (text: string) => {
     setEmail(text);
@@ -82,7 +100,15 @@ const LoginScreen = (props: LoginScreenProps) => {
               </Text>
             </TouchableOpacity>
           </View>
-          <TouchableOpacity style={before_login.buttons} onPress={() => handleLogin(email, password, props.navigation)}>
+          <View style={before_login.rememberMeRow}>
+            <Text style={{marginVertical: 10, marginHorizontal: 5, justifyContent: 'flex-start' }}>{t('rememberMe')}</Text>
+            <Switch
+              style={{justifyContent: 'flex-start'}}
+              value={rememberMe}
+              onValueChange={setRememberMe}
+            />
+          </View>
+          <TouchableOpacity style={before_login.buttons} onPress={() => handleLogin(email, password, props.navigation, rememberMe)}>
             <Text style={{ color: 'white', textAlign: 'center' }}>{t('login')}</Text>
           </TouchableOpacity>
           <View style={before_login.centered_text}>

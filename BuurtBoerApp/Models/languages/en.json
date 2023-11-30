@@ -36,5 +36,6 @@
     "lastName": "Last Name",
     "company": "Company",
     "notifications": "Notifications",
+    "rememberMe": "Remember Me",
     "logout": "Logout"
   }
