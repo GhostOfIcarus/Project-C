@@ -1,0 +1,16 @@
+{
+  "files": {
+    "main.css": "/static/css/main.a0d9d18a.css",
+    "main.js": "/static/js/main.aaebf97a.js",
+    "static/js/787.a889a0ac.chunk.js": "/static/js/787.a889a0ac.chunk.js",
+    "static/media/buurtboer_logo.png": "/static/media/buurtboer_logo.d496a1d7dccd75463211.png",
+    "index.html": "/index.html",
+    "main.a0d9d18a.css.map": "/static/css/main.a0d9d18a.css.map",
+    "main.aaebf97a.js.map": "/static/js/main.aaebf97a.js.map",
+    "787.a889a0ac.chunk.js.map": "/static/js/787.a889a0ac.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.a0d9d18a.css",
+    "static/js/main.aaebf97a.js"
+  ]
+}
