@@ -5,8 +5,12 @@ const { width, height } = Dimensions.get('window');
 
 export const before_login = StyleSheet.create({
 
+    test: {
+      height: Dimensions.get('window').height * 0.9766,
+    },
+
     container: {
-      height: Dimensions.get('window').height * 0.9666,
+      height: Dimensions.get('window').height * 0.9766,
       justifyContent: 'center',
       padding: 16,
       backgroundColor: '#D9D9D9',

@@ -45,8 +45,9 @@ const LoginScreen = (props: LoginScreenProps) => {
   const ForgotPassword = () => props.navigation.navigate("ForgotPassword")
 
   return (
-    <KeyboardAvoidingView>
-      <ScrollView contentContainerStyle={before_login.container}>
+    <ScrollView contentContainerStyle={before_login.test}>
+    <KeyboardAvoidingView style={before_login.container}>
+      
         <View style={before_login.content_div}>
           
           <View style={before_login.img_div}>
@@ -111,8 +112,9 @@ const LoginScreen = (props: LoginScreenProps) => {
             </View>
           </View>
         </View>
+        </KeyboardAvoidingView>
       </ScrollView>
-    </KeyboardAvoidingView>
+    
   );
 };
 
