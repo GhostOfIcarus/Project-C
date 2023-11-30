@@ -13,10 +13,10 @@ const LoginScreen = (props: LoginScreenProps) => {
 
   const { t } = useTranslation();
 
-  const [language, setLanguage] = useState('en');
+  const [language, setLanguage] = useState('nl');
 
   const toggleLanguage = () => {
-    const newLanguage = language === 'nl' ? 'nl' : 'en';
+    const newLanguage = language === 'en' ? 'nl' : 'en';
     setLanguage(newLanguage);
     i18next.changeLanguage(newLanguage);
   };

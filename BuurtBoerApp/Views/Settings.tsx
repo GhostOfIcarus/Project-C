@@ -12,10 +12,10 @@ interface SettingsProps {
 const SettingsScreen = (props: SettingsProps) => {
   const { t } = useTranslation();
 
-  const [language, setLanguage] = useState('en');
+  const [language, setLanguage] = useState('nl');
 
   const toggleLanguage = () => {
-    const newLanguage = language === 'nl' ? 'nl' : 'en';
+    const newLanguage = language === 'en' ? 'nl' : 'en';
     setLanguage(newLanguage);
     i18next.changeLanguage(newLanguage);
   };
@@ -100,7 +100,7 @@ const SettingsScreen = (props: SettingsProps) => {
             <Text style={{ color: 'white', textAlign: 'center' }}>{t('changePassword')}</Text>
           </TouchableOpacity>
 
-          <TouchableOpacity style={basestyles.button} onPress={Login}>
+          <TouchableOpacity style={basestyles.button} onPress={Change_Password}>
             <Text style={{ color: 'white', textAlign: 'center' }}>{t('logout')}</Text>
           </TouchableOpacity>
 
