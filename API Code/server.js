@@ -9,12 +9,16 @@ const app = express();
 app.use(express.json());
 
 // Middleware to handle CORS 
-// app.use(function (req, res, next) {
-// 	res.setHeader('Access-Control-Allow-Origin', 'http://145.24.222.36');
-// 	res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
-// 	res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Access-Control-Allow-Headers');
-// 	next();
-// });
+app.use(function (req, res, next) {
+	const allowedOrigins = ['http://localhost:3000'];
+	const origin = req.headers.origin;
+	if (allowedOrigins.includes(origin)) {
+		res.setHeader('Access-Control-Allow-Origin', origin);
+	  }
+	res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+	res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Access-Control-Allow-Headers');
+	next();
+});
 
 
 // API endpoints to fetch data
@@ -47,3 +51,13 @@ app.post('/api/employee/login', async (req, res) => {
 app.listen(port, () => {
 	console.log(`Server running on port: ${port}.`);
 });
+
+// Close the database connection when the Node process ends
+process.on('exit', (code) => {
+	pool.end(err => {
+	  if (err) {
+		console.error('Failed to close the pool:', err);
+	  }
+	  console.log(`About to exit with code: ${code}`);
+	});
+  });
