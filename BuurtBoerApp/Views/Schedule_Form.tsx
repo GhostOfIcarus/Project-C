@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { View, Switch, Image, Text, TouchableOpacity, ScrollView } from 'react-native';
 import { basestyles } from './css/styles';
 import CheckBox from '@react-native-community/checkbox';
+import { useTranslation } from 'react-i18next';
 
 interface WeekOverviewFormProps 
 {
@@ -13,7 +14,7 @@ let buttonText = 'Indienen';
 let isDisabled = false;
 
 const WeekOverviewForm = (props: WeekOverviewFormProps) => {
-
+  const { t } = useTranslation();
   const Schedule_Form_Inactive = () => props.navigation.navigate("Schedule_Form_Inac") 
   const Settings = () => props.navigation.navigate("Settings")
 
@@ -62,7 +63,7 @@ const WeekOverviewForm = (props: WeekOverviewFormProps) => {
         </View>
 
         <View style={basestyles.nav_bar_title_div}>
-            <Text style={basestyles.nav_bar_title}>Rooster overzicht</Text>
+            <Text style={basestyles.nav_bar_title}>{t('scheduleOverviewHeader')}</Text>
         </View>
 
         <View style={basestyles.nav_bar_settings_div}>
@@ -76,7 +77,7 @@ const WeekOverviewForm = (props: WeekOverviewFormProps) => {
         <View style={basestyles.schedule_div_form}>
             
             <View style={basestyles.schedule_week_div}>
-              <Text style={basestyles.centered_text_white}>{"\n"}Week{"\n"}43{"\n"}</Text>
+              <Text style={basestyles.centered_text_white}>{"\n"}{t('week')}{"\n"}43{"\n"}</Text>
             </View>
             
             {/* Monday */}
@@ -87,7 +88,7 @@ const WeekOverviewForm = (props: WeekOverviewFormProps) => {
                 onValueChange={(newValue) => setMonday(newValue)}
                 tintColors={{ true: '#099F91', false: 'black' }}
               />
-                <Text style={basestyles.centered_text_black}>Maandag</Text>
+                <Text style={basestyles.centered_text_black}>{t('monday')}</Text>
             </View>
 
             {/* Tuesday */}
@@ -98,7 +99,7 @@ const WeekOverviewForm = (props: WeekOverviewFormProps) => {
                     onValueChange={(newValue) => setTuesday(newValue)}
                     tintColors={{ true: '#099F91', false: 'black' }}
                 />
-                <Text style={basestyles.centered_text_black}>Dinsdag</Text>
+                <Text style={basestyles.centered_text_black}>{t('tuesday')}</Text>
             </View>
 
             {/* Wednesday */}
@@ -109,7 +110,7 @@ const WeekOverviewForm = (props: WeekOverviewFormProps) => {
                     onValueChange={(newValue) => setWednesday(newValue)}
                     tintColors={{ true: '#099F91', false: 'black' }}
                 />
-                <Text style={basestyles.centered_text_black}>Woensdag</Text>
+                <Text style={basestyles.centered_text_black}>{t('wednesday')}</Text>
             </View>
 
             {/* Thursday */}
@@ -120,7 +121,7 @@ const WeekOverviewForm = (props: WeekOverviewFormProps) => {
                     onValueChange={(newValue) => setThursday(newValue)}
                     tintColors={{ true: '#099F91', false: 'black' }}
                 />
-                <Text style={basestyles.centered_text_black}>Donderdag</Text>
+                <Text style={basestyles.centered_text_black}>{t('thursday')}</Text>
             </View>
 
             {/* Friday */}
@@ -131,7 +132,7 @@ const WeekOverviewForm = (props: WeekOverviewFormProps) => {
                     onValueChange={(newValue) => setFriday(newValue)}
                     tintColors={{ true: '#099F91', false: 'black' }}
                 />
-                <Text style={basestyles.centered_text_black}>Vrijdag</Text>
+                <Text style={basestyles.centered_text_black}>{t('friday')}</Text>
             </View>
 
             {/* Saturday */}
@@ -142,7 +143,7 @@ const WeekOverviewForm = (props: WeekOverviewFormProps) => {
                     onValueChange={(newValue) => setSaturday(newValue)}
                     tintColors={{ true: '#099F91', false: 'black' }}
                 />
-                <Text style={basestyles.centered_text_black}>Zaterdag</Text>
+                <Text style={basestyles.centered_text_black}>{t('saturday')}</Text>
             </View>
 
             {/* Sunday */}
@@ -153,12 +154,12 @@ const WeekOverviewForm = (props: WeekOverviewFormProps) => {
                     onValueChange={(newValue) => setSunday(newValue)}
                     tintColors={{ true: '#099F91', false: 'black' }}
                 />
-                <Text style={basestyles.centered_text_black}>Zondag</Text>
+                <Text style={basestyles.centered_text_black}>{t('sunday')}</Text>
             </View>
 
             {/* Keep schedule switch */}
             <View style={basestyles.switch_right_text_div}>
-              <Text style={basestyles.centered_text_small}>Onthoud Rooster</Text>
+              <Text style={basestyles.centered_text_small}>{t('rememberSchedule')}</Text>
               <Switch
                 onValueChange={previousState => setSchedule(previousState)}
                 value={isSchedule}
@@ -167,7 +168,7 @@ const WeekOverviewForm = (props: WeekOverviewFormProps) => {
             </View>
 
           <TouchableOpacity style={basestyles.button} onPress={Schedule_Form_Inactive}>
-            <Text style={{ color: 'white', textAlign: 'center' }}>{buttonText}</Text>
+            <Text style={{ color: 'white', textAlign: 'center' }}>{t('submit')}</Text>
           </TouchableOpacity>
           
         </View>

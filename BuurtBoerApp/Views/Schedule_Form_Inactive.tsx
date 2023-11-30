@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { View, Switch, StyleSheet, Image, Text, TouchableOpacity, ScrollView, Dimensions } from 'react-native';
 import CheckBox from '@react-native-community/checkbox';
 import { basestyles } from './css/styles';
+import { useTranslation } from 'react-i18next';
 
 interface WeekOverviewFormInactProps {
   navigation: any;
@@ -11,7 +12,7 @@ interface WeekOverviewFormInactProps {
 const { width, height } = Dimensions.get('window');
 
 const WeekOverviewFormInact = (props: WeekOverviewFormInactProps) => {
-
+  const { t } = useTranslation();
   const Schedule_Form = () => props.navigation.navigate("Schedule_Form") 
   
   const [isSchedule, setSchedule] = useState(false);
@@ -36,7 +37,7 @@ const WeekOverviewFormInact = (props: WeekOverviewFormInactProps) => {
 
           <View style={basestyles.nav_bar_title_div}>
             <View style={styles.centered_text_square}>
-              <Text style={basestyles.nav_bar_text}>Rooster overzicht</Text>
+              <Text style={basestyles.nav_bar_text}>{t('scheduleOverviewHeader')}</Text>
             </View>
           </View>
       </View>
@@ -45,7 +46,7 @@ const WeekOverviewFormInact = (props: WeekOverviewFormInactProps) => {
         <View style={styles.schedule_div}>
             
             <View style={styles.week_div}>
-              <Text style={styles.centered_text_white}>{"\n"}Week{"\n"}43{"\n"}</Text>
+              <Text style={styles.centered_text_white}>{"\n"}{t('week')}{"\n"}43{"\n"}</Text>
             </View>
             
             {/* Monday */}
@@ -55,7 +56,7 @@ const WeekOverviewFormInact = (props: WeekOverviewFormInactProps) => {
                     value={isMonday}
                     onValueChange={(newValue) => setMonday(newValue)}
                 />
-                <Text style={styles.centered_text}>Maandag</Text>
+                <Text style={styles.centered_text}>{t('monday')}</Text>
             </View>
 
             {/* Tuesday */}
@@ -65,7 +66,7 @@ const WeekOverviewFormInact = (props: WeekOverviewFormInactProps) => {
                     value={isTuesday}
                     onValueChange={(newValue) => setTuesday(newValue)}
                 />
-                <Text style={styles.centered_text}>Dinsdag</Text>
+                <Text style={styles.centered_text}>{t('tuesday')}</Text>
             </View>
 
             {/* Wednesday */}
@@ -75,7 +76,7 @@ const WeekOverviewFormInact = (props: WeekOverviewFormInactProps) => {
                     value={isWednesday}
                     onValueChange={(newValue) => setWednesday(newValue)}
                 />
-                <Text style={styles.centered_text}>Woensdag</Text>
+                <Text style={styles.centered_text}>{t('wednesday')}</Text>
             </View>
 
             {/* Thursday */}
@@ -85,7 +86,7 @@ const WeekOverviewFormInact = (props: WeekOverviewFormInactProps) => {
                     value={isThursday}
                     onValueChange={(newValue) => setThursday(newValue)}
                 />
-                <Text style={styles.centered_text}>Donderdag</Text>
+                <Text style={styles.centered_text}>{t('thursday')}</Text>
             </View>
 
             {/* Friday */}
@@ -95,7 +96,7 @@ const WeekOverviewFormInact = (props: WeekOverviewFormInactProps) => {
                     value={isFriday}
                     onValueChange={(newValue) => setFriday(newValue)}
                 />
-                <Text style={styles.centered_text}>Vrijdag</Text>
+                <Text style={styles.centered_text}>{t('friday')}</Text>
             </View>
 
             {/* Saturday */}
@@ -105,7 +106,7 @@ const WeekOverviewFormInact = (props: WeekOverviewFormInactProps) => {
                     value={isSaturday}
                     onValueChange={(newValue) => setSaturday(newValue)}
                 />
-                <Text style={styles.centered_text}>Zaterdag</Text>
+                <Text style={styles.centered_text}>{t('saturday')}</Text>
             </View>
 
             {/* Sunday */}
@@ -115,11 +116,11 @@ const WeekOverviewFormInact = (props: WeekOverviewFormInactProps) => {
                     value={isSunday}
                     onValueChange={(newValue) => setSunday(newValue)}
                 />
-                <Text style={styles.centered_text}>Zondag</Text>
+                <Text style={styles.centered_text}>{t('sunday')}</Text>
             </View>
 
             <View style={styles.switch_text_div}>
-              <Text style={styles.centered_text_smol}>Onthoud Rooster</Text>
+              <Text style={styles.centered_text_smol}>{t('rememberSchedule')}</Text>
               <Switch
                 onValueChange={previousState => setSchedule(previousState)}
                 value={isSchedule}
@@ -127,7 +128,7 @@ const WeekOverviewFormInact = (props: WeekOverviewFormInactProps) => {
             </View>
 
           <TouchableOpacity style={styles.buttons} onPress={Schedule_Form}>
-            <Text style={{ color: 'white', textAlign: 'center' }}>Bewerken</Text>
+            <Text style={{ color: 'white', textAlign: 'center' }}>{t('change')}</Text>
           </TouchableOpacity>
         </View>
       </View>

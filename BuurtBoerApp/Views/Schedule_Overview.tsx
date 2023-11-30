@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Image, Text, TouchableOpacity, ScrollView } from 'react-native';
 import { basestyles } from './css/styles';
+import { useTranslation } from 'react-i18next';
 
 interface WeekOverviewScreenProps
 {
@@ -11,7 +12,7 @@ interface WeekOverviewScreenProps
 const WeekOverviewScreen = (props: WeekOverviewScreenProps) => {
 
   const { employee } = props.route.params;
-  
+  const { t } = useTranslation();
   const Schedule_Form = () => props.navigation.navigate("Schedule_Form")
   const Settings = () => props.navigation.navigate("Settings")
 
@@ -27,7 +28,7 @@ const WeekOverviewScreen = (props: WeekOverviewScreenProps) => {
           </View>
 
           <View style={basestyles.nav_bar_title_div}>
-              <Text style={basestyles.nav_bar_title}>Rooster overzicht</Text>
+              <Text style={basestyles.nav_bar_title}>{t('scheduleOverviewHeader')}</Text>
           </View>
 
           <View style={basestyles.nav_bar_settings_div}>
@@ -40,14 +41,14 @@ const WeekOverviewScreen = (props: WeekOverviewScreenProps) => {
       <View style={basestyles.schedule_padding}>
         <View style={basestyles.schedule_div_overview}>
           <View style={basestyles.centered_text_div}>
-              <Text style={basestyles.centered_text_black}>U heeft uw Rooster voor deze week nog niet ingevuld.</Text>
+              <Text style={basestyles.centered_text_black}>{t('scheduleNotFilled')}</Text>
               <Text style={basestyles.centered_text_black}>
-                Ingelogd als: {employee.email}
+              {t('loggedInAs')} {employee.email}
               </Text>
           </View>
 
           <TouchableOpacity style={basestyles.button} onPress={Schedule_Form}>
-            <Text style={{ color: 'white', textAlign: 'center' }}>Vul Rooster in</Text>
+            <Text style={{ color: 'white', textAlign: 'center' }}>{t('fillSchedule')}</Text>
           </TouchableOpacity>
         </View>
       </View>

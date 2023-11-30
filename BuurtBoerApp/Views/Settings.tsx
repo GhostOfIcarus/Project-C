@@ -2,12 +2,20 @@
 import React, { useState } from 'react';
 import { View, Image, Text, TouchableOpacity, ScrollView, Switch } from 'react-native';
 import { basestyles } from './css/styles';
+import { useTranslation } from 'react-i18next';
+import i18next from './../Controllers/i18next';
+
 interface SettingsProps {
   navigation: any;
 }
 
 const SettingsScreen = (props: SettingsProps) => {
-  
+  const { t } = useTranslation();
+
+  const switchLanguage = (lng: string) => {
+    i18next.changeLanguage(lng);
+  };
+
   const Schedule_Form = () => props.navigation.navigate("Schedule_Form")
   const Change_Password = () => props.navigation.navigate("Change_Password") 
 
@@ -25,7 +33,7 @@ const SettingsScreen = (props: SettingsProps) => {
         </View>
 
         <View style={basestyles.nav_bar_title_div}>
-            <Text style={basestyles.nav_bar_title}>Instellingen</Text>
+            <Text style={basestyles.nav_bar_title}>{t('settingsHeader')}</Text>
         </View>
 
         <View style={basestyles.nav_bar_settings_div}>
@@ -39,24 +47,24 @@ const SettingsScreen = (props: SettingsProps) => {
         <View style={basestyles.settings_div}>
 
           <View style={basestyles.left_aligned_text_div}>
-              <Text style={basestyles.text_black}>Naam: ...</Text>
+              <Text style={basestyles.text_black}>{t('name')}: ...</Text>
           </View>
 
           <View style={basestyles.left_aligned_text_div}>
-              <Text style={basestyles.text_black}>Achternaam: ...</Text>
+              <Text style={basestyles.text_black}>{t('lastName')}: ...</Text>
           </View>
 
           <View style={basestyles.left_aligned_text_div}>
-              <Text style={basestyles.text_black}>Bedrijf: ...</Text>
+              <Text style={basestyles.text_black}>{t('company')}: ...</Text>
           </View>
 
           <View style={basestyles.left_aligned_text_div}>
-              <Text style={basestyles.text_black}>Email: ...</Text>
+              <Text style={basestyles.text_black}>{t('email')}: ...</Text>
           </View>
 
           <View style={basestyles.switch_left_text_div}>
 
-            <Text style={basestyles.text_black}>Notificaties  </Text>
+            <Text style={basestyles.text_black}>{t('notifications')}  </Text>
 
             <Switch
               onValueChange={previousState => setNotif(previousState)}
@@ -66,12 +74,21 @@ const SettingsScreen = (props: SettingsProps) => {
             
           </View>
 
+          <View style={basestyles.left_aligned_text_div}>
+            <TouchableOpacity onPress={() => switchLanguage('en')}>
+              <Text>Switch to English</Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => switchLanguage('nl')}>
+              <Text>Switch to Dutch</Text>
+            </TouchableOpacity>
+          </View>
+
           <TouchableOpacity style={basestyles.button} onPress={Change_Password}>
-            <Text style={{ color: 'white', textAlign: 'center' }}>Verander Wachtwoord</Text>
+            <Text style={{ color: 'white', textAlign: 'center' }}>{t('changePassword')}</Text>
           </TouchableOpacity>
 
           <TouchableOpacity style={basestyles.button} onPress={Change_Password}>
-            <Text style={{ color: 'white', textAlign: 'center' }}>Log uit</Text>
+            <Text style={{ color: 'white', textAlign: 'center' }}>{t('logout')}</Text>
           </TouchableOpacity>
 
         </View>

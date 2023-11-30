@@ -2,12 +2,21 @@ import React, { useState } from 'react';
 import { View, TextInput, Image, Text, TouchableOpacity, KeyboardAvoidingView, ScrollView } from 'react-native';
 import { before_login } from './css/before_login';
 import { handleLogin } from './../Controllers/Login';
+import { useTranslation } from 'react-i18next';
+import i18next from './../Controllers/i18next';
 
 interface LoginScreenProps {
   navigation: any;
 }
 
 const LoginScreen = (props: LoginScreenProps) => {
+
+  const { t } = useTranslation();
+
+  const switchLanguage = (lng: string) => {
+    i18next.changeLanguage(lng);
+  };
+
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -34,6 +43,12 @@ const LoginScreen = (props: LoginScreenProps) => {
   return (
     <KeyboardAvoidingView>
       <ScrollView contentContainerStyle={before_login.container}>
+        <TouchableOpacity onPress={() => switchLanguage('en')}>
+            <Text>Switch to English</Text>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => switchLanguage('nl')}>
+            <Text>Switch to Dutch</Text>
+          </TouchableOpacity>
         <View style={before_login.content_div}>
           <View style={before_login.img_div}>
             <Image
@@ -43,13 +58,14 @@ const LoginScreen = (props: LoginScreenProps) => {
           </View>
 
           <TextInput
-            placeholder="E-mail"
+            placeholder={t('email')}
             style={before_login.input}
             onChangeText={handleEmailChange}
             placeholderTextColor="#979797"
+            value={email}
           />
           <TextInput
-            placeholder="Wachtwoord"
+            placeholder={t('password')}
             style={before_login.input}
             secureTextEntry={!showPassword}
             onChangeText={handlePasswordChange}
@@ -58,27 +74,26 @@ const LoginScreen = (props: LoginScreenProps) => {
           />
           <View style={before_login.forgotPasswordRow}>
             <TouchableOpacity onPress={ForgotPassword}>
-              <Text style={{ color: '#099F91', marginVertical: 10, marginHorizontal: 5 }}>Wachtwoord vergeten?</Text>
+              <Text style={{ color: '#099F91', marginVertical: 10, marginHorizontal: 5 }}>{t('forgotPassword')}</Text>
             </TouchableOpacity>
             <TouchableOpacity onPress={toggleShowPassword}>
               <Text style={{ color: '#099F91', marginVertical: 10, marginHorizontal: 5 }}>
-                {showPassword ? 'Verberg wachtwoord' : 'Toon wachtwoord'}
+                {showPassword ? t('hidePassword') : t('showPassword')}
               </Text>
             </TouchableOpacity>
           </View>
-
           <TouchableOpacity style={before_login.buttons} onPress={() => handleLogin(email, password, props.navigation)}>
-            <Text style={{ color: 'white', textAlign: 'center' }}>Login</Text>
+            <Text style={{ color: 'white', textAlign: 'center' }}>{t('login')}</Text>
           </TouchableOpacity>
           <View style={before_login.centered_text}>
-            <Text style={{ color: 'black' }}>OF</Text>
+            <Text style={{ color: 'black' }}>{t('or')}</Text>
           </View>
 
           <TouchableOpacity style={before_login.buttons} onPress={Schedule}>
-            <Text style={{ color: 'white', textAlign: 'center' }}>Login met Google</Text>
+            <Text style={{ color: 'white', textAlign: 'center' }}>{t('google')}</Text>
           </TouchableOpacity>
           <TouchableOpacity style={before_login.buttons} onPress={Create_Account}>
-            <Text style={{ color: 'white', textAlign: 'center' }}>Login met Microsoft</Text>
+            <Text style={{ color: 'white', textAlign: 'center' }}>{t('microsoft')}</Text>
           </TouchableOpacity>
         </View>
       </ScrollView>
