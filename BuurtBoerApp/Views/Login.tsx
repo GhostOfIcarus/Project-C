@@ -13,8 +13,12 @@ const LoginScreen = (props: LoginScreenProps) => {
 
   const { t } = useTranslation();
 
-  const switchLanguage = (lng: string) => {
-    i18next.changeLanguage(lng);
+  const [language, setLanguage] = useState('en');
+
+  const toggleLanguage = () => {
+    const newLanguage = language === 'en' ? 'nl' : 'en';
+    setLanguage(newLanguage);
+    i18next.changeLanguage(newLanguage);
   };
 
 
@@ -43,13 +47,8 @@ const LoginScreen = (props: LoginScreenProps) => {
   return (
     <KeyboardAvoidingView>
       <ScrollView contentContainerStyle={before_login.container}>
-          <TouchableOpacity onPress={() => switchLanguage('en')}>
-            <Text>Switch to English</Text>
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => switchLanguage('nl')}>
-            <Text>Switch to Dutch</Text>
-          </TouchableOpacity>
         <View style={before_login.content_div}>
+          
           <View style={before_login.img_div}>
             <Image
               source={require('./img/buurtboer_logo.png')}
@@ -95,6 +94,22 @@ const LoginScreen = (props: LoginScreenProps) => {
           <TouchableOpacity style={before_login.buttons} onPress={Create_Account}>
             <Text style={{ color: 'white', textAlign: 'center' }}>{t('microsoft')}</Text>
           </TouchableOpacity>
+          <View style={before_login.flags_div}>
+            <View style={before_login.flags}>
+              <TouchableOpacity onPress={toggleLanguage} disabled={language === 'en'}>
+                <Image 
+                  style={language === 'en' ? before_login.inactiveFlag : before_login.activeFlag} 
+                  source={require('./img/en_flag.png')} 
+                />
+              </TouchableOpacity>
+              <TouchableOpacity onPress={toggleLanguage} disabled={language === 'nl'}>
+                <Image 
+                  style={language === 'nl' ? before_login.inactiveFlag : before_login.activeFlag} 
+                  source={require('./img/nl_flag.png')} 
+                />
+              </TouchableOpacity>
+            </View>
+          </View>
         </View>
       </ScrollView>
     </KeyboardAvoidingView>

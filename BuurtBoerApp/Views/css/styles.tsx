@@ -193,4 +193,27 @@ export const basestyles = StyleSheet.create({
         shadowColor: 'black',
         shadowRadius: 10,
     },
+    //Flags
+    flags_div: {
+        flexDirection: 'row',
+        justifyContent: 'flex-start',
+        width: '100%',
+        marginTop: '4%',
+    },
+    flags: {
+        flexDirection: 'row',
+        justifyContent: 'flex-start',
+        width: '100%',
+    },
+    activeFlag: {
+        width: 30,
+        height: 30,
+        marginHorizontal: '2%',
+    },
+    inactiveFlag: {
+        width: 30,
+        height: 30,
+        opacity: 0.5,
+        marginHorizontal: '2%',
+    }
 });

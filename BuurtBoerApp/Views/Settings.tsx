@@ -12,12 +12,17 @@ interface SettingsProps {
 const SettingsScreen = (props: SettingsProps) => {
   const { t } = useTranslation();
 
-  const switchLanguage = (lng: string) => {
-    i18next.changeLanguage(lng);
+  const [language, setLanguage] = useState('en');
+
+  const toggleLanguage = () => {
+    const newLanguage = language === 'en' ? 'nl' : 'en';
+    setLanguage(newLanguage);
+    i18next.changeLanguage(newLanguage);
   };
 
   const Schedule_Form = () => props.navigation.navigate("Schedule_Form")
   const Change_Password = () => props.navigation.navigate("Change_Password") 
+  const Login = () => props.navigation.navigate("Login")
 
   const [isNotif, setNotif] = useState(false);
 
@@ -75,19 +80,27 @@ const SettingsScreen = (props: SettingsProps) => {
           </View>
 
           <View style={basestyles.left_aligned_text_div}>
-            <TouchableOpacity onPress={() => switchLanguage('en')}>
-              <Text>Switch to English</Text>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={() => switchLanguage('nl')}>
-              <Text>Switch to Dutch</Text>
-            </TouchableOpacity>
+            <View style={basestyles.flags}>
+              <TouchableOpacity onPress={toggleLanguage} disabled={language === 'en'}>
+                <Image 
+                  style={language === 'en' ? basestyles.inactiveFlag : basestyles.activeFlag} 
+                  source={require('./img/en_flag.png')} 
+                />
+              </TouchableOpacity>
+              <TouchableOpacity onPress={toggleLanguage} disabled={language === 'nl'}>
+                <Image 
+                  style={language === 'nl' ? basestyles.inactiveFlag : basestyles.activeFlag} 
+                  source={require('./img/nl_flag.png')} 
+                />
+              </TouchableOpacity>
+            </View>
           </View>
 
           <TouchableOpacity style={basestyles.button} onPress={Change_Password}>
             <Text style={{ color: 'white', textAlign: 'center' }}>{t('changePassword')}</Text>
           </TouchableOpacity>
 
-          <TouchableOpacity style={basestyles.button} onPress={Change_Password}>
+          <TouchableOpacity style={basestyles.button} onPress={Login}>
             <Text style={{ color: 'white', textAlign: 'center' }}>{t('logout')}</Text>
           </TouchableOpacity>
 
