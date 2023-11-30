@@ -4,6 +4,7 @@ import { View, Image, Text, TouchableOpacity, ScrollView, Switch } from 'react-n
 import { basestyles } from './css/styles';
 import { useTranslation } from 'react-i18next';
 import i18next from './../Controllers/i18next';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 interface SettingsProps {
   navigation: any;
@@ -22,7 +23,16 @@ const SettingsScreen = (props: SettingsProps) => {
 
   const Schedule_Form = () => props.navigation.navigate("Schedule_Form")
   const Change_Password = () => props.navigation.navigate("Change_Password") 
-  const Login = () => props.navigation.navigate("Login")
+  const handleLogout = async () => {
+    // Clear the user's data from AsyncStorage
+    await AsyncStorage.removeItem('user');
+  
+    // Navigate back to the login screen
+    props.navigation.reset({
+      index: 0,
+      routes: [{ name: 'Login' }], // replace 'Login' with the name of your login screen
+    });
+  };
 
   const [isNotif, setNotif] = useState(false);
 
@@ -100,7 +110,7 @@ const SettingsScreen = (props: SettingsProps) => {
             <Text style={{ color: 'white', textAlign: 'center' }}>{t('changePassword')}</Text>
           </TouchableOpacity>
 
-          <TouchableOpacity style={basestyles.button} onPress={Login}>
+          <TouchableOpacity style={basestyles.button} onPress={handleLogout}>
             <Text style={{ color: 'white', textAlign: 'center' }}>{t('logout')}</Text>
           </TouchableOpacity>
 

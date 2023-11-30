@@ -106,6 +106,9 @@ export const before_login = StyleSheet.create({
       height: 30,
       opacity: 0.5,
       marginHorizontal: '2%',
-    }
+    },
+    rememberMeRow: {
+      flexDirection: 'row',
+    },
     
 });

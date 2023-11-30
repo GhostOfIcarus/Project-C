@@ -36,5 +36,6 @@
     "lastName": "Achternaam",
     "company": "Bedrijf",
     "notifications": "Notificaties",
+    "rememberMe": "Onthoud mij",
     "logout": "Log uit"
   }
