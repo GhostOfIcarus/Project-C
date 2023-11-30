@@ -15,7 +15,7 @@ const SettingsScreen = (props: SettingsProps) => {
   const [language, setLanguage] = useState('en');
 
   const toggleLanguage = () => {
-    const newLanguage = language === 'en' ? 'nl' : 'en';
+    const newLanguage = language === 'nl' ? 'nl' : 'en';
     setLanguage(newLanguage);
     i18next.changeLanguage(newLanguage);
   };
