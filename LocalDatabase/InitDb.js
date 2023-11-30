@@ -134,7 +134,7 @@ async function run() {
 
     // After the table is created (or if it already exists),
     // insert the test data
-    await insertTestData();
+    //await insertTestData();
   } catch (error) {
     console.error('Error:', error.message);
   } finally {

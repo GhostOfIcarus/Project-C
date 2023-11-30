@@ -1,49 +1,50 @@
 import { useState, FormEvent } from 'react';
 
-interface User {
-  email: string;
-  password: string;
-}
-
 interface ErrorMessages {
   name: string;
   message: string;
 }
 
-const database: User[] = [
-  {
-    email: 'user1@binky.com',
-    password: 'pass1',
-  }
-];
-
-const errors: { email: string; Pass: string } = {
-  email: 'invalid email',
+const errorMessages: { email: string; Pass: string } = {
+  email: 'email error',
   Pass: 'invalid password',
 };
 
 export function useLoginController() {
-  const [errorMessages, setErrorMessages] = useState<ErrorMessages>({ name: '', message: '' });
+  const [errorMessage, setErrorMessage] = useState<ErrorMessages>({ name: '', message: errorMessages.email });
   const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
 
   const renderErrorMessage = (name: string) =>
-    name === errorMessages.name && <div className='error'>{errorMessages.message}</div>;
+    name === errorMessage.name && <div className='error'>{errorMessage.message}</div>;
 
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     const { Email, Pass } = event.currentTarget.elements as any;
 
-    const userData = database.find((user) => user.email === Email.value);
+    const formData = {
+      email: Email.value,
+      password: Pass.value,
+    };
 
-    if (userData) {
-      if (userData.password !== Pass.value) {
-        setErrorMessages({ name: 'Pass', message: errors.Pass });
-      } else {
-        setIsSubmitted(true);
+    try {
+      const response = await fetch('/api/employee/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: Email.value, password: Pass.value }),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error);
       }
-    } else {
-      setErrorMessages({ name: 'Email', message: errors.email });
+
+      // Handle successful login here (e.g., save user data to state, redirect to another page, etc.)
+      setIsSubmitted(true);
+    } catch (error: unknown) {
+      console.error(error);
+      // Handle failed login here (e.g., show an error message, clear the form, etc.)
+      setErrorMessage({ name: 'Email', message: error instanceof Error ? error.message : 'Unknown error' });
     }
   };
 
