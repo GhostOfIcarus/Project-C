@@ -12,7 +12,7 @@ i18next.use(initReactI18next).init({
   compatibilityJSON: 'v3',
   resources: languageResources,
   lng: 'nl',
-  fallbackLng: 'en',
+  fallbackLng: 'nl',
   interpolation: {
     escapeValue: false,
   },
