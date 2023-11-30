@@ -57,6 +57,8 @@ export const before_login = StyleSheet.create({
     },
     image: {
       backgroundColor: '#099F91',
+      height: Dimensions.get('window').height * 0.3199,
+      width: Dimensions.get('window').height * 0.2666,
     },
     centered_text: {
       justifyContent: 'center',
