@@ -43,7 +43,7 @@ const LoginScreen = (props: LoginScreenProps) => {
   return (
     <KeyboardAvoidingView>
       <ScrollView contentContainerStyle={before_login.container}>
-        <TouchableOpacity onPress={() => switchLanguage('en')}>
+          <TouchableOpacity onPress={() => switchLanguage('en')}>
             <Text>Switch to English</Text>
           </TouchableOpacity>
           <TouchableOpacity onPress={() => switchLanguage('nl')}>
