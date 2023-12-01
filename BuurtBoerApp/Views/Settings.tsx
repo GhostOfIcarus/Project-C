@@ -8,6 +8,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 interface SettingsProps {
   navigation: any;
+  route: any;
 }
 
 const SettingsScreen = (props: SettingsProps) => {
@@ -21,8 +22,10 @@ const SettingsScreen = (props: SettingsProps) => {
     i18next.changeLanguage(newLanguage);
   };
 
-  const Schedule_Form = () => props.navigation.navigate("Schedule_Form")
-  const Change_Password = () => props.navigation.navigate("Change_Password") 
+  const { employee } = props.route.params;
+
+  const Schedule_Form = () => props.navigation.navigate("Schedule_Form",  { employee })
+  const Change_Password = () => props.navigation.navigate("Change_Password", { employee }) 
   const handleLogout = async () => {
     // Clear the user's data from AsyncStorage
     await AsyncStorage.removeItem('user');
@@ -30,7 +33,7 @@ const SettingsScreen = (props: SettingsProps) => {
     // Navigate back to the login screen
     props.navigation.reset({
       index: 0,
-      routes: [{ name: 'Login' }], // replace 'Login' with the name of your login screen
+      routes: [{ name: 'Login' }],
     });
   };
 
@@ -74,7 +77,7 @@ const SettingsScreen = (props: SettingsProps) => {
           </View>
 
           <View style={basestyles.left_aligned_text_div}>
-              <Text style={basestyles.text_black}>{t('email')}: ...</Text>
+              <Text style={basestyles.text_black}>{t('email')}: {employee.email}</Text>
           </View>
 
           <View style={basestyles.switch_left_text_div}>

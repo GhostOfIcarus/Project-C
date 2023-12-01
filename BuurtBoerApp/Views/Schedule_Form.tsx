@@ -1,12 +1,16 @@
-import React, { useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { View, Switch, Image, Text, TouchableOpacity, ScrollView } from 'react-native';
 import { basestyles } from './css/styles';
 import CheckBox from '@react-native-community/checkbox';
 import { useTranslation } from 'react-i18next';
+import { useFocusEffect } from '@react-navigation/native';
+
+import Schedule from './../Models/Schedule'
 
 interface WeekOverviewFormProps 
 {
   navigation: any;
+  route: any;
 }
 
 let isActive = false;
@@ -14,19 +18,37 @@ let buttonText = 'Indienen';
 let isDisabled = false;
 
 const WeekOverviewForm = (props: WeekOverviewFormProps) => {
+  const { employee } = props.route.params;
+
   const { t } = useTranslation();
   const Schedule_Form_Inactive = () => props.navigation.navigate("Schedule_Form_Inac") 
-  const Settings = () => props.navigation.navigate("Settings")
+  const Settings = () => props.navigation.navigate("Settings", { employee })
 
   const [isSchedule, setSchedule] = useState(false);
 
   const [isMonday, setMonday] = useState(false);
   const [isTuesday, setTuesday] = useState(false);
-  const [isWednesday, setWednesday] = useState(false);
+  const [isWednesday, setWednesday] = useState(Schedule.loadSchedule().wednesday);
   const [isThursday, setThursday] = useState(false);
   const [isFriday, setFriday] = useState(false);
   const [isSaturday, setSaturday] = useState(false);
   const [isSunday, setSunday] = useState(false);
+
+  useFocusEffect(
+    useCallback(() => {
+      const loadSchedule = async () => {
+        const sched = Schedule.loadSchedule();
+        setMonday(sched.monday);
+        setTuesday(sched.tuesday);
+        setWednesday(sched.wednesday);
+        setThursday(sched.thursday);
+        setFriday(sched.friday);
+        setSaturday(sched.saturday);
+        setSunday(sched.sunday);
+      };
+    loadSchedule();
+    }, [])
+  );
 
   let changeStatus = (Status: boolean) =>
   {

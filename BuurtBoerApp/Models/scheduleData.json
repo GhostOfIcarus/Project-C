@@ -1,0 +1,14 @@
+{
+    "schedules": [
+      {
+        "week": 43,
+        "monday": true,
+        "tuesday": false,
+        "wednesday": true,
+        "thursday": false,
+        "friday": false,
+        "saturday": false,
+        "sunday": false
+      }
+    ]
+}

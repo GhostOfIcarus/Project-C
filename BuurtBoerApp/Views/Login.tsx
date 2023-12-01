@@ -20,7 +20,7 @@ const LoginScreen = (props: LoginScreenProps) => {
         const employee = JSON.parse(user);
         props.navigation.reset({
           index: 0,
-          routes: [{ name: 'Schedule', params: { employee } }],
+          routes: [{ name: 'Schedule_Form', params: { employee } }],
         });
       }
     };
@@ -56,7 +56,7 @@ const LoginScreen = (props: LoginScreenProps) => {
     setShowPassword(!showPassword);
   };
 
-  const Schedule = () => props.navigation.navigate("Schedule")
+  const Schedule = () => props.navigation.navigate("Schedule_Form")
 
   const Create_Account = () => props.navigation.navigate("CreateAccount")
 

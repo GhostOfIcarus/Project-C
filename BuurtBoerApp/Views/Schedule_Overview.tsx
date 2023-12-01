@@ -13,8 +13,8 @@ const WeekOverviewScreen = (props: WeekOverviewScreenProps) => {
 
   const { employee } = props.route.params;
   const { t } = useTranslation();
-  const Schedule_Form = () => props.navigation.navigate("Schedule_Form")
-  const Settings = () => props.navigation.navigate("Settings")
+  const Schedule_Form = () => props.navigation.navigate("Schedule_Form", { employee })
+  const Settings = () => props.navigation.navigate("Settings", { employee })
 
   return (
     <ScrollView contentContainerStyle={basestyles.container}>
@@ -42,9 +42,7 @@ const WeekOverviewScreen = (props: WeekOverviewScreenProps) => {
         <View style={basestyles.schedule_div_overview}>
           <View style={basestyles.centered_text_div}>
               <Text style={basestyles.centered_text_black}>{t('scheduleNotFilled')}</Text>
-              <Text style={basestyles.centered_text_black}>
-              {t('loggedInAs')} {employee.email}
-              </Text>
+
           </View>
 
           <TouchableOpacity style={basestyles.button} onPress={Schedule_Form}>

@@ -19,7 +19,7 @@ export const handleLogin = async (email: string, password: string, navigation: a
   // Reset the navigation stack
   navigation.reset({
     index: 0,
-    routes: [{ name: 'Schedule', params: { employee } }],
+    routes: [{ name: 'Schedule_Form', params: { employee } }],
   });
 };
 
