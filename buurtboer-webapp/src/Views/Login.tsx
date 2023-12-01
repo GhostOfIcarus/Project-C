@@ -1,6 +1,6 @@
 import { useLoginController } from '../Controllers/LoginController';
-import { Link } from 'react-router-dom';  
-import logo from './img/buurtboer_logo.png'; 
+import { Link } from 'react-router-dom';
+import logo from './img/buurtboer_logo.png';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import styles from './Stylesheets/Login.module.css';
 
@@ -43,3 +43,4 @@ export function Login() {
 }
 
 export default Login;
+
