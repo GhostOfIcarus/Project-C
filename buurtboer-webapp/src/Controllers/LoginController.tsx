@@ -1,4 +1,5 @@
 import { useState, FormEvent } from 'react';
+import axios from 'axios';
 
 interface ErrorMessages {
   name: string;
@@ -17,36 +18,37 @@ export function useLoginController() {
   const renderErrorMessage = (name: string) =>
     name === errorMessage.name && <div className='error'>{errorMessage.message}</div>;
 
-  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
+    const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
 
-    const { Email, Pass } = event.currentTarget.elements as any;
+        const form = event.currentTarget;
+        const email = form.Email.value;
+        const password = form.Pass.value;
 
-    const formData = {
-      email: Email.value,
-      password: Pass.value,
+
+        try {
+            const response = await axios.post('http://localhost:5000/api/employee/login', {
+                email,
+                password
+            }, {
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+
+            console.log(response);
+            console.log(response.data);
+
+            if (response.data.length > 0) {
+                setIsSubmitted(true);
+            }
+        } catch (error) {
+            console.log(error);
+            setErrorMessage({ name: 'email', message: errorMessages.email });
+        }
+
+
     };
-
-    try {
-      const response = await fetch('/api/employee/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email: Email.value, password: Pass.value }),
-      });
-
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.error);
-      }
-
-      // Handle successful login here (e.g., save user data to state, redirect to another page, etc.)
-      setIsSubmitted(true);
-    } catch (error: unknown) {
-      console.error(error);
-      // Handle failed login here (e.g., show an error message, clear the form, etc.)
-      setErrorMessage({ name: 'Email', message: error instanceof Error ? error.message : 'Unknown error' });
-    }
-  };
 
   return { isSubmitted, renderErrorMessage, handleSubmit };
 }
