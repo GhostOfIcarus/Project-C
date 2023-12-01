@@ -10,7 +10,7 @@ app.use(express.json());
 
 // Middleware to handle CORS
 app.use(function (req, res, next) {
-	const allowedOrigins = ['http://localhost:3000', 'http://localhost:8081', 'http://localhost:8081'];
+	const allowedOrigins = ['http://localhost:3000', 'http://localhost:8081'];
 	const origin = req.headers.origin;
 	if (allowedOrigins.includes(origin)) {
 		res.setHeader('Access-Control-Allow-Origin', origin);
