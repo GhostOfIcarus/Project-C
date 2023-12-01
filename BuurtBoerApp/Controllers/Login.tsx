@@ -1,28 +1,12 @@
-import axios from 'axios';
+import Employee from './../Models/Employee';
+import loginData from './../Models/loginData.json';
 import { Alert } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import Employee from './../Models/Employee';
+
+const { getSingleEmployeeData } = require('./../../API Code/API-Functions');
 
 export const handleLogin = async (email: string, password: string, navigation: any, rememberMe: boolean) => {
-  let employee: Employee | null = null;
-
-  try {
-    const response = await axios.post('http://10.0.2.2:5000/api/employee/login', {
-      email,
-      password
-    }, {
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    });
-
-    const employeeData = response.data;
-    if (employeeData) {
-      employee = new Employee(employeeData.name, employeeData.email + 2); // Replace with actual properties
-    }
-  } catch (error) {
-    console.error('Error fetching employee data:', error);
-  }
+  let employee = loginData.users.find((u: Employee) => u.email === email && u.password === password);
 
   if (!employee) {
     // If employee is null, create a new Employee instance
@@ -37,7 +21,7 @@ export const handleLogin = async (email: string, password: string, navigation: a
   // Reset the navigation stack
   navigation.reset({
     index: 0,
-    routes: [{ name: 'Schedule_Form', params: { employee } }],
+    routes: [{ name: 'Schedule', params: { employee } }],
   });
 };
 
