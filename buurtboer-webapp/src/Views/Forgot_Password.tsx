@@ -14,7 +14,7 @@ function Forgot_Password() {
             <div className='col-6'>
               <p>wachtwoord vergeten</p>
               <input type="email" placeholder="Email" /> 
-              <a href="Change_Password.tsx"><button>verstuur</button></a>
+              <a href="Change_Password"><button>verstuur</button></a>
             </div>
           </div>
             
