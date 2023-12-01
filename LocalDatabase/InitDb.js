@@ -63,8 +63,8 @@ async function createTables() {
         Company_ID INTEGER NOT NULL,
         FOREIGN KEY (Schedule_ID) REFERENCES Schedule(ID),
         FOREIGN KEY (Company_ID) REFERENCES Company(ID)
-      );      
-      
+      );
+
       CREATE TABLE IF NOT EXISTS EmployeesInCompany (
         ID SERIAL PRIMARY KEY,
         Employee_ID INTEGER NOT NULL,
@@ -97,7 +97,7 @@ async function insertTestData() {
 
       INSERT INTO Company (Admin_First_Name, Admin_Last_Name, Company_Name, Full_Schedule, Email, Password)
       VALUES ('Jane', 'Doe', 'Example Company', true, 'company@email.com', 'hashed');
-      
+
       INSERT INTO Schedule (Week_Number, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday)
       VALUES (1, true, true, true, true, true, true, true);
 
@@ -134,7 +134,7 @@ async function run() {
 
     // After the table is created (or if it already exists),
     // insert the test data
-    //await insertTestData();
+    await insertTestData();
   } catch (error) {
     console.error('Error:', error.message);
   } finally {

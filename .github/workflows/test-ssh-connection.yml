@@ -1,31 +1,31 @@
-name: Test SSH Connection
+# name: Test SSH Connection
 
-on:
-  push:
-    branches:
-      - test
+# on:
+#   push:
+#     branches:
+#       - test
 
-jobs:
-  test-ssh:
-    runs-on: ubuntu-latest
+# jobs:
+#   test-ssh:
+#     runs-on: ubuntu-latest
 
-    steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v2
+#     steps:
+#       - name: Checkout Repository
+#         uses: actions/checkout@v2
 
-      - name: Print Secrets
-        run: |
-          echo "SSH_PRIVATE_KEY: ${{ secrets.KEY }}"
-          echo "REMOTE_HOST: ${{ secrets.SERVER }}"
+#       - name: Print Secrets
+#         run: |
+#           echo "SSH_PRIVATE_KEY: ${{ secrets.KEY }}"
+#           echo "REMOTE_HOST: ${{ secrets.SERVER }}"
 
-      - name: Test SSH Connection
-        uses: easingthemes/ssh-deploy@v2
-        with:
-          SSH_PRIVATE_KEY: ${{ secrets.KEY }}
-          REMOTE_HOST: ${{ secrets.SERVER }}
-          REMOTE_USER: ubuntu-1056428
-          REMOTE_PORT: 22
-          SOURCE: 'README.md' # Adjust based on your project structure
-          TARGET: '/home/ubuntu-1056428/TestDeploy'
+#       - name: Test SSH Connection
+#         uses: easingthemes/ssh-deploy@v2
+#         with:
+#           SSH_PRIVATE_KEY: ${{ secrets.KEY }}
+#           REMOTE_HOST: ${{ secrets.SERVER }}
+#           REMOTE_USER: ubuntu-1056428
+#           REMOTE_PORT: 22
+#           SOURCE: 'README.md' # Adjust based on your project structure
+#           TARGET: '/home/ubuntu-1056428/TestDeploy'
 
-#Test V.5
+# #Test V.5
