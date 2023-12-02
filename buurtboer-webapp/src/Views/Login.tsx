@@ -25,7 +25,7 @@ export function Login() {
         <input type='email' placeholder='Email' name='Email' required />
         {renderErrorMessage('Email')}
         <input type='password' placeholder='Wachtwoord' name='Pass' required />
-        <Link to="/Forgot_Password" className={loginstyles.forgot_password_link}>Wachtwoord vergeten?</Link>
+        <Link to="/Forgot_Password" className={genstyles.link}>Wachtwoord vergeten?</Link>
         <div className={loginstyles.login_button_div}>
           <button className={genstyles.button}>Login</button>
           <p>OF</p>
@@ -38,7 +38,6 @@ export function Login() {
 
   return (
     <>
-      <div className={genstyles.App}></div>
       <div className={genstyles.container}>
         <div className='row'>
           <div className={`col-lg-6 ${genstyles.login_div}`}>

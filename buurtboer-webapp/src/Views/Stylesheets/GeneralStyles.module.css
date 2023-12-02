@@ -33,8 +33,8 @@
 
   .button{
     width: 100%;
-    margin-bottom: 10px;
-    margin-top: 10px;
+    margin-bottom: 5px;
+    margin-top: 5px;
     background-color: #F9834C;
     color: white;
     border-radius: 10px;
@@ -44,6 +44,18 @@
   }
 
   .button:hover{
-    background-color: #099f91;
+    background-color: #F9934C;
+  }
+  
+  .button:active{
+    background-color: #c95f3f;
+  }
+
+  .link {
+    font-size: 10px;
+    text-align: right;
+    color: #099f91;
+    margin-top: 10px;
+    margin-bottom: 10px;
   }
 
