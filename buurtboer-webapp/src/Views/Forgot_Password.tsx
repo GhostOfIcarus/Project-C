@@ -17,9 +17,7 @@ function Forgot_Password() {
               <a href="Change_Password"><button>verstuur</button></a>
             </div>
           </div>
-            
         </div>
-        
     </>
   );
 }

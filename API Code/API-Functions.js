@@ -28,7 +28,7 @@ const getSingleEmployeeData = async (email, password) => {
 		const db = await pool.connect();
 
 		const results = await db.query("SELECT * FROM employee WHERE email = $1 AND password = $2", [email, password]);
-		return results.rows;
+		return results.rows[0];
 	} catch (error) {
 		console.error(error);
 		console.error('Error in getting user data:', error);

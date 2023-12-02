@@ -1,11 +1,22 @@
 import { useLoginController } from '../Controllers/LoginController';
+import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import logo from './img/buurtboer_logo.png';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import styles from './Stylesheets/Login.module.css';
+import { useEffect } from 'react';
+
+
 
 export function Login() {
   const { isSubmitted, renderErrorMessage, handleSubmit } = useLoginController();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (isSubmitted) {
+      navigate('/Employee_Overview');
+    }
+  }, [isSubmitted]);
 
   const renderForm = (
     <>
@@ -31,7 +42,7 @@ export function Login() {
       <div className='container'>
         <div className='row'>
           <div className='col-lg-6 login-form'>
-            {isSubmitted ? <div className={styles['logged-in']}>Je bent ingelogd!</div> : renderForm}
+            {!isSubmitted && renderForm}
           </div>
           <div className='col-lg-6 image-box'>
             <img src={logo} alt="Buurtboer Logo" className={styles.Buurtboerlogo} />
