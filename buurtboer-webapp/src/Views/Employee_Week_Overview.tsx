@@ -68,7 +68,7 @@ function Employee_Week_Overview() {
   return (
     <>
       <nav className="navbar navbar-expand-lg buurtboer_nav">
-        <a className="navbar-brand img_logo" href="#">
+        <a className="navbar-brand img_logo" href="/">
           <div style={imageContainerStyle}>
               <img
                 src={logo}

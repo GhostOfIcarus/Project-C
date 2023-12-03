@@ -26,7 +26,7 @@ function Employee_Overview() {
   return (
     <>
       <nav className={`navbar navbar-expand-lg p-0 ${postlogin.buurtboer_nav}`}>
-        <a className="navbar-brand p-0 img_logo" href="#">
+        <a className="navbar-brand p-0 img_logo" href="/">
           <div style={imageContainerStyle}>
               <img
                 src={logo}

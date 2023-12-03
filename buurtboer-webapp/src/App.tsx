@@ -1,4 +1,5 @@
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import Landing, { Landing_Page } from './Views/Landing_Page';
 import Login from './Views/Login';
 import EmployeeOverview from './Views/Employee_Overview';
 import ForgotPassword from './Views/Forgot_Password';
@@ -11,6 +12,7 @@ function App() {
   return (
     <Router>
       <Routes>
+        <Route path="/" element={<Landing_Page />} />
         <Route path="/Login" element={<Login />} />
         <Route path="/Forgot_Password" element={<ForgotPassword />} />
         <Route path="/Employee_Overview" element={<EmployeeOverview />} />
