@@ -44,11 +44,23 @@ app.get('/api/employee/allemployees', async (req, res) => {
 
 // API endpoints for the actual application
 
-// POST endpoint to login, get the user data and send it back to the client
-app.post('/api/employee/login', async (req, res) => {
+// POST endpoint to login, get the admin data and send it back to the client
+app.post('/api/CompanyAdmin/login', async (req, res) => {
 	try {
 		const { email, password } = req.body;
-		const userData = await Functions.getSingleEmployeeData(email, password);
+		const userData = await Functions.getSingleCompanyAdminData(email, password);
+		res.status(200).json(userData);
+	} catch (error) {
+		console.error(error);
+		res.status(500).json({ error: 'An error occurred getting the employee' });
+	}
+});
+
+// POST endpoint to login, get the super admin data and send it back to the client
+app.post('/api/SuperAdmin/login', async (req, res) => {
+	try {
+		const { email, password } = req.body;
+		const userData = await Functions.getSingleSuperAdminData(email, password);
 		res.status(200).json(userData);
 	} catch (error) {
 		console.error(error);

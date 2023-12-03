@@ -40,8 +40,9 @@ export function Login() {
     <>
       <div className={genstyles.container}>
         <div className='row'>
-          <div className={`col-lg-6 ${genstyles.login_div}`}>
+          <div className={`col-lg-6 ${genstyles.login_div}`}>            
             {!isSubmitted && renderForm}
+            
           </div>
           <div className={`col-lg-6 ${genstyles.image_div}`}>
             <img src={logo} alt="Buurtboer Logo" className={genstyles.Buurtboerlogo} />

@@ -27,24 +27,38 @@ export function useLoginController() {
 
 
         try {
-            const response = await axios.post('http://localhost:5000/api/employee/login', {
-                email,
-                password
+          let response = await axios.post('http://localhost:5000/api/CompanyAdmin/login', {
+            email,
+            password
+          }, {
+            headers: {
+              'Content-Type': 'application/json'
+            }
+          });
+
+          console.log(response);
+          console.log(response.data);
+
+          if (response.data.email !== email || response.data.password !== password) {
+            response = await axios.post('http://localhost:5000/api/SuperAdmin/login', {
+              email,
+              password
             }, {
-                headers: {
-                    'Content-Type': 'application/json'
-                }
+              headers: {
+                'Content-Type': 'application/json'
+              }
             });
 
             console.log(response);
             console.log(response.data);
+          }
 
-            if (response.data.length > 0) {
-                setIsSubmitted(true);
-            }
+          if (response.data.email === email && response.data.password === password) {
+            setIsSubmitted(true);
+          }
         } catch (error) {
-            console.log(error);
-            setErrorMessage({ name: 'email', message: errorMessages.email });
+          console.log(error);
+          setErrorMessage({ name: 'email', message: errorMessages.email });
         }
 
 
