@@ -9,17 +9,19 @@ function Invite_Company() {
       <>
         <Navbar />
   
-        <div className="form-container col-lg-5 content mt-5 mx-auto center-align">
-          <div className="form_items ms-5 p-5">
-            <h2>Bedrijf aanmaken</h2>
-            <br /><br />
-            <div className="justify-content-center">
-              <input type="text" id="bedrijfNaam" placeholder="Bedrijf naam" className="mb-3" />
-              <input type="text" id="adminEmail" placeholder="Admin email" className="mb-3" />
-              <input type="text" id="adminVoornaam" placeholder="Admin voornaam" className="mb-3" />
-              <input type="text" id="adminAchternaam" placeholder="Admin achternaam" className="mb-3" />
-              <br /><br /><br />
-              <a href="#" className="d-inline-block"><button className="invite-button">stuur invite</button></a>
+        <div className={`container ${postlogin.page_container}  mt-5 p-5`}>
+          <div className="d-flex justify-content-center w-100">
+            <div className="form_items ms-5 p-5">
+              <h2>Bedrijf aanmaken</h2>
+              <br /><br />
+              <div className="justify-content-center">
+                <input type="text" id="bedrijfNaam" placeholder="Bedrijf naam" className="mb-3" />
+                <input type="text" id="adminEmail" placeholder="Admin email" className="mb-3" />
+                <input type="text" id="adminVoornaam" placeholder="Admin voornaam" className="mb-3" />
+                <input type="text" id="adminAchternaam" placeholder="Admin achternaam" className="mb-3" />
+                <br /><br /><br />
+                <a href="#" className="d-inline-block"><button className="invite-button">stuur invite</button></a>
+              </div>
             </div>
           </div>
         </div>

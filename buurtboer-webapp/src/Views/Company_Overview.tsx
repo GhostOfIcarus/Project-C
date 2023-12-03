@@ -9,7 +9,7 @@ function CompanyOverview() {
       <div>
         <Navbar />
   
-        <div className="form-container col-lg-5 content mt-5 mx-auto center-align">
+        <div className={`container ${postlogin.page_container}  mt-5 p-5`}>
           <h2>bedrijf overview</h2>
           <div className="middle-buttons-container col-lg-5 content mt-5 mx-auto center-align">
             <div className="left-align top-buttons-container">

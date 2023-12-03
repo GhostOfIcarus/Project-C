@@ -13,18 +13,20 @@ function Invite_Employee() {
     <>
       <Navbar />
 
-      <div className="container justify-content-center mt-5 p-5">
-        <div className="row">
-          <div className="col-lg-8 float-end content">
-              <div className="  form_items ms-5 justify-content-center p-5">
-                <h2>Invite Medewerker</h2>
-                <div className="justify-content-center">
-                    <input type="text" id="firstName" placeholder="Voornaam" /> 
-                    <input type="text" id="lastName" placeholder="Achternaam" />
-                    <input type="email" id="emailInput" placeholder="Email" /> 
-                    <a href="index.html"><button className="send_button">Stuur Invite</button></a>
+      <div className={`container ${postlogin.page_container}  mt-5 p-5`}>
+        <div className="d-flex justify-content-center w-100">
+          <div className="row">
+            <div className="col-lg-12">
+                <div className=" ">
+                  <h2>Invite Medewerker</h2>
+                  <div className="justify-content-center">
+                      <input type="text" id="firstName" placeholder="Voornaam" /> 
+                      <input type="text" id="lastName" placeholder="Achternaam" />
+                      <input type="email" id="emailInput" placeholder="Email" /> 
+                      <a href="index.html"><button className="send_button">Stuur Invite</button></a>
+                  </div>
                 </div>
-              </div>
+            </div>
           </div>
         </div>
       </div>

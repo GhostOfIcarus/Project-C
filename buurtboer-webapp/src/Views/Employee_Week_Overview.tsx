@@ -32,21 +32,6 @@ function Employee_Week_Overview() {
     };
     
 
-  const imageContainerStyle = {
-    backgroundColor: '#09a090',
-    padding: '10px'
-  };
-
-  const linkStyle = {
-    color: '#000000', 
-    textDecoration: 'none',
-    transition: 'color 0.3s ease'
-  };
-
-  const [hoveredLinkStyle, setHoveredLinkStyle] = useState({
-    color: '#F9834C',  
-  });
-
   const [attendance, setAttendance] = useState([
     { day: 'Monday', present: true, absent: false },
     { day: 'Tuesday', present: false, absent: true },
@@ -73,55 +58,57 @@ function Employee_Week_Overview() {
 
 
        {/* Week selecteren */}
-       <div className="container justify-content-center mt-1 p-4">
-        <div className="row">
-          <div className="col-lg-8 float-end content">
-              <div className="  form_items ms-5 justify-content-center p-5">
-                <h2>Medewerker Overview</h2>
-                <form action="/action_page.php">
-                    <label htmlFor="week">Selecteer een week:</label>
-                    {/* <input type="week" id="week" name="week" /> */}
-                    <input
-                        type="week"
-                        id="week"
-                        name="week"
-                        value={selectedWeek}
-                        onChange={handleWeekChange}
-                    />
-                    <input type="submit" value="Submit" />
-                </form>
+       <div className={`container ${postlogin.page_container}  mt-5 p-5`}>
+        <div className="d-flex justify-content-center w-100">
+          <div className="row">
+            <div className="col-lg-12">
+                <div className="  form_items ms-5 justify-content-center p-5">
+                  <h2>Medewerker Overview</h2>
+                  <form action="/action_page.php">
+                      <label htmlFor="week">Selecteer een week:</label>
+                      {/* <input type="week" id="week" name="week" /> */}
+                      <input
+                          type="week"
+                          id="week"
+                          name="week"
+                          value={selectedWeek}
+                          onChange={handleWeekChange}
+                      />
+                      <input type="submit" value="Submit" />
+                  </form>
 
-                {/* Tabel voor aanwezigen (wordt later verbonden met de week die geselecteerd is) */}
-                <table className="roundedCorners">
-                    <thead>
-                        <tr>
-                            <th>Datum</th>
-                            <th>Aanwezig</th>
-                            <th>Afwezig</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-          {attendance.map((day, index) => (
-            <tr key={index}>
-              <td>{day.day}</td>
-              <td>
-                <input
-                  type="checkbox"
-                  checked={day.present}
-                  onChange={() => handleCheckboxChange(index, 'present')}
-                />
-              </td>
-              <td>
-                <input
-                  type="checkbox"
-                  checked={day.absent}
-                  onChange={() => handleCheckboxChange(index, 'absent')}
-                />
-              </td>
-            </tr>
-          ))}
-        </tbody>
-                </table>
+                  {/* Tabel voor aanwezigen (wordt later verbonden met de week die geselecteerd is) */}
+                  <table className="roundedCorners">
+                      <thead>
+                          <tr>
+                              <th>Datum</th>
+                              <th>Aanwezig</th>
+                              <th>Afwezig</th>
+                          </tr>
+                      </thead>
+                      <tbody>
+            {attendance.map((day, index) => (
+              <tr key={index}>
+                <td>{day.day}</td>
+                <td>
+                  <input
+                    type="checkbox"
+                    checked={day.present}
+                    onChange={() => handleCheckboxChange(index, 'present')}
+                  />
+                </td>
+                <td>
+                  <input
+                    type="checkbox"
+                    checked={day.absent}
+                    onChange={() => handleCheckboxChange(index, 'absent')}
+                  />
+                </td>
+              </tr>
+            ))}
+          </tbody>
+                  </table>
+              </div>
             </div>
           </div>
         </div>
