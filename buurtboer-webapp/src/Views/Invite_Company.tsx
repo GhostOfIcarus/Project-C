@@ -1,23 +1,13 @@
 import { Component} from 'react';
 import logo from './img/buurtboer_logo.png'; 
 import styling from './Stylesheets/Invite_Company.module.css';
+import postlogin from './Stylesheets/PostLogin.module.css';
+import Navbar from './Navbar';
 
 function Invite_Company() {
     return (
-      <div>
-        <div className="top-border">
-          <img src="buurtboerLogo.jpg" alt="Your Image Description" />
-          <a>-------------Welkom, Dirk-Jan</a>
-  
-          <div className="right-align top-buttons-container">
-            <p>
-              <a href="#"><button className="top-button">Bestellen</button></a>
-              <a href="#"><button className="top-button">Week Overview</button></a>
-              <a href="#"><button className="top-button">Invite Medewerker</button></a>
-              <a href="#"><button className="top-button">Uitloggen</button></a>
-            </p>
-          </div>
-        </div>
+      <>
+        <Navbar />
   
         <div className="form-container col-lg-5 content mt-5 mx-auto center-align">
           <div className="form_items ms-5 p-5">
@@ -33,7 +23,7 @@ function Invite_Company() {
             </div>
           </div>
         </div>
-      </div>
+      </>
     );
   }
   
