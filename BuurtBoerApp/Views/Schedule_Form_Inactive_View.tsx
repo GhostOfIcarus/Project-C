@@ -1,11 +1,11 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, {useEffect, useState } from 'react';
 import { View, Switch, Image, Text, TouchableOpacity, ScrollView } from 'react-native';
 import { basestyles } from './css/styles';
 import CheckBox from '@react-native-community/checkbox';
 import { useTranslation } from 'react-i18next';
-import { useFocusEffect } from '@react-navigation/native';
 
-import Schedule from './../Models/Schedule'
+import Schedule from '../Models/Schedule_Form_Model'
+import ScheduleController from './../Controllers/Schedule_Form_Cont'
 
 interface WeekOverviewFormProps 
 {
@@ -13,92 +13,50 @@ interface WeekOverviewFormProps
   route: any;
 }
 
-let isActive = false;
-let buttonText = 'Indienen';
-let isDisabled = false;
-
 const WeekOverviewForm = (props: WeekOverviewFormProps) => {
   const { employee } = props.route.params;
-  const now = new Date();
-  const startOfTheYear = new Date(now.getFullYear(), 0, 1);
-  const weekNumber = Math.ceil((((now.getTime() - startOfTheYear.getTime()) / 86400000) + startOfTheYear.getDay() + 1) / 7);
-  
-
-  useEffect(() => {
-    const fetchScheduleData = async () => {
-      const employeeId = employee.id; // Replace this with the actual employee's ID
-      const response = await fetch('http://10.0.2.2:5000/api/employee/schedule', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ id: employeeId, week: weekNumber}),
-      });
-  
-      if (!response.ok) {
-        console.error(`HTTP ${response.status}: ${response.statusText}`);
-        return;
-      }
-  
-      const data = await response.json();
-      console.log(data); // inspect the response
-    };
-  
-    fetchScheduleData();
-  }, []);
 
   const { t } = useTranslation();
-  const Schedule_Form_Inactive = () => props.navigation.navigate("Schedule_Form_Inac") 
+  const Schedule_Form = () => props.navigation.navigate("Schedule_Form", { employee }) 
   const Settings = () => props.navigation.navigate("Settings", { employee })
 
   const [isSchedule, setSchedule] = useState(false);
 
+  const isDisabled = true;
+
+  const [weekNumber, setWeekNumber] = useState<number | null>(null);
+
   const [isMonday, setMonday] = useState(false);
   const [isTuesday, setTuesday] = useState(false);
-  const [isWednesday, setWednesday] = useState(Schedule.loadSchedule().wednesday);
+  const [isWednesday, setWednesday] = useState(false);
   const [isThursday, setThursday] = useState(false);
   const [isFriday, setFriday] = useState(false);
   const [isSaturday, setSaturday] = useState(false);
   const [isSunday, setSunday] = useState(false);
 
-  useFocusEffect(
-    useCallback(() => {
-      const loadSchedule = async () => {
-        const sched = Schedule.loadSchedule();
-        setMonday(sched.monday);
-        setTuesday(sched.tuesday);
-        setWednesday(sched.wednesday);
-        setThursday(sched.thursday);
-        setFriday(sched.friday);
-        setSaturday(sched.saturday);
-        setSunday(sched.sunday);
-      };
-    loadSchedule();
-    }, [])
-  );
-
-  let changeStatus = (Status: boolean) =>
+  useEffect(() => 
   {
-    if (Status)
+    const loadSchedule = async () => 
     {
-      buttonText = 'Indienen';
-    }
-    else
-    {
-      buttonText = 'Bewerken';
-    }
+      const CurrentSchedule = await Schedule.fetchScheduleData(employee);
 
-    if (Status)
-    {
-      isDisabled = false;
-    }
-    else
-    {
-      isDisabled = true;
-    }
+      if (CurrentSchedule) 
+      {
+        setWeekNumber(CurrentSchedule.week);
+        
+        setMonday(CurrentSchedule.monday);
+        setTuesday(CurrentSchedule.tuesday);
+        setWednesday(CurrentSchedule.wednesday);
+        setThursday(CurrentSchedule.thursday);
+        setFriday(CurrentSchedule.friday);
+        setSaturday(CurrentSchedule.saturday);
+        setSunday(CurrentSchedule.sunday);
+      }
+    };
 
-    isActive = !Status;
-  }
+    loadSchedule();
+  }, [employee]);
+
 
   return (
     <ScrollView contentContainerStyle={basestyles.container}>
@@ -126,7 +84,7 @@ const WeekOverviewForm = (props: WeekOverviewFormProps) => {
         <View style={basestyles.schedule_div_form}>
             
             <View style={basestyles.schedule_week_div}>
-              <Text style={basestyles.centered_text_white}>{"\n"}{t('week')}{"\n"}43{"\n"}</Text>
+              <Text style={basestyles.centered_text_white}>{"\n"}{t('week')}{"\n"}{weekNumber}{"\n"}</Text>
             </View>
             
             {/* Monday */}
@@ -135,8 +93,8 @@ const WeekOverviewForm = (props: WeekOverviewFormProps) => {
                 disabled={isDisabled}
                 value={isMonday}
                 onValueChange={(newValue) => setMonday(newValue)}
-                tintColors={{ true: '#099F91', false: 'black' }}
-              />
+                tintColors={{ true: '#099F91', false: isDisabled ? 'gray' : 'black' }}              
+                />
                 <Text style={basestyles.centered_text_black}>{t('monday')}</Text>
             </View>
 
@@ -146,8 +104,8 @@ const WeekOverviewForm = (props: WeekOverviewFormProps) => {
                     disabled={isDisabled}
                     value={isTuesday}
                     onValueChange={(newValue) => setTuesday(newValue)}
-                    tintColors={{ true: '#099F91', false: 'black' }}
-                />
+                    tintColors={{ true: '#099F91', false: isDisabled ? 'gray' : 'black' }}              
+                    />
                 <Text style={basestyles.centered_text_black}>{t('tuesday')}</Text>
             </View>
 
@@ -157,8 +115,8 @@ const WeekOverviewForm = (props: WeekOverviewFormProps) => {
                     disabled={isDisabled}
                     value={isWednesday}
                     onValueChange={(newValue) => setWednesday(newValue)}
-                    tintColors={{ true: '#099F91', false: 'black' }}
-                />
+                    tintColors={{ true: '#099F91', false: isDisabled ? 'gray' : 'black' }}              
+                    />
                 <Text style={basestyles.centered_text_black}>{t('wednesday')}</Text>
             </View>
 
@@ -168,8 +126,8 @@ const WeekOverviewForm = (props: WeekOverviewFormProps) => {
                     disabled={isDisabled}
                     value={isThursday}
                     onValueChange={(newValue) => setThursday(newValue)}
-                    tintColors={{ true: '#099F91', false: 'black' }}
-                />
+                    tintColors={{ true: '#099F91', false: isDisabled ? 'gray' : 'black' }}              
+                    />
                 <Text style={basestyles.centered_text_black}>{t('thursday')}</Text>
             </View>
 
@@ -179,8 +137,8 @@ const WeekOverviewForm = (props: WeekOverviewFormProps) => {
                     disabled={isDisabled}
                     value={isFriday}
                     onValueChange={(newValue) => setFriday(newValue)}
-                    tintColors={{ true: '#099F91', false: 'black' }}
-                />
+                    tintColors={{ true: '#099F91', false: isDisabled ? 'gray' : 'black' }}              
+                    />
                 <Text style={basestyles.centered_text_black}>{t('friday')}</Text>
             </View>
 
@@ -190,8 +148,8 @@ const WeekOverviewForm = (props: WeekOverviewFormProps) => {
                     disabled={isDisabled}
                     value={isSaturday}
                     onValueChange={(newValue) => setSaturday(newValue)}
-                    tintColors={{ true: '#099F91', false: 'black' }}
-                />
+                    tintColors={{ true: '#099F91', false: isDisabled ? 'gray' : 'black' }}              
+                    />
                 <Text style={basestyles.centered_text_black}>{t('saturday')}</Text>
             </View>
 
@@ -201,8 +159,8 @@ const WeekOverviewForm = (props: WeekOverviewFormProps) => {
                     disabled={isDisabled}
                     value={isSunday}
                     onValueChange={(newValue) => setSunday(newValue)}
-                    tintColors={{ true: '#099F91', false: 'black' }}
-                />
+                    tintColors={{ true: '#099F91', false: isDisabled ? 'gray' : 'black' }}              
+                    />
                 <Text style={basestyles.centered_text_black}>{t('sunday')}</Text>
             </View>
 
@@ -216,8 +174,8 @@ const WeekOverviewForm = (props: WeekOverviewFormProps) => {
               />
             </View>
 
-          <TouchableOpacity style={basestyles.button} onPress={Schedule_Form_Inactive}>
-            <Text style={{ color: 'white', textAlign: 'center' }}>{t('submit')}</Text>
+          <TouchableOpacity style={basestyles.button} onPress={Schedule_Form}>
+            <Text style={{ color: 'white', textAlign: 'center' }}>{t('change')}</Text>
           </TouchableOpacity>
           
         </View>

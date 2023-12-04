@@ -1,4 +1,4 @@
-import Employee from './../Models/Employee';
+import Employee from '../Models/Employee_Model';
 import loginData from './../Models/loginData.json';
 import { Alert } from 'react-native';
 

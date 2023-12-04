@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { View, TextInput, Image, Text, TouchableOpacity, KeyboardAvoidingView, ScrollView } from 'react-native';
 import { before_login } from './css/before_login';
 import { handleChangePassword } from './../Controllers/Change_Password';
-import Employee from './../Models/Employee';
+import Employee from '../Models/Employee_Model';
 import { useTranslation } from 'react-i18next';
 
 interface ChangePasswordProps {

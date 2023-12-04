@@ -1,4 +1,4 @@
-import Employee from './../Models/Employee';
+import Employee from '../Models/Employee_Model';
 import loginData from './../Models/loginData.json';
 import { Alert } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -44,7 +44,7 @@ let employee = new Employee(employeeData.id, employeeData.email, employeeData.fi
 
   navigation.reset({
     index: 0,
-    routes: [{ name: 'Schedule', params: { employee } }],
+    routes: [{ name: 'Schedule_Form', params: { employee } }],
   });
 };
 
