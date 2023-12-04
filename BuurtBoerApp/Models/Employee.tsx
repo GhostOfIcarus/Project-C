@@ -1,11 +1,17 @@
 class Employee {
-    email: string;
-    password: string;
-  
-    constructor(email: string, password: string) {
-      this.email = email;
-      this.password = password;
-    }
+  id: number;
+  email: string;
+  firstName: string;
+  lastName: string;
+  keepSchedule: boolean;
+
+  constructor(id: number, email: string, firstName: string, lastName: string, keepSchedule: boolean) {
+    this.id = id;
+    this.email = email;
+    this.firstName = firstName;
+    this.lastName = lastName;
+    this.keepSchedule = keepSchedule;
+  }
 }
-  
+
 export default Employee;

@@ -17,7 +17,7 @@ function Invite_Employee() {
         <div className="d-flex justify-content-center w-100">
           <div className="row">
             <div className="col-lg-12">
-                <div className=" ">
+                <div className="  form_items ms-5 justify-content-center p-5">
                   <h2>Invite Medewerker</h2>
                   <div className="justify-content-center">
                       <input type="text" id="firstName" placeholder="Voornaam" /> 

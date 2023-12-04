@@ -23,6 +23,19 @@ const getAllEmployeeData = async () => {
 	}
 };
 
+const getSingleEmployeeData = async (email, password) => {
+	try {
+		const db = await pool.connect();
+
+		const results = await db.query("SELECT * FROM employee WHERE email = $1 AND password = $2", [email, password]);
+		return results.rows[0];
+	} catch (error) {
+		console.error(error);
+		console.error('Error in getting user data:', error);
+		throw new Error("Internal error wah wah");
+	}
+};
+
 const getSingleCompanyAdminData = async (email, password) => {
 	try {
 		const db = await pool.connect();
@@ -51,6 +64,7 @@ const getSingleSuperAdminData = async (email, password) => {
 
 module.exports = {
 	getAllEmployeeData,	
+	getSingleEmployeeData,
 	getSingleCompanyAdminData,
 	getSingleSuperAdminData,	
 	pool

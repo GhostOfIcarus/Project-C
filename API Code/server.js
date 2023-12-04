@@ -10,7 +10,7 @@ app.use(express.json());
 
 // Middleware to handle CORS
 app.use(function (req, res, next) {
-	const allowedOrigins = ['http://localhost:3000', 'http://localhost:8081'];
+	const allowedOrigins = ['http://localhost:3000', 'http://localhost:8081', 'http://10.0.2.2:3000', 'http://10.0.2.2:8081'];
 	const origin = req.headers.origin;
 	if (allowedOrigins.includes(origin)) {
 		res.setHeader('Access-Control-Allow-Origin', origin);
@@ -43,6 +43,16 @@ app.get('/api/employee/allemployees', async (req, res) => {
 
 
 // API endpoints for the actual application
+app.post('/api/employee/login', async (req, res) => {
+	try {
+		const { email, password } = req.body;
+		const userData = await Functions.getSingleEmployeeData(email, password);
+		res.status(200).json(userData);
+	} catch (error) {
+		console.error(error);
+		res.status(500).json({ error: 'An error occurred getting the employee' });
+	}
+});
 
 // POST endpoint to login, get the admin data and send it back to the client
 app.post('/api/CompanyAdmin/login', async (req, res) => {

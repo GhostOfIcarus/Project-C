@@ -1,5 +1,5 @@
 // HomeScreen.js
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Image, Text, TouchableOpacity, ScrollView, Switch } from 'react-native';
 import { basestyles } from './css/styles';
 import { useTranslation } from 'react-i18next';
@@ -37,7 +37,11 @@ const SettingsScreen = (props: SettingsProps) => {
     });
   };
 
-  const [isNotif, setNotif] = useState(false);
+  const [isNotif, setNotif] = useState(employee.keepSchedule);
+
+  useEffect(() => {
+    setNotif(employee.keepSchedule);
+  }, [employee]);
 
   return (
     <ScrollView contentContainerStyle={basestyles.container}>
@@ -65,15 +69,15 @@ const SettingsScreen = (props: SettingsProps) => {
         <View style={basestyles.settings_div}>
 
           <View style={basestyles.left_aligned_text_div}>
-              <Text style={basestyles.text_black}>{t('name')}: ...</Text>
+              <Text style={basestyles.text_black}>{t('name')}:  {employee.firstName}</Text>
           </View>
 
           <View style={basestyles.left_aligned_text_div}>
-              <Text style={basestyles.text_black}>{t('lastName')}: ...</Text>
+              <Text style={basestyles.text_black}>{t('lastName')}:  {employee.lastName}</Text>
           </View>
 
           <View style={basestyles.left_aligned_text_div}>
-              <Text style={basestyles.text_black}>{t('company')}: ...</Text>
+              <Text style={basestyles.text_black}>{t('company')}:  {employee.company}</Text>
           </View>
 
           <View style={basestyles.left_aligned_text_div}>
