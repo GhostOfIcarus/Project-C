@@ -49,7 +49,7 @@ const Navbar = () => {
         </div>
         <div className="nav-button me-5 ">
         <Link
-            to="#"
+            to="/Choose_Order"
             style={{ ...linkStyle, ...hoveredLinkStyle }}
             onMouseEnter={() => setHoveredLinkStyle({ color: '#F9834C' })}
             onMouseLeave={() => setHoveredLinkStyle({ color: '#000000' })}
