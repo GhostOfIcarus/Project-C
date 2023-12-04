@@ -60,9 +60,9 @@ async function createTables() {
       CREATE TABLE IF NOT EXISTS ScheduleFromEmployee (
         ID SERIAL PRIMARY KEY,
         Schedule_ID INTEGER NOT NULL,
-        Company_ID INTEGER NOT NULL,
+        Employee_ID INTEGER NOT NULL,
         FOREIGN KEY (Schedule_ID) REFERENCES Schedule(ID),
-        FOREIGN KEY (Company_ID) REFERENCES Company(ID)
+        FOREIGN KEY (Employee_ID) REFERENCES Employee(ID)
       );
 
       CREATE TABLE IF NOT EXISTS EmployeesInCompany (
@@ -99,10 +99,18 @@ async function insertTestData() {
       VALUES ('Jane', 'Doe', 'Example Company', true, 'company@email.com', 'hashed');
 
       INSERT INTO Schedule (Week_Number, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday)
-      VALUES (1, true, true, true, true, true, true, true);
+      VALUES (1, false, true, true, true, true, true, true),
+         (49, true, false, true, true, true, true, true),
+         (50, true, true, false, true, true, true, true),
+         (51, true, true, true, false, true, true, true),
+         (52, false, true, true, true, false, true, true);
 
-      INSERT INTO ScheduleFromEmployee (Schedule_ID, Company_ID)
-      VALUES (1, 1);
+      INSERT INTO ScheduleFromEmployee (Schedule_ID, Employee_ID)
+      VALUES (1, 1),
+            (2, 1),
+            (3, 1),
+            (4, 1),
+            (5, 1);
 
       INSERT INTO EmployeesInCompany (Employee_ID, Company_ID)
       VALUES (1, 1);

@@ -41,6 +41,17 @@ app.get('/api/employee/allemployees', async (req, res) => {
 	}
 });
 
+app.post('/api/employee/schedule', async (req, res) => {
+	try {
+	  const { id, week } = req.body;
+	  const userData = await Functions.getEmployeeSchedule(id, week);
+	  res.status(200).json(userData);
+	} catch (error) {
+	  console.error(error);
+	  res.status(500).json({ error: 'i did an oopsie' });
+	}
+  });
+
 
 // API endpoints for the actual application
 app.post('/api/employee/login', async (req, res) => {
@@ -89,6 +100,7 @@ app.post('/api/employee/register', async (req, res) => {
 		res.status(500).json({ error: 'An error occurred adding an employee to the database' });
 	}
 });
+
 
 
 // Starting the API server

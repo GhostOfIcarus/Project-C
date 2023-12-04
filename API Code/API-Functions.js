@@ -23,6 +23,24 @@ const getAllEmployeeData = async () => {
 	}
 };
 
+const getEmployeeSchedule = async (employeeId, week) => {
+	try {
+	  const db = await pool.connect();
+  
+	  const results = await db.query(`
+									  SELECT *
+	                                  FROM schedule
+									  JOIN schedulefromemployee ON schedulefromemployee.schedule_id = schedule.id
+									  WHERE schedulefromemployee.employee_id = $1 AND schedule.week_number = $2
+									`, [employeeId, week]);
+	  return results.rows[0];
+	} catch (error) {
+	  console.error(error);
+	  console.error('Error in getting user data:', error);
+	  throw new Error("Internal error wah wah");
+	}
+  }
+
 const getSingleEmployeeData = async (email, password) => {
 	try {
 		const db = await pool.connect();
@@ -62,10 +80,13 @@ const getSingleSuperAdminData = async (email, password) => {
 	}
 }
 
+
+
 module.exports = {
 	getAllEmployeeData,	
 	getSingleEmployeeData,
 	getSingleCompanyAdminData,
 	getSingleSuperAdminData,	
+	getEmployeeSchedule,
 	pool
 };

@@ -19,6 +19,33 @@ let isDisabled = false;
 
 const WeekOverviewForm = (props: WeekOverviewFormProps) => {
   const { employee } = props.route.params;
+  const now = new Date();
+  const startOfTheYear = new Date(now.getFullYear(), 0, 1);
+  const weekNumber = Math.ceil((((now.getTime() - startOfTheYear.getTime()) / 86400000) + startOfTheYear.getDay() + 1) / 7);
+  
+
+  useEffect(() => {
+    const fetchScheduleData = async () => {
+      const employeeId = employee.id; // Replace this with the actual employee's ID
+      const response = await fetch('http://10.0.2.2:5000/api/employee/schedule', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ id: employeeId, week: weekNumber}),
+      });
+  
+      if (!response.ok) {
+        console.error(`HTTP ${response.status}: ${response.statusText}`);
+        return;
+      }
+  
+      const data = await response.json();
+      console.log(data); // inspect the response
+    };
+  
+    fetchScheduleData();
+  }, []);
 
   const { t } = useTranslation();
   const Schedule_Form_Inactive = () => props.navigation.navigate("Schedule_Form_Inac") 
