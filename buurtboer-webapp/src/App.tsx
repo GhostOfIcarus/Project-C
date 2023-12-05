@@ -9,6 +9,7 @@ import Invite_Employee from './Views/Invite_Employee';
 import Employee_Week_Overview from './Views/Employee_Week_Overview';
 import Choose_Order from "./Views/Choose_Order";
 import CompanyOverview from "./Views/Company_Overview";
+import OrderOverview from "./Views/Order_Overview";
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
         <Route path="/Employee_Week_Overview" element={<Employee_Week_Overview />} />
         <Route path="/Choose_Order" element={<Choose_Order/>}/>
         <Route path="/Company_Overview" element={<CompanyOverview/>}/>
+        <Route path="/Order_Overview" element={< OrderOverview/>} />
       </Routes>
     </Router>
   );
