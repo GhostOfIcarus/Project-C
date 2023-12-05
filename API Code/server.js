@@ -96,6 +96,32 @@ app.post('/api/employee/login', async (req, res) => {
 	}
 });
 
+app.post('/api/employee/forgot_password', async (req, res) => {
+	try {
+		const { email} = req.body;
+		const userData = await Functions.getSingleEmployeeByEmailData(email);
+		res.status(200).json(userData);
+	} catch (error) {
+		console.error(error);
+		res.status(500).json({ error: 'An error occurred getting the employee' });
+	}
+});
+
+app.post('/api/employee/change_password', async (req, res) => {
+	try {
+	  const { newPassword, email } = req.body;
+	  const result = await Functions.ChangePasswordEmployee(newPassword, email);
+	  if (result) {
+		res.status(200).json({ message: 'Password changed successfully' });
+	  } else {
+		res.status(400).json({ error: 'Failed to change password' });
+	  }
+	} catch (error) {
+	  console.error(error);
+	  res.status(500).json({ error: 'An error occurred while changing the password' });
+	}
+  });
+
 // POST endpoint to login, get the admin data and send it back to the client
 app.post('/api/CompanyAdmin/login', async (req, res) => {
 	try {
