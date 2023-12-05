@@ -4,6 +4,7 @@ import logo from './img/buurtboer_logo.png';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import postlogin from './Stylesheets/PostLogin.module.css';
 import Navbar from './Navbar';
+import genstyles from './Stylesheets/GeneralStyles.module.css';
 
 
 function Invite_Employee() {
@@ -23,7 +24,7 @@ function Invite_Employee() {
                       <input type="text" id="firstName" placeholder="Voornaam" /> 
                       <input type="text" id="lastName" placeholder="Achternaam" />
                       <input type="email" id="emailInput" placeholder="Email" /> 
-                      <a href="index.html"><button className="send_button">Stuur Invite</button></a>
+                      <a href="index.html"><button className={genstyles.button}>Stuur Invite</button></a>
                   </div>
                 </div>
             </div>
