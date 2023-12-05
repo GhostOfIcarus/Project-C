@@ -9,7 +9,7 @@ import { useEffect } from 'react';
 
 
 export function Login() {
-  const { isSubmitted, renderErrorMessage, handleSubmit } = useLoginController();
+  const { isSubmitted, loginFailed, renderErrorMessage, handleSubmit } = useLoginController();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -22,9 +22,10 @@ export function Login() {
     <>    
       <div className={genstyles.title}>Inloggen</div>
       <form onSubmit={handleSubmit}>
-        <input type='email' placeholder='Email' name='Email' required />
+        <input type='email' placeholder='Email' name='Email' required className={loginFailed ? loginstyles.errorInput : ''}/>
         {renderErrorMessage('Email')}
-        <input type='password' placeholder='Wachtwoord' name='Pass' required />
+        <input type='password' placeholder='Wachtwoord' name='Pass' required className={loginFailed ? loginstyles.errorInput : ''} />
+        {loginFailed && <div className={loginstyles.errorInputs}>User details were not found</div>}
         <Link to="/Forgot_Password" className={genstyles.link}>Wachtwoord vergeten?</Link>
         <div className={loginstyles.login_button_div}>
           <button className={genstyles.button}>Login</button>

@@ -78,7 +78,7 @@ function Employee_Week_Overview() {
                   </form>
 
                   {/* Tabel voor aanwezigen (wordt later verbonden met de week die geselecteerd is) */}
-                  <table className="roundedCorners">
+                  <table className="table roundedCorners">
                       <thead>
                           <tr>
                               <th>Datum</th>

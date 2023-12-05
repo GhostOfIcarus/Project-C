@@ -17,6 +17,10 @@
       font-size: smaller;
     }
   }
+
+  .errorInput{
+    border: 1.9px solid red;
+  }
   
   .login_button_div p{
     text-align: center;
