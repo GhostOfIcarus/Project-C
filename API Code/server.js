@@ -1,4 +1,7 @@
 const express = require('express');
+const jwt = require('jsonwebtoken');
+const bcrypt = require('bcrypt');
+const cookieParser = require('cookie-parser');
 const Functions = require('./API-Functions.js');
 
 // Specify the port and express(Express framework for Node.js)
@@ -7,6 +10,9 @@ const app = express();
 
 // Middleware for parching JSON requests
 app.use(express.json());
+
+// Middleware for parsing cookies
+app.use(cookieParser());
 
 // Middleware to handle CORS
 app.use(function (req, res, next) {
@@ -20,13 +26,32 @@ app.use(function (req, res, next) {
 	next();
 });
 
+// Middleware function to verify JWT tokens
+const verifyJWT = (req, res, next) => {
+	const token = req.cookies['jwt-token'];
+
+	if (!token) {
+	  return res.status(401).json({ error: 'Unauthorized' });
+	}
+
+	jwt.verify(token, 'thisisaverysecretkeyspongebob', (err, decoded) => {
+	  if (err) {
+		return res.status(401).json({ error: 'Invalid token' });
+	  }
+
+	  // Attach user information to the request
+	  req.user = decoded;
+	  next();
+	});
+  };
+
 
 // API endpoints to test the API
 
 // Using inspect element in the browser, you can see the JSON response and error messages (right click -> inspect -> console)
 
 // GET endpoint to test if the API is running
-app.get('/api/hello', (req, res) => {
+app.get('/api/hello', verifyJWT, (req, res) => {
 	res.status(200).json({ message: 'Hello World!' });
 });
 
@@ -82,7 +107,19 @@ app.post('/api/SuperAdmin/login', async (req, res) => {
 	try {
 		const { email, password } = req.body;
 		const userData = await Functions.getSingleSuperAdminData(email, password);
-		res.status(200).json(userData);
+
+		if (!userData) {
+			res.status(401).json({ error: 'Invalid email or password' });
+			return;
+		}
+
+		// Generate an access token using JWT (JSON Web Token)
+		const token = jwt.sign({ userId: userData.id }, 'thisisaverysecretkeyspongebob', { expiresIn: '2h' });
+
+		// Set the access token as a cookie (HTTP-only)
+		res.cookie('jwt-token', token, { httpOnly: true, maxAge: 2 * 60 * 60 * 1000 }); // 2 hours max age
+
+		res.status(200).json({ token: token, userData: userData });
 	} catch (error) {
 		console.error(error);
 		res.status(500).json({ error: 'An error occurred getting the employee' });
