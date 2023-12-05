@@ -2,18 +2,16 @@ import Employee from '../Models/Employee_Model';
 import loginData from './../Models/loginData.json';
 import { Alert } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
-const { getSingleEmployeeData } = require('./../../API Code/API-Functions');
+import bcrypt from 'react-native-bcrypt';
 
 export const handleLogin = async (email: string, password: string, navigation: any, rememberMe: boolean) => {
-  let response = await fetch('http://10.0.2.2:5000/api/employee/login', {
+  let response = await fetch('http://10.0.2.2:5000/api/employee/forgot_password', {
   method: 'POST',
   headers: {
     'Content-Type': 'application/json',
   },
   body: JSON.stringify({
     email: email,
-    password: password,
   }),
 });
 
@@ -29,13 +27,13 @@ if (data.error) {
   Alert.alert('Error', data.error);
   return;
 }
+const passwordsMatch = bcrypt.compareSync(password, data.password);
 
-let employeeData = data;
-if (!employeeData) {
+if (!passwordsMatch) {
   Alert.alert('Error', 'Employee data not found in the response');
   return;
 }
-
+let employeeData = data;
 let employee = new Employee(employeeData.id, employeeData.email, employeeData.first_name, employeeData.last_name, employeeData.keepschedule);
 
   if (rememberMe) {
