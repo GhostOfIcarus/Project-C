@@ -78,6 +78,12 @@ app.post('/api/employee/schedule', async (req, res) => {
   });
 
 
+// Endpoint for checking authentication
+app.get('/api/auth', verifyJWT, (req, res) => {
+	res.status(200).json({ message: 'Authenticated' });
+});
+
+
 // API endpoints for the actual application
 app.post('/api/employee/login', async (req, res) => {
 	try {
@@ -121,7 +127,19 @@ app.post('/api/CompanyAdmin/login', async (req, res) => {
 	try {
 		const { email, password } = req.body;
 		const userData = await Functions.getSingleCompanyAdminData(email, password);
-		res.status(200).json(userData);
+
+		if (!userData) {
+			res.status(401).json({ error: 'Invalid email or password' });
+			return;
+		  }
+
+		// Generate an access token using JWT (JSON Web Token)
+		const token = jwt.sign({ userId: userData.id }, 'thisisaverysecretkeyspongebob', { expiresIn: '2h' });
+
+		// Set the access token as a cookie (HTTP-only)
+		res.cookie('jwt-token', token, { httpOnly: true, maxAge: 2 * 60 * 60 * 1000 }); // 2 hours max age
+
+		res.status(200).json({ token: token, userData: userData });
 	} catch (error) {
 		console.error(error);
 		res.status(500).json({ error: 'An error occurred getting the employee' });
@@ -137,7 +155,7 @@ app.post('/api/SuperAdmin/login', async (req, res) => {
 		if (!userData) {
 			res.status(401).json({ error: 'Invalid email or password' });
 			return;
-		}
+		  }
 
 		// Generate an access token using JWT (JSON Web Token)
 		const token = jwt.sign({ userId: userData.id }, 'thisisaverysecretkeyspongebob', { expiresIn: '2h' });
