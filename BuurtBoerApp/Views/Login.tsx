@@ -33,6 +33,7 @@ const LoginScreen = (props: LoginScreenProps) => {
     toggleLanguage,
     toggleShowPassword,
     handleLogin,
+    handleLogin2,
   } = useLoginController();
 
   const { t } = useTranslation();
@@ -107,7 +108,7 @@ const LoginScreen = (props: LoginScreenProps) => {
             <Text style={{ color: 'black' }}>{t('or')}</Text>
           </View>
 
-          <TouchableOpacity style={before_login.buttons} onPress={Schedule}>
+          <TouchableOpacity style={before_login.buttons} onPress={() => handleLogin2(props.navigation, rememberMe)}>
             <Text style={{ color: 'white', textAlign: 'center' }}>{t('google')}</Text>
           </TouchableOpacity>
           <TouchableOpacity style={before_login.buttons} onPress={Create_Account}>

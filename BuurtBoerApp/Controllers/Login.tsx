@@ -57,6 +57,20 @@ export const useLoginController = () => {
     });
   };
 
+  const handleLogin2 = async (navigation: any, rememberMe: boolean) => {
+    
+    let employee = new Employee(1, "h", "h", "h", true);
+  
+    if (rememberMe) {
+      await AsyncStorage.setItem('user', JSON.stringify(employee));
+    }
+  
+    navigation.reset({
+      index: 0,
+      routes: [{ name: 'Schedule_Form', params: { employee } }],
+    });
+  };
+
   const toggleShowPassword = () => {
     setShowPassword(!showPassword);
   };
@@ -67,6 +81,7 @@ export const useLoginController = () => {
     toggleLanguage,
     toggleShowPassword,
     handleLogin,
+    handleLogin2,
   };
 };
 
