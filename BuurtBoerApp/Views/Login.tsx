@@ -1,17 +1,16 @@
 import React, { useEffect, useState } from 'react';
-import { Switch, View, TextInput, Image, Text, TouchableOpacity, KeyboardAvoidingView, ScrollView } from 'react-native';
+import { Switch, LogBox, View, TextInput, Image, Text, TouchableOpacity, KeyboardAvoidingView, ScrollView } from 'react-native';
 import { before_login } from './css/before_login';
-import { handleLogin } from './../Controllers/Login';
+import { useLoginController } from './../Controllers/Login';
 import { useTranslation } from 'react-i18next';
-import i18next from './../Controllers/i18next';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
+LogBox.ignoreLogs(['Using Math.random is not cryptographically secure!']);
 interface LoginScreenProps {
   navigation: any;
 }
 
 const LoginScreen = (props: LoginScreenProps) => {
-
+  
   useEffect(() => {
     const checkLoggedIn = async () => {
       const user = await AsyncStorage.getItem('user');
@@ -28,20 +27,17 @@ const LoginScreen = (props: LoginScreenProps) => {
     checkLoggedIn();
   }, []);
 
+  const {
+    language,
+    showPassword,
+    toggleLanguage,
+    toggleShowPassword,
+    handleLogin,
+  } = useLoginController();
+
   const { t } = useTranslation();
-
-  const [language, setLanguage] = useState(i18next.language);
-
-  const toggleLanguage = () => {
-    const newLanguage = language === 'en' ? 'nl' : 'en';
-    setLanguage(newLanguage);
-    i18next.changeLanguage(newLanguage);
-  };
-
-
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [showPassword, setShowPassword] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
 
   const handleEmailChange = (text: string) => {
@@ -50,10 +46,6 @@ const LoginScreen = (props: LoginScreenProps) => {
 
   const handlePasswordChange = (text: string) => {
     setPassword(text);
-  };
-
-  const toggleShowPassword = () => {
-    setShowPassword(!showPassword);
   };
 
   const Schedule = () => props.navigation.navigate("Schedule_Form")
