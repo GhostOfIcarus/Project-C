@@ -10,7 +10,7 @@ export const handleChangePassword = async (password: string, confirmPassword: st
   } else {
     const salt = bcrypt.genSaltSync(10);
     const hashedPassword = bcrypt.hashSync(password, salt);
-    let response = await fetch('http://10.0.2.2:5000/api/employee/forgot_password', {
+    let response = await fetch('http://10.0.2.2:5000/api/employee/change_password', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
