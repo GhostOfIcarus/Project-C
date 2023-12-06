@@ -17,12 +17,14 @@ const WeekOverviewForm = (props: WeekOverviewFormProps) => {
   const { employee } = props.route.params;
 
   const { t } = useTranslation();
-  const Schedule_Form_Inac = () => props.navigation.navigate("Schedule_Form_Inac", { employee }) 
   const Settings = () => props.navigation.navigate("Settings", { employee })
+
+  const [isSubmitted, setIsSubmitted] = useState(false);
 
   const [isSchedule, setSchedule] = useState(false);
 
-  const isDisabled = false;
+  const [isDisabled, setDisabled] = useState(false);
+  const [buttonText, setButtonText] = useState('submit');
 
   const [weekNumber, setWeekNumber] = useState<number | null>(null);
 
@@ -57,6 +59,15 @@ const WeekOverviewForm = (props: WeekOverviewFormProps) => {
     loadSchedule();
   }, [employee]);
 
+  const handleSubmit = () => 
+  {    
+    setIsSubmitted(prevState => !prevState);
+
+    const CurrentState = ScheduleController.changeState(!isSubmitted);
+
+    setButtonText(CurrentState.buttonText);
+    setDisabled(CurrentState.isDisabled);
+  }
 
   return (
     <ScrollView contentContainerStyle={basestyles.container}>
@@ -93,9 +104,9 @@ const WeekOverviewForm = (props: WeekOverviewFormProps) => {
                 disabled={isDisabled}
                 value={isMonday}
                 onValueChange={(newValue) => setMonday(newValue)}
-                tintColors={{ true: '#099F91', false: 'black' }}
+                tintColors={{ true: isDisabled ? 'lightgray' : '#099F91', false: isDisabled ? 'gray' : 'black' }}              
               />
-                <Text style={basestyles.centered_text_black}>{t('monday')}</Text>
+                <Text style={[basestyles.centered_text_black, {color: isDisabled ? 'gray' : 'black'}]}>{t('monday')}</Text>
             </View>
 
             {/* Tuesday */}
@@ -104,9 +115,9 @@ const WeekOverviewForm = (props: WeekOverviewFormProps) => {
                     disabled={isDisabled}
                     value={isTuesday}
                     onValueChange={(newValue) => setTuesday(newValue)}
-                    tintColors={{ true: '#099F91', false: 'black' }}
-                />
-                <Text style={basestyles.centered_text_black}>{t('tuesday')}</Text>
+                    tintColors={{ true: isDisabled ? 'lightgray' : '#099F91', false: isDisabled ? 'gray' : 'black' }}              
+                    />
+                <Text style={[basestyles.centered_text_black, {color: isDisabled ? 'gray' : 'black'}]}>{t('tuesday')}</Text>
             </View>
 
             {/* Wednesday */}
@@ -115,9 +126,9 @@ const WeekOverviewForm = (props: WeekOverviewFormProps) => {
                     disabled={isDisabled}
                     value={isWednesday}
                     onValueChange={(newValue) => setWednesday(newValue)}
-                    tintColors={{ true: '#099F91', false: 'black' }}
-                />
-                <Text style={basestyles.centered_text_black}>{t('wednesday')}</Text>
+                    tintColors={{ true: isDisabled ? 'lightgray' : '#099F91', false: isDisabled ? 'gray' : 'black' }}              
+                    />
+                <Text style={[basestyles.centered_text_black, {color: isDisabled ? 'gray' : 'black'}]}>{t('wednesday')}</Text>
             </View>
 
             {/* Thursday */}
@@ -126,9 +137,9 @@ const WeekOverviewForm = (props: WeekOverviewFormProps) => {
                     disabled={isDisabled}
                     value={isThursday}
                     onValueChange={(newValue) => setThursday(newValue)}
-                    tintColors={{ true: '#099F91', false: 'black' }}
-                />
-                <Text style={basestyles.centered_text_black}>{t('thursday')}</Text>
+                    tintColors={{ true: isDisabled ? 'lightgray' : '#099F91', false: isDisabled ? 'gray' : 'black' }}              
+                    />
+                <Text style={[basestyles.centered_text_black, {color: isDisabled ? 'gray' : 'black'}]}>{t('thursday')}</Text>
             </View>
 
             {/* Friday */}
@@ -137,9 +148,9 @@ const WeekOverviewForm = (props: WeekOverviewFormProps) => {
                     disabled={isDisabled}
                     value={isFriday}
                     onValueChange={(newValue) => setFriday(newValue)}
-                    tintColors={{ true: '#099F91', false: 'black' }}
-                />
-                <Text style={basestyles.centered_text_black}>{t('friday')}</Text>
+                    tintColors={{ true: isDisabled ? 'lightgray' : '#099F91', false: isDisabled ? 'gray' : 'black' }}              
+                    />
+                <Text style={[basestyles.centered_text_black, {color: isDisabled ? 'gray' : 'black'}]}>{t('friday')}</Text>
             </View>
 
             {/* Saturday */}
@@ -148,9 +159,9 @@ const WeekOverviewForm = (props: WeekOverviewFormProps) => {
                     disabled={isDisabled}
                     value={isSaturday}
                     onValueChange={(newValue) => setSaturday(newValue)}
-                    tintColors={{ true: '#099F91', false: 'black' }}
-                />
-                <Text style={basestyles.centered_text_black}>{t('saturday')}</Text>
+                    tintColors={{ true: isDisabled ? 'lightgray' : '#099F91', false: isDisabled ? 'gray' : 'black' }}              
+                    />
+                <Text style={[basestyles.centered_text_black, {color: isDisabled ? 'gray' : 'black'}]}>{t('saturday')}</Text>
             </View>
 
             {/* Sunday */}
@@ -159,9 +170,9 @@ const WeekOverviewForm = (props: WeekOverviewFormProps) => {
                     disabled={isDisabled}
                     value={isSunday}
                     onValueChange={(newValue) => setSunday(newValue)}
-                    tintColors={{ true: '#099F91', false: 'black' }}
-                />
-                <Text style={basestyles.centered_text_black}>{t('sunday')}</Text>
+                    tintColors={{ true: isDisabled ? 'lightgray' : '#099F91', false: isDisabled ? 'gray' : 'black' }}              
+                    />
+                <Text style={[basestyles.centered_text_black, {color: isDisabled ? 'gray' : 'black'}]}>{t('sunday')}</Text>
             </View>
 
             {/* Keep schedule switch */}
@@ -171,12 +182,12 @@ const WeekOverviewForm = (props: WeekOverviewFormProps) => {
                 onValueChange={previousState => setSchedule(previousState)}
                 value={isSchedule}
                 disabled={isDisabled}
-                trackColor={{false: "#B6B6B6", true: "#099F91"}}
+                trackColor={{ true: isDisabled ? 'lightgray' : '#099F91', false:'lightgray' }}
               />
             </View>
 
-          <TouchableOpacity style={basestyles.button} onPress={Schedule_Form_Inac}>
-            <Text style={{ color: 'white', textAlign: 'center' }}>{t('submit')}</Text>
+          <TouchableOpacity style={basestyles.button} onPress={handleSubmit}>
+            <Text style={{ color: 'white', textAlign: 'center' }}>{t(buttonText)}</Text>
           </TouchableOpacity>
           
         </View>
