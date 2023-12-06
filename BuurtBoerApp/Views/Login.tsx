@@ -1,151 +1,139 @@
-// LoginScreen.js
-import React, { useState } from 'react';
-import { View, Dimensions, TextInput, Button, StyleSheet, Alert, Image, Text, TouchableOpacity, KeyboardAvoidingView, ScrollView   } from 'react-native';
-
+import React, { useEffect, useState } from 'react';
+import { Switch, LogBox, View, TextInput, Image, Text, TouchableOpacity, KeyboardAvoidingView, ScrollView } from 'react-native';
+import { before_login } from './css/before_login';
+import { useLoginController } from './../Controllers/Login';
+import { useTranslation } from 'react-i18next';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+LogBox.ignoreLogs(['Using Math.random is not cryptographically secure!']);
 interface LoginScreenProps {
   navigation: any;
 }
 
 const LoginScreen = (props: LoginScreenProps) => {
+  
+  useEffect(() => {
+    const checkLoggedIn = async () => {
+      const user = await AsyncStorage.getItem('user');
 
+      if (user) {
+        const employee = JSON.parse(user);
+        props.navigation.reset({
+          index: 0,
+          routes: [{ name: 'Schedule_Form', params: { employee } }],
+        });
+      }
+    };
+
+    checkLoggedIn();
+  }, []);
+
+  const {
+    language,
+    showPassword,
+    toggleLanguage,
+    toggleShowPassword,
+    handleLogin,
+  } = useLoginController();
+
+  const { t } = useTranslation();
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
-  const [showPassword, setShowPassword] = useState(false);
+  const [rememberMe, setRememberMe] = useState(false);
+
+  const handleEmailChange = (text: string) => {
+    setEmail(text);
+  };
 
   const handlePasswordChange = (text: string) => {
     setPassword(text);
   };
 
-  const handleConfirmPasswordChange = (text: string) => {
-    setConfirmPassword(text);
-  };
-
-  const toggleShowPassword = () => {
-    setShowPassword(!showPassword);
-  };
-  
-  const Schedule = () => props.navigation.navigate("Schedule")
+  const Schedule = () => props.navigation.navigate("Schedule_Form")
 
   const Create_Account = () => props.navigation.navigate("CreateAccount")
 
   const ForgotPassword = () => props.navigation.navigate("ForgotPassword")
 
   return (
-    <KeyboardAvoidingView>
-      <ScrollView contentContainerStyle={styles.container}>
-        <View style={styles.login_div}>
-          <View style={styles.img_div}>
+    <ScrollView contentContainerStyle={before_login.test}>
+    <KeyboardAvoidingView style={before_login.container}>
+      
+        <View style={before_login.content_div}>
+          
+          <View style={before_login.img_div}>
             <Image
               source={require('./img/buurtboer_logo.png')}
-              style={styles.image}
+              style={before_login.image}
             />
           </View>
 
           <TextInput
-            placeholder="E-mail"
-            style={styles.input}
-            // Handle username input
+            placeholder={t('email')}
+            style={before_login.input}
+            onChangeText={handleEmailChange}
+            placeholderTextColor="#979797"
+            value={email}
           />
           <TextInput
-           placeholder="Wachtwoord"
-           style={styles.input}
-           secureTextEntry={!showPassword}
-           onChangeText={handlePasswordChange}
-           value={password}
-            // Handle password input
+            placeholder={t('password')}
+            style={before_login.input}
+            secureTextEntry={!showPassword}
+            onChangeText={handlePasswordChange}
+            value={password}
+            placeholderTextColor="#979797"
           />
-          <View style={styles.forgotPasswordRow}>
+          <View style={before_login.forgotPasswordRow}>
             <TouchableOpacity onPress={ForgotPassword}>
-              <Text style={{ color: '#099F91', marginVertical: 10, marginHorizontal: 5 }}>Wachtwoord vergeten?</Text>
+              <Text style={{ color: '#099F91', marginVertical: 10, marginHorizontal: 5 }}>{t('forgotPassword')}</Text>
             </TouchableOpacity>
             <TouchableOpacity onPress={toggleShowPassword}>
               <Text style={{ color: '#099F91', marginVertical: 10, marginHorizontal: 5 }}>
-                {showPassword ? 'Verberg wachtwoord' : 'Toon wachtwoord'}
+                {showPassword ? t('hidePassword') : t('showPassword')}
               </Text>
             </TouchableOpacity>
           </View>
-          <TouchableOpacity style={styles.buttons} onPress={Schedule}>
-            <Text style={{ color: 'white', textAlign: 'center' }}>Login</Text>
+          <View style={before_login.rememberMeRow}>
+            <Text style={{marginVertical: 10, marginHorizontal: 5, justifyContent: 'flex-start' }}>{t('rememberMe')}</Text>
+            <Switch
+              style={{justifyContent: 'flex-start'}}
+              value={rememberMe}
+              onValueChange={setRememberMe}
+            />
+          </View>
+          <TouchableOpacity style={before_login.buttons} onPress={() => handleLogin(email, password, props.navigation, rememberMe)}>
+            <Text style={{ color: 'white', textAlign: 'center' }}>{t('login')}</Text>
           </TouchableOpacity>
-          <View style={styles.centered_text}>
-            <Text style={{ color: 'black' }}>OF</Text>
+          <View style={before_login.centered_text}>
+            <Text style={{ color: 'black' }}>{t('or')}</Text>
           </View>
 
-          <TouchableOpacity style={styles.buttons} onPress={Schedule}>
-            <Text style={{ color: 'white', textAlign: 'center' }}>Login met Google</Text>
+          <TouchableOpacity style={before_login.buttons} onPress={Schedule}>
+            <Text style={{ color: 'white', textAlign: 'center' }}>{t('google')}</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.buttons} onPress={Create_Account}>
-            <Text style={{ color: 'white', textAlign: 'center' }}>Login met Microsoft</Text>
+          <TouchableOpacity style={before_login.buttons} onPress={Create_Account}>
+            <Text style={{ color: 'white', textAlign: 'center' }}>{t('microsoft')}</Text>
           </TouchableOpacity>
+          <View style={before_login.flags_div}>
+            <View style={before_login.flags}>
+              <TouchableOpacity onPress={toggleLanguage} disabled={language === 'en'}>
+                <Image 
+                  style={language === 'en' ? before_login.inactiveFlag : before_login.activeFlag} 
+                  source={require('./img/en_flag.png')} 
+                />
+              </TouchableOpacity>
+              <TouchableOpacity onPress={toggleLanguage} disabled={language === 'nl'}>
+                <Image 
+                  style={language === 'nl' ? before_login.inactiveFlag : before_login.activeFlag} 
+                  source={require('./img/nl_flag.png')} 
+                />
+              </TouchableOpacity>
+            </View>
+          </View>
         </View>
+        </KeyboardAvoidingView>
       </ScrollView>
-    </KeyboardAvoidingView>
+    
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    height: Dimensions.get('window').height * 0.9666,
-    justifyContent: 'center',
-    padding: 16,
-    backgroundColor: '#D9D9D9',
-  },
-  login_div: {
-    flex: 1,
-    justifyContent: 'center',
-    padding: 16,
-    backgroundColor: '#fff',
-    shadowColor: 'black',
-    shadowRadius: 5,
-  },
-  forgotPasswordRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-  },
-  img_div: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#099F91',
-    paddingHorizontal: '10%',
-    paddingVertical: '5%',
-    marginHorizontal: '8%',
-    marginVertical: '2%',
-  },
-  input: {
-    height: '7%',
-    color: '#979797',
-    borderBottomWidth: 1,
-    borderBottomColor: 'gray',
-    marginBottom: '1%',
-    paddingLeft: 8,
-    marginTop: 10,
-    marginHorizontal: '2%',
-  },
-  image: {
-    backgroundColor: '#099F91',
-  },
-  centered_text: {
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  buttons: {
-    backgroundColor: '#F9834C',
-    color: 'white',
-    fontWeight: '600',
-    padding: '2%',
-    borderRadius: 10,
-    marginVertical: '2%',
-    marginHorizontal: '1%',
-    shadowColor: '#000',
-    shadowOffset: { width: 5, height: 20 },
-    shadowOpacity: 0.5,
-    shadowRadius: 10,
-    elevation: 5, // For Android
-  },
-});
-
-
-
 
 export default LoginScreen;

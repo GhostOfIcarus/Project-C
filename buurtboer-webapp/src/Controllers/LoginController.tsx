@@ -1,51 +1,76 @@
 import { useState, FormEvent } from 'react';
-
-interface User {
-  email: string;
-  password: string;
-}
+import axios, { AxiosError } from 'axios';
 
 interface ErrorMessages {
   name: string;
   message: string;
 }
 
-const database: User[] = [
-  {
-    email: 'user1@binky.com',
-    password: 'pass1',
-  }
-];
-
-const errors: { email: string; Pass: string } = {
-  email: 'invalid email',
-  Pass: 'invalid password',
+const errorMessages: { email: string; Pass: string } = {
+  email: 'Invalid email',
+  Pass: 'Invalid password',
 };
 
 export function useLoginController() {
-  const [errorMessages, setErrorMessages] = useState<ErrorMessages>({ name: '', message: '' });
+  const [errorMessage, setErrorMessage] = useState<ErrorMessages>({ name: '', message: '' });
   const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
+  const [loginFailed, setLoginFailed] = useState<boolean>(false);
 
   const renderErrorMessage = (name: string) =>
-    name === errorMessages.name && <div className='error'>{errorMessages.message}</div>;
+    name === errorMessage.name && <div className='error'>{errorMessage.message}</div>;
 
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-
-    const { Email, Pass } = event.currentTarget.elements as any;
-
-    const userData = database.find((user) => user.email === Email.value);
-
-    if (userData) {
-      if (userData.password !== Pass.value) {
-        setErrorMessages({ name: 'Pass', message: errors.Pass });
-      } else {
-        setIsSubmitted(true);
+    const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
+      event.preventDefault();
+    
+      const form = event.currentTarget;
+      const email = form.Email.value;
+      const password = form.Pass.value;
+    
+      try {
+        let response = await axios.post('http://localhost:5000/api/CompanyAdmin/login', {
+          email,
+          password
+        }, {
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        });
+    
+        if (response.data) {
+          console.log(response.data);
+          setIsSubmitted(true);
+          return;
+        }
+      } catch (error) {
+        const axiosError = error as AxiosError;
+        console.log(error);
+        if (axiosError.response && axiosError.response.status === 401) {
+          // If Company Admin login failed, try Super Admin login
+          try {
+            const response = await axios.post('http://localhost:5000/api/SuperAdmin/login', {
+              email,
+              password
+            }, {
+              headers: {
+                'Content-Type': 'application/json'
+              }
+            });
+    
+            if (response.data) {
+              console.log(response.data);
+              setIsSubmitted(true);
+            }
+          } catch (error) {
+            console.log(error);
+            setLoginFailed(true);
+            setErrorMessage({ name: 'email', message: errorMessages.email });
+          }
+        } else {
+          setLoginFailed(true);
+          setErrorMessage({ name: 'email', message: errorMessages.email });
+        }
       }
-    } else {
-      setErrorMessages({ name: 'Email', message: errors.email });
-    }
-  };
+    };
 
-  return { isSubmitted, renderErrorMessage, handleSubmit };
+  return { isSubmitted, loginFailed, renderErrorMessage, handleSubmit };
 }

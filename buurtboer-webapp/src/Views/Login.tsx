@@ -1,25 +1,37 @@
 import { useLoginController } from '../Controllers/LoginController';
-import { Link } from 'react-router-dom';  
-import logo from './img/buurtboer_logo.png'; 
+import { useNavigate, Link } from 'react-router-dom';
+import logo from './img/buurtboer_logo.png';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import styles from './Stylesheets/Login.module.css';
+import genstyles from './Stylesheets/GeneralStyles.module.css';
+import loginstyles from './Stylesheets/Login.module.css';
+import { useEffect } from 'react';
+
+
 
 export function Login() {
-  const { isSubmitted, renderErrorMessage, handleSubmit } = useLoginController();
+  const { isSubmitted, loginFailed, renderErrorMessage, handleSubmit } = useLoginController();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (isSubmitted) {
+      navigate('/Employee_Overview');
+    }
+  }, [isSubmitted]);
 
   const renderForm = (
-    <>
-      <div className={styles.title}>Inloggen</div>
+    <>    
+      <div className={genstyles.title}>Inloggen</div>
       <form onSubmit={handleSubmit}>
-        <input type='email' placeholder='Email' name='Email' required />
+        <input type='email' placeholder='Email' name='Email' required className={loginFailed ? loginstyles.errorInput : ''}/>
         {renderErrorMessage('Email')}
-        <input type='password' placeholder='Wachtwoord' name='Pass' required />
-        <Link to="/Forgot_Password" className='forgot-password'>Wachtwoord vergeten?</Link>
-        <div className={styles['button-box']}>
-          <button className={styles['button']}>Login</button>
+        <input type='password' placeholder='Wachtwoord' name='Pass' required className={loginFailed ? loginstyles.errorInput : ''} />
+        {loginFailed && <div className={loginstyles.errorInputs}>User details were not found</div>}
+        <Link to="/Forgot_Password" className={genstyles.link}>Wachtwoord vergeten?</Link>
+        <div className={loginstyles.login_button_div}>
+          <button className={genstyles.button}>Login</button>
           <p>OF</p>
-          <button className={styles['button']}>Login met Google</button>
-          <button className={styles['button']}>Login met Microsoft</button>
+          <button className={genstyles.button}>Login met Google</button>
+          <button className={genstyles.button}>Login met Microsoft</button>
         </div>
       </form>
     </>
@@ -27,14 +39,13 @@ export function Login() {
 
   return (
     <>
-      <div className={styles.Body}></div>
-      <div className='container'>
+      <div className={genstyles.container}>
         <div className='row'>
-          <div className='col-lg-6 login-form'>
-            {isSubmitted ? <div className={styles['logged-in']}>Je bent ingelogd!</div> : renderForm}
+          <div className={`col-lg-6 ${genstyles.login_div}`}>            
+            {!isSubmitted && renderForm}
           </div>
-          <div className='col-lg-6 image-box'>
-            <img src={logo} alt="Buurtboer Logo" className={styles.Buurtboerlogo} />
+          <div className={`col-lg-6 ${genstyles.image_div}`}>
+            <img src={logo} alt="Buurtboer Logo" className={genstyles.Buurtboerlogo} />
           </div>
         </div>
       </div>
@@ -43,3 +54,4 @@ export function Login() {
 }
 
 export default Login;
+

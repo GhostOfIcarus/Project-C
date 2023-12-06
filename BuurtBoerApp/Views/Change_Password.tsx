@@ -1,12 +1,17 @@
-// LoginScreen.js
 import React, { useState } from 'react';
-import { View, TextInput, Button, StyleSheet, Alert, Image, Text, TouchableOpacity, KeyboardAvoidingView, ScrollView   } from 'react-native';
+import { View, TextInput, Image, Text, TouchableOpacity, KeyboardAvoidingView, ScrollView } from 'react-native';
+import { before_login } from './css/before_login';
+import { handleChangePassword } from './../Controllers/Change_Password';
+import Employee from '../Models/Employee_Model';
+import { useTranslation } from 'react-i18next';
 
-interface LoginScreenProps {
+interface ChangePasswordProps {
   navigation: any;
+  route: any;
 }
 
-const Change_Password = (props: LoginScreenProps) => {
+const Change_Password = (props: ChangePasswordProps) => {
+  const { t } = useTranslation();
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
@@ -19,46 +24,46 @@ const Change_Password = (props: LoginScreenProps) => {
     setConfirmPassword(text);
   };
 
+  const employee: Employee = props.route.params.employee;
+
   const toggleShowPassword = () => {
     setShowPassword(!showPassword);
   };
 
-  const login = () => props.navigation.navigate("Login");
-
   return (
     <KeyboardAvoidingView style={{ flex: 1 }}>
-      <ScrollView contentContainerStyle={styles.container}>
-        <View style={styles.login_div}>
-          <View style={styles.img_div}>
+      <ScrollView contentContainerStyle={before_login.container}>
+        <View style={before_login.content_div}>
+          <View style={before_login.img_div}>
             <Image
               source={require('./img/buurtboer_logo.png')}
-              style={styles.image}
+              style={before_login.image}
             />
           </View>
-          <View style={styles.change_password_div}>
-              <Text style={styles.change_password}>Wachtwoord vergeten </Text>
+          <View style={before_login.content_header_div}>
+              <Text style={before_login.content_header}>{t('changePasswordHeader')} </Text>
           </View>
           <TextInput
-            placeholder="Nieuw wachtwoord"
-            style={styles.input}
+            placeholder={t('newPassword')}
+            style={before_login.input}
             secureTextEntry={!showPassword}
             onChangeText={handlePasswordChange}
             value={password}
           />
           <TextInput
-            placeholder="Herhaal wachtwoord"
-            style={styles.input}
+            placeholder={t('confirmPassword')}
+            style={before_login.input}
             secureTextEntry={!showPassword}
             onChangeText={handleConfirmPasswordChange}
             value={confirmPassword}
           />
           <TouchableOpacity onPress={toggleShowPassword}>
-            <Text style={{ color: '#099F91', textAlign: 'center', marginTop: 10 }}>
-              {showPassword ? 'Verberg wachtwoord' : 'Toon wachtwoord'}
+            <Text style={{ color: '#099F91', marginVertical: '2%', textAlign: 'center', marginTop: 10 }}>
+              {showPassword ? t('hidePassword') : t('showPassword')}
             </Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.buttons} onPress={login}>
-            <Text style={{ color: 'white', textAlign: 'center' }}>Verstuur</Text>
+          <TouchableOpacity style={before_login.buttons} onPress={() => handleChangePassword(password, confirmPassword, props.navigation, employee)}>
+            <Text style={{ color: 'white', textAlign: 'center' }}>{t('changePassword')}</Text>
           </TouchableOpacity>
           
         </View>
@@ -66,70 +71,5 @@ const Change_Password = (props: LoginScreenProps) => {
     </KeyboardAvoidingView>
   );
 };
-
-const styles = StyleSheet.create({
-    container: {
-      flexGrow: 1,
-      justifyContent: 'center',
-      padding: 25,
-      backgroundColor: '#D9D9D9',
-    },
-    login_div: {
-      flex: 1,
-      justifyContent: 'center',
-      padding: 16,
-      backgroundColor: '#fff',
-      shadowColor: 'black',
-      shadowRadius: 10,
-    },
-    img_div: {
-      alignItems: 'center',
-      backgroundColor: '#099F91',
-      paddingHorizontal: 20,
-      paddingVertical: 25,
-      marginHorizontal: 20,
-      marginVertical: 5,
-    },
-    change_password_div:{
-      justifyContent: 'center',
-      alignItems: 'center',
-    },
-    change_password: {
-      justifyContent: 'center',
-      alignItems: 'center',
-      paddingHorizontal: 20,
-      paddingVertical: 25,
-      marginHorizontal: 20,
-      marginVertical: 5,
-      color: 'black',
-      fontSize: 20,
-    },
-    input: {
-      height: 40,
-      color: '#979797',
-      borderBottomWidth: 1,
-      borderBottomColor: 'gray',
-      marginBottom: 12,
-      paddingLeft: 8,
-      marginHorizontal: 5,
-    },
-    image: {
-      backgroundColor: '#099F91',
-    },
-    buttons: {
-      backgroundColor: '#F9834C',
-      color: 'white',
-      fontWeight: '600',
-      padding: 10,
-      borderRadius: 10,
-      marginVertical: 15,
-      marginHorizontal: 5,
-      shadowColor: '#000',
-      shadowOffset: { width: 5, height: 20 },
-      shadowOpacity: 0.5,
-      shadowRadius: 10,
-      elevation: 5, // For Android
-    },
-});
 
 export default Change_Password;

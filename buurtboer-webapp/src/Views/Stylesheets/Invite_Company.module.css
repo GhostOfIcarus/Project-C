@@ -1,0 +1,116 @@
+.top-border {
+    background-color: rgb(255, 255, 255); 
+    height: 80px; 
+    box-shadow: 0 4px 8px rgba(130, 127, 127, 0.5);
+    position: relative;
+    
+}
+
+.container {
+    overflow: hidden;
+}
+
+.left-align {
+    float: left;
+    margin-top: 0px;
+}
+
+.left-align p a {
+    margin-left: 0px;
+    margin-right: 100px;
+    text-decoration: none;
+    color: #F9834C;
+}
+
+.right-align {
+    float: right;
+    margin-bottom: 0px;
+}
+
+.right-align p a {
+    margin-right: 20px;
+    text-decoration: none;
+    color: #F9834C;
+}
+
+.center-align {
+    margin: 0 auto;
+    text-align: center;
+}
+
+button {
+    background-color: #ffffff;
+    color: rgb(0, 0, 0);
+    border-color: #ffffffa0;
+    width: 150px;
+    height: 50px;
+    border-radius: 10px;
+    padding: 10px 5px;
+    font-size: 16px;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    margin-top: 0px;
+    box-shadow: 0 4px 8px rgba(130, 127, 127, 0.5);
+}
+
+.top-button {
+    background-color: #ffffff;
+    color: rgb(0, 0, 0);
+    width: 200px;
+    height: 50px;
+    padding: 10px 15px;
+    font-size: 16px;
+    cursor: pointer;
+    border: none; 
+    box-shadow: none; 
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    margin-top: 10px; 
+}
+.top-button:hover{
+    background-color: #ffffff;
+}
+
+button:hover {
+    background-color: rgb(9,160,145,255);
+}
+
+.invite-button{
+    background-color: #F9834C;
+    color: white;
+    border-color: #f1f1f1a0;
+}
+
+form {
+    width: 25%;
+    height: 30px;
+    margin: 0 auto; 
+    border-collapse: collapse;
+    margin-top: 80px;
+}
+
+.form-container {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(130, 127, 127, 0.5);
+    margin-top: 100px; 
+    width: 70%;
+    margin-bottom: 700px;
+}
+
+.form_items input {
+    display: block;
+    width: 100%; 
+    margin-bottom: 15px; 
+}
+
+.top-border img {
+    position: absolute;
+    left: 0; 
+    top: 0; 
+    width: 80px; 
+    height: auto; 
+}
+
+p a {
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
