@@ -28,6 +28,8 @@ const WeekOverviewForm = (props: WeekOverviewFormProps) => {
 
   const [weekNumber, setWeekNumber] = useState<number | null>(null);
 
+  const [scheduleId, setScheduleId] = useState<number | null>(null);
+
   const [isMonday, setMonday] = useState(false);
   const [isTuesday, setTuesday] = useState(false);
   const [isWednesday, setWednesday] = useState(false);
@@ -45,7 +47,8 @@ const WeekOverviewForm = (props: WeekOverviewFormProps) => {
       if (CurrentSchedule) 
       {
         setWeekNumber(CurrentSchedule.week);
-        
+        setScheduleId(CurrentSchedule.id);
+
         setMonday(CurrentSchedule.monday);
         setTuesday(CurrentSchedule.tuesday);
         setWednesday(CurrentSchedule.wednesday);
@@ -69,9 +72,9 @@ const WeekOverviewForm = (props: WeekOverviewFormProps) => {
     setButtonText(CurrentState.buttonText);
     setDisabled(CurrentState.isDisabled);
 
-    if(!isSubmitted)
-    {
-      ScheduleModel.updateScheduleData(employee, isMonday, isTuesday, isWednesday, isThursday, isFriday, isSaturday, isSunday);
+    if (!isSubmitted) {
+      console.log("Sending:", scheduleId , employee, isMonday, isTuesday, isWednesday, isThursday, isFriday, isSaturday, isSunday)
+      ScheduleModel.updateScheduleData(scheduleId ?? 0, employee, isMonday, isTuesday, isWednesday, isThursday, isFriday, isSaturday, isSunday);
     }
   }
 

@@ -82,22 +82,18 @@ class Schedule
         console.error(`HTTP ${response.status}: ${response.statusText}`);
         return;
       }
-
-      const data = await response.json();
-      console.log(data);
+      
     }
 
-    static async updateScheduleData(Emp: Employee, m: boolean, tu: boolean, w: boolean, th: boolean, f: boolean, sa: boolean, su: boolean)
+    static async updateScheduleData(schedule_id: number, Emp: Employee, m: boolean, tu: boolean, w: boolean, th: boolean, f: boolean, sa: boolean, su: boolean)
     {
-      const sched = await this.fetchScheduleData(Emp);
-      const schedId = sched?.id;
-
+      console.log("getting:", schedule_id, m, tu, w, th, f, sa, su)
       const response = await fetch('http://10.0.2.2:5000/api/employee/schedule/update', {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ schedId, m, tu, w, th, f, sa, su }),
+        body: JSON.stringify({ schedule_id, m, tu, w, th, f, sa, su }),
       });
 
       if (!response.ok) {

@@ -72,12 +72,11 @@ const createEmployeeSchedule = async (employeeId, week) => {
 const updateEmployeeSchedule = async (schedule_id,  m, tu, w, th, f, sa, su) => {
 	try {
 		const db = await pool.connect();
-	
 		const results = await db.query(`UPDATE schedule SET monday = $2, tuesday = $3, wednesday = $4, thursday = $5, friday = $6, saturday = $7, sunday = $8
 										WHERE id = $1 RETURNING *`, [schedule_id, m, tu, w, th, f, sa, su]);
 	
 		if (results.rowCount === 0) {
-		  console.error('No schedule found with this Id:', email);
+		  console.error('No schedule found with this Id:', schedule_id);
 		  return false;
 		}
 	

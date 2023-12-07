@@ -100,10 +100,10 @@ app.post('/api/employee/schedule/create', async (req, res) => {
 	  }
 });
 
-app.post('/api/employee/schedule/update', async (req, res) => {
+app.put('/api/employee/schedule/update', async (req, res) => {
 	try {
-		const { sched_id, m, tu, w, th, f, sa, su } = req.body;
-		const updateResult = await Functions.createEmployeeSchedule(sched_id, m, tu, w, th, f, sa, su);
+		const { schedule_id, m, tu, w, th, f, sa, su } = req.body;
+		const updateResult = await Functions.updateEmployeeSchedule(schedule_id, m, tu, w, th, f, sa, su);
 	
 		if (updateResult) 
 		{
