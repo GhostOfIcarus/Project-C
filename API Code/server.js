@@ -25,23 +25,31 @@ app.use(function (req, res, next) {
 	next();
 });
 
-// Middleware function to verify JWT tokens
-const verifyJWT = (req, res, next) => {
-	const token = req.cookies['jwt-token'];
-
-	if (!token) {
-	  return res.status(401).json({ error: 'Unauthorized' });
-	}
-
-	jwt.verify(token, 'thisisaverysecretkeyspongebob', (err, decoded) => {
-	  if (err) {
-		return res.status(401).json({ error: 'Invalid token' });
+// Middleware function to verify JWT tokens and attach the user object to the request
+const verifyJWT = async (req, res, next) => {
+	try {
+	  const token = req.cookies['jwt-token'];
+  
+	  if (!token) {
+		return res.status(401).json({ error: 'Unauthorized' });
 	  }
-
+  
+	  const decoded = await jwt.verify(token, 'thisisaverysecretkeyspongebob');
+  
 	  // Attach user information to the request
 	  req.user = decoded;
+    
 	  next();
-	});
+	} catch (error) {
+	  console.error('Authentication error:', error);
+  
+	  if (error.name === 'JsonWebTokenError') {
+		return res.status(401).json({ error: 'Invalid token' });
+	  }
+  
+	  // Handle other errors
+	  res.status(500).json({ error: 'Internal Server Error' });
+	}
   };
 
 
@@ -79,7 +87,7 @@ app.post('/api/employee/schedule', async (req, res) => {
 
 // Endpoint for checking authentication
 app.get('/api/auth', verifyJWT, (req, res) => {
-	res.status(200).json({ message: 'Authenticated' });
+	res.status(200).json({ message: 'Authenticated', user: req.user });
 });
 
 
@@ -133,7 +141,17 @@ app.post('/api/CompanyAdmin/login', async (req, res) => {
 		  }
 
 		// Generate an access token using JWT (JSON Web Token)
-		const token = jwt.sign({ userId: userData.id }, 'thisisaverysecretkeyspongebob', { expiresIn: '2h' });
+		const token = jwt.sign(
+			{
+				userId: userData.id,
+				firstName: userData.admin_first_name,
+				lastName: userData.admin_last_name,
+				userEmail: userData.email,
+				full_schedule: userData.full_schedule,
+			},
+			'thisisaverysecretkeyspongebob',
+			{ expiresIn: '2h' }
+		);
 
 		// Set the access token as a cookie (HTTP-only)
 		res.cookie('jwt-token', token, { httpOnly: true, maxAge: 2 * 60 * 60 * 1000 }); // 2 hours max age
@@ -157,7 +175,16 @@ app.post('/api/SuperAdmin/login', async (req, res) => {
 		  }
 
 		// Generate an access token using JWT (JSON Web Token)
-		const token = jwt.sign({ userId: userData.id }, 'thisisaverysecretkeyspongebob', { expiresIn: '2h' });
+		const token = jwt.sign(
+			{
+				userId: userData.id,
+				firstName: userData.first_name,
+				lastName: userData.last_name,
+				userEmail: userData.email,
+			},
+			'thisisaverysecretkeyspongebob',
+			{ expiresIn: '2h' }
+		);
 
 		// Set the access token as a cookie (HTTP-only)
 		res.cookie('jwt-token', token, { httpOnly: true, maxAge: 2 * 60 * 60 * 1000 }); // 2 hours max age
