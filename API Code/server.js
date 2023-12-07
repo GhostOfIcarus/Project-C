@@ -15,15 +15,21 @@ app.use(cookieParser());
 
 // Middleware to handle CORS
 app.use(function (req, res, next) {
-	const allowedOrigins = ['http://localhost:3000', 'http://localhost:8081', 'http://10.0.2.2:3000', 'http://10.0.2.2:8081'];
+	const allowedOrigins = ['http://localhost:3000', 'http://localhost:5000','http://localhost:8081', 'http://10.0.2.2:3000', 'http://10.0.2.2:8081'];
 	const origin = req.headers.origin;
 	if (allowedOrigins.includes(origin)) {
-		res.setHeader('Access-Control-Allow-Origin', origin);
-	  }
+	  res.setHeader('Access-Control-Allow-Origin', origin);
+	}
+  
 	res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
 	res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Access-Control-Allow-Headers');
+  
+	// Allow credentials
+	res.setHeader('Access-Control-Allow-Credentials', 'true');
+  
 	next();
-});
+  });
+  
 
 // Middleware function to verify JWT tokens and attach the user object to the request
 const verifyJWT = async (req, res, next) => {
@@ -120,7 +126,7 @@ app.put('/api/employee/schedule/update', async (req, res) => {
 
 // Endpoint for checking authentication
 app.get('/api/auth', verifyJWT, (req, res) => {
-	res.status(200).json({ message: 'Authenticated', user: req.user });
+	res.status(200).json({ message: 'Authenticated', userData: req.user });
 });
 
 
@@ -187,7 +193,7 @@ app.post('/api/CompanyAdmin/login', async (req, res) => {
 		);
 
 		// Set the access token as a cookie (HTTP-only)
-		res.cookie('jwt-token', token, { httpOnly: true, maxAge: 2 * 60 * 60 * 1000 }); // 2 hours max age
+		res.cookie('jwt-token', token, { maxAge: 2 * 60 * 60 * 1000 }); // 2 hours max age
 
 		res.status(200).json({ token: token, userData: userData });
 	} catch (error) {

@@ -31,6 +31,7 @@ export function useLoginController() {
           email,
           password
         }, {
+          withCredentials: true,
           headers: {
             'Content-Type': 'application/json'
           }
@@ -51,11 +52,12 @@ export function useLoginController() {
               email,
               password
             }, {
+              withCredentials: true,
               headers: {
                 'Content-Type': 'application/json'
               }
             });
-    
+
             if (response.data) {
               console.log(response.data);
               setIsSubmitted(true);

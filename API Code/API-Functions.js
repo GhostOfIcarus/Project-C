@@ -1,7 +1,5 @@
 const Pool = require('pg').Pool;
 
-
-// UHOH password is visible not good for production!!!
 const pool = new Pool({ 
 	user: 'postgres',
 	host: 'localhost',
