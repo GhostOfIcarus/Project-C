@@ -68,8 +68,10 @@ class Schedule
   
         const data = await response.json();
         console.log(data);
-        return new Schedule(data.schedule_id, data.week_number, data.monday, data.tuesday, data.wednesday, data.thursday, data.friday, data.saturday, data. sunday);
+        return new Schedule(data.schedule_id, data.week_number, data.monday, data.tuesday, data.wednesday, data.thursday, data.friday, data.saturday, data.sunday);
       }
+
+      return new Schedule(data.schedule_id, data.week_number, data.monday, data.tuesday, data.wednesday, data.thursday, data.friday, data.saturday, data.sunday);
 
     };
 
