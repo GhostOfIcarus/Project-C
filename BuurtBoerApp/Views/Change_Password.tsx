@@ -62,7 +62,7 @@ const Change_Password = (props: ChangePasswordProps) => {
               {showPassword ? t('hidePassword') : t('showPassword')}
             </Text>
           </TouchableOpacity>
-          <TouchableOpacity style={before_login.buttons} onPress={() => handleChangePassword(password, confirmPassword, props.navigation, employee)}>
+          <TouchableOpacity style={before_login.buttons} onPress={() => handleChangePassword(password, confirmPassword, props.navigation, employee, t)}>
             <Text style={{ color: 'white', textAlign: 'center' }}>{t('changePassword')}</Text>
           </TouchableOpacity>
           

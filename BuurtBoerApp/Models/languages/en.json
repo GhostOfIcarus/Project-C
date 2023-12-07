@@ -36,5 +36,17 @@
     "company": "Company",
     "notifications": "Notifications",
     "rememberMe": "Remember Me",
-    "logout": "Logout"
+    "logout": "Logout",
+    "email_error": "Email not found!",
+    "email_error_text": "Email not found in our database, please try again.",
+    "user_error": "Account not found!",
+    "user_error_text": "Your email or password is incorrect, please try again.",
+    "passowrd_incorrect_error": "Wrong password!",
+    "passowrd_incorrect_error_text": "Your password is incorrect, please try again.",
+    "password_lenght_error": "Password to short!",
+    "password_lenght_error_text": "Password must be at least 5 characters long.",
+    "password_match_error": "Password doesn't match!",
+    "password_match_error_text": "Please make sure your passwords match.",
+    "succes": "Success!",
+    "password_change_success": "Your Password has been changed!"
   }

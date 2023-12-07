@@ -46,6 +46,9 @@ const getSingleEmployeeData = async (email, password) => {
 		const db = await pool.connect();
 
 		const results = await db.query("SELECT * FROM employee WHERE email = $1 AND password = $2", [email, password]);
+		if (results.rowCount === 0) {
+			return false;
+		  }
 		return results.rows[0];
 	} catch (error) {
 		console.error(error);
@@ -59,6 +62,9 @@ const getSingleEmployeeByEmailData = async (email) => {
 		const db = await pool.connect();
 
 		const results = await db.query("SELECT * FROM employee WHERE email = $1", [email]);
+		if (results.rowCount === 0) {
+			return false;
+		  }
 		return results.rows[0];
 	} catch (error) {
 		console.error(error);

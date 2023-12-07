@@ -15,8 +15,8 @@ export const useLoginController = () => {
     i18next.changeLanguage(newLanguage);
   };
 
-  const handleLogin = async (email: string, password: string, navigation: any, rememberMe: boolean) => {
-    let response = await fetch('http://10.0.2.2:5000/api/employee/forgot_password', {
+  const handleLogin = async (email: string, password: string, navigation: any, rememberMe: boolean, t: Function) => {
+    let response = await fetch('http://10.0.2.2:5000/api/employee/login', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -32,7 +32,13 @@ export const useLoginController = () => {
     }
   
     let data = await response.json();
-    console.log(data); // inspect the response
+
+
+    if (!data) {
+      Alert.alert(t('user_error'), t('user_error_text'));
+      return;
+    }
+    console.log(data); 
   
     if (data.error) {
       Alert.alert('Error', data.error);
@@ -41,7 +47,7 @@ export const useLoginController = () => {
     const passwordsMatch = bcrypt.compareSync(password, data.password);
   
     if (!passwordsMatch) {
-      Alert.alert('Error', 'Employee data not found in the response');
+      Alert.alert(t('passowrd_incorrect_error'), t('passowrd_incorrect_error_text'));
       return;
     }
     let employeeData = data;

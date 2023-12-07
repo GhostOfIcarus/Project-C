@@ -87,7 +87,7 @@ app.get('/api/auth', verifyJWT, (req, res) => {
 app.post('/api/employee/login', async (req, res) => {
 	try {
 		const { email, password } = req.body;
-		const userData = await Functions.getSingleEmployeeData(email, password);
+		const userData = await Functions.getSingleEmployeeByEmailData(email, password);
 		res.status(200).json(userData);
 	} catch (error) {
 		console.error(error);

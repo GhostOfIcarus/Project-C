@@ -49,8 +49,6 @@ const LoginScreen = (props: LoginScreenProps) => {
     setPassword(text);
   };
 
-  const Schedule = () => props.navigation.navigate("Schedule_Form")
-
   const Create_Account = () => props.navigation.navigate("CreateAccount")
 
   const ForgotPassword = () => props.navigation.navigate("ForgotPassword")
@@ -101,7 +99,7 @@ const LoginScreen = (props: LoginScreenProps) => {
               onValueChange={setRememberMe}
             />
           </View>
-          <TouchableOpacity style={before_login.buttons} onPress={() => handleLogin(email, password, props.navigation, rememberMe)}>
+          <TouchableOpacity style={before_login.buttons} onPress={() => handleLogin(email, password, props.navigation, rememberMe, t)}>
             <Text style={{ color: 'white', textAlign: 'center' }}>{t('login')}</Text>
           </TouchableOpacity>
           <View style={before_login.centered_text}>
