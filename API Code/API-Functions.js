@@ -33,7 +33,15 @@ const getEmployeeSchedule = async (employeeId, week) => {
 									  JOIN schedulefromemployee ON schedulefromemployee.schedule_id = schedule.id
 									  WHERE schedulefromemployee.employee_id = $1 AND schedule.week_number = $2
 									`, [employeeId, week]);
-	  return results.rows[0];
+
+	if (results.rowCount === 0) {
+		console.error('No schedule found with this Id:', employeeId);
+		return false;
+	}
+	else{
+		return results.rows[0];
+	}
+	  
 	} catch (error) {
 	  console.error(error);
 	  console.error('Error in getting user data:', error);
@@ -46,14 +54,22 @@ const createEmployeeSchedule = async (employeeId, week) => {
 	  const db = await pool.connect();
   
 	  const results = await db.query(`
-	  									INSERT INTO schedules (employee_id, week_number, monday, tuesday, wednesday, thursday, friday, saturday, sunday)
-	  									VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9);
-									`, [employeeId, week, false, false, false, false, false, false, false]);
-	
+										INSERT INTO schedule (week_number, monday, tuesday, wednesday, thursday, friday, saturday, sunday)
+										VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
+										RETURNING id;
+									`, [week, false, false, false, false, false, false, false]);
+	  
 	if (results.rowCount > 0) 
-	{
-		console.log('Insert successful');
-		return true;
+	{	
+		const results2 = await db.query(`
+										INSERT INTO ScheduleFromEmployee (schedule_id, employee_id)
+										VALUES ($1, $2);
+									`, [results.rows[0].id, employeeId]);
+		if (results2.rowCount > 0) 
+		{	
+			console.log('Insert successful');
+			return true;
+		}
 	} 
 	else 
 	{

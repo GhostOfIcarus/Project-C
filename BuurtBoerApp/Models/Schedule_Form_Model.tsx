@@ -51,13 +51,14 @@ class Schedule
 
       if(!data)
       {
-        this.createScheduleData(Emp);
+        await this.createScheduleData(Emp);
+        console.log("creating schedule");
         this.fetchScheduleData(Emp);
       }
       else
       {
         console.log(data);
-        return new Schedule(data.id, data.week_number, data.monday, data.tuesday, data.wednesday, data.thursday, data.friday, data.saturday, data. sunday);
+        return new Schedule(data.schedule_id, data.week_number, data.monday, data.tuesday, data.wednesday, data.thursday, data.friday, data.saturday, data. sunday);
       }
 
     };

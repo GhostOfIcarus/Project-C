@@ -73,7 +73,6 @@ const WeekOverviewForm = (props: WeekOverviewFormProps) => {
     setDisabled(CurrentState.isDisabled);
 
     if (!isSubmitted) {
-      console.log("Sending:", scheduleId , employee, isMonday, isTuesday, isWednesday, isThursday, isFriday, isSaturday, isSunday)
       ScheduleModel.updateScheduleData(scheduleId ?? 0, employee, isMonday, isTuesday, isWednesday, isThursday, isFriday, isSaturday, isSunday);
     }
   }
