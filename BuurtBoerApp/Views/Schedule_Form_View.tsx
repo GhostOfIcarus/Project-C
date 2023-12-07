@@ -4,7 +4,7 @@ import { basestyles } from './css/styles';
 import CheckBox from '@react-native-community/checkbox';
 import { useTranslation } from 'react-i18next';
 
-import Schedule from '../Models/Schedule_Form_Model'
+import ScheduleModel from '../Models/Schedule_Form_Model'
 import ScheduleController from './../Controllers/Schedule_Form_Cont'
 
 interface WeekOverviewFormProps 
@@ -40,7 +40,7 @@ const WeekOverviewForm = (props: WeekOverviewFormProps) => {
   {
     const loadSchedule = async () => 
     {
-      const CurrentSchedule = await Schedule.fetchScheduleData(employee);
+      const CurrentSchedule = await ScheduleModel.fetchScheduleData(employee);
 
       if (CurrentSchedule) 
       {
@@ -54,6 +54,7 @@ const WeekOverviewForm = (props: WeekOverviewFormProps) => {
         setSaturday(CurrentSchedule.saturday);
         setSunday(CurrentSchedule.sunday);
       }
+      
     };
 
     loadSchedule();
@@ -67,6 +68,11 @@ const WeekOverviewForm = (props: WeekOverviewFormProps) => {
 
     setButtonText(CurrentState.buttonText);
     setDisabled(CurrentState.isDisabled);
+
+    if(!isSubmitted)
+    {
+      ScheduleModel.updateScheduleData(employee, isMonday, isTuesday, isWednesday, isThursday, isFriday, isSaturday, isSunday);
+    }
   }
 
   return (

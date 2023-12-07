@@ -84,6 +84,39 @@ app.post('/api/employee/schedule', async (req, res) => {
 	}
   });
 
+app.post('/api/employee/schedule/create', async (req, res) => {
+	try {
+		const { id, week } = req.body;
+		const insertResult = await Functions.createEmployeeSchedule(id, week);
+	
+		if (insertResult) {
+		  res.status(200).json({ message: 'Schedule inserted successfully' });
+		} else {
+		  res.status(500).json({ error: 'Failed to insert schedule' });
+		}
+	  } catch (error) {
+		console.error(error);
+		res.status(500).json({ error: 'wah wah Internal server error' });
+	  }
+});
+
+app.post('/api/employee/schedule/update', async (req, res) => {
+	try {
+		const { sched_id, m, tu, w, th, f, sa, su } = req.body;
+		const updateResult = await Functions.createEmployeeSchedule(sched_id, m, tu, w, th, f, sa, su);
+	
+		if (updateResult) 
+		{
+		  res.status(200).json({ message: 'Schedule updated successfully' });
+		} else {
+		  res.status(500).json({ error: 'Failed to updated schedule' });
+		}
+	  } catch (error) {
+		console.error(error);
+		res.status(500).json({ error: 'wah wah Internal server error' });
+	  }
+});
+
 
 // Endpoint for checking authentication
 app.get('/api/auth', verifyJWT, (req, res) => {

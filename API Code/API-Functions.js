@@ -41,6 +41,54 @@ const getEmployeeSchedule = async (employeeId, week) => {
 	}
   }
 
+const createEmployeeSchedule = async (employeeId, week) => {
+	try {
+	  const db = await pool.connect();
+  
+	  const results = await db.query(`
+	  									INSERT INTO schedules (employee_id, week_number, monday, tuesday, wednesday, thursday, friday, saturday, sunday)
+	  									VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9);
+									`, [employeeId, week, false, false, false, false, false, false, false]);
+	
+	if (results.rowCount > 0) 
+	{
+		console.log('Insert successful');
+		return true;
+	} 
+	else 
+	{
+		console.log('Insert failed');
+		return false;
+	}
+
+	} catch (error) 
+	{
+	  console.error(error);
+	  console.error('Error in getting user data:', error);
+	  throw new Error("Internal error wah wah");
+	}
+  }
+
+const updateEmployeeSchedule = async (schedule_id,  m, tu, w, th, f, sa, su) => {
+	try {
+		const db = await pool.connect();
+	
+		const results = await db.query(`UPDATE schedule SET monday = $2, tuesday = $3, wednesday = $4, thursday = $5, friday = $6, saturday = $7, sunday = $8
+										WHERE id = $1 RETURNING *`, [schedule_id, m, tu, w, th, f, sa, su]);
+	
+		if (results.rowCount === 0) {
+		  console.error('No schedule found with this Id:', email);
+		  return false;
+		}
+	
+		return true;
+	  } catch (error) {
+		console.error(error);
+		console.error('Error in updating schedule:', error);
+		throw new Error("Internal error wah wah");
+	  }
+	};
+
 const getSingleEmployeeData = async (email, password) => {
 	try {
 		const db = await pool.connect();
@@ -129,5 +177,7 @@ module.exports = {
 	getSingleSuperAdminData,
 	ChangePasswordEmployee,	
 	getEmployeeSchedule,
+	createEmployeeSchedule,
+	updateEmployeeSchedule,
 	pool
 };
