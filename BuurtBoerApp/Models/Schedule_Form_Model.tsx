@@ -53,10 +53,20 @@ class Schedule
       {
         await this.createScheduleData(Emp);
         console.log("creating schedule");
-        this.fetchScheduleData(Emp);
-      }
-      else
-      {
+        const response = await fetch('http://10.0.2.2:5000/api/employee/schedule', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ id: employeeId, week: weekNumber}),
+        });
+    
+        if (!response.ok) {
+          console.error(`HTTP ${response.status}: ${response.statusText}`);
+          return;
+        }
+  
+        const data = await response.json();
         console.log(data);
         return new Schedule(data.schedule_id, data.week_number, data.monday, data.tuesday, data.wednesday, data.thursday, data.friday, data.saturday, data. sunday);
       }
