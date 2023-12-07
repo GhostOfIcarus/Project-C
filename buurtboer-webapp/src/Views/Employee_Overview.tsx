@@ -4,14 +4,10 @@ import logo from './img/buurtboer_logo.png';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import postlogin from './Stylesheets/PostLogin.module.css';
 import Navbar from './Navbar';
+import withAuthentication from '../Controllers/withAuthentication';
 import Login from './Login';
 
 function Employee_Overview() {
-  // const [token, setToken] = useState();
-
-  // if (!token) {
-  //   return <Login setToken={setToken} />
-  // }
 
   return (
     <>
@@ -73,4 +69,4 @@ function Employee_Overview() {
   );
 }
 
-export default Employee_Overview;
+export default withAuthentication(Employee_Overview);
