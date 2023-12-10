@@ -17,8 +17,8 @@ function ChooseOrder(){
                             <div className="form_items ms-5 justify-content-center p-5">
                                 <h2>Bestellen via:</h2>
                                 <div className="justify-content-center">
-                                    <button className={genstyles.button}>Albert Hein</button>
-                                    <button className={genstyles.button}>Buurtboer</button>
+                                    <a href="Order_Overview"><button className={genstyles.button}>Albert Hein</button> </a>
+                                    <a href="Order_Overview"> <button className={genstyles.button}>Buurtboer</button> </a>
                                 </div>
                             </div>
                         </div>

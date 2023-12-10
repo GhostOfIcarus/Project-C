@@ -79,6 +79,17 @@ const Navbar = () => {
         </div>
         <div className="nav-button me-5">
         <Link
+            to="/Settings_Page"
+            style={{ ...linkStyle, ...hoveredLinkStyle }}
+            onMouseEnter={() => setHoveredLinkStyle({ color: '#F9834C' })}
+            onMouseLeave={() => setHoveredLinkStyle({ color: '#000000' })}
+          >
+            Settings
+        </Link>        
+        </div>
+
+        <div className="nav-button me-5">
+        <Link
             to="/"
             style={{ ...linkStyle, ...hoveredLinkStyle }}
             onMouseEnter={() => setHoveredLinkStyle({ color: '#F9834C' })}

@@ -58,3 +58,9 @@
     margin-bottom: 10px;
   }
 
+  .flag-icon {
+    width: 20px; /* Adjust the width as needed */
+    height: auto; /* Maintain aspect ratio */
+    margin-right: 5px; /* Add some spacing between the images if needed */
+  }
+

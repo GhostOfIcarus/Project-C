@@ -10,6 +10,7 @@ import EmployeeWeekOverview from './Views/Employee_Week_Overview';
 import ChooseOrder from "./Views/Choose_Order";
 import CompanyOverview from "./Views/Company_Overview";
 import OrderOverview from "./Views/Order_Overview";
+import SettingsPage from "./Views/Settings_Page"
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
         <Route path="/Choose_Order" element={<ChooseOrder/>}/>
         <Route path="/Company_Overview" element={<CompanyOverview/>}/>
         <Route path="/Order_Overview" element={< OrderOverview/>} />
+        <Route path="/Settings_Page" element={< SettingsPage/>}/>
       </Routes>
     </Router>
   );
