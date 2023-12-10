@@ -15,12 +15,20 @@ function Invite_Company() {
               <h2>Bedrijf aanmaken</h2>
               <br /><br />
               <div className="justify-content-center">
-                <input type="text" id="bedrijfNaam" placeholder="Bedrijf naam" className="mb-3" />
-                <input type="text" id="adminEmail" placeholder="Admin email" className="mb-3" />
-                <input type="text" id="adminVoornaam" placeholder="Admin voornaam" className="mb-3" />
-                <input type="text" id="adminAchternaam" placeholder="Admin achternaam" className="mb-3" />
+                <div className="mb-3">
+                  <input type="text" id="bedrijfNaam" placeholder="Bedrijf naam" className="mb-3" />
+                </div>
+                <div className="mb-3">
+                  <input type="text" id="adminEmail" placeholder="Admin email" className="mb-3" />
+                </div>
+                <div className="mb-3">
+                  <input type="text" id="adminVoornaam" placeholder="Admin voornaam" className="mb-3" />
+                </div>
+                <div className="mb-3">
+                  <input type="text" id="adminAchternaam" placeholder="Admin achternaam" className="mb-3" />
+                </div>
                 <br /><br /><br />
-                <a href="#" className="d-inline-block"><button className="invite-button">stuur invite</button></a>
+                <a href="Company_Overview" className="d-inline-block"><button className="invite-button">stuur invite</button></a>
               </div>
             </div>
           </div>

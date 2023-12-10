@@ -22,8 +22,8 @@ function App() {
           <div className='row'>
             <div className={`col-lg-6 ${genstyles.login_div}`}>
               <div className={genstyles.title}>Wachtwoord Vergeten</div>
-              <input type="password" placeholder="Wachtwoord" name='Pass'/> 
-              <input type="password" placeholder="Wachtwoord opnieuw invullen" name='PassAgain'/>
+              <input type="password" placeholder="Nieuw wachtwoord" name='Pass'/> 
+              <input type="password" placeholder="Nieuw wachtwoord opnieuw invullen" name='PassAgain'/>
               <a href="Login"><button className={genstyles.button}>Verstuur</button></a>
             </div>
             <div className={`col-lg-6 ${genstyles.image_div}`}>

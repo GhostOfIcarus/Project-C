@@ -3,7 +3,9 @@ import logo from './img/buurtboer_logo.png';
 import postlogin from './Stylesheets/PostLogin.module.css';
 import Navbar from './Navbar';
 import genstyles from './Stylesheets/GeneralStyles.module.css';
-//TODO:fix css so we can actually use the stuff
+import Cross from "./img/kruisje_projectC.png";
+
+
 function CompanyOverview() {
     return (
       <div>
@@ -16,13 +18,14 @@ function CompanyOverview() {
               <a href="Invite_Company.tsx"><button className={genstyles.button}>bedrijf toevoegen</button></a>
             </div>
             <div className="mb-3">
-              <button className="middle-button">bedrijf 1</button>
+              <a>bedrijf 1 <img src={Cross} alt="cross" className={postlogin.productImage} /></a> 
+              
             </div>
             <div className="mb-3">
-              <button className="middle-button">bedrijf 2</button>
+              <a>bedrijf 2 <img src={Cross} alt="cross" className={postlogin.productImage} /></a>
             </div>
             <div className="mb-3">
-              <button className="middle-button">bedrijf 3</button>
+              <a>bedrijf 3 <img src={Cross} alt="cross" className={postlogin.productImage} /></a>
             </div>
           </div>
         </div>
