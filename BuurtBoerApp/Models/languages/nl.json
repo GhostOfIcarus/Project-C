@@ -43,6 +43,8 @@
     "user_error_text": "Je Email of Wachtwoord is incorrect. Probeer het opnieuw.",
     "passowrd_incorrect_error": "Fout wachtwoord!",
     "passowrd_incorrect_error_text": "Je wachtwoord is incorrect. Probeer het opnieuw.",
+    "password_special_char_error": "Geen speciale tekens!",
+    "password_special_char_error_text": "Wachtwoord moet minimaal 1 speciaal teken bevatten.",
     "password_lenght_error": "Wachtwoord te kort!",
     "password_lenght_error_text": "Wachtwoord moet minimaal 5 tekens lang zijn.",
     "password_match_error": "Wachtwoorden komen niet overeen!",

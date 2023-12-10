@@ -43,6 +43,8 @@
     "user_error_text": "Your email or password is incorrect, please try again.",
     "passowrd_incorrect_error": "Wrong password!",
     "passowrd_incorrect_error_text": "Your password is incorrect, please try again.",
+    "password_special_char_error": "No special character!",
+    "password_special_char_error_text": "Password must contain a special character!",
     "password_lenght_error": "Password to short!",
     "password_lenght_error_text": "Password must be at least 5 characters long.",
     "password_match_error": "Password doesn't match!",

@@ -5,10 +5,19 @@ import { useTranslation } from 'react-i18next';
 
 LogBox.ignoreLogs(['Using Math.random is not cryptographically secure!']);
 
+function containsSpecialChar(password: string) {
+  const regex = /[ `!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
+  return regex.test(password);
+}
+
 const CheckPassword = (password: string, confirmPassword: string, t: Function) => {
-  // check if password is minimum 5 characters long
-  if (password.length < 5) {
+  // check if password is minimum 7 characters long
+  if (password.length < 7) {
     Alert.alert(t('password_lenght_error'), t('password_lenght_error_text'));
+    return false;
+  }
+  if (!containsSpecialChar(password)) {
+    Alert.alert(t('password_special_char_error'), t('password_special_char_error_text'));
     return false;
   }
   if (password !== confirmPassword) {
