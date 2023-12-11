@@ -6,8 +6,10 @@ import postlogin from './Stylesheets/PostLogin.module.css';
 import Navbar from './Navbar';
 import withAuthentication from '../Controllers/withAuthentication';
 import Login from './Login';
+import { useEmpOverviewController } from '../Controllers/Employee_OverviewController';
 
 function Employee_Overview() {
+  const{ isSubmitted, isAdded, handleSubmit, countMonday, countTuesday, countWednesday, countThursday, countFriday} = useEmpOverviewController();
 
   return (
     <>
@@ -18,7 +20,7 @@ function Employee_Overview() {
           <div className="row">
             <div className="col-lg-12 ">
               <h1>Medewerker Overview</h1>
-              <form action="/action_page.php">
+              <form onSubmit={handleSubmit}>
                   <input type="week" id="week" name="week" />
                   <input type="submit" value="Submit" />
               </form>
@@ -35,27 +37,27 @@ function Employee_Overview() {
                   <tbody>
                       <tr>
                           <td>Maandag</td>
-                          <td>8</td>
+                          <td>{countMonday}</td>
                           <td>2</td>
                       </tr>
                       <tr>
                           <td>Dinsdag</td>
-                          <td>14</td>
+                          <td>{countTuesday}</td>
                           <td>9</td>
                       </tr>
                       <tr>
                           <td>Woensdag</td>
-                          <td>10</td>
+                          <td>{countWednesday}</td>
                           <td>1</td>
                       </tr>
                       <tr>
                           <td>Donderdag</td>
-                          <td>14</td>
+                          <td>{countThursday}</td>
                           <td>4</td>
                       </tr>
                       <tr>
                           <td>Vrijdag</td>
-                          <td>14</td>
+                          <td>{countFriday}</td>
                           <td>6</td>
                       </tr>
                   </tbody>

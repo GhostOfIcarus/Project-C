@@ -59,12 +59,12 @@ const Navbar = () => {
         </div>
         <div className="nav-button me-5">
         <Link
-            to="/Employee_Week_Overview"
+            to="/Employees_Overview"
             style={{ ...linkStyle, ...hoveredLinkStyle }}
             onMouseEnter={() => setHoveredLinkStyle({ color: '#F9834C' })}
             onMouseLeave={() => setHoveredLinkStyle({ color: '#000000' })}
           >
-            Week Overview
+            Medewerker Overview
         </Link>        
         </div>
         <div className="nav-button me-5">

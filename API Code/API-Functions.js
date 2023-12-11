@@ -187,6 +187,38 @@ const getSingleSuperAdminData = async (email, password) => {
 	}
 }
 
+const getAttendance = async (week_number) => {
+	try {
+	  const db = await pool.connect();
+	  const results = await db.query("SELECT * FROM schedule WHERE week_number = $1", [week_number]);
+	  db.release(); // Don't forget to release the connection
+	  return results; // Return the entire results object
+	} catch (error) {
+	  console.error(error);
+	  throw new Error("An error occurred while fetching attendance data.");
+	}
+  }
+  
+//   const fetchData = async () => {
+// 	try {
+// 	  const results = await getAttendance(49);
+	  
+// 	  if (results && results.rows) {
+// 		results.rows.forEach(row => {
+// 		  console.log("Monday", row.monday);
+// 		  console.log("Tuesday:", row.tuesday);
+// 		  // Add more properties as needed
+// 		});
+// 	  } else {
+// 		console.log("No results or rows found.");
+// 	  }
+// 	} catch (error) {
+// 	  console.error(error);
+// 	}
+//   };
+
+
+//   fetchData();
 
 
 module.exports = {
@@ -199,5 +231,6 @@ module.exports = {
 	getEmployeeSchedule,
 	createEmployeeSchedule,
 	updateEmployeeSchedule,
+	getAttendance,
 	pool
 };
