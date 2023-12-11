@@ -12,6 +12,7 @@ import CompanyOverview from "./Views/Company_Overview";
 import OrderOverview from "./Views/Order_Overview";
 import SettingsPage from "./Views/Settings_Page"
 import InviteCompany from "./Views/Invite_Company";
+import SuperAdmin_Settings_Page from './Views/SuperAdmin_Settings_Page';
 
 function App() {
   return (
@@ -30,6 +31,7 @@ function App() {
         <Route path="/Company_Overview" element={<CompanyOverview/>}/>
         <Route path="/Order_Overview" element={< OrderOverview/>} />
         <Route path="/Settings_Page" element={< SettingsPage/>}/>
+        <Route path="/SuperAdmin_Settings_Page" element={< SuperAdmin_Settings_Page/>}/>
       </Routes>
     </Router>
   );

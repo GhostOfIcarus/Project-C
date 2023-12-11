@@ -1,20 +1,25 @@
-import React, { useState } from 'react';
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 
-export async function fetchUserData(email: string): Promise<boolean> {
-  const apiUrl = '/api/employee/forgot_password';
+export async function forgotPasswordController(email: string): Promise<boolean> {
+  const apiUrl = '/api/CompanyAdmin/forgot_password'; // Updated endpoint
 
   try {
-    // Perform validation or any other necessary checks on the email here
-
     const response = await axios.post(apiUrl, { email });
+    console.log('Response status:', response.status);
+    console.log('Response data:', response.data);
 
     // Check if the email exists in the database
-    return response.data ? true : false;
+    return response.status >= 200 && response.status < 300 && response.data ? true : false;
   } catch (error) {
-    // Handle errors appropriately
+    const axiosError = error as AxiosError;
+    if (axiosError.response) {
+      console.error('Response data:', axiosError.response.data);
+      console.error('Response status:', axiosError.response.status);
+    } else if (axiosError.request) {
+      console.error('Request made but no response received:', axiosError.request);
+    } else {
+      console.error('Error setting up the request:', axiosError.message);
+    }
     throw error;
   }
 }
-  
-

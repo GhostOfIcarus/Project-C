@@ -1,6 +1,6 @@
 // Forgot_Password.tsx
 import React, { useState, ChangeEvent, FormEvent } from 'react';
-import { fetchUserData } from '../Controllers/Forget_Password';
+import { forgotPasswordController} from '../Controllers/Forget_Password';
 import logo from './img/buurtboer_logo.png';
 import genstyles from './Stylesheets/GeneralStyles.module.css';
 
@@ -20,17 +20,15 @@ function Forgot_Password() {
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     try {
-      const emailExists = await fetchUserData(email);
+      const emailExists = await forgotPasswordController(email);
       if (emailExists) {
-        // Email exists, update state or perform other actions
         console.log('Email exists');
       } else {
-        // Email does not exist
         setError('Email not found in the database');
       }
     } catch (error) {
-      setError('An error occurred while fetching employee data');
-      console.error(error);
+      console.error('An error occurred while fetching employee data:', error);
+      setError('An error occurred while fetching employee data.');
     }
   };
 
