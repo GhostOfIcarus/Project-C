@@ -9,10 +9,20 @@ export const useLoginController = () => {
   const [language, setLanguage] = useState(i18next.language);
   const [showPassword, setShowPassword] = useState(false);
 
-  const toggleLanguage = () => {
+  const sync_language = async () => {
+    const language = await AsyncStorage.getItem('language');
+
+    if (language) {
+      setLanguage(JSON.parse(language));
+      i18next.changeLanguage(JSON.parse(language));
+    }
+  }
+
+  const toggleLanguage = async () => {
     const newLanguage = language === 'en' ? 'nl' : 'en';
     setLanguage(newLanguage);
     i18next.changeLanguage(newLanguage);
+    await AsyncStorage.setItem('language', JSON.stringify(newLanguage));
   };
 
   const handleLogin = async (email: string, password: string, navigation: any, rememberMe: boolean, t: Function) => {
@@ -84,6 +94,7 @@ export const useLoginController = () => {
   return {
     language,
     showPassword,
+    sync_language,
     toggleLanguage,
     toggleShowPassword,
     handleLogin,

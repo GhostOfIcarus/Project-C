@@ -13,6 +13,7 @@ const LoginScreen = (props: LoginScreenProps) => {
   
   useEffect(() => {
     const checkLoggedIn = async () => {
+      sync_language();
       const user = await AsyncStorage.getItem('user');
 
       if (user) {
@@ -30,6 +31,7 @@ const LoginScreen = (props: LoginScreenProps) => {
   const {
     language,
     showPassword,
+    sync_language,
     toggleLanguage,
     toggleShowPassword,
     handleLogin,
