@@ -24,11 +24,12 @@ export function useEmpOverviewController() {
 
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
     
-    const getAttendance = async () => {
+    const getAttendance = async (elements: FormEvent<HTMLFormElement>) => {
+      elements.preventDefault();
       const form = event.currentTarget;
-      const week_number = 49;
+      const wn = form.elements.namedItem('week') as HTMLInputElement;
+      const week_number = wn.value.split('-')[1].substring(1);
       const comp_id = 1;
 
       try {
@@ -55,7 +56,7 @@ export function useEmpOverviewController() {
       }
     };
 
-    const data = await getAttendance();
+    const data = await getAttendance(event);
     await setCountMonday(data.monday_true);
     await setCountTuesday(data.tuesday_true);
     await setCountWednesday(data.wednesday_true);

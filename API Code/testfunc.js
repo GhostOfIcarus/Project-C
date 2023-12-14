@@ -1,10 +1,10 @@
 const axios = require('axios');
 
 async function test1() {
-    const comp_id = 1;
+    const comp_id = 3;
     const first_name = 'John';
     const last_name = 'Doe';
-    const email = 'help@test.com';
+    const email = 'help@teste.com';
     try {
         const response = await axios.post('http://localhost:5000/api/employee/add', {
             comp_id, 
@@ -98,5 +98,25 @@ async function test4() {
   }
 }
 
+async function test5() {
+  const company_id = 1;
+  try {
+      const response = await axios.post('http://localhost:5000/api/employee/company', {
+        company_id
+      }, {
+        withCredentials: true,
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
 
-test4();
+      if (response.data) {
+        console.log(response.data);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+}
+// test3();
+// test1();
+test5();

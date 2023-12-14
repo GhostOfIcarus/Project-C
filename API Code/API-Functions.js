@@ -115,6 +115,23 @@ const getAllEmployeeData = async () => {
 	  }
 };
 
+const getAllEmployeeDataByCompany = async (company_id) => {
+	const db = await pool.connect();
+	try {
+		const results = await db.query(`SELECT * 
+										FROM employee 
+										JOIN employeesincompany ON employeesincompany.employee_id = employee.id
+										WHERE company_id = $1`, [company_id]);
+		return results.rows;
+	} catch (error) {
+		console.error(error);
+		console.error('Error in getting user data:', error);
+		throw new Error("Internal error wah wah");
+	} finally {
+		db.release(); // Release the connection back to the pool
+	  }
+};
+
 const getEmployeeSchedule = async (employeeId, week) => {
 	const db = await pool.connect();
 	try {
@@ -343,6 +360,7 @@ module.exports = {
 	createNewEmployee,
 	deleteEmployee,
 	getAllEmployeeData,	
+	getAllEmployeeDataByCompany,
 	getSingleEmployeeData,
 	getSingleEmployeeByEmailData,
 	getSingleCompanyAdminData,
