@@ -79,6 +79,56 @@ app.get('/api/employee/allemployees', async (req, res) => {
 	}
 });
 
+// Deze endpoint verwacht de Admin First Name, Admin Last name, Admin Email en Company Name van nieuwe employee 
+app.post('/api/company/add', async (req, res) => {
+	try {
+		const { first_name, last_name, email, company_name } = req.body;
+		const userData = await Functions.createNewCompany(first_name, last_name, email, company_name);
+		res.status(200).json(userData);
+	} catch (error) {
+		console.error(error);
+		res.status(500).json({ error: 'i did an oopsie' });
+	}
+});
+
+// Deze endpoint verwacht alleen de Company ID van wie je hem wilt verwijderen
+app.delete('/api/company/delete', async (req, res) => {
+	try {
+		const { company_id } = req.body;
+		console.log(req.body);
+		const userData = await Functions.deleteCompany(company_id);
+		res.status(200).json(userData);
+	} catch (error) {
+		console.error(error);
+		res.status(500).json({ error: 'i did an oopsie' });
+	}
+});
+
+// Deze endpoint verwacht de companyID, First Name, Last name en Email van nieuwe employee 
+app.post('/api/employee/add', async (req, res) => {
+	try {
+		const { comp_id, first_name, last_name, email } = req.body;
+		const userData = await Functions.createNewEmployee(comp_id, first_name, last_name, email);
+		res.status(200).json(userData);
+	} catch (error) {
+		console.error(error);
+		res.status(500).json({ error: 'i did an oopsie' });
+	}
+});
+
+// Deze endpoint verwacht alleen de Employee ID van wie je hem wilt verwijderen
+app.delete('/api/employee/delete', async (req, res) => {
+	try {
+		const { employee_id } = req.body;
+		console.log(req.body);
+		const userData = await Functions.deleteEmployee(employee_id);
+		res.status(200).json(userData);
+	} catch (error) {
+		console.error(error);
+		res.status(500).json({ error: 'i did an oopsie' });
+	}
+});
+
 app.post('/api/employee/schedule', async (req, res) => {
 	try {
 	  const { id, week } = req.body;

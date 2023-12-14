@@ -7,6 +7,100 @@ const pool = new Pool({
 	port: 5432
 });
 
+const createNewCompany = async (first_name, last_name, email, company_name) => {
+	const db = await pool.connect();
+	try {
+		const results = await db.query(`INSERT INTO company (admin_first_name, admin_last_name, company_name, full_schedule, email, password )  
+										VALUES ($1, $2, $3, false, $4, 'password') 
+										RETURNING id`, [first_name, last_name, email, company_name]);
+		if (results.rowCount > 0) 
+		{	
+			console.log('Insert successful');
+			return true;
+		} 
+	} catch (error) {
+		console.error(error);
+		console.error('Error in getting company data:', error);
+		throw new Error("Internal error wah wah");
+	} finally {
+		db.release(); 
+	}
+};
+
+const deleteCompany = async (company_id) => {
+    const db = await pool.connect();
+    try {
+		const results = await db.query(`DELETE FROM company WHERE id = $1`, [company_id]);
+		if (results.rowCount > 0 ) {
+			console.log('Delete successful');
+			return true;
+		} else {
+			console.log('No rows were deleted');
+			return false;
+		}
+    } catch (error) {
+        console.error('Error in deleting user data:', error);
+        throw new Error("Internal error");
+    } finally {
+        db.release(); 
+    }
+};
+
+const createNewEmployee = async (comp_id, first_name, last_name, email) => {
+	const db = await pool.connect();
+	try {
+		const results = await db.query(`INSERT INTO employee (first_name, last_name, email, password, keepschedule) 
+										VALUES ($1, $2, $3, 'password', false) 
+										RETURNING id`, [first_name, last_name, email]);
+		if (results.rowCount > 0) 
+		{	
+			const results2 = await db.query(`
+											INSERT INTO employeesincompany (employee_id, company_id)
+											VALUES ($1, $2);
+										`, [results.rows[0].id, comp_id]);
+			if (results2.rowCount > 0) 
+			{	
+				console.log('Insert successful');
+				return true;
+			}
+		} 
+	} catch (error) {
+		console.error(error);
+		console.error('Error in getting user data:', error);
+		throw new Error("Internal error wah wah");
+	} finally {
+		db.release(); 
+	}
+};
+
+const deleteEmployee = async (employee_id) => {
+    const db = await pool.connect();
+    try {
+        const results = await db.query(`DELETE FROM employeesincompany WHERE employee_id = $1`, [employee_id]);
+		console.log(employee_id);
+		console.log('Results from employeesincompany deletion:', results);
+        if (results.rowCount > 0 ) {
+			const results2 = await db.query(`DELETE FROM employee WHERE id = $1`, [employee_id]);
+			if (results2.rowCount > 0 ) {
+            	console.log('Delete successful');
+            	return true;
+        	} else {
+				console.log('No rows were deleted2');
+				return false;
+        	}
+	 	}
+		else {
+			console.log('No rows were deleted');
+			return false;
+		}
+    } catch (error) {
+        console.error('Error in deleting user data:', error);
+        throw new Error("Internal error");
+    } finally {
+        db.release(); 
+    }
+};
+
 // Functions to fetch data from the database
 const getAllEmployeeData = async () => {
 	const db = await pool.connect();
@@ -245,6 +339,10 @@ const getAttendance = async (comp_id, week_number) => {
 
 
 module.exports = {
+	createNewCompany,
+	deleteCompany,
+	createNewEmployee,
+	deleteEmployee,
 	getAllEmployeeData,	
 	getSingleEmployeeData,
 	getSingleEmployeeByEmailData,
