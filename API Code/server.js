@@ -95,7 +95,6 @@ app.post('/api/company/add', async (req, res) => {
 app.delete('/api/company/delete', async (req, res) => {
 	try {
 		const { company_id } = req.body;
-		console.log(req.body);
 		const userData = await Functions.deleteCompany(company_id);
 		res.status(200).json(userData);
 	} catch (error) {
@@ -120,7 +119,6 @@ app.post('/api/employee/add', async (req, res) => {
 app.delete('/api/employee/delete', async (req, res) => {
 	try {
 		const { employee_id } = req.body;
-		console.log(req.body);
 		const userData = await Functions.deleteEmployee(employee_id);
 		res.status(200).json(userData);
 	} catch (error) {

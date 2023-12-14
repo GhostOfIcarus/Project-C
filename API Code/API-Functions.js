@@ -77,7 +77,6 @@ const deleteEmployee = async (employee_id) => {
     const db = await pool.connect();
     try {
         const results = await db.query(`DELETE FROM employeesincompany WHERE employee_id = $1`, [employee_id]);
-		console.log(employee_id);
 		console.log('Results from employeesincompany deletion:', results);
         if (results.rowCount > 0 ) {
 			const results2 = await db.query(`DELETE FROM employee WHERE id = $1`, [employee_id]);
