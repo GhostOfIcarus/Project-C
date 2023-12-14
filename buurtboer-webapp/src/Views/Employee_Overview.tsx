@@ -9,7 +9,11 @@ import Login from './Login';
 import { useEmpOverviewController } from '../Controllers/Employee_OverviewController';
 
 function Employee_Overview() {
-  const{ isSubmitted, isAdded, handleSubmit, countMonday, countTuesday, countWednesday, countThursday, countFriday} = useEmpOverviewController();
+  const{ isSubmitted, handleSubmit, countMonday, countTuesday, countWednesday, countThursday, countFriday, absentMonday,
+    absentTuesday,
+    absentWednesday,
+    absentThursday,
+    absentFriday,} = useEmpOverviewController();
 
   return (
     <>
@@ -38,27 +42,28 @@ function Employee_Overview() {
                       <tr>
                           <td>Maandag</td>
                           <td>{countMonday}</td>
-                          <td>2</td>
+                          {/*moet nog aangepast worden naar (totalEmployeesByCompany - countMonday)*/}
+                          <td>{absentMonday}</td>
                       </tr>
                       <tr>
                           <td>Dinsdag</td>
                           <td>{countTuesday}</td>
-                          <td>9</td>
+                          <td>{absentTuesday}</td>
                       </tr>
                       <tr>
                           <td>Woensdag</td>
                           <td>{countWednesday}</td>
-                          <td>1</td>
+                          <td>{absentWednesday}</td>
                       </tr>
                       <tr>
                           <td>Donderdag</td>
                           <td>{countThursday}</td>
-                          <td>4</td>
+                          <td>{absentThursday}</td>
                       </tr>
                       <tr>
                           <td>Vrijdag</td>
                           <td>{countFriday}</td>
-                          <td>6</td>
+                          <td>{absentFriday}</td>
                       </tr>
                   </tbody>
               </table>
