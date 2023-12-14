@@ -16,79 +16,39 @@ export function useEmpOverviewController() {
   const [countWednesday, setCountWednesday] = useState<number>(0);
   const [countThursday, setCountThursday] = useState<number>(0);
   const [countFriday, setCountFriday] = useState<number>(0);
-  const [selectedWeek, setSelectedWeek] = useState<string>(''); // State to store the selected week
-
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    
+    const getAttendance = async () => {
+      const form = event.currentTarget;
+      const week_number = form.week.value;
+      const comp_id = 1;
 
-    const form = event.currentTarget;
-    const week_number = form.week.value || 49;
-
-    const getAttendance = async (weekNumber: number) => {
       try {
-        const response = await axios.get(`http://localhost:5000/api/employees/attendance?weekNumber=${weekNumber}`, {
+        let response = await axios.post('http://localhost:5000/api/employees/attendance', {
+          comp_id,
+          week_number
+        }, {
           withCredentials: true,
           headers: {
             'Content-Type': 'application/json'
           }
         });
-        return response.data;
+        
+        console.log("binkybonky")
+
+        if (response.data) {
+          console.log(response.data);
+          return response.data;
+        }
       } catch (error) {
-        throw error;
+        console.log(error);
       }
     };
 
-    const fetchAndLogAttendance = async (weekNumber: number) => {
-        try {
-          const results = await getAttendance(weekNumber);
-      
-          if (results && results.rows) {
-            setAttendanceData(results.rows);
-      
-            // Use the functional form of state updates
-            results.rows.forEach((row: AttendanceData) => {
-              switch (row.day.toLowerCase()) {
-                case 'monday':
-                  setCountMonday(prevCount => prevCount + 1);
-                  break;
-                case 'tuesday':
-                  setCountTuesday(prevCount => prevCount + 1);
-                  break;
-                case 'wednesday':
-                setCountWednesday(prevCount => prevCount + 1);
-                    break;
-                case 'thursday':
-                setCountThursday(prevCount => prevCount + 1);
-                    break;
-                case 'friday':
-                  setCountFriday(prevCount => prevCount + 1);
-                  break;
-                // Add more cases for other days as needed
-                default:
-                  break;
-              }
-            });
-          } else {
-            console.log("No results or rows found.");
-          }
-        } catch (error) {
-          console.error(error);
-        }
-      };
-
-    try {
-      const results = await getAttendance(Number(week_number));
-
-      if (results) {
-        console.log(results);
-        setIsSubmitted(true);
-        await fetchAndLogAttendance(Number(week_number));
-      }
-    } catch (error) {
-      const axiosError = error as AxiosError;
-      console.log(error);
-    }
+    const data = await getAttendance();
+    console.log(data);
   };
 
   return {

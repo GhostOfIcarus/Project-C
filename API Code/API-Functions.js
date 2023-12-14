@@ -187,16 +187,39 @@ const getSingleSuperAdminData = async (email, password) => {
 	}
 }
 
-const getAttendance = async (week_number) => {
-	try {
-	  const db = await pool.connect();
-	  const results = await db.query("SELECT * FROM schedule WHERE week_number = $1", [week_number]);
-	  db.release(); // Don't forget to release the connection
-	  return results; // Return the entire results object
-	} catch (error) {
-	  console.error(error);
-	  throw new Error("An error occurred while fetching attendance data.");
-	}
+const getAttendance = async (comp_id, week_number) => {
+    try {
+      const db = await pool.connect();
+      const results = await db.query(`
+      SELECT 
+        S.week_Number, 
+        SUM(CASE WHEN S.monday THEN 1 ELSE 0 END) AS Monday_True,
+        SUM(CASE WHEN NOT S.monday THEN 1 ELSE 0 END) AS Monday_False,
+        SUM(CASE WHEN S.tuesday THEN 1 ELSE 0 END) AS Tuesday_True,
+        SUM(CASE WHEN NOT S.tuesday THEN 1 ELSE 0 END) AS Tuesday_False,
+        SUM(CASE WHEN S.wednesday THEN 1 ELSE 0 END) AS Wednesday_True,
+        SUM(CASE WHEN NOT S.wednesday THEN 1 ELSE 0 END) AS Wednesday_False,
+        SUM(CASE WHEN S.thursday THEN 1 ELSE 0 END) AS Thursday_True,
+        SUM(CASE WHEN NOT S.thursday THEN 1 ELSE 0 END) AS Thursday_False,
+        SUM(CASE WHEN S.friday THEN 1 ELSE 0 END) AS Friday_True,
+        SUM(CASE WHEN NOT S.friday THEN 1 ELSE 0 END) AS Friday_False,
+        SUM(CASE WHEN S.saturday THEN 1 ELSE 0 END) AS Saturday_True,
+        SUM(CASE WHEN NOT S.saturday THEN 1 ELSE 0 END) AS Saturday_False,
+        SUM(CASE WHEN S.sunday THEN 1 ELSE 0 END) AS Sunday_True,
+        SUM(CASE WHEN NOT S.sunday THEN 1 ELSE 0 END) AS Sunday_False
+      FROM employeesincompany AS EC
+      JOIN employee AS E ON EC.employee_id = E.id
+      JOIN schedulefromemployee AS SE ON E.ID = SE.employee_id
+      JOIN schedule AS S ON SE.schedule_id = S.ID
+      WHERE EC.company_id = $1 AND S.week_number = $2
+      GROUP BY S.week_Number
+    `, [comp_id, week_number]);
+      db.release(); // Don't forget to release the connection
+      return results.rows[0]; // Return the entire results object
+    } catch (error) {
+      console.error(error);
+      throw new Error("An error occurred while fetching attendance data.");
+    }
   }
   
 //   const fetchData = async () => {

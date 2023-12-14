@@ -102,6 +102,7 @@ async function insertTestData() {
       INSERT INTO Schedule (Week_Number, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday)
       VALUES (1, false, true, true, true, true, true, true),
          (49, true, false, true, true, true, true, true),
+         (49, true, true, true, true, false, true, true),
          (50, true, true, false, true, true, true, true),
          (51, true, true, true, false, true, true, true),
          (52, false, true, true, true, false, true, true);
@@ -109,9 +110,10 @@ async function insertTestData() {
       INSERT INTO ScheduleFromEmployee (Schedule_ID, Employee_ID)
       VALUES (1, 1),
             (2, 1),
-            (3, 1),
+            (3, 2),
             (4, 1),
-            (5, 1);
+            (5, 1),
+            (6, 1);
 
       INSERT INTO EmployeesInCompany (Employee_ID, Company_ID)
       VALUES (1, 1),

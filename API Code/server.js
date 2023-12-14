@@ -249,14 +249,14 @@ app.post('/api/employee/register', async (req, res) => {
 
 // POST endpoint to retrieve attendance of all employees
 app.post('/api/employees/attendance', async (req, res) => {
-	try {
-		const { week_number } = req.body;
-		const userData = await Functions.getAttendance( week_number );
-		res.status(200).json(userData);
-	} catch (error) {
-		console.error(error);
-		res.status(500).json({ error: 'An error occurred retrieving employee attendance from the database' });
-	}
+    try {
+        const { comp_id, week_number } = req.body;
+        const userData = await Functions.getAttendance( comp_id, week_number );
+        res.status(200).json(userData);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'An error occurred retrieving employee attendance from the database' });
+    }
 })
 
 
