@@ -255,7 +255,7 @@ app.post('/api/CompanyAdmin/login', async (req, res) => {
 		// Set the access token as a cookie (HTTP-only)
 		res.cookie('jwt-token', token, { maxAge: 2 * 60 * 60 * 1000 }); // 2 hours max age
 
-		res.status(200).json({ token: token, userData: userData });
+		res.status(200).json({ token: token, userData: jwt.decode(token) });
 	} catch (error) {
 		console.error(error);
 		res.status(500).json({ error: 'An error occurred getting the employee' });
@@ -289,7 +289,7 @@ app.post('/api/SuperAdmin/login', async (req, res) => {
 		// Set the access token as a cookie (HTTP-only)
 		res.cookie('jwt-token', token, { httpOnly: true, maxAge: 2 * 60 * 60 * 1000 }); // 2 hours max age
 
-		res.status(200).json({ token: token, userData: userData });
+		res.status(200).json({ token: token, userData: jwt.decode(token)});
 	} catch (error) {
 		console.error(error);
 		res.status(500).json({ error: 'An error occurred getting the employee' });
