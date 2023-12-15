@@ -31,7 +31,8 @@ class Schedule
 
       const now = new Date();
       const startOfTheYear = new Date(now.getFullYear(), 0, 1);
-      const weekNumber = Math.ceil((((now.getTime() - startOfTheYear.getTime()) / 86400000) + startOfTheYear.getDay() + 1) / 7);
+      const weekNumber = Math.ceil((((now.getTime() - startOfTheYear.getTime()) / 86400000) + startOfTheYear.getDay() + 1) / 7) + 1;
+      console.log(weekNumber);
 
       const employeeId = Emp.id;
       const response = await fetch('http://10.0.2.2:5000/api/employee/schedule', {
@@ -79,7 +80,7 @@ class Schedule
     {
       const now = new Date();
       const startOfTheYear = new Date(now.getFullYear(), 0, 1);
-      const weekNumber = Math.ceil((((now.getTime() - startOfTheYear.getTime()) / 86400000) + startOfTheYear.getDay() + 1) / 7);
+      const weekNumber = Math.ceil((((now.getTime() - startOfTheYear.getTime()) / 86400000) + startOfTheYear.getDay() + 1) / 7) + 1;
 
       const employeeId = Emp.id;
       const response = await fetch('http://10.0.2.2:5000/api/employee/schedule/create', {

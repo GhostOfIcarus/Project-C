@@ -14,6 +14,31 @@ interface WeekOverviewFormProps
 }
 
 const WeekOverviewForm = (props: WeekOverviewFormProps) => {
+    
+  const getWednesdayDate = (weekNumber: number): String => {
+    const currentDate = new Date();
+    const currentYear = currentDate.getFullYear();
+
+    // Calculate the first day of the year
+    const firstDayOfYear = new Date(currentYear, 0, 1);
+
+    // Calculate the first Wednesday of the year
+    const firstWednesdayOfYear = new Date(firstDayOfYear);
+    firstWednesdayOfYear.setDate(
+      firstDayOfYear.getDate() + ((3 - firstDayOfYear.getDay() + 7) % 7)
+    );
+
+    // Calculate the target Wednesday based on the week number
+    const targetWednesday = new Date(firstWednesdayOfYear);
+    targetWednesday.setDate(targetWednesday.getDate() + 7 * (weekNumber - 1));
+
+    const options: Intl.DateTimeFormatOptions = { year: 'numeric', month: '2-digit', day: '2-digit' };
+    return targetWednesday.toLocaleDateString(undefined, options);
+
+  };
+12
+  
+  
   const { employee } = props.route.params;
 
   const { t } = useTranslation();
@@ -26,7 +51,7 @@ const WeekOverviewForm = (props: WeekOverviewFormProps) => {
   const [isDisabled, setDisabled] = useState(false);
   const [buttonText, setButtonText] = useState('submit');
 
-  const [weekNumber, setWeekNumber] = useState<number | null>(null);
+  const [weekNumber, setWeekNumber] = useState<number>(0);
 
   const [scheduleId, setScheduleId] = useState<number | null>(null);
 
@@ -62,6 +87,8 @@ const WeekOverviewForm = (props: WeekOverviewFormProps) => {
 
     loadSchedule();
   }, [employee]);
+
+  const wednesdayDate = getWednesdayDate(weekNumber - 1);
 
   const handleSubmit = () => 
   {    
@@ -185,7 +212,7 @@ const WeekOverviewForm = (props: WeekOverviewFormProps) => {
 
             {/* Keep schedule switch */}
             <View style={basestyles.switch_right_text_div}>
-              <Text style={basestyles.centered_text_small}>{t('rememberSchedule')}</Text>
+              <Text style={basestyles.text_small}>{t('rememberSchedule')}</Text>
               <Switch
                 onValueChange={previousState => setSchedule(previousState)}
                 value={isSchedule}
@@ -197,6 +224,8 @@ const WeekOverviewForm = (props: WeekOverviewFormProps) => {
           <TouchableOpacity style={basestyles.button} onPress={handleSubmit}>
             <Text style={{ color: 'white', textAlign: 'center' }}>{t(buttonText)}</Text>
           </TouchableOpacity>
+          <Text style={basestyles.centered_text_small}>{t('deadline')}{wednesdayDate}</Text>
+
           
         </View>
       </View>

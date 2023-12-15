@@ -16,6 +16,7 @@
     "changePassword": "Wachtwoord wijzigen",
     "createAccountHeader": "Account aanmaken",
     "repeatPassword": "Herhaal wachtwoord",
+    "scheduleOverviewHeader": "Rooster",
     "week": "Week",
     "monday": "Maandag",
     "tuesday": "Dinsdag",
@@ -49,5 +50,6 @@
     "password_match_error": "Wachtwoorden komen niet overeen!",
     "password_match_error_text": "Zorg ervoor dat de wachtwoorden overeenkomen.",
     "succes": "Geslaagd!",
-    "password_change_success": "Je wachtwoord is veranderd!"
+    "password_change_success": "Je wachtwoord is veranderd!",
+    "deadline": "Uiterste Inleverdatum: "
   }

@@ -16,6 +16,7 @@
     "confirmPassword": "Confirm Password",
     "repeatPassword": "Repeat Password",
     "changePassword": "Change Password",
+    "scheduleOverviewHeader": "Schedule",
     "week": "Week",
     "monday": "Monday",
     "tuesday": "Tuesday",
@@ -49,5 +50,6 @@
     "password_match_error": "Password doesn't match!",
     "password_match_error_text": "Please make sure your passwords match.",
     "succes": "Success!",
-    "password_change_success": "Your Password has been changed!"
+    "password_change_success": "Your Password has been changed!",
+    "deadline": "Deadline: "
   }
