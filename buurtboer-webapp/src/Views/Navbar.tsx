@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 import logo from './img/buurtboer_logo.png'; 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import postlogin from './Stylesheets/PostLogin.module.css';
+import withAuthentication from '../Controllers/withAuthentication';
+
 
 const Navbar = () => {
     

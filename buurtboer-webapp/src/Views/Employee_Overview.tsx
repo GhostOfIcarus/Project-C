@@ -1,11 +1,9 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import logo from './img/buurtboer_logo.png';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import postlogin from './Stylesheets/PostLogin.module.css';
 import Navbar from './Navbar';
 import withAuthentication from '../Controllers/withAuthentication';
-import Login from './Login';
 import { useEmpOverviewController } from '../Controllers/Employee_OverviewController';
 
 function Employee_Overview() {

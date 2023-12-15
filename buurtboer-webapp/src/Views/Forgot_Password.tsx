@@ -3,6 +3,8 @@ import React, { useState, ChangeEvent, FormEvent } from 'react';
 import { forgotPasswordController} from '../Controllers/Forget_Password';
 import logo from './img/buurtboer_logo.png';
 import genstyles from './Stylesheets/GeneralStyles.module.css';
+import withAuthentication from '../Controllers/withAuthentication';
+
 
 interface UserData {
   // Define the structure of your user data here

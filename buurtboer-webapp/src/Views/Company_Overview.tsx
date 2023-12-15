@@ -4,11 +4,14 @@ import genstyles from './Stylesheets/GeneralStyles.module.css';
 import postlogin from './Stylesheets/PostLogin.module.css';
 import Cross from "./img/kruisje_projectC.png";
 import { useCompaniesOverviewController } from '../Controllers/Company_OverviewController';
+import withAuthentication from '../Controllers/withAuthentication';
 
 interface Company {
   id: number;
   name: string;
 }
+
+
 
 function CompanyOverview() {
   const { GetAllCompanies, RemoveCompany, companies } = useCompaniesOverviewController();
@@ -71,4 +74,4 @@ function CompanyOverview() {
   );
 }
 
-export default CompanyOverview;
+export default withAuthentication(CompanyOverview);

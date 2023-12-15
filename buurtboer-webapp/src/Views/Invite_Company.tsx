@@ -3,6 +3,8 @@ import logo from './img/buurtboer_logo.png';
 import postlogin from './Stylesheets/PostLogin.module.css';
 import genstyles from './Stylesheets/GeneralStyles.module.css';
 import Navbar from './Navbar';
+import withAuthentication from '../Controllers/withAuthentication';
+
 
 function Invite_Company() {
     return (
@@ -39,4 +41,4 @@ function Invite_Company() {
     );
   }
   
-  export default Invite_Company;
+  export default withAuthentication(Invite_Company);

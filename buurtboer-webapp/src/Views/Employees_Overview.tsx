@@ -32,7 +32,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';  // Assuming you are using React Router
 import postlogin from './Stylesheets/PostLogin.module.css';
 import genstyles from './Stylesheets/GeneralStyles.module.css';
-import x from './img/kruisje_projectC.png'
+import withAuthentication from '../Controllers/withAuthentication';
 import Navbar from './Navbar';
 
 
@@ -51,8 +51,11 @@ function EmployeesOverview() {
           </div>
           <table className="table mt-3">
             <tbody>
+              {/* array.forEach(element => {
+                
+              }); */}
               <tr>
-                <td style={{ textAlign: 'left' }}><Link to="/Employee_Week_Overview">Medewerker 1</Link></td>
+                <td style={{ textAlign: 'left' }}><Link to="/Employee_Week_Overview/{id}">Medewerker 1</Link></td>
                 <td>X</td>
               </tr>
               <tr>
@@ -71,4 +74,4 @@ function EmployeesOverview() {
   );
 }
 
-export default EmployeesOverview;
+export default withAuthentication(EmployeesOverview);

@@ -4,7 +4,7 @@ import Login from './Views/Login';
 import EmployeeOverview from './Views/Employee_Overview';
 import ForgotPassword from './Views/Forgot_Password';
 import ChangePassword from './Views/Change_Password';
-import RegisterEmployee from './Views/Register_Employee';
+import RegisterCompany from './Views/Company_Register';
 import InviteEmployee from './Views/Invite_Employee';
 import EmployeeWeekOverview from './Views/Employee_Week_Overview';
 import ChooseOrder from "./Views/Choose_Order";
@@ -15,6 +15,7 @@ import InviteCompany from "./Views/Invite_Company";
 import SuperAdmin_Settings_Page from './Views/SuperAdmin_Settings_Page';
 import EmployeesOverview from './Views/Employees_Overview';
 
+
 function App() {
   return (
     <Router>
@@ -24,7 +25,7 @@ function App() {
         <Route path="/Forgot_Password" element={<ForgotPassword />} />
         <Route path="/Employee_Overview" element={<EmployeeOverview />} />
         <Route path="/Change_Password" element={<ChangePassword />} />
-        <Route path="/Register_Employee" element={<RegisterEmployee />} />
+        <Route path="/Company_Register" element={<RegisterCompany />} />
         <Route path="/Invite_Employee" element={<InviteEmployee />} />
         <Route path="/Invite_Company" element= {<InviteCompany />} />
         <Route path="/Employee_Week_Overview" element={<EmployeeWeekOverview />} />

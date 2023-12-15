@@ -4,6 +4,8 @@ import logo from './img/buurtboer_logo.png';
 import postlogin from './Stylesheets/PostLogin.module.css';
 import genstyles from "./Stylesheets/GeneralStyles.module.css"
 import Navbar from './Navbar';
+import withAuthentication from '../Controllers/withAuthentication';
+
 
 function ChooseOrder(){
     return (
@@ -30,4 +32,4 @@ function ChooseOrder(){
     )
 }
 
-export default ChooseOrder;
+export default withAuthentication(ChooseOrder);

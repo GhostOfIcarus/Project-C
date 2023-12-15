@@ -6,6 +6,8 @@ import postlogin from './Stylesheets/PostLogin.module.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import genstyles from "./Stylesheets/GeneralStyles.module.css"
 import Navbar from './Navbar';
+import withAuthentication from '../Controllers/withAuthentication';
+
 
 function OrderOverview(){
 
@@ -63,4 +65,4 @@ function OrderOverview(){
     )
 }
 
-export default OrderOverview;
+export default withAuthentication(OrderOverview);
