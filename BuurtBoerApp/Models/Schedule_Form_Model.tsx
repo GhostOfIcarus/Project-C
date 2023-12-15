@@ -26,7 +26,7 @@ class Schedule
       this.sunday = sunday;
     }
 
-    static async fetchScheduleData(Emp: Employee)
+    static async fetchScheduleData(Emp: Employee) : Promise<[Schedule | null, boolean]>
     {
 
       const now = new Date();
@@ -45,7 +45,7 @@ class Schedule
   
       if (!response.ok) {
         console.error(`HTTP ${response.status}: ${response.statusText}`);
-        return;
+        return [null, false];
       }
   
       const data = await response.json();
@@ -64,15 +64,15 @@ class Schedule
     
         if (!response.ok) {
           console.error(`HTTP ${response.status}: ${response.statusText}`);
-          return;
+          return [null, false];
         }
   
         const data = await response.json();
         console.log(data);
-        return new Schedule(data.schedule_id, data.week_number, data.monday, data.tuesday, data.wednesday, data.thursday, data.friday, data.saturday, data.sunday);
+        return [new Schedule(data.schedule_id, data.week_number, data.monday, data.tuesday, data.wednesday, data.thursday, data.friday, data.saturday, data.sunday), false];
       }
 
-      return new Schedule(data.schedule_id, data.week_number, data.monday, data.tuesday, data.wednesday, data.thursday, data.friday, data.saturday, data.sunday);
+      return [new Schedule(data.schedule_id, data.week_number, data.monday, data.tuesday, data.wednesday, data.thursday, data.friday, data.saturday, data.sunday), true];
 
     };
 

@@ -67,7 +67,7 @@ const WeekOverviewForm = (props: WeekOverviewFormProps) => {
   {
     const loadSchedule = async () => 
     {
-      const CurrentSchedule = await ScheduleModel.fetchScheduleData(employee);
+      const [CurrentSchedule, submitted] = await ScheduleModel.fetchScheduleData(employee);
 
       if (CurrentSchedule) 
       {
@@ -81,6 +81,16 @@ const WeekOverviewForm = (props: WeekOverviewFormProps) => {
         setFriday(CurrentSchedule.friday);
         setSaturday(CurrentSchedule.saturday);
         setSunday(CurrentSchedule.sunday);
+
+        setIsSubmitted(submitted);
+        if (submitted)
+        {
+          const CurrentState = ScheduleController.changeState(!isSubmitted);
+
+          setButtonText(CurrentState.buttonText);
+          setDisabled(CurrentState.isDisabled);
+        }
+
       }
       
     };
