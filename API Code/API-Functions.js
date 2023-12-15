@@ -159,6 +159,7 @@ const getAllEmployeeDataByCompany = async (company_id) => {
 		db.release(); // Release the connection back to the pool
 	  }
 };
+getAllEmployeeDataByCompany(1);
 
 const getEmployeeSchedule = async (employeeId, week) => {
 	const db = await pool.connect();

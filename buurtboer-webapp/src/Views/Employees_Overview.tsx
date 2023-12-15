@@ -34,9 +34,13 @@ import postlogin from './Stylesheets/PostLogin.module.css';
 import genstyles from './Stylesheets/GeneralStyles.module.css';
 import withAuthentication from '../Controllers/withAuthentication';
 import Navbar from './Navbar';
+import { useEmployeesOverviewController } from '../Controllers/Employees_OverviewController';
+
 
 
 function EmployeesOverview() {
+  const{ employees} = useEmployeesOverviewController();
+  
   return (
     <div>
       <Navbar />
@@ -51,9 +55,6 @@ function EmployeesOverview() {
           </div>
           <table className="table mt-3">
             <tbody>
-              {/* array.forEach(element => {
-                
-              }); */}
               <tr>
                 <td style={{ textAlign: 'left' }}><Link to="/Employee_Week_Overview/{id}">Medewerker 1</Link></td>
                 <td>X</td>
