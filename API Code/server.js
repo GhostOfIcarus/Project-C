@@ -20,39 +20,39 @@ app.use(function (req, res, next) {
 	if (allowedOrigins.includes(origin)) {
 	  res.setHeader('Access-Control-Allow-Origin', origin);
 	}
-  
+
 	res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
 	res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Access-Control-Allow-Headers');
-  
+
 	// Allow credentials
 	res.setHeader('Access-Control-Allow-Credentials', 'true');
-  
+
 	next();
   });
-  
+
 
 // Middleware function to verify JWT tokens and attach the user object to the request
 const verifyJWT = async (req, res, next) => {
 	try {
 	  const token = req.cookies['jwt-token'];
-  
+
 	  if (!token) {
 		return res.status(401).json({ error: 'Unauthorized' });
 	  }
-  
+
 	  const decoded = await jwt.verify(token, 'thisisaverysecretkeyspongebob');
-  
+
 	  // Attach user information to the request
 	  req.user = decoded;
-    
+
 	  next();
 	} catch (error) {
 	  console.error('Authentication error:', error);
-  
+
 	  if (error.name === 'JsonWebTokenError') {
 		return res.status(401).json({ error: 'Invalid token' });
 	  }
-  
+
 	  // Handle other errors
 	  res.status(500).json({ error: 'Internal Server Error' });
 	}
@@ -100,7 +100,7 @@ app.post('/api/employee/company', async (req, res) => {
 	}
 });
 
-// Deze endpoint verwacht de Admin First Name, Admin Last name, Admin Email en Company Name van nieuwe employee 
+// Deze endpoint verwacht de Admin First Name, Admin Last name, Admin Email en Company Name van nieuwe employee
 app.post('/api/company/add', async (req, res) => {
 	try {
 		const { first_name, last_name, email, company_name } = req.body;
@@ -124,7 +124,7 @@ app.delete('/api/company/delete', async (req, res) => {
 	}
 });
 
-// Deze endpoint verwacht de companyID, First Name, Last name en Email van nieuwe employee 
+// Deze endpoint verwacht de companyID, First Name, Last name en Email van nieuwe employee
 app.post('/api/employee/add', async (req, res) => {
 	try {
 		const { comp_id, first_name, last_name, email } = req.body;
@@ -163,7 +163,7 @@ app.post('/api/employee/schedule/create', async (req, res) => {
 	try {
 		const { id, week } = req.body;
 		const insertResult = await Functions.createEmployeeSchedule(id, week);
-	
+
 		if (insertResult) {
 		  res.status(200).json({ message: 'Schedule inserted successfully' });
 		} else {
@@ -179,8 +179,8 @@ app.put('/api/employee/schedule/update', async (req, res) => {
 	try {
 		const { schedule_id, m, tu, w, th, f, sa, su } = req.body;
 		const updateResult = await Functions.updateEmployeeSchedule(schedule_id, m, tu, w, th, f, sa, su);
-	
-		if (updateResult) 
+
+		if (updateResult)
 		{
 		  res.status(200).json({ message: 'Schedule updated successfully' });
 		} else {
@@ -256,6 +256,7 @@ app.post('/api/CompanyAdmin/login', async (req, res) => {
 				lastName: userData.admin_last_name,
 				userEmail: userData.email,
 				full_schedule: userData.full_schedule,
+				userRole: "CompanyAdmin"
 			},
 			'thisisaverysecretkeyspongebob',
 			{ expiresIn: '2h' }
@@ -264,7 +265,7 @@ app.post('/api/CompanyAdmin/login', async (req, res) => {
 		// Set the access token as a cookie (HTTP-only)
 		res.cookie('jwt-token', token, { maxAge: 2 * 60 * 60 * 1000 }); // 2 hours max age
 
-		res.status(200).json({ token: token, userData: userData });
+		res.status(200).json({ token: token, userData: jwt.decode(token) });
 	} catch (error) {
 		console.error(error);
 		res.status(500).json({ error: 'An error occurred getting the employee' });
@@ -289,6 +290,7 @@ app.post('/api/SuperAdmin/login', async (req, res) => {
 				firstName: userData.first_name,
 				lastName: userData.last_name,
 				userEmail: userData.email,
+				userRole: "SuperAdmin"
 			},
 			'thisisaverysecretkeyspongebob',
 			{ expiresIn: '2h' }
@@ -297,7 +299,7 @@ app.post('/api/SuperAdmin/login', async (req, res) => {
 		// Set the access token as a cookie (HTTP-only)
 		res.cookie('jwt-token', token, { httpOnly: true, maxAge: 2 * 60 * 60 * 1000 }); // 2 hours max age
 
-		res.status(200).json({ token: token, userData: userData });
+		res.status(200).json({ token: token, userData: jwt.decode(token)});
 	} catch (error) {
 		console.error(error);
 		res.status(500).json({ error: 'An error occurred getting the employee' });
