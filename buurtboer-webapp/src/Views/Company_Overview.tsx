@@ -1,44 +1,68 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Navbar from './Navbar';
 import genstyles from './Stylesheets/GeneralStyles.module.css';
 import postlogin from './Stylesheets/PostLogin.module.css';
 import Cross from "./img/kruisje_projectC.png";
+import { useCompaniesOverviewController } from '../Controllers/Company_OverviewController';
+
+interface Company {
+  id: number;
+  name: string;
+}
 
 function CompanyOverview() {
-  const [companies, setCompanies] = useState([
-    { id: 1, name: 'bedrijf 1' },
-    { id: 2, name: 'bedrijf 2' },
-    { id: 3, name: 'bedrijf 3' },
-  ]);
+  const { GetAllCompanies, RemoveCompany, companies } = useCompaniesOverviewController();
+  const [companiesList, setCompaniesList] = useState<Company[]>(companies);
 
-  const removeCompany = (companyId : number) => {
-    const updatedCompanies = companies.filter(company => company.id !== companyId);
-    setCompanies(updatedCompanies);
+  useEffect(() => {
+    GetAllCompanies();
+  }, []);
+
+  useEffect(() => {
+    setCompaniesList(companies);
+  }, [companies]);
+
+  const handleRemoveCompany = async (companyId: number) => {
+    await RemoveCompany(companyId);
+    setCompaniesList(companiesList.filter(company => company.id !== companyId));
   };
 
+ 
   return (
     <div>
       <Navbar />
 
       <div className={`container ${postlogin.page_container}  mt-5 p-5`}>
-        <h2>Bedrijf Overview</h2>
-        <div className="middle-buttons-container col-lg-5 content mt-5 mx-auto center-align">
+        <h2 className="text-center">Bedrijf Overview</h2>
+        <div className="middle-buttons-container col-lg-7 content mt-5 mx-auto center-align">
           <div className="left-align top-buttons-container">
             <a href="Invite_Company">
               <button className={genstyles.button}>Bedrijf Toevoegen</button>
             </a>
           </div>
-          {companies.map(company => (
-            <div key={company.id} className="mb-3 d-flex justify-content-between align-items-center">
-              <a>{company.name}</a>
-              <img
+          <table className="table">
+            <thead>
+              <tr>
+                <th scope="col-11">Company Name</th>
+                <th scope="col-1"></th>
+              </tr>
+            </thead>
+            <tbody>
+            {companiesList.map((company: Company) => (
+            <tr key={company.id}>
+              <td>{company.name}</td>
+              <td className='text-end'><img
                 src={Cross}
                 alt="cross"
                 className={postlogin.productImage}
-                onClick={() => removeCompany(company.id)}
-              />
-            </div>
+                onClick={() => handleRemoveCompany(company.id)}
+              /></td>
+            </tr>
           ))}
+              
+            </tbody>
+          </table>
+          
         </div>
       </div>
     </div>

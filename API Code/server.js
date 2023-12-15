@@ -79,6 +79,16 @@ app.get('/api/employee/allemployees', async (req, res) => {
 	}
 });
 
+app.get('/api/company/allcompanies', async (req, res) => {
+	try {
+		const userData = await Functions.getAllCompanies();
+		res.status(200).json(userData);
+	} catch (error) {
+		console.error(error);
+		res.status(500).json({ error: 'i did an oopsie' });
+	}
+});
+
 app.post('/api/employee/company', async (req, res) => {
 	try {
 		const { company_id } = req.body;

@@ -30,14 +30,28 @@ const createNewCompany = async (first_name, last_name, email, company_name) => {
 const deleteCompany = async (company_id) => {
     const db = await pool.connect();
     try {
-		const results = await db.query(`DELETE FROM company WHERE id = $1`, [company_id]);
-		if (results.rowCount > 0 ) {
-			console.log('Delete successful');
-			return true;
-		} else {
-			console.log('No rows were deleted');
-			return false;
-		}
+        // First, get the ids of the employees associated with the company
+        const employeeIds = await db.query(`SELECT employee_id FROM employeesincompany WHERE company_id = $1`, [company_id]);
+
+        // Then, delete the schedules associated with these employees
+        const scheduleResult = await db.query(`DELETE FROM schedulefromemployee WHERE employee_id = ANY($1)`, [employeeIds.rows.map(row => row.employee_id)]);
+
+        // Next, delete the associations of these employees with the company
+        const empincompResult = await db.query(`DELETE FROM employeesincompany WHERE company_id = $1`, [company_id]);
+
+        // Then, delete the employees
+        const employeeResult = await db.query(`DELETE FROM employee WHERE id = ANY($1)`, [employeeIds.rows.map(row => row.employee_id)]);
+        
+        // Finally, delete the company
+        const companyResult = await db.query(`DELETE FROM company WHERE id = $1`, [company_id]);
+
+        if (scheduleResult.rowCount > 0 || empincompResult.rowCount > 0 || employeeResult.rowCount > 0 || companyResult.rowCount > 0) {
+            console.log('Delete successful');
+            return true;
+        } else {
+            console.log('No rows were deleted');
+            return false;
+        }
     } catch (error) {
         console.error('Error in deleting user data:', error);
         throw new Error("Internal error");
@@ -105,6 +119,20 @@ const getAllEmployeeData = async () => {
 	const db = await pool.connect();
 	try {
 		const results = await db.query("SELECT * FROM employee");
+		return results.rows;
+	} catch (error) {
+		console.error(error);
+		console.error('Error in getting user data:', error);
+		throw new Error("Internal error wah wah");
+	} finally {
+		db.release(); // Release the connection back to the pool
+	  }
+};
+
+const getAllCompanies = async () => {
+	const db = await pool.connect();
+	try {
+		const results = await db.query("SELECT id, company_name FROM company");
 		return results.rows;
 	} catch (error) {
 		console.error(error);
@@ -366,6 +394,7 @@ module.exports = {
 	createNewEmployee,
 	deleteEmployee,
 	getAllEmployeeData,	
+	getAllCompanies,
 	getAllEmployeeDataByCompany,
 	getSingleEmployeeData,
 	getSingleEmployeeByEmailData,
