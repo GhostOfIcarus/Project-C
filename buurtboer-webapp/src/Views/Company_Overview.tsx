@@ -51,12 +51,14 @@ function CompanyOverview() {
             {companiesList.map((company: Company) => (
             <tr key={company.id}>
               <td>{company.name}</td>
-              <td className='text-end'><img
-                src={Cross}
-                alt="cross"
-                className={postlogin.productImage}
-                onClick={() => handleRemoveCompany(company.id)}
-              /></td>
+              <td className='text-end'>
+                <img
+                  src={Cross}
+                  alt="cross"
+                  className={postlogin.delete_cross}
+                  onClick={() => handleRemoveCompany(company.id)}
+                />
+              </td>
             </tr>
           ))}
               
