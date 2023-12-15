@@ -237,7 +237,13 @@ const getSingleEmployeeData = async (email, password) => {
 const getSingleEmployeeByEmailData = async (email) => {
 	const db = await pool.connect();
 	try {
-		const results = await db.query("SELECT * FROM employee WHERE email = $1", [email]);
+		const results = await db.query(`
+										SELECT employee.*, company.Company_Name 
+										FROM employee 
+										INNER JOIN EmployeesInCompany ON employee.ID = EmployeesInCompany.Employee_ID
+										INNER JOIN Company ON EmployeesInCompany.Company_ID = Company.ID
+										WHERE employee.email = $1
+									   `, [email]);
 		if (results.rowCount === 0) {
 			return false;
 		  }

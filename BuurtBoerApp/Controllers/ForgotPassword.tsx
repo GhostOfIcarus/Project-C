@@ -3,6 +3,10 @@ import loginData from './../Models/loginData.json';
 import { Alert } from 'react-native';
 
 export const handleSend = async (email: string, navigation: any, t: Function) => {
+  if (!email.includes("@")) {
+    Alert.alert(t('invalid_email_error'), t('invalid_email_error_text'));
+    return;
+  }
   // Check if the entered email exists in the JSON file
   let response = await fetch('http://10.0.2.2:5000/api/employee/forgot_password', {
     method: 'POST',
@@ -26,7 +30,7 @@ export const handleSend = async (email: string, navigation: any, t: Function) =>
     return;
   }
 
-  console.log(data); // inspect the response
+  console.log(data); 
 
   let employeeData = data;
   if (!employeeData) {
@@ -34,7 +38,7 @@ export const handleSend = async (email: string, navigation: any, t: Function) =>
     return;
   }
   
-  let employee = new Employee(employeeData.id, employeeData.email, employeeData.first_name, employeeData.last_name, employeeData.keepschedule);
+  let employee = new Employee(employeeData.id, employeeData.email, employeeData.first_name, employeeData.last_name, employeeData.keepschedule, employeeData.company_name);
 
   if (employee) {
     // Email exists, navigate to the ChangePassword screen with user data

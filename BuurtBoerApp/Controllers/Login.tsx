@@ -26,6 +26,11 @@ export const useLoginController = () => {
   };
 
   const handleLogin = async (email: string, password: string, navigation: any, rememberMe: boolean, t: Function) => {
+    //check if it is an real email
+    if (!email.includes("@")) {
+      Alert.alert(t('invalid_email_error'), t('invalid_email_error_text'));
+      return;
+    }
     let response = await fetch('http://10.0.2.2:5000/api/employee/login', {
       method: 'POST',
       headers: {
@@ -61,7 +66,7 @@ export const useLoginController = () => {
       return;
     }
     let employeeData = data;
-    let employee = new Employee(employeeData.id, employeeData.email, employeeData.first_name, employeeData.last_name, employeeData.keepschedule);
+    let employee = new Employee(employeeData.id, employeeData.email, employeeData.first_name, employeeData.last_name, employeeData.keepschedule, employeeData.company_name);
   
     if (rememberMe) {
       await AsyncStorage.setItem('user', JSON.stringify(employee));
@@ -75,7 +80,7 @@ export const useLoginController = () => {
 
   const handleLogin2 = async (navigation: any, rememberMe: boolean) => {
     
-    let employee = new Employee(1, "h", "h", "h", true);
+    let employee = new Employee(1, "h", "h", "h", true, "beh");
   
     if (rememberMe) {
       await AsyncStorage.setItem('user', JSON.stringify(employee));

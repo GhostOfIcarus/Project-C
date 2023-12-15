@@ -37,6 +37,8 @@
     "notifications": "Notificaties",
     "rememberMe": "Onthoud mij",
     "logout": "Log uit",
+    "invalid_email_error": "Ongeldige Email!",
+    "invalid_email_error_text": "Ingevoerde Email is geen geldig email adres!",
     "email_error": "Email niet gevonden!",
     "email_error_text": "Email is niet gevonden in onze database.",
     "user_error": "Account niet gevonden!",

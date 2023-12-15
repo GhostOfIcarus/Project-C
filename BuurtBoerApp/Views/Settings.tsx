@@ -78,7 +78,7 @@ const SettingsScreen = (props: SettingsProps) => {
           </View>
 
           <View style={basestyles.left_aligned_text_div}>
-              <Text style={basestyles.text_black}>{t('company')}:  {employee.company}</Text>
+              <Text style={basestyles.text_black}>{t('company')}:  {employee.companyName}</Text>
           </View>
 
           <View style={basestyles.left_aligned_text_div}>

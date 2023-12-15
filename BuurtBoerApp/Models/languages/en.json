@@ -37,6 +37,8 @@
     "notifications": "Notifications",
     "rememberMe": "Remember Me",
     "logout": "Logout",
+    "invalid_email_error": "Invalid Email!",
+    "invalid_email_error_text": "Given Email is not a real email address!",
     "email_error": "Email not found!",
     "email_error_text": "Email not found in our database, please try again.",
     "user_error": "Account not found!",
