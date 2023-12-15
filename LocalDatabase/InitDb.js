@@ -93,7 +93,7 @@ async function insertTestData() {
     // Write your insert queries here
     const insertDataQuery = `
       INSERT INTO Employee (First_Name, Last_Name, Email, Password, KeepSchedule)
-      VALUES ('John', 'Doe', 'john.dik@example.com', 'hashed-password', true),
+      VALUES ('John', 'Doe', 'john.doe@example.com', 'hashed-password', true),
       ('OEMPA', 'LOEMPA', 'oempa@loempa.com', 'oempa', true);
 
       INSERT INTO Company (Admin_First_Name, Admin_Last_Name, Company_Name, Full_Schedule, Email, Password)
