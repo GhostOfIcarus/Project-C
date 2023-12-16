@@ -30,7 +30,12 @@ function Forgot_Password() {
       }
     } catch (error) {
       console.error('An error occurred while fetching employee data:', error);
-      setError('An error occurred while fetching employee data.');
+  
+      if (error instanceof Error) {
+        setError(`An error occurred while fetching employee data: ${error.message}`);
+      } else {
+        setError('An unknown error occurred');
+      }
     }
   };
 

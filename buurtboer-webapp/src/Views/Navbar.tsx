@@ -4,9 +4,11 @@ import logo from './img/buurtboer_logo.png';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import postlogin from './Stylesheets/PostLogin.module.css';
 import withAuthentication from '../Controllers/withAuthentication';
+import { useTranslation } from 'react-i18next';
 
 
 const Navbar = () => {
+  const { t } = useTranslation();
     
     const buurtboer_nav = {
         backgroundColor: '#FFFFFF',
@@ -56,7 +58,7 @@ const Navbar = () => {
             onMouseEnter={() => setHoveredLinkStyle({ color: '#F9834C' })}
             onMouseLeave={() => setHoveredLinkStyle({ color: '#000000' })}
           >
-            Bestellen
+            {t('order')}
           </Link>
         </div>
         <div className="nav-button me-5">
@@ -66,7 +68,7 @@ const Navbar = () => {
             onMouseEnter={() => setHoveredLinkStyle({ color: '#F9834C' })}
             onMouseLeave={() => setHoveredLinkStyle({ color: '#000000' })}
           >
-            Medewerker Overview
+            {t('employee_Overview')}
         </Link>        
         </div>
         <div className="nav-button me-5">
@@ -76,7 +78,7 @@ const Navbar = () => {
             onMouseEnter={() => setHoveredLinkStyle({ color: '#F9834C' })}
             onMouseLeave={() => setHoveredLinkStyle({ color: '#000000' })}
           >
-            Invite Medewerker
+            {t('add_employee')}
         </Link>        
         </div>
         <div className="nav-button me-5">
@@ -86,7 +88,7 @@ const Navbar = () => {
             onMouseEnter={() => setHoveredLinkStyle({ color: '#F9834C' })}
             onMouseLeave={() => setHoveredLinkStyle({ color: '#000000' })}
           >
-            Settings
+            {t('settingsHeader')}
         </Link>        
         </div>
 
@@ -97,7 +99,7 @@ const Navbar = () => {
             onMouseEnter={() => setHoveredLinkStyle({ color: '#F9834C' })}
             onMouseLeave={() => setHoveredLinkStyle({ color: '#000000' })}
           >
-            Loguit
+            {t('logout')}
         </Link>        
         </div>
       </nav>
