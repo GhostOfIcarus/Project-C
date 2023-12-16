@@ -1,7 +1,7 @@
 import axios, { AxiosError } from 'axios';
 
 export async function forgotPasswordController(email: string): Promise<boolean> {
-  const apiUrl = 'http://localhost:5000/api/forgot_password'; // Updated endpoint
+  const apiUrl = '/api/CompanyAdmin/forgot_password'; // Updated endpoint
 
   try {
     const response = await axios.post(apiUrl, { email });
