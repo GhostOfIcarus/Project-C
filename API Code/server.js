@@ -90,7 +90,7 @@ app.get('/api/company/allcompanies', async (req, res) => {
 });
 
 // endpoint
-app.get('/api/employee/company', async (req, res) => {
+app.post('/api/employee/company', async (req, res) => {
     try {
         const { company_id } = req.query; // Extract company_id from query parameters
         const userData = await Functions.getAllEmployeeDataByCompany(company_id);
