@@ -373,6 +373,26 @@ const getAttendance = async (comp_id, week_number) => {
     }
   }
   
+  const checkEmailExists = async (email) => {
+	const db = await pool.connect();
+	try {
+	  const result = await db.query("SELECT COUNT(*) FROM company WHERE email = $1", [email]);
+	  // If the count is greater than 0, the email exists
+	  return result.rows[0].count > 0;
+	} catch (error) {
+	  console.log("wah wah", error);
+	  try {
+		const result = await db.query("SELECT COUNT(*) FROM superadmin WHERE email = $1", [email]);
+		// If the count is greater than 0, the email exists
+		return result.rows[0].count > 0;
+	  } catch (error) {
+		console.error('Error in checking email existence:', error);
+		throw new Error('Internal error wah wah');
+	  }
+	} finally {
+	  db.release();
+	}
+  };
 //   const fetchData = async () => {
 // 	try {
 // 	  const results = await getAttendance(49);
@@ -412,5 +432,6 @@ module.exports = {
 	createEmployeeSchedule,
 	updateEmployeeSchedule,
 	getAttendance,
+	checkEmailExists,
 	pool
 };

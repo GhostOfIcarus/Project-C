@@ -5,11 +5,16 @@ import genstyles from './Stylesheets/GeneralStyles.module.css';
 import NL from "./img/nl_flag.png";
 import EN from "./img/en_flag.png";
 import withAuthentication from '../Controllers/withAuthentication';
+import { SettingsController } from '../Controllers/SettingsController';
+import { useTranslation } from 'react-i18next';
 
 function Settings() {
   const [editable, setEditable] = useState(false);
   const [selectedRooster, setSelectedRooster] = useState('Ma-Vr');
   const [confirmationVisible, setConfirmationVisible] = useState(false);
+  const { t } = useTranslation();
+  const { language, setLanguage } = SettingsController();
+
 
   const handleEditButtonClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
@@ -51,18 +56,28 @@ function Settings() {
                 <a href="Company_Overview">
                     <button className={genstyles.button}>bedrijven</button>
                 </a>
-                <img style={{ width: '20px', height: 'auto', marginRight: '5px' }} src={NL} alt="change" />
-                <img style={{ width: '20px', height: 'auto', marginRight: '5px' }} src={EN} alt="change" />
+                <img
+                  style={{ width: '20px', height: 'auto', marginRight: '5px', cursor: 'pointer' }}
+                  src={NL}
+                  alt="nl"
+                  onClick={() => setLanguage('nl')} // Use setLanguage from SettingsController
+                />
+                <img
+                  style={{ width: '20px', height: 'auto', marginRight: '5px', cursor: 'pointer' }}
+                  src={EN}
+                  alt="en"
+                  onClick={() => setLanguage('en')} // Use setLanguage from SettingsController
+                />
               </div>
               {confirmationVisible && (
                 <button className={genstyles.button} onClick={handleConfirmButtonClick}>
-                  Confirm
+                  {t('confirm')}
                 </button>
               )}
               {!confirmationVisible && (
                 <a href="Settings_Page">
                   <button className={genstyles.button} onClick={handleEditButtonClick}>
-                    bewerk
+                  {t('edit')}
                   </button>
                 </a>
               )}
