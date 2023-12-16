@@ -89,16 +89,18 @@ app.get('/api/company/allcompanies', async (req, res) => {
 	}
 });
 
-app.post('/api/employee/company', async (req, res) => {
-	try {
-		const { company_id } = req.body;
-		const userData = await Functions.getAllEmployeeDataByCompany(company_id);
-		res.status(200).json(userData);
-	} catch (error) {
-		console.error(error);
-		res.status(500).json({ error: 'i did an oopsie' });
-	}
+// endpoint
+app.get('/api/employee/company', async (req, res) => {
+    try {
+        const { company_id } = req.query; // Extract company_id from query parameters
+        const userData = await Functions.getAllEmployeeDataByCompany(company_id);
+        res.status(200).json(userData);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'i did an oopsie' });
+    }
 });
+
 
 // Deze endpoint verwacht de Admin First Name, Admin Last name, Admin Email en Company Name van nieuwe employee
 app.post('/api/company/add', async (req, res) => {

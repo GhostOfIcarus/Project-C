@@ -1,77 +1,69 @@
-// import { Component} from 'react';
-// import logo from './img/buurtboer_logo.png'; 
-// import postlogin from './Stylesheets/PostLogin.module.css';
-// import Navbar from './Navbar';
-// //import styling from './Stylesheets/Company_overview.module.css';
-// //TODO:fix css so we can actually use the stuff
-
-// function EmployeesOverview() {
-//     return (
-//       <div>
-//         <Navbar />
-  
-//         <div className={`container ${postlogin.page_container}  mt-5 p-5`}>
-//           <h2>Medewerker overview</h2>
-//           <div className="middle-buttons-container col-lg-5 content mt-5 mx-auto center-align">
-//             <div className="left-align top-buttons-container">
-//               <a href="Invite_Company"><button className="m-button">Medewerker toevoegen</button></a>
-//             </div>
-//             <button className="middle-button">Medewerker 1</button>
-//             <button className="middle-button">Medewerker 2</button>
-//             <button className="middle-button">Medewerker 3</button>
-//           </div>
-//         </div>
-//       </div>
-//     );
-//   }
-  
-//   export default EmployeesOverview;
-
-
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';  // Assuming you are using React Router
 import postlogin from './Stylesheets/PostLogin.module.css';
 import genstyles from './Stylesheets/GeneralStyles.module.css';
+import Cross from "./img/kruisje_projectC.png";
 import withAuthentication from '../Controllers/withAuthentication';
 import Navbar from './Navbar';
 import { useEmployeesOverviewController } from '../Controllers/Employees_OverviewController';
 
-
+interface Employee {
+  id: number;
+  first_name: string;
+  last_name: string;
+}
 
 function EmployeesOverview() {
-  const{ employees} = useEmployeesOverviewController();
-  
+  const{ fetchEmployees, employees } = useEmployeesOverviewController();
+  const [employeesList, setEmployeesList] = useState<Employee[]>(employees);
+
+  useEffect(() => {
+    fetchEmployees();
+  }, []);
+
+  useEffect(() => {
+    setEmployeesList(employees);
+  }, [employees]);
+
   return (
     <div>
       <Navbar />
 
-      <div className={`container ${postlogin.page_container} mt-5 p-5 ${genstyles.title}`}>
-        <h2>Medewerker Overview</h2>
-        <div className="middle-buttons-container col-lg-5 content mt-5 mx-auto center-align">
+      <div className={`container ${postlogin.page_container}  mt-5 p-5`}>
+        <h2 className="text-center">Medewerker Overview</h2>
+        <div className="middle-buttons-container col-lg-7 content mt-5 mx-auto center-align">
           <div className="left-align top-buttons-container">
-            <Link to="Invite_Company">
-              <button className="m-button">Medewerker toevoegen</button>
-            </Link>
+            <a href="Invite_Employee">
+              <button className={genstyles.button}>Medewerker Toevoegen</button>
+            </a>
           </div>
-          <table className="table mt-3">
+          <table className="table">
+            <thead>
+              <tr>
+                <th scope="col-11">Employee name</th>
+                <th scope="col-1"></th>
+              </tr>
+            </thead>
             <tbody>
-              <tr>
-                <td style={{ textAlign: 'left' }}><Link to="/Employee_Week_Overview/{id}">Medewerker 1</Link></td>
-                <td>X</td>
-              </tr>
-              <tr>
-                <td style={{ textAlign: 'left' }}><Link to="/Employee_Week_Overview">Medewerker 2</Link></td>
-                <td>X</td>
-              </tr>
-              <tr>
-                <td style={{ textAlign: 'left' }}><Link to="/Employee_Week_Overview">Medewerker 3</Link></td>
-                <td>X</td>
-              </tr>
+            {employeesList.map((employee: Employee) => (
+            <tr key={employee.id}>
+              <td>{employee.first_name} {employee.last_name}</td>
+              <td className='text-end'>
+                <img
+                  src={Cross}
+                  alt="cross"
+                  className={postlogin.delete_cross}
+                  // onClick={() => handleRemoveCompany(company.id)}
+                />
+              </td>
+            </tr>
+          ))}
+              
             </tbody>
           </table>
         </div>
       </div>
-      </div>
+    </div>
   );
 }
 

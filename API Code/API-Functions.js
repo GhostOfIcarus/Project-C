@@ -1,3 +1,5 @@
+const { Console } = require('console');
+
 const Pool = require('pg').Pool;
 
 const pool = new Pool({ 
@@ -143,6 +145,7 @@ const getAllCompanies = async () => {
 	  }
 };
 
+
 const getAllEmployeeDataByCompany = async (company_id) => {
 	const db = await pool.connect();
 	try {
@@ -150,6 +153,7 @@ const getAllEmployeeDataByCompany = async (company_id) => {
 										FROM employee 
 										JOIN employeesincompany ON employeesincompany.employee_id = employee.id
 										WHERE company_id = $1`, [company_id]);
+		console.log(results.rows);
 		return results.rows;
 	} catch (error) {
 		console.error(error);
@@ -159,7 +163,9 @@ const getAllEmployeeDataByCompany = async (company_id) => {
 		db.release(); // Release the connection back to the pool
 	  }
 };
+
 getAllEmployeeDataByCompany(1);
+
 
 const getEmployeeSchedule = async (employeeId, week) => {
 	const db = await pool.connect();
