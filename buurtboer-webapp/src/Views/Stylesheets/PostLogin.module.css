@@ -10,3 +10,15 @@ body{
     background-color: #fff !important;
     box-shadow: 3px 10px 8px #888888 
 }
+
+.delete_cross{
+    width: 30px;
+}
+
+.submit_button{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    border-radius: 10px;
+}

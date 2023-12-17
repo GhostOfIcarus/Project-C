@@ -5,6 +5,8 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import genstyles from './Stylesheets/GeneralStyles.module.css';
 import loginstyles from './Stylesheets/Login.module.css';
 import { useEffect } from 'react';
+import withAuthentication from '../Controllers/withAuthentication';
+
 
 
 

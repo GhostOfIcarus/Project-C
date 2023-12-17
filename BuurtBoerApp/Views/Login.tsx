@@ -13,6 +13,7 @@ const LoginScreen = (props: LoginScreenProps) => {
   
   useEffect(() => {
     const checkLoggedIn = async () => {
+      sync_language();
       const user = await AsyncStorage.getItem('user');
 
       if (user) {
@@ -30,9 +31,11 @@ const LoginScreen = (props: LoginScreenProps) => {
   const {
     language,
     showPassword,
+    sync_language,
     toggleLanguage,
     toggleShowPassword,
     handleLogin,
+    handleLogin2,
   } = useLoginController();
 
   const { t } = useTranslation();
@@ -47,8 +50,6 @@ const LoginScreen = (props: LoginScreenProps) => {
   const handlePasswordChange = (text: string) => {
     setPassword(text);
   };
-
-  const Schedule = () => props.navigation.navigate("Schedule_Form")
 
   const Create_Account = () => props.navigation.navigate("CreateAccount")
 
@@ -100,14 +101,14 @@ const LoginScreen = (props: LoginScreenProps) => {
               onValueChange={setRememberMe}
             />
           </View>
-          <TouchableOpacity style={before_login.buttons} onPress={() => handleLogin(email, password, props.navigation, rememberMe)}>
+          <TouchableOpacity style={before_login.buttons} onPress={() => handleLogin(email, password, props.navigation, rememberMe, t)}>
             <Text style={{ color: 'white', textAlign: 'center' }}>{t('login')}</Text>
           </TouchableOpacity>
           <View style={before_login.centered_text}>
             <Text style={{ color: 'black' }}>{t('or')}</Text>
           </View>
 
-          <TouchableOpacity style={before_login.buttons} onPress={Schedule}>
+          <TouchableOpacity style={before_login.buttons} onPress={() => handleLogin2(props.navigation, rememberMe)}>
             <Text style={{ color: 'white', textAlign: 'center' }}>{t('google')}</Text>
           </TouchableOpacity>
           <TouchableOpacity style={before_login.buttons} onPress={Create_Account}>

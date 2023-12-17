@@ -1,17 +1,17 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import logo from './img/buurtboer_logo.png';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import postlogin from './Stylesheets/PostLogin.module.css';
 import Navbar from './Navbar';
-import Login from './Login';
+import withAuthentication from '../Controllers/withAuthentication';
+import { useEmpOverviewController } from '../Controllers/Employee_OverviewController';
 
 function Employee_Overview() {
-  // const [token, setToken] = useState();
-
-  // if (!token) {
-  //   return <Login setToken={setToken} />
-  // }
+  const{ isSubmitted, handleSubmit, countMonday, countTuesday, countWednesday, countThursday, countFriday, absentMonday,
+    absentTuesday,
+    absentWednesday,
+    absentThursday,
+    absentFriday,} = useEmpOverviewController();
 
   return (
     <>
@@ -22,7 +22,7 @@ function Employee_Overview() {
           <div className="row">
             <div className="col-lg-12 ">
               <h1>Medewerker Overview</h1>
-              <form action="/action_page.php">
+              <form onSubmit={handleSubmit}>
                   <input type="week" id="week" name="week" />
                   <input type="submit" value="Submit" />
               </form>
@@ -39,28 +39,29 @@ function Employee_Overview() {
                   <tbody>
                       <tr>
                           <td>Maandag</td>
-                          <td>8</td>
-                          <td>2</td>
+                          <td>{countMonday}</td>
+                          {/*moet nog aangepast worden naar (totalEmployeesByCompany - countMonday)*/}
+                          <td>{absentMonday}</td>
                       </tr>
                       <tr>
                           <td>Dinsdag</td>
-                          <td>14</td>
-                          <td>9</td>
+                          <td>{countTuesday}</td>
+                          <td>{absentTuesday}</td>
                       </tr>
                       <tr>
                           <td>Woensdag</td>
-                          <td>10</td>
-                          <td>1</td>
+                          <td>{countWednesday}</td>
+                          <td>{absentWednesday}</td>
                       </tr>
                       <tr>
                           <td>Donderdag</td>
-                          <td>14</td>
-                          <td>4</td>
+                          <td>{countThursday}</td>
+                          <td>{absentThursday}</td>
                       </tr>
                       <tr>
                           <td>Vrijdag</td>
-                          <td>14</td>
-                          <td>6</td>
+                          <td>{countFriday}</td>
+                          <td>{absentFriday}</td>
                       </tr>
                   </tbody>
               </table>
@@ -73,4 +74,4 @@ function Employee_Overview() {
   );
 }
 
-export default Employee_Overview;
+export default withAuthentication(Employee_Overview);

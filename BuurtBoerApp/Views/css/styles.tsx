@@ -115,11 +115,18 @@ export const basestyles = StyleSheet.create({
         fontSize: width * 0.05, 
         textAlign: 'center', 
     },
+    text_small: 
+    { 
+        paddingTop: height * 0.004,
+        color: 'gray', 
+        fontSize: width * 0.03, 
+    },
     centered_text_small: 
     { 
         paddingTop: height * 0.004,
         color: 'gray', 
         fontSize: width * 0.03, 
+        textAlign: 'center',
     },
 
     // text divs

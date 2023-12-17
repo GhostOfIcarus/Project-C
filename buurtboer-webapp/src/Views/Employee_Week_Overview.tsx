@@ -4,6 +4,8 @@ import logo from './img/buurtboer_logo.png';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import postlogin from './Stylesheets/PostLogin.module.css';
 import Navbar from './Navbar';
+import withAuthentication from '../Controllers/withAuthentication';
+
 
 type DayType = {
     day: string;
@@ -117,4 +119,4 @@ function Employee_Week_Overview() {
   );
 }
 
-export default Employee_Week_Overview;
+export default withAuthentication(Employee_Week_Overview);

@@ -1,41 +1,25 @@
-import { useState, FormEvent } from 'react';
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 
-interface ErrorMessages {
-  name: string;
-  message: string;
-}
+export async function changePasswordController(newPassword: string, email: string): Promise<boolean> {
+  const apiUrl = 'http://localhost:5000/api/change_password';
+  try {
+    const response = await axios.post(apiUrl, { newPassword, email });
+    console.log('Response status:', response.status);
+    console.log('Response data:', response.data);
 
-const errorMessages: { email: string; Pass: string } = {
-  email: 'email error',
-  Pass: 'invalid password',
-};
-
-
-//TODO: add error handling
-export function ChangePasswordController(){
-    const [newPassword, setNewPassword] = useState<string>('');
-    const [confirmPassword, setConfirmPassword] = useState<string>('');
-    const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
-    
-    const handleSubmit = (e: FormEvent) => {
-      e.preventDefault();
-  
-      // Check if the passwords match 
-      //TODO: add thingy that checks if the password is equal to the one of the user, if so password change not succesfull
-      if (newPassword === confirmPassword) {
-        // Passwords match, you can update the user's password or perform other actions
-        console.log('Password change successful!');
-      } else {
-        // Passwords do not match, you can handle this case (e.g., show an error message)
-        console.error('Passwords do not match!');
-      }
-  
-      // Set the submission state
-      setIsSubmitted(true);
-    
+    // Check if the password change was successful
+    return response.status === 200 && response.data.message === 'Password changed successfully';
+  } catch (error) {
+    const axiosError = error as AxiosError;
+    if (axiosError.response) {
+      console.error('Response data:', axiosError.response.data);
+      console.error('Response status:', axiosError.response.status);
+    } else if (axiosError.request) {
+      console.error('Request made but no response received:', axiosError.request);
+    } else {
+      console.error('Error setting up the request:', axiosError.message);
     }
-
-    return{}
-
+    throw error;
+  }
 }
+

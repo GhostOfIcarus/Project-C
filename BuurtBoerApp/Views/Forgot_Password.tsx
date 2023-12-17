@@ -34,7 +34,7 @@ const ForgotPassword = (props: ForgotPasswordScreenProps) => {
             style={before_login.input}
             onChangeText={handleEmailChange}
           />
-          <TouchableOpacity style={[before_login.buttons, before_login.buttons_space]} onPress={() => handleSend(email, props.navigation)}>
+          <TouchableOpacity style={[before_login.buttons, before_login.buttons_space]} onPress={() => handleSend(email, props.navigation, t)}>
             <Text style={{ color: 'white', textAlign: 'center' }}>{t('send')}</Text>
           </TouchableOpacity>
         </View>

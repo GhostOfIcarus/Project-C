@@ -16,10 +16,11 @@ const SettingsScreen = (props: SettingsProps) => {
 
   const [language, setLanguage] = useState(i18next.language);
 
-  const toggleLanguage = () => {
+  const toggleLanguage = async () => {
     const newLanguage = language === 'en' ? 'nl' : 'en';
     setLanguage(newLanguage);
     i18next.changeLanguage(newLanguage);
+    await AsyncStorage.setItem('language', JSON.stringify(newLanguage));
   };
 
   const { employee } = props.route.params;
@@ -77,7 +78,7 @@ const SettingsScreen = (props: SettingsProps) => {
           </View>
 
           <View style={basestyles.left_aligned_text_div}>
-              <Text style={basestyles.text_black}>{t('company')}:  {employee.company}</Text>
+              <Text style={basestyles.text_black}>{t('company')}:  {employee.companyName}</Text>
           </View>
 
           <View style={basestyles.left_aligned_text_div}>

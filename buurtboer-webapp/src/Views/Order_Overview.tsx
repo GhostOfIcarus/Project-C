@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';  
-import Change from "./img/pen_projectC.png"
-import Cross from "./img/pen_projectC.png"
+import Change from "./img/pen.png"
+import Cross from "./img/kruisje_projectC.png"
 import postlogin from './Stylesheets/PostLogin.module.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import genstyles from "./Stylesheets/GeneralStyles.module.css"
 import Navbar from './Navbar';
+import withAuthentication from '../Controllers/withAuthentication';
+
 
 function OrderOverview(){
 
@@ -63,4 +65,4 @@ function OrderOverview(){
     )
 }
 
-export default OrderOverview;
+export default withAuthentication(OrderOverview);

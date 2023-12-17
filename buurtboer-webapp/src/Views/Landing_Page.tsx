@@ -4,6 +4,8 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import logo from './img/buurtboer_logo.png';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import withAuthentication from '../Controllers/withAuthentication';
+
 
 export function Landing_Page() {
  
@@ -13,7 +15,7 @@ export function Landing_Page() {
                 <div className="row">
                     <div className="col-lg-6">
                         <div className="title">Welkom bij Buurtboer</div>
-                        <div className="sub-title">De online supermarkt voor op het werk!!!!1!!!!!!!1!!!1!!!</div>
+                        <div className="sub-title">De online supermarkt voor op het werk!!!!1!!!!!!!1!!!1!!!uitroepteken</div>
                         <div className="button">
                             <Link to="/Login" className="link">Login</Link>
                         </div>
