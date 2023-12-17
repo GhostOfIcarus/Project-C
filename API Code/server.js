@@ -367,6 +367,66 @@ app.post('/api/forgot_password', async (req, res) => {
 	}
   });
 
+  
+app.get('/api/admin/singleadmin', async (req, res) => {
+	try {
+	  const { email, password } = req.query;
+  
+	  if (!email) {
+		return res.status(400).json({ error: 'Admin email is required' });
+	  }
+  
+	  const adminData = await getSingleCompanyAdminDataByEmail(email, password);
+  
+	  if (!adminData) {
+		return res.status(404).json({ error: 'Admin not found' });
+	  }
+  
+	  res.status(200).json(adminData);
+	} catch (error) {
+	  console.error('Error in /api/admin/singleadmin endpoint:', error);
+	  res.status(500).json({ error: 'Internal server error' });
+	}
+  });
+
+app.get('/api/SuperAdmin/singlesuperadmin', async (req, res) => {
+	try {
+		const { email } = req.query;
+	
+		if (!email) {
+		  return res.status(400).json({ error: 'SuperAdmin email is required' });
+		}
+	
+		const adminData = await getSingleSuperAdminData(email);
+	
+		if (!adminData) {
+		  return res.status(404).json({ error: 'SuperAdmin not found' });
+		}
+	
+		res.status(200).json(adminData);
+	  } catch (error) {
+		console.error('Error in /api/admin/singleadmin endpoint:', error);
+		res.status(500).json({ error: 'Internal server error' });
+	  }
+  })
+
+app.get('/api/admin/RegisterAdmin', async (req, res) => {
+	try {
+        const { admin_first_name, admin_last_name, company_name, full_schedule, email, password } = req.body;
+        const success = await Functions.createNewCompany(admin_first_name, admin_last_name, company_name, full_schedule, email, password);
+        if (success) {
+            res.status(200).json({ message: 'Admin registration successful' });
+        } else {
+            res.status(500).json({ error: 'An error occurred registering the admin' });
+        }
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'An error occurred registering the admin' });
+    }
+})
+
+  
+
 
 // Starting the API server
 app.listen(port, () => {

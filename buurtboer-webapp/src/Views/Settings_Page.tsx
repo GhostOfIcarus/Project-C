@@ -14,7 +14,7 @@ function Settings() {
   const [editable, setEditable] = useState(false);
   const [selectedRooster, setSelectedRooster] = useState('Ma-Vr');
   const [confirmationVisible, setConfirmationVisible] = useState(false);
-  const { language, setLanguage } = SettingsController();
+  const { language, adminInfo, setLanguage } = SettingsController();
 
   const handleEditButtonClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
