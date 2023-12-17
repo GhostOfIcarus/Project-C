@@ -8,7 +8,7 @@ export async function forgotPasswordController(email: string): Promise<boolean> 
     console.log('Response data:', response.data);
 
     // Check if the email exists in the database
-    return response.status >= 200 && response.status < 300 && response.data ? true : false;
+    return response.status === 200 && response.data.success;
   } catch (error) {
     const axiosError = error as AxiosError;
     if (axiosError.response) {

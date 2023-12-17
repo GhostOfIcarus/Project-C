@@ -343,11 +343,27 @@ app.post('/api/forgot_password', async (req, res) => {
 	  if (emailExists) {
 		res.status(200).json({ success: true });
 	  } else {
+		console.log('HELPPPPPPP')
 		res.status(404).json({ error: 'Email not found in the database' });
 	  }
 	} catch (error) {
 	  console.error(error);
 	  res.status(500).json({ error: 'An error occurred while processing forgot password request' });
+	}
+  });
+
+  app.post('/api/change_password', async (req, res) => {
+	try {
+	  const { newPassword, email } = req.body;
+	  const result = await Functions.ChangeAdminPassword(newPassword, email);
+	  if (result) {
+		res.status(200).json({ message: 'Password changed successfully' });
+	  } else {
+		res.status(400).json({ error: 'Failed to change password' });
+	  }
+	} catch (error) {
+	  console.error(error);
+	  res.status(500).json({ error: 'An error occurred while changing the password' });
 	}
   });
 

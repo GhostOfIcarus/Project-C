@@ -10,7 +10,6 @@ import { useTranslation } from 'react-i18next';
 
 function Settings() {
   const [editable, setEditable] = useState(false);
-  const [selectedRooster, setSelectedRooster] = useState('Ma-Vr');
   const [confirmationVisible, setConfirmationVisible] = useState(false);
   const { t } = useTranslation();
   const { language, setLanguage } = SettingsController();
@@ -20,10 +19,6 @@ function Settings() {
     event.preventDefault();
     setEditable(true);
     setConfirmationVisible(true);
-  };
-
-  const handleRoosterChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setSelectedRooster(event.target.value);
   };
 
   const handleConfirmButtonClick = () => {

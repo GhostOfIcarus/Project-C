@@ -3,7 +3,8 @@ import React, { useState, ChangeEvent, FormEvent } from 'react';
 import { forgotPasswordController} from '../Controllers/Forget_Password';
 import logo from './img/buurtboer_logo.png';
 import genstyles from './Stylesheets/GeneralStyles.module.css';
-import withAuthentication from '../Controllers/withAuthentication';
+import { useNavigate, Link } from 'react-router-dom';
+import { AxiosError } from 'axios';
 
 
 interface UserData {
@@ -14,6 +15,7 @@ function Forgot_Password() {
   const [email, setEmail] = useState<string>('');
   const [userData, setUserData] = useState<UserData | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const navigate = useNavigate();
 
   const handleEmailChange = (e: ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value);
@@ -24,13 +26,19 @@ function Forgot_Password() {
     try {
       const emailExists = await forgotPasswordController(email);
       if (emailExists) {
+        navigate(`/Change_Password?email=${email}`);
         console.log('Email exists');
       } else {
         setError('Email not found in the database');
       }
     } catch (error) {
-      console.error('An error occurred while fetching employee data:', error);
-      setError('An error occurred while fetching employee data.');
+      const axiosError = error as AxiosError;
+      if (axiosError.response && axiosError.response.status === 404) {
+        setError('Email not found in the database!1!1');
+      } else {
+        console.error('An error occurred while fetching admin data:', axiosError.message || error);
+        setError('An error occurred while fetching admin data.');
+      }
     }
   };
 
@@ -71,33 +79,3 @@ function Forgot_Password() {
 
 export default Forgot_Password;
 
-
-
-
-
-// import logo from './img/buurtboer_logo.png';
-// import genstyles from './Stylesheets/GeneralStyles.module.css';
-
-
-// function Forgot_Password() {
-//   return (
-//     <>
-//         <div className={genstyles.container}>
-//           <div className='row'>
-//             <div className={`col-lg-6 ${genstyles.login_div}`}>
-//               <div className={genstyles.title}>Wachtwoord Vergeten</div>
-//               <input type="email" placeholder="Email" name="Email" /> 
-//               <a href="Change_Password"><button className={genstyles.button}>Verstuur</button></a>
-//             </div>
-//             <div className={`col-lg-6 ${genstyles.image_div}`}>
-//               <img className={genstyles.Buurtboerlogo} src={logo} alt="buurtboerLogo" />
-//             </div>
-//           </div>
-//         </div>
-//     </>
-//   );
-// }
-
-
-
-// export default Forgot_Password;

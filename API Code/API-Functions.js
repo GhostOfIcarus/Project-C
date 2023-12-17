@@ -376,23 +376,67 @@ const getAttendance = async (comp_id, week_number) => {
   const checkEmailExists = async (email) => {
 	const db = await pool.connect();
 	try {
-	  const result = await db.query("SELECT COUNT(*) FROM company WHERE email = $1", [email]);
+	  const result = await db.query(`
+		SELECT COUNT(*) as count FROM (
+		  SELECT 1 FROM company WHERE email = $1
+		  UNION ALL
+		  SELECT 1 FROM superadmin WHERE email = $1
+		) AS combined_query;
+	  `, [email]);
+  
 	  // If the count is greater than 0, the email exists
+	  console.log(result);
 	  return result.rows[0].count > 0;
 	} catch (error) {
-	  console.log("wah wah", error);
-	  try {
-		const result = await db.query("SELECT COUNT(*) FROM superadmin WHERE email = $1", [email]);
-		// If the count is greater than 0, the email exists
-		return result.rows[0].count > 0;
-	  } catch (error) {
-		console.error('Error in checking email existence:', error);
-		throw new Error('Internal error wah wah');
-	  }
+	  console.error('Error in checking email existence:', error);
+	  throw new Error('Internal error');
 	} finally {
 	  db.release();
 	}
   };
+  
+
+  const ChangeAdminPassword = async (newPassword, email) => {
+	const db = await pool.connect();
+	try {
+	  // Try updating the password in the company table
+	  const companyResults = await db.query(`
+		UPDATE company
+		SET password = $1
+		WHERE email = $2
+		RETURNING *;
+	  `, [newPassword, email]);
+  
+	  if (companyResults.rowCount > 0) {
+		// Password updated in the company table
+		return true;
+	  }
+  
+	  // If not found in the company table, try updating in the superadmin table
+	  const superadminResults = await db.query(`
+		UPDATE superadmin
+		SET password = $1
+		WHERE email = $2
+		RETURNING *;
+	  `, [newPassword, email]);
+  
+	  if (superadminResults.rowCount > 0) {
+		// Password updated in the superadmin table
+		return true;
+	  }
+  
+	  // No rows were updated, which means the email was not found in either table
+	  console.error('No user found with this email:', email);
+	  return false;
+	} catch (error) {
+	  console.error('Error in updating user password:', error);
+	  throw new Error('Internal error');
+	} finally {
+	  db.release(); // Release the connection back to the pool
+	}
+  };
+  
+  
 //   const fetchData = async () => {
 // 	try {
 // 	  const results = await getAttendance(49);
@@ -433,5 +477,6 @@ module.exports = {
 	updateEmployeeSchedule,
 	getAttendance,
 	checkEmailExists,
+	ChangeAdminPassword,
 	pool
 };
