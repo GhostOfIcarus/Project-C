@@ -14,16 +14,33 @@ interface Employee {
 }
 
 function EmployeesOverview() {
-  const{ fetchEmployees, employees } = useEmployeesOverviewController();
+  const{ fetchEmployees, employees, RemoveEmployee } = useEmployeesOverviewController();
   const [employeesList, setEmployeesList] = useState<Employee[]>(employees);
 
   useEffect(() => {
-    fetchEmployees();
-  }, []);
+    const fetchData = async () => {
+      await fetchEmployees();
+    };
+
+    fetchData();
+  }, [fetchEmployees]);
+
+  // useEffect(() => {
+  //   fetchEmployees();
+  // }, []);
 
   useEffect(() => {
     setEmployeesList(employees);
   }, [employees]);
+
+  const handleRemoveEmployee = async (employeeId: number) => {
+    const confirmDelete = window.confirm(`Are you sure you want to delete 1 employee?`);
+
+    if (confirmDelete) {
+      await RemoveEmployee(employeeId);
+      setEmployeesList(employeesList.filter((employee) => employee.id !== employeeId));
+    }
+  };
 
   return (
     <div>
@@ -46,18 +63,18 @@ function EmployeesOverview() {
             </thead>
             <tbody>
             {employeesList.map((employee: Employee) => (
-            <tr key={employee.id}>
-              <td>{employee.first_name} {employee.last_name}</td>
-              <td className='text-end'>
-                <img
-                  src={Cross}
-                  alt="cross"
-                  className={postlogin.delete_cross}
-                  // onClick={() => handleRemoveCompany(company.id)}
-                />
-              </td>
-            </tr>
-          ))}
+              <tr key={employee.id}>
+                <td>{employee.first_name} {employee.last_name}</td>
+                <td className='text-end'>
+                  <img
+                    src={Cross}
+                    alt="cross"
+                    className={postlogin.delete_cross}
+                    onClick={() => handleRemoveEmployee(employee.id)}
+                  />
+                </td>
+              </tr>
+            ))}
               
             </tbody>
           </table>

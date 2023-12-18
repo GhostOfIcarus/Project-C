@@ -26,8 +26,12 @@ function CompanyOverview() {
   }, [companies]);
 
   const handleRemoveCompany = async (companyId: number) => {
-    await RemoveCompany(companyId);
-    setCompaniesList(companiesList.filter(company => company.id !== companyId));
+    const confirmDelete = window.confirm(`Are you sure you want to delete 1 company?`);
+
+    if (confirmDelete) {
+      await RemoveCompany(companyId);
+      setCompaniesList(companiesList.filter(company => company.id !== companyId));
+    }
   };
 
  
