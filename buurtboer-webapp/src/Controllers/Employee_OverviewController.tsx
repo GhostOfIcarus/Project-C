@@ -1,9 +1,16 @@
-import { useState, FormEvent } from 'react';
+import { useState, FormEvent, useEffect } from 'react';
 import axios, { AxiosError } from 'axios';
 
 export interface AttendanceData {
   day: string;
   value: any;
+}
+
+export interface UserData{
+  userId: any;
+  firstName: string;
+  lastName: string;
+  email: string;
 }
 
 export function useEmpOverviewController() {
@@ -20,7 +27,28 @@ export function useEmpOverviewController() {
   const [absentThursday, setabsentThursday] = useState<number>(0);
   const [absentFriday, setabsentFriday] = useState<number>(0);
   const [selectedWeek, setSelectedWeek] = useState<number>(49);
+  const [userdata, setUserData] = useState<UserData | null>(null);
 
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get('http://localhost:5000/api/auth', {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          withCredentials: true,
+        });
+        // console.log("Response data: ", response.data);
+        const userData = response.data.userData;
+        // console.log(userData.firstName);
+        setUserData(userData);
+      } catch (error) {
+        // Handle error
+      }
+    };
+
+    fetchData();
+  }, []);
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     
@@ -29,11 +57,11 @@ export function useEmpOverviewController() {
       const form = event.currentTarget;
       const wn = form.elements.namedItem('week') as HTMLInputElement;
       const week_number = wn.value.split('-')[1].substring(1);
-      const comp_id = 1;
+      // const comp_id = 1;
 
       try {
         let response = await axios.post('http://localhost:5000/api/employees/attendance', {
-          comp_id,
+          comp_id: userdata?.userId,
           week_number
         }, {
           withCredentials: true,
@@ -44,6 +72,7 @@ export function useEmpOverviewController() {
         
 
         console.log("binkybonky")
+        console.log("company id:", userdata?.userId);
 
         if (response.data) {
           // console.log(response.data);
