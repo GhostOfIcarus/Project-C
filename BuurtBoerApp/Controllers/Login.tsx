@@ -5,30 +5,27 @@ import { Alert } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import bcrypt from 'react-native-bcrypt';
 
-export const useLoginController = () => {
-  // declare state variables
-  const [language, setLanguage] = useState(i18next.language);
-  const [showPassword, setShowPassword] = useState(false);
+class LoginController {
+  static language = i18next.language;
+  static showPassword = false;
 
-  // Get the language from the AsyncStorage
-  const sync_language = async () => {
+  static sync_language = async () => {
     const language = await AsyncStorage.getItem('language');
 
     if (language) {
-      setLanguage(JSON.parse(language));
+      LoginController.language = JSON.parse(language);
       i18next.changeLanguage(JSON.parse(language));
     }
   }
 
-  // Toggle the language between English and Dutch
-  const toggleLanguage = async () => {
-    const newLanguage = language === 'en' ? 'nl' : 'en';
-    setLanguage(newLanguage);
+  static toggleLanguage = async () => {
+    const newLanguage = LoginController.language === 'en' ? 'nl' : 'en';
+    LoginController.language = newLanguage;
     i18next.changeLanguage(newLanguage);
     await AsyncStorage.setItem('language', JSON.stringify(newLanguage));
   };
 
-  const handleLogin = async (email: string, password: string, navigation: any, rememberMe: boolean, t: Function) => {
+  static handleLogin = async (email: string, password: string, navigation: any, rememberMe: boolean, t: Function) => {
     //check if it is an real email
     if (!email.includes("@")) {
       Alert.alert(t('invalid_email_error'), t('invalid_email_error_text'));
@@ -84,8 +81,7 @@ export const useLoginController = () => {
     });
   };
 
-  const handleLogin2 = async (navigation: any, rememberMe: boolean) => {
-    
+  static handleLogin2 = async (navigation: any, rememberMe: boolean) => {
     let employee = new Employee(1, "h", "h", "h", true, "beh");
   
     if (rememberMe) {
@@ -97,23 +93,6 @@ export const useLoginController = () => {
       routes: [{ name: 'Schedule_Form', params: { employee } }],
     });
   };
+}
 
-  const toggleShowPassword = () => {
-    setShowPassword(!showPassword);
-  };
-
-  return {
-    language,
-    showPassword,
-    sync_language,
-    toggleLanguage,
-    toggleShowPassword,
-    handleLogin,
-    handleLogin2,
-  };
-};
-
-
-
-
-
+export default LoginController;

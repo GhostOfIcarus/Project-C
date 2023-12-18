@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { View, TextInput, Image, Text, TouchableOpacity, KeyboardAvoidingView, ScrollView } from 'react-native';
 import { before_login } from './css/before_login';
-import { handleChangePassword } from './../Controllers/Change_Password';
+import ChangePasswordController from './../Controllers/Change_Password';
 import Employee from '../Models/Employee_Model';
 import { useTranslation } from 'react-i18next';
 
@@ -66,7 +66,7 @@ const Change_Password = (props: ChangePasswordProps) => {
             </Text>
           </TouchableOpacity>
           {/* Change Password button */}
-          <TouchableOpacity style={before_login.buttons} onPress={() => handleChangePassword(password, confirmPassword, props.navigation, employee, t)}>
+          <TouchableOpacity style={before_login.buttons} onPress={() => ChangePasswordController.handleChangePassword(password, confirmPassword, props.navigation, employee, t)}>
             <Text style={{ color: 'white', textAlign: 'center' }}>{t('changePassword')}</Text>
           </TouchableOpacity>
           

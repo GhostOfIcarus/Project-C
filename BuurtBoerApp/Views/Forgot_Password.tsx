@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { View, TextInput, Image, Text, TouchableOpacity, KeyboardAvoidingView, ScrollView } from 'react-native';
 import { before_login } from './css/before_login';
-import { handleSend } from './../Controllers/ForgotPassword';
+import ForgotPasswordController from './../Controllers/ForgotPassword';
 import { useTranslation } from 'react-i18next';
 
 interface ForgotPasswordScreenProps {
@@ -36,7 +36,7 @@ const ForgotPassword = (props: ForgotPasswordScreenProps) => {
             onChangeText={handleEmailChange}
           />
           {/* Send button */}
-          <TouchableOpacity style={[before_login.buttons, before_login.buttons_space]} onPress={() => handleSend(email, props.navigation, t)}>
+          <TouchableOpacity style={[before_login.buttons, before_login.buttons_space]} onPress={() => ForgotPasswordController.handleSend(email, props.navigation, t)}>
             <Text style={{ color: 'white', textAlign: 'center' }}>{t('send')}</Text>
           </TouchableOpacity>
         </View>
