@@ -1,8 +1,8 @@
 import Employee from '../Models/Employee_Model';
-import loginData from './../Models/loginData.json';
 import { Alert } from 'react-native';
 
 export const handleSend = async (email: string, navigation: any, t: Function) => {
+  // Check if the email is valid
   if (!email.includes("@")) {
     Alert.alert(t('invalid_email_error'), t('invalid_email_error_text'));
     return;
@@ -17,29 +17,29 @@ export const handleSend = async (email: string, navigation: any, t: Function) =>
       email: email,
     }),
   });
-
+  // Check if the response is ok
   if (!response.ok) {
     Alert.alert('Error', `HTTP ${response.status}: ${response.statusText}`);
     return;
   }
 
+  // Get the data from the response
   let data = await response.json();
-
   if (!data) {
     Alert.alert(t('email_error'), t('email_error_text'));
     return;
   }
-
   console.log(data); 
 
+  // Check if the data contains the employee data
   let employeeData = data;
   if (!employeeData) {
     Alert.alert('Error', 'Employee data not found in the response');
     return;
   }
   
+  // Create an employee object
   let employee = new Employee(employeeData.id, employeeData.email, employeeData.first_name, employeeData.last_name, employeeData.keepschedule, employeeData.company_name);
-
   if (employee) {
     // Email exists, navigate to the ChangePassword screen with user data
     navigation.navigate("ChangePassword", { employee });

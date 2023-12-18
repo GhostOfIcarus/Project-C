@@ -10,7 +10,7 @@ interface LoginScreenProps {
 }
 
 const LoginScreen = (props: LoginScreenProps) => {
-  
+  // Check if the user is already logged in
   useEffect(() => {
     const checkLoggedIn = async () => {
       sync_language();
@@ -27,7 +27,7 @@ const LoginScreen = (props: LoginScreenProps) => {
 
     checkLoggedIn();
   }, []);
-
+  // Get the functions and variables from the controller
   const {
     language,
     showPassword,
@@ -38,7 +38,10 @@ const LoginScreen = (props: LoginScreenProps) => {
     handleLogin2,
   } = useLoginController();
 
+  // Get the translation function
   const { t } = useTranslation();
+
+  // Create the states
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [rememberMe, setRememberMe] = useState(false);
@@ -67,7 +70,7 @@ const LoginScreen = (props: LoginScreenProps) => {
               style={before_login.image}
             />
           </View>
-
+          {/* Email input */}
           <TextInput
             placeholder={t('email')}
             style={before_login.input}
@@ -75,6 +78,7 @@ const LoginScreen = (props: LoginScreenProps) => {
             placeholderTextColor="#979797"
             value={email}
           />
+          {/* Password input */}
           <TextInput
             placeholder={t('password')}
             style={before_login.input}
@@ -84,15 +88,18 @@ const LoginScreen = (props: LoginScreenProps) => {
             placeholderTextColor="#979797"
           />
           <View style={before_login.forgotPasswordRow}>
+            {/* Forgot password */}
             <TouchableOpacity onPress={ForgotPassword}>
               <Text style={{ color: '#099F91', marginVertical: 10, marginHorizontal: 5 }}>{t('forgotPassword')}</Text>
             </TouchableOpacity>
+            {/* Show/hide password */}
             <TouchableOpacity onPress={toggleShowPassword}>
               <Text style={{ color: '#099F91', marginVertical: 10, marginHorizontal: 5 }}>
                 {showPassword ? t('hidePassword') : t('showPassword')}
               </Text>
             </TouchableOpacity>
           </View>
+          {/* Remember me */}
           <View style={before_login.rememberMeRow}>
             <Text style={{marginVertical: 10, marginHorizontal: 5, justifyContent: 'flex-start' }}>{t('rememberMe')}</Text>
             <Switch
@@ -101,6 +108,7 @@ const LoginScreen = (props: LoginScreenProps) => {
               onValueChange={setRememberMe}
             />
           </View>
+          {/* Login button */}
           <TouchableOpacity style={before_login.buttons} onPress={() => handleLogin(email, password, props.navigation, rememberMe, t)}>
             <Text style={{ color: 'white', textAlign: 'center' }}>{t('login')}</Text>
           </TouchableOpacity>
@@ -114,6 +122,7 @@ const LoginScreen = (props: LoginScreenProps) => {
           <TouchableOpacity style={before_login.buttons} onPress={Create_Account}>
             <Text style={{ color: 'white', textAlign: 'center' }}>{t('microsoft')}</Text>
           </TouchableOpacity>
+          {/* Select Language icons */}
           <View style={before_login.flags_div}>
             <View style={before_login.flags}>
               <TouchableOpacity onPress={toggleLanguage} disabled={language === 'en'}>

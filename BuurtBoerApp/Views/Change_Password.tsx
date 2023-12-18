@@ -43,6 +43,7 @@ const Change_Password = (props: ChangePasswordProps) => {
           <View style={before_login.content_header_div}>
               <Text style={before_login.content_header}>{t('changePasswordHeader')} </Text>
           </View>
+          {/* New Password input */}
           <TextInput
             placeholder={t('newPassword')}
             style={before_login.input}
@@ -50,6 +51,7 @@ const Change_Password = (props: ChangePasswordProps) => {
             onChangeText={handlePasswordChange}
             value={password}
           />
+          {/* Confirm Password input */}
           <TextInput
             placeholder={t('confirmPassword')}
             style={before_login.input}
@@ -57,11 +59,13 @@ const Change_Password = (props: ChangePasswordProps) => {
             onChangeText={handleConfirmPasswordChange}
             value={confirmPassword}
           />
+          {/* Hide / Show password */}
           <TouchableOpacity onPress={toggleShowPassword}>
             <Text style={{ color: '#099F91', marginVertical: '2%', textAlign: 'center', marginTop: 10 }}>
               {showPassword ? t('hidePassword') : t('showPassword')}
             </Text>
           </TouchableOpacity>
+          {/* Change Password button */}
           <TouchableOpacity style={before_login.buttons} onPress={() => handleChangePassword(password, confirmPassword, props.navigation, employee, t)}>
             <Text style={{ color: 'white', textAlign: 'center' }}>{t('changePassword')}</Text>
           </TouchableOpacity>

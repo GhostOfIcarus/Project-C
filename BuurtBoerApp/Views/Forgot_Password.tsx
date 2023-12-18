@@ -29,11 +29,13 @@ const ForgotPassword = (props: ForgotPasswordScreenProps) => {
           <View style={before_login.content_header_div}>
               <Text style={before_login.content_header}>{t('forgotPasswordHeader')}</Text>
           </View>
+          {/* Email Input */}
           <TextInput
             placeholder={t('email')}
             style={before_login.input}
             onChangeText={handleEmailChange}
           />
+          {/* Send button */}
           <TouchableOpacity style={[before_login.buttons, before_login.buttons_space]} onPress={() => handleSend(email, props.navigation, t)}>
             <Text style={{ color: 'white', textAlign: 'center' }}>{t('send')}</Text>
           </TouchableOpacity>

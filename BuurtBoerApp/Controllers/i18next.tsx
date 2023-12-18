@@ -8,6 +8,7 @@ export const languageResources = {
   nl: { translation: nl },
 };
 
+// Initialize i18next
 i18next.use(initReactI18next).init({
   compatibilityJSON: 'v3',
   resources: languageResources,

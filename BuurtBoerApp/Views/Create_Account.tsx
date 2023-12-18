@@ -41,6 +41,7 @@ const Forgot_Password = (props: LoginScreenProps) => {
             <View style={before_login.content_header_div}>
                 <Text style={before_login.content_header}>{t('createAccountHeader')}</Text>
             </View>
+            {/* Password input */}
             <TextInput
               placeholder={t('newPassword')}
               style={before_login.input}
@@ -48,6 +49,7 @@ const Forgot_Password = (props: LoginScreenProps) => {
               onChangeText={handlePasswordChange}
               value={password}
             />
+            {/* Repeat password input */}
             <TextInput
               placeholder={t('repeatPassword')}
               style={before_login.input}
@@ -55,11 +57,13 @@ const Forgot_Password = (props: LoginScreenProps) => {
               onChangeText={handleConfirmPasswordChange}
               value={confirmPassword}
             />
+            {/* Hide / Show password */}
             <TouchableOpacity onPress={toggleShowPassword}>
               <Text style={{ color: '#099F91', marginVertical: '2%', textAlign: 'center', marginTop: 10 }}>
                 {showPassword ? t('hidePassword') : t('showPassword')}
               </Text>
             </TouchableOpacity>
+            {/* Login button */}
             <TouchableOpacity style={before_login.buttons} onPress={login}>
               <Text style={{ color: 'white', textAlign: 'center' }}>{t('send')}</Text>
             </TouchableOpacity>
