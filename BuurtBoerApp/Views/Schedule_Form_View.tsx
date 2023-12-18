@@ -126,6 +126,11 @@ const WeekOverviewForm = (props: WeekOverviewFormProps) =>
       
       // also saves remember me state in employee data
       await ScheduleModel.updateRememberSchedule(employee, isSchedule);
+      employee.keepSchedule = isSchedule;
+      if (await AsyncStorage.getItem('user'))
+      {
+        await AsyncStorage.setItem('user', JSON.stringify(employee));
+      }
     }
   }
 
