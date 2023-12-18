@@ -371,8 +371,11 @@ app.post('/api/forgot_password', async (req, res) => {
 
   app.post('/api/change_password', async (req, res) => {
 	try {
-	  const { newPassword, email } = req.body;
-	  const result = await Functions.ChangeAdminPassword(newPassword, email);
+	  let { newPassword, token } = req.body;
+
+	  token = jwt.decode(token);
+
+	  const result = await Functions.ChangeAdminPassword(newPassword, token.email);
 	  if (result) {
 		res.status(200).json({ message: 'Password changed successfully' });
 	  } else {

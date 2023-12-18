@@ -5,28 +5,42 @@ import logo from './img/buurtboer_logo.png';
 import genstyles from './Stylesheets/GeneralStyles.module.css';
 import { useNavigate, Link } from 'react-router-dom';
 import { AxiosError } from 'axios';
-
-
-interface UserData {
-  // Define the structure of your user data here
-}
+import axios from 'axios';
 
 function Forgot_Password() {
   const [email, setEmail] = useState<string>('');
-  const [userData, setUserData] = useState<UserData | null>(null);
   const [error, setError] = useState<string | null>(null);
-  const navigate = useNavigate();
+  const [emailSend, setEmailSend] = useState<boolean>(false); 
 
   const handleEmailChange = (e: ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value);
+    setEmailSend(false);
   };
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     try {
       const emailExists = await forgotPasswordController(email);
+
+      // Send email to the user
       if (emailExists) {
-        navigate(`/Change_Password?email=${email}`);
+        axios.post('http://localhost:5001/sendEmail/forgotPassword', 
+          {
+            to: email,
+            name: "",
+            subject: "Wachtwoord vergeten",
+            resetPasswordLink: `http://localhost:3000/Change_Password`
+          }, 
+          {
+            withCredentials: true,
+            headers: {
+              'Content-Type': 'application/json'
+            }
+          }
+        );
+
+        setEmailSend(true);
+
         console.log('Email exists');
       } else {
         setError('Email not found in the database');
@@ -34,7 +48,7 @@ function Forgot_Password() {
     } catch (error) {
       const axiosError = error as AxiosError;
       if (axiosError.response && axiosError.response.status === 404) {
-        setError('Email not found in the database!1!1');
+        setError('Email not found in the database!');
       } else {
         console.error('An error occurred while fetching admin data:', axiosError.message || error);
         setError('An error occurred while fetching admin data.');
@@ -60,12 +74,13 @@ function Forgot_Password() {
                 Verstuur
               </button>
             </form>
-            {userData && (
+            {
+              emailSend && 
               <div>
-                {/* Display user data here */}
-                <p>User data: {JSON.stringify(userData)}</p>
+                <p>Er is een email gestuurd naar {email}</p>
+                <Link to="/Login" className={genstyles.link}>Terug naar inloggen</Link>
               </div>
-            )}
+            }
             {error && <p className={genstyles.error}>{error}</p>}
           </div>
           <div className={`col-lg-6 ${genstyles.image_div}`}>

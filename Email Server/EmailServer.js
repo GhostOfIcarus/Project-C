@@ -1,8 +1,7 @@
 const nodemailer = require('nodemailer');
 const express = require('express');
-const cors = require('cors');
 const EmailTemplates = require('./EmailTemplates.js');
-const axios = require('axios');
+const jwt = require('jsonwebtoken');
 
 
 // Specify the port and init the express app
@@ -65,7 +64,10 @@ app.post('/sendEmail/Test', (req, res) => {
 app.post('/sendEmail/forgotPassword', (req, res) => {
     mailOptions.to = req.body.to;
     mailOptions.subject = req.body.subject;
-    mailOptions.html = EmailTemplates.forgotPassword(req.body.name, req.body.resetPasswordLink);
+
+    const tempToken = jwt.sign({ email : req.body.to }, 'nothisispatrick', { expiresIn: '1h' });
+
+    mailOptions.html = EmailTemplates.forgotPassword(req.body.name, `http://localhost:3000/change_password?token=${tempToken}`);
 
     transporter.sendMail(mailOptions, function(error, info){
         if (error) {
@@ -74,6 +76,21 @@ app.post('/sendEmail/forgotPassword', (req, res) => {
         } else {
             console.log('Email sent: ' + info.response);
             res.status(200).send('Email sent: ' + info.response);
+        }
+    });
+});
+
+
+// Checking reset password JWT token
+app.post('/checkResetPasswordToken', (req, res) => {
+    const token = req.body.token;
+    jwt.verify(token, 'nothisispatrick', (err, decoded) => {
+        if (err) {
+            console.log(err);
+            res.status(401).send(err);
+        } else {
+            console.log(decoded);
+            res.status(200).send(message = 'Token verified', email = decoded.email);
         }
     });
 });

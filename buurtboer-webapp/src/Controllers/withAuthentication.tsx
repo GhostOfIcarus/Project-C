@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import axios, { AxiosResponse, AxiosError } from 'axios'; // Import AxiosError
 import { useNavigate } from 'react-router-dom';
 
-const withAuthentication = (WrappedComponent: React.FC) => {
+const withAuthentication = (WrappedComponent: React.FC, SendBackRoute: string = "/Login") => {
   const WithAuthentication: React.FC = (props) => {
     const navigate = useNavigate();
 
@@ -20,7 +20,7 @@ const withAuthentication = (WrappedComponent: React.FC) => {
         .catch((error: AxiosError) => {
           if (error.response?.status === 401) {
             // User is not authenticated, redirect to login page
-            navigate('/Login');
+            navigate(SendBackRoute);
           } else {
             console.log('Error fetching authentication data:', error);
             // Handle other errors as needed

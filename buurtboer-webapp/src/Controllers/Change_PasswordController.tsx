@@ -1,9 +1,9 @@
 import axios, { AxiosError } from 'axios';
 
-export async function changePasswordController(newPassword: string, email: string): Promise<boolean> {
+export async function changePasswordController(newPassword: string, token: string): Promise<boolean> {
   const apiUrl = 'http://localhost:5000/api/change_password';
   try {
-    const response = await axios.post(apiUrl, { newPassword, email });
+    const response = await axios.post(apiUrl, { newPassword, token });
     console.log('Response status:', response.status);
     console.log('Response data:', response.data);
 

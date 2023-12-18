@@ -4,14 +4,16 @@ import genstyles from './Stylesheets/GeneralStyles.module.css';
 import { changePasswordController } from '../Controllers/Change_PasswordController'; // Update the path
 import { useLocation } from 'react-router-dom';
 import { useNavigate, Link } from 'react-router-dom';
+import withAuthentication from '../Controllers/withAuthentication';
+import { as } from 'pg-promise';
 
 function ChangePassword() {
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [errorMessages, setErrorMessages] = useState('');
   const location = useLocation();
-  const queryParams = new URLSearchParams(location.search);
-  const email = queryParams.get('email') || ''; // Retrieve the email parameter
+  const urlParams = new URLSearchParams(location.search);
+  const token = urlParams.get('token') as string;
   const navigate = useNavigate();
 
   const handleChangePassword = async () => {
@@ -22,11 +24,10 @@ function ChangePassword() {
       }
 
       // Add validation for newPassword and confirmPassword if needed
-      const result = await changePasswordController(newPassword, email);
+      const result = await changePasswordController(newPassword, token);
 
       if (result) {
         // Password changed successfully
-        // You can add additional logic here, such as redirecting to the login page
 
         console.log('Password changed successfully');
         navigate('/Login');
