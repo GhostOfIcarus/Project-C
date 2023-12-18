@@ -1,5 +1,5 @@
 // model import
-import Employee from './../Models/Employee_Model';
+import Employee from './Employee_Model';
 
 // model for schedule based on database columns
 class Schedule 
@@ -28,13 +28,13 @@ class Schedule
   }
 
   // gets schedule data based on employee data from the database
-  static async fetchScheduleData(Emp: Employee) : Promise<[Schedule | null, boolean]>
+  static async fetchScheduleData(Emp: Employee, offset: number = 1) : Promise<[Schedule | null, boolean]>
   {
 
     // calculates the weeknumber one week into the future
     const now = new Date();
     const startOfTheYear = new Date(now.getFullYear(), 0, 1);
-    const weekNumber = Math.ceil((((now.getTime() - startOfTheYear.getTime()) / 86400000) + startOfTheYear.getDay() + 1) / 7) + 1;
+    const weekNumber = Math.ceil((((now.getTime() - startOfTheYear.getTime()) / 86400000) + startOfTheYear.getDay() + 1) / 7) + offset;
 
     // emp id
     const employeeId = Emp.id;
@@ -52,18 +52,31 @@ class Schedule
     // gives error if status is not ok
     if (!response.ok) 
     {
-      console.error(`HTTP ${response.status}: ${response.statusText}`);
+      console.error(`HTTP ${response.status}: Something went wrong reading schedule`);
       return [null, false];
     }
 
     // assigns the response to a variable
     const data = await response.json();
-
+    
     // if the schedule of the next week doesn't exist yet, it will call the create schedule
     if(!data)
     {
       // calls create schedule method
-      await this.createScheduleData(employeeId, weekNumber);
+      const newSchedule = await this.createScheduleData(employeeId, weekNumber);
+      
+      // if employee chose to remember schedule, it is instantly updated with current weeks schedule
+      if (Emp.keepSchedule)
+      {
+        // fetches the last schedule
+        const [lastSchedule, isSubmitted] = await this.fetchScheduleData(Emp, 0);
+
+        // only updates schedule if there is a last schedule and new schedule
+        if (lastSchedule && newSchedule)
+        {
+            await this.updateScheduleData(newSchedule.id, lastSchedule.monday, lastSchedule.tuesday, lastSchedule.wednesday, lastSchedule.thursday, lastSchedule.friday, lastSchedule.saturday, lastSchedule.sunday);
+        }
+      }
 
       // connects with api
       const response = await fetch('http://10.0.2.2:5000/api/employee/schedule', 
@@ -78,7 +91,7 @@ class Schedule
       // gives error if status is not ok
       if (!response.ok) 
       {
-        console.error(`HTTP ${response.status}: ${response.statusText}`);
+        console.error(`HTTP ${response.status}: Something went wrong reading new schedule`);
         return [null, false];
       }
 
@@ -97,7 +110,7 @@ class Schedule
   };
 
   // creates a schedule for 1 week in the future and links with the employee
-  static async createScheduleData(employeeId: number, weekNumber: number)
+  static async createScheduleData(employeeId: number, weekNumber: number) : Promise<Schedule | null>
   {
     // connects with api
     const response = await fetch('http://10.0.2.2:5000/api/employee/schedule/create', 
@@ -109,12 +122,17 @@ class Schedule
       body: JSON.stringify({ id: employeeId, week: weekNumber}),
     });
 
+    // assigns the response to a variable
+    const data = await response.json();
+
     // gives error if status is not ok
     if (!response.ok) 
     {
-      console.error(`HTTP ${response.status}: ${response.statusText}`);
-      return;
+      console.error(`HTTP ${response.status}: Something went wrong with creating new schedule`);
+      return null;
     }
+    
+    return new Schedule(data.id, data.week_number, data.monday, data.tuesday, data.wednesday, data.thursday, data.friday, data.saturday, data.sunday);
   }
 
   // updates the schedule with the given booleans using the schedule id
@@ -133,7 +151,7 @@ class Schedule
     // gives error if status is not ok
     if (!response.ok) 
     {
-      console.error(`HTTP ${response.status}: ${response.statusText}`);
+      console.error(`HTTP ${response.status}: Something went wrong updating schedule`);
       return;
     }
   }
