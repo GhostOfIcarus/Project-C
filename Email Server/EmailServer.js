@@ -48,7 +48,7 @@ const mailOptions = {
 app.post('/sendEmail/Test', (req, res) => {
     mailOptions.to = req.body.to;
     mailOptions.subject = req.body.subject;
-    mailOptions.text = EmailTemplates.testEmail(req.body.name);
+    mailOptions.html = EmailTemplates.testEmail(req.body.name);
 
     transporter.sendMail(mailOptions, function(error, info){
         if (error) {
@@ -65,7 +65,7 @@ app.post('/sendEmail/Test', (req, res) => {
 app.post('/sendEmail/forgotPassword', (req, res) => {
     mailOptions.to = req.body.to;
     mailOptions.subject = req.body.subject;
-    mailOptions.text = EmailTemplates.forgotPassword(req.body.name, req.body.resetPasswordLink);
+    mailOptions.html = EmailTemplates.forgotPassword(req.body.name, req.body.resetPasswordLink);
 
     transporter.sendMail(mailOptions, function(error, info){
         if (error) {
