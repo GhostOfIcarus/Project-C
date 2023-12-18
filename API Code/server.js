@@ -445,7 +445,10 @@ app.post('/api/admin/registerAdmin', async (req, res) => {
     }
 })
 
-  
+app.post('/api/logout', (req, res) => {
+	res.clearCookie('jwt-token');
+	res.status(200).json({ message: 'Logged out successfully' });
+});
 
 
 // Starting the API server

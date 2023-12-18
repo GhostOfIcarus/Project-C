@@ -119,10 +119,19 @@ const Navbar = () => {
 
         <div className="nav-button me-5">
         <Link
-            to="/"
+            to="/Login"
             style={{ ...linkStyle, ...hoveredLinkStyle }}
             onMouseEnter={() => setHoveredLinkStyle({ color: '#F9834C' })}
             onMouseLeave={() => setHoveredLinkStyle({ color: '#000000' })}
+            onClick={() => {
+              axios.post('http://localhost:5000/api/logout', {}, {
+                headers: {
+                  'Content-Type': 'application/json',
+                },
+                withCredentials: true,
+              });
+              }
+            }
           >
             {t('logout')}
         </Link>        
