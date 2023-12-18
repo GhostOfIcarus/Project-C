@@ -74,12 +74,12 @@ class Schedule
         // only updates schedule if there is a last schedule and new schedule
         if (lastSchedule && newSchedule)
         {
-            await this.updateScheduleData(newSchedule.id, lastSchedule.monday, lastSchedule.tuesday, lastSchedule.wednesday, lastSchedule.thursday, lastSchedule.friday, lastSchedule.saturday, lastSchedule.sunday);
+          await this.updateScheduleData(newSchedule.id, lastSchedule.monday, lastSchedule.tuesday, lastSchedule.wednesday, lastSchedule.thursday, lastSchedule.friday, lastSchedule.saturday, lastSchedule.sunday);
         }
       }
 
       // connects with api
-      const response = await fetch('http://10.0.2.2:5000/api/employee/schedule', 
+      const response = await fetch('http://10.0.2.2:5000/api/employee/schedule',
       {
         method: 'POST',
         headers: {
@@ -152,6 +152,31 @@ class Schedule
     if (!response.ok) 
     {
       console.error(`HTTP ${response.status}: Something went wrong updating schedule`);
+      return;
+    }
+  }
+
+  // updates the keep schedule boolean in the employee data
+  static async updateRememberSchedule(Emp: Employee, keepSchedule: boolean)
+  {
+    // emp id
+    const employeeId = Emp.id;
+    console.log(Emp);
+
+    //connects with api
+    const response = await fetch('http://10.0.2.2:5000/api/employee/rememberschedule/update', 
+    {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ employee_id: employeeId, keep_schedule: keepSchedule }),
+    });
+
+    // gives error if status is not ok
+    if (!response.ok) 
+    {
+      console.error(`HTTP ${response.status}: Something went wrong updating remember schedule`);
       return;
     }
   }

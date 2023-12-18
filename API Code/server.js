@@ -194,6 +194,23 @@ app.put('/api/employee/schedule/update', async (req, res) => {
 	  }
 });
 
+app.put('/api/employee/rememberschedule/update', async (req, res) => {
+	try {
+		const { employee_id, keep_schedule } = req.body;
+		const updateResult = await Functions.updateEmployeeRememberSchedule(employee_id, keep_schedule);
+
+		if (updateResult)
+		{
+		  res.status(200).json({ message: 'Remember schedule updated successfully' });
+		} else {
+		  res.status(500).json({ error: 'Failed to update remember schedule' });
+		}
+	  } catch (error) {
+		console.error(error);
+		res.status(500).json({ error: 'wah wah Internal server error' });
+	  }
+});
+
 
 // Endpoint for checking authentication
 app.get('/api/auth', verifyJWT, (req, res) => {

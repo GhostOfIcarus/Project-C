@@ -95,18 +95,8 @@ const WeekOverviewForm = (props: WeekOverviewFormProps) =>
         }
       }
       
-      // picks up the saved state of the remember schedule button
-      const State = await AsyncStorage.getItem('remember_sched');
-
-      //  if it hasn't been filled in yet, default to false, else parse boolean
-      if (State == null)
-      {
-        setSchedule(false)
-      }
-      else
-      {
-        setSchedule(JSON.parse(State));
-      }
+      //  sets the remember schedule to the saved state of the employee
+      setSchedule(employee.keepSchedule);
     };
 
     // actually starts the method
@@ -134,8 +124,8 @@ const WeekOverviewForm = (props: WeekOverviewFormProps) =>
     {
       ScheduleModel.updateScheduleData(scheduleId ?? 0, isMonday, isTuesday, isWednesday, isThursday, isFriday, isSaturday, isSunday);
       
-      // also saves remember me state in async storage
-      await AsyncStorage.setItem('remember_sched', JSON.stringify(isSchedule));
+      // also saves remember me state in employee data
+      await ScheduleModel.updateRememberSchedule(employee, isSchedule);
     }
   }
 

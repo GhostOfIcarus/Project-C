@@ -164,9 +164,6 @@ const getAllEmployeeDataByCompany = async (company_id) => {
 	  }
 };
 
-getAllEmployeeDataByCompany(1);
-
-
 const getEmployeeSchedule = async (employeeId, week) => {
 	const db = await pool.connect();
 	try {
@@ -251,6 +248,28 @@ const updateEmployeeSchedule = async (schedule_id,  m, tu, w, th, f, sa, su) => 
 		db.release(); // Release the connection back to the pool
 	  }
 	};
+
+const updateEmployeeRememberSchedule = async (employee_id, keep_schedule) => {
+	const db = await pool.connect();
+
+	try {
+		const results = await db.query(`UPDATE employee SET keepschedule = $2
+										WHERE id = $1 RETURNING *`, [employee_id, keep_schedule]);
+	
+		if (results.rowCount === 0) {
+		  console.error('No employee found with this Id:', employee_id);
+		  return false;
+		}
+	
+		return true;
+	  } catch (error) {
+		console.error(error);
+		console.error('Error in updating employee:', error);
+		throw new Error("Internal error wah wah");
+	  } finally {
+		db.release(); // Release the connection back to the pool
+	  }
+};
 
 const getSingleEmployeeData = async (email, password) => {
 	const db = await pool.connect();
@@ -475,6 +494,7 @@ module.exports = {
 	getEmployeeSchedule,
 	createEmployeeSchedule,
 	updateEmployeeSchedule,
+	updateEmployeeRememberSchedule,
 	getAttendance,
 	checkEmailExists,
 	ChangeAdminPassword,
