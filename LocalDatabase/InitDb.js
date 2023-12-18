@@ -93,8 +93,8 @@ async function insertTestData() {
     // Write your insert queries here
     const insertDataQuery = `
       INSERT INTO Employee (First_Name, Last_Name, Email, Password, KeepSchedule)
-      VALUES ('John', 'Doe', 'john.doe@example.com', 'hashed-password', true),
-      ('OEMPA', 'LOEMPA', 'oempa@loempa.com', 'oempa', true);
+      VALUES ('John', 'Doe', 'john.doe@example.com', '$2a$10$CrafwtV/9bbC.lkkPaj13.ZuRZLAlUhEEQ5VgruKtUyXzbmCkcam2', true),
+      ('OEMPA', 'LOEMPA', 'oempa@loempa.com', '$2a$10$CrafwtV/9bbC.lkkPaj13.ZuRZLAlUhEEQ5VgruKtUyXzbmCkcam2', true);
 
       INSERT INTO Company (Admin_First_Name, Admin_Last_Name, Company_Name, Full_Schedule, Email, Password)
       VALUES ('Jane', 'Doe', 'Example Company', true, 'company@email.com', 'hashed');
@@ -104,7 +104,8 @@ async function insertTestData() {
          (49, true, false, true, true, true, true, true),
          (49, true, true, true, true, false, true, true),
          (50, true, true, false, true, true, true, true),
-         (51, true, true, true, false, true, true, true),
+         (51, true, false, true, false, true, false, true),
+         (51, true, true, false, false, false, true, true),
          (52, false, true, true, true, false, true, true);
 
       INSERT INTO ScheduleFromEmployee (Schedule_ID, Employee_ID)
@@ -113,7 +114,8 @@ async function insertTestData() {
             (3, 2),
             (4, 1),
             (5, 1),
-            (6, 1);
+            (6, 2),
+            (7, 1);
 
       INSERT INTO EmployeesInCompany (Employee_ID, Company_ID)
       VALUES (1, 1),

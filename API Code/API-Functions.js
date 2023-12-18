@@ -200,7 +200,7 @@ const createEmployeeSchedule = async (employeeId, week) => {
 	  const results = await db.query(`
 										INSERT INTO schedule (week_number, monday, tuesday, wednesday, thursday, friday, saturday, sunday)
 										VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
-										RETURNING id;
+										RETURNING *;
 									`, [week, false, false, false, false, false, false, false]);
 	  
 	if (results.rowCount > 0) 
@@ -212,7 +212,7 @@ const createEmployeeSchedule = async (employeeId, week) => {
 		if (results2.rowCount > 0) 
 		{	
 			console.log('Insert successful');
-			return true;
+			return results.rows[0];
 		}
 	} 
 	else 
