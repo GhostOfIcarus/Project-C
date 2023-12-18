@@ -9,12 +9,12 @@ const pool = new Pool({
 	port: 5432
 });
 
-const createNewCompany = async (first_name, last_name, email, company_name) => {
+const createNewCompany = async (admin_first_name, admin_last_name, company_name, full_schedule, email, password) => {
 	const db = await pool.connect();
 	try {
 		const results = await db.query(`INSERT INTO company (admin_first_name, admin_last_name, company_name, full_schedule, email, password )  
-										VALUES ($1, $2, $3, false, $4, 'password') 
-										RETURNING id`, [first_name, last_name, email, company_name]);
+										VALUES ($1, $2, $3, $4, $5, $6) 
+										RETURNING id`, [admin_first_name, admin_last_name, company_name, full_schedule, email, password]);
 		if (results.rowCount > 0) 
 		{	
 			console.log('Insert successful');

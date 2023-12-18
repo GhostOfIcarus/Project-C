@@ -52,6 +52,14 @@
     "employees_Overview": "Medewerkers overview",
     "employee_Overview": "Medewerkers overview",
     "add_employee": "Medewerker toevoegen",
+
+    "add_company": "Bedrijf aanmaken",
+    "Company_name": "Bedrijf naam",
+    "register_company": "Bedrijf registreren",
+    "Admin_firstname": "admin voornaam",
+    "Admin_lastname": "Admin achternaam",
+    "send_invite": "Stuur uitnodiging",
+
     "date": "datum",
     "present": "aanwezig",
     "absent": "afwezig",

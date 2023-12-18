@@ -52,6 +52,14 @@
     "employees_Overview": "Employees overview",
     "employee_Overview": "Employee overview",
     "add_employee": "Add employee",
+
+    "add_company": "Add company",
+    "register_company": "Eegister company",
+    "Company_name": "Company name",
+    "Admin_firstname": "Admin first name",
+    "Admin_lastname": "Admin last name",
+    "send_invite": "Send invite",
+
     "date": "date",
     "present": "present",
     "absent": "absent",

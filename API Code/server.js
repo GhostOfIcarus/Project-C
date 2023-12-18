@@ -427,7 +427,7 @@ app.get('/api/SuperAdmin/singlesuperadmin', async (req, res) => {
 	  }
   })
 
-app.get('/api/admin/RegisterAdmin', async (req, res) => {
+app.post('/api/admin/registerAdmin', async (req, res) => {
 	try {
         const { admin_first_name, admin_last_name, company_name, full_schedule, email, password } = req.body;
         const success = await Functions.createNewCompany(admin_first_name, admin_last_name, company_name, full_schedule, email, password);
