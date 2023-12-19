@@ -31,6 +31,7 @@ const Navbar = () => {
         setUserData(userData);
         const userRole = userData.userRole;
         console.log(userRole);
+        setUserRole(userRole);
       } catch (error) {
         // Handle error
       }
@@ -42,6 +43,7 @@ const Navbar = () => {
 
     fetchData();
     handleUserRole();
+    console.log("users role is: ", userRole)
   }, []); // The empty dependency array ensures that this effect runs once on mount
 
   const buurtboer_nav = {
@@ -159,15 +161,24 @@ const Navbar = () => {
         )}
       </div>
       <div className="nav-button me-5">
-           <Link
-             to="/"
+        <Link
+            to="/Login"
             style={{ ...linkStyle, ...hoveredLinkStyle }}
-              onMouseEnter={() => setHoveredLinkStyle({ color: '#F9834C' })}
-              onMouseLeave={() => setHoveredLinkStyle({ color: '#000000' })}
-            >
-             {t('logout')}
-          </Link>        
-        </div>
+            onMouseEnter={() => setHoveredLinkStyle({ color: '#F9834C' })}
+            onMouseLeave={() => setHoveredLinkStyle({ color: '#000000' })}
+            onClick={() => {
+              axios.post('http://localhost:5000/api/logout', {}, {
+                headers: {
+                  'Content-Type': 'application/json',
+                },
+                withCredentials: true,
+              });
+              }
+            }
+          >
+            {t('logout')}
+        </Link>                
+      </div>
     </nav>
   );
 };
