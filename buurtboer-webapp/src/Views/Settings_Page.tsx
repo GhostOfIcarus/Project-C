@@ -7,7 +7,11 @@ import EN from "./img/en_flag.png";
 import withAuthentication from '../Controllers/withAuthentication';
 import { SettingsController } from '../Controllers/SettingsController';
 import { useTranslation } from 'react-i18next';
+import axios from 'axios';
 
+interface UserData {
+  firstName: string;
+}
 
 function Settings() {
   const { t } = useTranslation();
@@ -15,6 +19,33 @@ function Settings() {
   const [selectedRooster, setSelectedRooster] = useState('Ma-Vr');
   const [confirmationVisible, setConfirmationVisible] = useState(false);
   const { language, adminInfo, setLanguage } = SettingsController();
+  const [userRole, setUserRole] = useState(null);
+  const [userdata, setUserData] = useState<UserData | null>(null);
+
+  const fetchData = async () => {
+    try {
+      const response = await axios.get('http://localhost:5000/api/auth', {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        withCredentials: true,
+      });
+      // console.log("Response data: ", response.data);
+      const userData = response.data.userData;
+      // console.log(userData.firstName);
+      setUserData(userData);
+      const userRole = userData.userRole;
+      console.log(userRole);
+    } catch (error) {
+      // Handle error
+    }
+
+    const handleUserRole = () => {
+      setUserRole(userRole);
+    };
+
+    handleUserRole();
+  };
 
   const handleEditButtonClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
@@ -39,7 +70,6 @@ function Settings() {
   return (
     <>
       <Navbar />
-
       <div className={`container ${postlogin.page_container}  mt-5 p-5`}>
         <div className="d-flex justify-content-center w-100">
           <div className="form_items ms-5 p-5">

@@ -3,17 +3,61 @@ import i18next from 'i18next';
 import { initReactI18next } from 'react-i18next';
 import axios, { AxiosError } from 'axios';
 
+interface UserData {
+  firstName: string;
+}
+
+
 export function SettingsController() {
   //add a function that checks the token and sees if an admin or superadmin is logged in
   const [language, setLanguage] = useState(i18next.language);
-  const role = 'companyadmin'; //temp variable
-  const email = 'company@email.com';
-  const password = 'hashed';
+  const [userdata, setUserData] = useState<UserData | null>(null);
+  const [userRole, setUserRole] = useState(null);
+  const [userEmail, setUserEmail] = useState(null);
+  const [userPass, setUserPass] = useState(null);
   const [adminInfo, setAdminInfo] = useState({
     adminName: '',
     adminEmail: '',
     companyName: '',
   });
+
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get('http://localhost:5000/api/auth', {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          withCredentials: true,
+        });
+        // console.log("Response data: ", response.data);
+        const userData = response.data.userData;
+        // console.log(userData.firstName);
+        setUserData(userData);
+        const userRole = userData.userRole;
+        const userEmail = userData.email;
+        const userPass = userData.password;
+
+        console.log(userEmail);
+        console.log(userPass);
+        console.log(userRole);
+      } catch (error) {
+        // Handle error
+      }
+    };
+
+    const handleUserRole = () => {
+      setUserRole(userRole);
+      setUserEmail(userEmail);
+      setUserPass(userPass);
+    };
+
+    fetchData();
+    handleUserRole();
+  });
+
+
   
   useEffect(() => {
     // This effect is used to update the local state when the language changes externally
@@ -54,22 +98,22 @@ export function SettingsController() {
   // const fetchAdminInfo = async () => {
   //   let apiUrl: string;
 
-  //   if (role === 'companyadmin') {
+  //   if (userRole === 'CompanyAdmin') {
   //     apiUrl = 'http://localhost:5000/api/admin/singleadmin';
-  //   } else if (role === 'superadmin') {
-  //     apiUrl = 'http://localhost:5000/api/SuperAdmin/singlesuperadmin'; // Update with the actual superadmin endpoint
+  //   } else if (userRole === 'SuperAdmin') {
+  //     apiUrl = 'http://localhost:5000/api/SuperAdmin/singlesuperadmin'; 
   //   } else {
   //     throw new Error('Invalid role');
   //   }
 
   //   try {
-  //     const response = await axios.get(apiUrl, { params: { email, password } });
+  //     const response = await axios.get(apiUrl, { params: { userEmail, userPass } });
 
   //     if (response.status === 200) {
   //       const { adminName, adminEmail, companyName } = response.data;
   //       setAdminInfo({ adminName, adminEmail, companyName });
   //     } else if (response.status === 404) {
-  //       throw new Error(`${role} not found`);
+  //       throw new Error(`${userRole} not found`);
   //     } else {
   //       throw new Error('Unexpected error');
   //     }
@@ -86,8 +130,7 @@ export function SettingsController() {
   return {
     language,
     toggleLanguage,
-    adminInfo,
     setLanguage: setLanguageDirectly,
-    //fetchAdminInfo
+    adminInfo,
   };
 }
