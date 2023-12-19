@@ -1,26 +1,22 @@
-import { useState, useEffect, FormEvent } from 'react';
+import { useState, useEffect } from 'react';
 import i18next from 'i18next';
-import { initReactI18next } from 'react-i18next';
-import axios, { AxiosError } from 'axios';
+import axios from 'axios';
 
 interface UserData {
   firstName: string;
 }
 
-
 export function SettingsController() {
-  //add a function that checks the token and sees if an admin or superadmin is logged in
   const [language, setLanguage] = useState(i18next.language);
   const [userdata, setUserData] = useState<UserData | null>(null);
-  const [userRole, setUserRole] = useState(null);
-  const [userEmail, setUserEmail] = useState(null);
-  const [userPass, setUserPass] = useState(null);
+  const [userRole, setUserRole] = useState<string | null>(null);
+  const [userEmail, setUserEmail] = useState<string | null>(null);
+  const [userPass, setUserPass] = useState<string | null>(null);
   const [adminInfo, setAdminInfo] = useState({
     adminName: '',
     adminEmail: '',
     companyName: '',
   });
-
 
   useEffect(() => {
     const fetchData = async () => {
@@ -31,36 +27,27 @@ export function SettingsController() {
           },
           withCredentials: true,
         });
-        // console.log("Response data: ", response.data);
+
         const userData = response.data.userData;
-        // console.log(userData.firstName);
         setUserData(userData);
+
         const userRole = userData.userRole;
         const userEmail = userData.email;
         const userPass = userData.password;
 
-        console.log(userEmail);
-        console.log(userPass);
-        console.log(userRole);
+        setUserRole(userRole);
+        setUserEmail(userEmail);
+        setUserPass(userPass);
       } catch (error) {
-        // Handle error
+        console.error('Error fetching user data:', error);
+        // Handle error based on your requirements
       }
     };
 
-    const handleUserRole = () => {
-      setUserRole(userRole);
-      setUserEmail(userEmail);
-      setUserPass(userPass);
-    };
-
     fetchData();
-    handleUserRole();
-  });
+  }, []);
 
-
-  
   useEffect(() => {
-    // This effect is used to update the local state when the language changes externally
     const updateLanguage = () => {
       setLanguage(i18next.language);
     };
@@ -87,45 +74,46 @@ export function SettingsController() {
     console.log('Language set directly to:', newLanguage);
   };
 
-  const getStoredLanguage = () => {
-    return localStorage.getItem('language');
-  };
-
   const storeLanguage = (newLanguage: string) => {
     localStorage.setItem('language', newLanguage);
   };
 
-  // const fetchAdminInfo = async () => {
-  //   let apiUrl: string;
+  const fetchAdminInfo = async () => {
+    if (userRole && userEmail && userPass) {
+      let apiUrl: string;
 
-  //   if (userRole === 'CompanyAdmin') {
-  //     apiUrl = 'http://localhost:5000/api/admin/singleadmin';
-  //   } else if (userRole === 'SuperAdmin') {
-  //     apiUrl = 'http://localhost:5000/api/SuperAdmin/singlesuperadmin'; 
-  //   } else {
-  //     throw new Error('Invalid role');
-  //   }
+      if (userRole === 'CompanyAdmin') {
+        apiUrl = 'http://localhost:5000/api/admin/singleadmin';
+      } else if (userRole === 'SuperAdmin') {
+        apiUrl = 'http://localhost:5000/api/SuperAdmin/singlesuperadmin';
+      } else {
+        throw new Error('Invalid role');
+      }
 
-  //   try {
-  //     const response = await axios.get(apiUrl, { params: { userEmail, userPass } });
+      try {
+        const response = await axios.get(apiUrl, { params: { userEmail, userPass } });
 
-  //     if (response.status === 200) {
-  //       const { adminName, adminEmail, companyName } = response.data;
-  //       setAdminInfo({ adminName, adminEmail, companyName });
-  //     } else if (response.status === 404) {
-  //       throw new Error(`${userRole} not found`);
-  //     } else {
-  //       throw new Error('Unexpected error');
-  //     }
-  //   } catch (error) {
-  //     console.error('Error fetching admin information:', error);
-  //     throw error;
-  //   }
-  // };
+        if (response.status === 200) {
+          const { adminName, adminEmail, companyName } = response.data;
+          setAdminInfo({ adminName, adminEmail, companyName });
+          console.log(adminName);
+          console.log(adminEmail);
+          console.log(companyName);
+        } else if (response.status === 404) {
+          throw new Error(`${userRole} not found`);
+        } else {
+          throw new Error('Unexpected error');
+        }
+      } catch (error) {
+        console.error('Error fetching admin information:', error);
+        // Handle error based on your requirements
+      }
+    }
+  };
 
-  // useEffect(() => {
-  //   fetchAdminInfo(); // Fetch admin information when the component mounts
-  // }, []);
+  useEffect(() => {
+    fetchAdminInfo();
+  }, [userRole, userEmail, userPass]);
 
   return {
     language,

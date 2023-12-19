@@ -58,8 +58,9 @@
     "register_company": "Bedrijf registreren",
     "Admin_firstname": "admin voornaam",
     "Admin_lastname": "Admin achternaam",
-    "company_overview": "Company overzicht",
+    "company_overview": "Bedrijven overzicht",
     "send_invite": "Stuur uitnodiging",
+    "invite_company": "Bedrijf uitnodiging",
 
     "date": "datum",
     "present": "aanwezig",

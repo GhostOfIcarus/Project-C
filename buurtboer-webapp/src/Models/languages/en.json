@@ -60,6 +60,9 @@
     "Admin_firstname": "Admin first name",
     "Admin_lastname": "Admin last name",
     "send_invite": "Send invite",
+    "invite_company": "Invite Company",
+    "company_Overview": "Company_Overview",
+
 
     "date": "date",
     "present": "present",

@@ -347,7 +347,6 @@ const getSingleCompanyAdminData = async (email, password) => {
 const getSingleSuperAdminData = async (email, password) => {
 	try {
 		const db = await pool.connect();
-
 		const results = await db.query("SELECT * FROM superadmin WHERE email = $1 AND password = $2", [email, password]);
 		return results.rows[0];
 	} catch (error) {

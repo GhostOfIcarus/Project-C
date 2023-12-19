@@ -78,13 +78,13 @@ function Settings() {
             <div className="justify-content-center">
               {/* ... other input fields (admin naam, email and company naam) ... */}
               <div className="mb-3">
-                <input type="text" id="AdminNaam" placeholder="Admin Naam" readOnly={!editable} />
+                <input type="text" id="AdminNaam" placeholder={adminInfo.adminName} readOnly={!editable} />
               </div>
               <div className="mb-3">
-                <input type="text" id="adminEmail" placeholder="Admin Email" readOnly={!editable} />
+                <input type="text" id="adminEmail" placeholder={adminInfo.adminEmail} readOnly={!editable} />
               </div>
               <div className="mb-3">
-                <input type="text" id="BedrijfNaam" placeholder="Bedrijf Naam" readOnly={!editable} />
+                <input type="text" id="BedrijfNaam" placeholder={adminInfo.companyName} readOnly={!editable} />
               </div>
               <div className="mb-3">
                 <label htmlFor="Rooster">{t('scheduleOverviewHeader')}</label>

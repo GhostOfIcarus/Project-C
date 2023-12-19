@@ -105,7 +105,7 @@ const Navbar = () => {
             onMouseEnter={() => setHoveredLinkStyle({ color: '#F9834C' })}
             onMouseLeave={() => setHoveredLinkStyle({ color: '#000000' })}
           >
-            {t('company_Overview')}
+            {t('company_overview')}
           </Link>
         ) : (
           <Link
