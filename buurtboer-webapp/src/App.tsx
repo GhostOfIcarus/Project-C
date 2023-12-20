@@ -35,7 +35,6 @@ function App() {
         <Route path="/Settings_Page" element={< SettingsPage/>}/>
         <Route path="/SuperAdmin_Settings_Page" element={< SuperAdmin_Settings_Page/>}/>
         <Route path='/Employees_Overview' element={<EmployeesOverview/>} />
-
       </Routes>
     </Router>
   );
