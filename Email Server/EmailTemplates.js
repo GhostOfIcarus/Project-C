@@ -14,4 +14,13 @@ module.exports = {
             <p>Keep Yourself Safe</p>
         `;
     },
+
+    companyRegistration: (username, confirmRegistrationLink) => {
+        return `
+            <p>Hello ${username},</p>
+            <p>Please click <a href="${confirmRegistrationLink}">here</a> to start registering your company.</p>
+            <p>If you did not request this, please ignore this email and your registration will remain unconfirmed.</p>
+            <p>Keep Yourself Safe</p>
+        `;
+    }
 };

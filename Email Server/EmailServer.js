@@ -60,7 +60,7 @@ app.post('/sendEmail/Test', (req, res) => {
     });
 });
 
-// Send test email endpoint
+// Send forgot password email endpoint
 app.post('/sendEmail/forgotPassword', (req, res) => {
     mailOptions.to = req.body.to;
     mailOptions.subject = req.body.subject;
@@ -80,24 +80,42 @@ app.post('/sendEmail/forgotPassword', (req, res) => {
     });
 });
 
+// Send company registration email endpoint
+app.post('/sendEmail/companyRegistration', (req, res) => {
+    mailOptions.to = req.body.to;
+    mailOptions.subject = "Registreer je bedrijf";
+    
+    const tempToken = jwt.sign({ adminEmail : req.body.to, companyName : req.body.CompanyName, adminFirstName : req.body.adminFirstName, adminLastName : req.body.adminLastName }, 'nothisispatrick', { expiresIn: '1h' });
 
-// Checking reset password JWT token
-app.post('/checkResetPasswordToken', (req, res) => {
-    const token = req.body.token;
-    jwt.verify(token, 'nothisispatrick', (err, decoded) => {
-        if (err) {
-            console.log(err);
-            res.status(401).send(err);
+    mailOptions.html = EmailTemplates.companyRegistration(req.body.adminFirstName, `http://localhost:3000/Company_Register?token=${tempToken}`);
+
+    transporter.sendMail(mailOptions, function(error, info){
+        if (error) {
+            console.log(error);
+            res.status(500).send(error);
         } else {
-            console.log(decoded);
-            res.status(200).send(message = 'Token verified', email = decoded.email);
+            console.log('Email sent: ' + info.response);
+            res.status(200).send('Email sent: ' + info.response);
         }
     });
 });
 
 
+// Decode and verify JWT token
+app.post('/checkToken', async (req, res) => {
+    const token = req.body.token;
+    try {
+        const decoded = await jwt.verify(token, 'nothisispatrick');
+        console.log(decoded);
+        res.status(200).send({ message: 'Token verified', data: decoded });
+    } catch (err) {
+        console.log(err);
+        res.status(401).send(err);
+    }
+});
 
-// Starting the API server
+
+// Starting the email server
 app.listen(port, () => {
 	console.log(`Email server running on port: ${port}.`);
 });

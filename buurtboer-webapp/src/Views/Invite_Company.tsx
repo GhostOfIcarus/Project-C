@@ -5,6 +5,7 @@ import genstyles from './Stylesheets/GeneralStyles.module.css';
 import postlogin from './Stylesheets/PostLogin.module.css';
 import { useTranslation } from 'react-i18next';
 import { useNavigate, Link } from 'react-router-dom';
+import axios from 'axios';
 
 function Invite_Company() {
   const { t } = useTranslation();
@@ -24,8 +25,24 @@ function Invite_Company() {
     //saves all the inputs so the next page can use it (this needs to change with the email functionality)
     const queryString = `?CompanyName=${CompanyName}&adminEmail=${adminEmail}&adminFirstName=${adminFirstName}&adminLastName=${adminLastName}`;
 
-    // Navigate to the Change_Password screen with the query string
-    navigate(`/Company_Register${queryString}`);
+    //navigate(`/Company_Register${queryString}`);
+
+    axios.post('http://localhost:5001/sendEmail/companyRegistration', 
+    {
+      to: adminEmail,
+      CompanyName: CompanyName,
+      adminFirstName: adminFirstName,
+      adminLastName: adminLastName,
+    }, 
+    {
+      withCredentials: true,
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }
+  );
+
+
   };
 
   return (
