@@ -275,7 +275,8 @@ app.post('/api/CompanyAdmin/login', async (req, res) => {
 				lastName: userData.admin_last_name,
 				userEmail: userData.email,
 				full_schedule: userData.full_schedule,
-				userRole: "CompanyAdmin"
+				userRole: "CompanyAdmin",
+				companyName: userData.company_name
 			},
 			'thisisaverysecretkeyspongebob',
 			{ expiresIn: '2h' }
@@ -309,7 +310,8 @@ app.post('/api/SuperAdmin/login', async (req, res) => {
 				firstName: userData.first_name,
 				lastName: userData.last_name,
 				userEmail: userData.email,
-				userRole: "SuperAdmin"
+				userRole: "SuperAdmin",
+				companyName: userData.company_name
 			},
 			'thisisaverysecretkeyspongebob',
 			{ expiresIn: '2h' }
@@ -411,13 +413,13 @@ app.get('/api/admin/singleadmin', async (req, res) => {
 
 app.get('/api/SuperAdmin/singlesuperadmin', async (req, res) => {
 	try {
-		const { email } = req.query;
+		const { email, password} = req.query;
 	
 		if (!email) {
 		  return res.status(400).json({ error: 'SuperAdmin email is required' });
 		}
 	
-		const adminData = await getSingleSuperAdminData(email);
+		const adminData = await getSingleSuperAdminData(email, password);
 	
 		if (!adminData) {
 		  return res.status(404).json({ error: 'SuperAdmin not found' });

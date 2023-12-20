@@ -30,7 +30,7 @@ const Navbar = () => {
         // console.log(userData.firstName);
         setUserData(userData);
         const userRole = userData.userRole;
-        console.log(userRole);
+        //console.log(userRole);
         setUserRole(userRole);
       } catch (error) {
         // Handle error
@@ -43,7 +43,7 @@ const Navbar = () => {
 
     fetchData();
     handleUserRole();
-    console.log("users role is: ", userRole)
+    //console.log("users role is: ", userRole)
   }, []); // The empty dependency array ensures that this effect runs once on mount
 
   const buurtboer_nav = {

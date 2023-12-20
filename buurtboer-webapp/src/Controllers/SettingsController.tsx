@@ -3,7 +3,14 @@ import i18next from 'i18next';
 import axios from 'axios';
 
 interface UserData {
-  firstName: string;
+}
+
+export interface AdminInfo {
+  adminName: string;
+  adminEmail: string;
+  companyName: string;
+  userRole: string;
+  // Add other fields as needed
 }
 
 export function SettingsController() {
@@ -12,12 +19,7 @@ export function SettingsController() {
   const [userRole, setUserRole] = useState<string | null>(null);
   const [userEmail, setUserEmail] = useState<string | null>(null);
   const [userPass, setUserPass] = useState<string | null>(null);
-  const [adminInfo, setAdminInfo] = useState({
-    adminName: '',
-    adminEmail: '',
-    companyName: '',
-  });
-
+  
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -38,6 +40,8 @@ export function SettingsController() {
         setUserRole(userRole);
         setUserEmail(userEmail);
         setUserPass(userPass);
+        console.log(userData);
+        console.log('fetched data')
       } catch (error) {
         console.error('Error fetching user data:', error);
         // Handle error based on your requirements
@@ -46,6 +50,37 @@ export function SettingsController() {
 
     fetchData();
   }, []);
+
+  const fetchAdminInfo = async () => {
+    try {
+      let apiUrl;
+      console.log('made it to fetchAdminInfo');
+      if (userRole === 'CompanyAdmin') {
+        console.log('sees userRole');
+        apiUrl = 'http://localhost:5000/api/admin/singleadmin';
+      } else if (userRole === 'SuperAdmin') {
+        apiUrl = 'http://localhost:5000/api/SuperAdmin/singlesuperadmin';
+      } else {
+        throw new Error('Invalid role');
+      }
+  
+      const response = await axios.get(apiUrl, {
+        params: {
+          email: userEmail, // Make sure to replace these with actual values
+          password: userPass, // Replace with actual value
+        },
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+  
+      console.log(response.data);
+      return response.data;
+    } catch (error) {
+      console.error('Error fetching admin info:', error);
+      return null;
+    }
+  };
 
   useEffect(() => {
     const updateLanguage = () => {
@@ -78,47 +113,11 @@ export function SettingsController() {
     localStorage.setItem('language', newLanguage);
   };
 
-  const fetchAdminInfo = async () => {
-    if (userRole && userEmail && userPass) {
-      let apiUrl: string;
-
-      if (userRole === 'CompanyAdmin') {
-        apiUrl = 'http://localhost:5000/api/admin/singleadmin';
-      } else if (userRole === 'SuperAdmin') {
-        apiUrl = 'http://localhost:5000/api/SuperAdmin/singlesuperadmin';
-      } else {
-        throw new Error('Invalid role');
-      }
-
-      try {
-        const response = await axios.get(apiUrl, { params: { userEmail, userPass } });
-
-        if (response.status === 200) {
-          const { adminName, adminEmail, companyName } = response.data;
-          setAdminInfo({ adminName, adminEmail, companyName });
-          console.log(adminName);
-          console.log(adminEmail);
-          console.log(companyName);
-        } else if (response.status === 404) {
-          throw new Error(`${userRole} not found`);
-        } else {
-          throw new Error('Unexpected error');
-        }
-      } catch (error) {
-        console.error('Error fetching admin information:', error);
-        // Handle error based on your requirements
-      }
-    }
-  };
-
-  useEffect(() => {
-    fetchAdminInfo();
-  }, [userRole, userEmail, userPass]);
 
   return {
     language,
     toggleLanguage,
     setLanguage: setLanguageDirectly,
-    adminInfo,
+    fetchAdminInfo,
   };
 }
