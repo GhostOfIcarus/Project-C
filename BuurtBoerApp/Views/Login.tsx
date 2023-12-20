@@ -50,7 +50,7 @@ const LoginScreen = (props: LoginScreenProps) => {
     setPassword(text);
   };
 
-  const Create_Account = () => props.navigation.navigate("CreateAccount")
+  const Create_Account = () => props.navigation.navigate("ActivateAccountScreen")
 
   const ForgotPassword = () => props.navigation.navigate("ForgotPassword")
 

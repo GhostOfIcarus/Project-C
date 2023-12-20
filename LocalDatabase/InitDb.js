@@ -65,6 +65,13 @@ async function createTables() {
         FOREIGN KEY (Employee_ID) REFERENCES Employee(ID)
       );
 
+      CREATE TABLE IF NOT EXISTS ActivationKeys (
+        ID SERIAL PRIMARY KEY,
+        Employee_ID INTEGER NOT NULL,
+        Key VARCHAR(255) NOT NULL,
+        FOREIGN KEY (Employee_ID) REFERENCES Employee(ID)
+      );
+
       CREATE TABLE IF NOT EXISTS EmployeesInCompany (
         ID SERIAL PRIMARY KEY,
         Employee_ID INTEGER NOT NULL,

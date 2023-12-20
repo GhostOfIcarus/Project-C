@@ -3,9 +3,13 @@ import React, { useState } from 'react';
 import { View, TextInput, Image, Text, TouchableOpacity, KeyboardAvoidingView, ScrollView } from 'react-native';
 import { before_login } from './css/before_login';
 import { useTranslation } from 'react-i18next';
+import ActivateAccountController from './../Controllers/Activate_Account_Controller';
+import ChangePasswordController from './../Controllers/Change_Password';
+import Employee from '../Models/Employee_Model';
 
 interface LoginScreenProps {
   navigation: any;
+  route: any;
 }
 
 const Forgot_Password = (props: LoginScreenProps) => {
@@ -25,8 +29,8 @@ const Forgot_Password = (props: LoginScreenProps) => {
     const toggleShowPassword = () => {
       setShowPassword(!showPassword);
     };
-  
-    const login = () => props.navigation.navigate("Login");
+
+    const employee: Employee = props.route.params.employee;
   
     return (
       <KeyboardAvoidingView style={{ flex: 1 }}>
@@ -64,7 +68,7 @@ const Forgot_Password = (props: LoginScreenProps) => {
               </Text>
             </TouchableOpacity>
             {/* Login button */}
-            <TouchableOpacity style={before_login.buttons} onPress={login}>
+            <TouchableOpacity style={before_login.buttons} onPress={() => ChangePasswordController.handleChangePassword(password, confirmPassword, props.navigation, employee, t)}>
               <Text style={{ color: 'white', textAlign: 'center' }}>{t('send')}</Text>
             </TouchableOpacity>
             

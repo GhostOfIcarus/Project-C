@@ -35,6 +35,8 @@
     "notifications": "Notificaties",
     "rememberMe": "Onthoud mij",
     "logout": "Log uit",
+    "activateaccount": "Activeer Account",
+    "activation_code": "Activatie code",
     "invalid_email_error": "Ongeldige Email!",
     "invalid_email_error_text": "Ingevoerde Email is geen geldig email adres!",
     "email_error": "Email niet gevonden!",

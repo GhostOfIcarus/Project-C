@@ -35,6 +35,8 @@
     "notifications": "Notifications",
     "rememberMe": "Remember Me",
     "logout": "Logout",
+    "activateaccount": "Activate Account",
+    "activation_code": "Activate code",
     "invalid_email_error": "Invalid Email!",
     "invalid_email_error_text": "Given Email is not a real email address!",
     "email_error": "Email not found!",
