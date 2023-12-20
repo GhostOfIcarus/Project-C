@@ -63,7 +63,7 @@ class LoginController {
     // Compaires the password with the hashed password
     const passwordsMatch = bcrypt.compareSync(password, data.password);
     if (!passwordsMatch) {
-      Alert.alert(t('passowrd_incorrect_error'), t('passowrd_incorrect_error_text'));
+      Alert.alert(t('password_incorrect_error'), t('password_incorrect_error_text'));
       return;
     }
     let employeeData = data;

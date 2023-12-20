@@ -24,6 +24,8 @@ const WeekOverviewForm = (props: WeekOverviewFormProps) =>
 {
   // makes sure employee data gets transferred between screens
   const { employee } = props.route.params;
+
+  // navigation to other pages
   const Settings = () => props.navigation.navigate("Settings", { employee })
 
   // for the languages
@@ -180,76 +182,76 @@ const WeekOverviewForm = (props: WeekOverviewFormProps) =>
               onValueChange={(newValue) => setMonday(newValue)}
               tintColors={{ true: isDisabled ? 'lightgray' : '#099F91', false: isDisabled ? 'gray' : 'black' }}              
             />
-              <Text style={[basestyles.centered_text_black, {color: isDisabled ? 'gray' : 'black'}]}>{t('monday')}</Text>
+            <Text style={[basestyles.centered_text_black, {color: isDisabled ? 'gray' : 'black'}]}>{t('monday')}</Text>
           </View>
 
           {/* Tuesday */}
           <View style={basestyles.checkbox_text_div}>
-              <CheckBox
-                  disabled={isDisabled}
-                  value={isTuesday}
-                  onValueChange={(newValue) => setTuesday(newValue)}
-                  tintColors={{ true: isDisabled ? 'lightgray' : '#099F91', false: isDisabled ? 'gray' : 'black' }}              
-                  />
-              <Text style={[basestyles.centered_text_black, {color: isDisabled ? 'gray' : 'black'}]}>{t('tuesday')}</Text>
+            <CheckBox
+                disabled={isDisabled}
+                value={isTuesday}
+                onValueChange={(newValue) => setTuesday(newValue)}
+                tintColors={{ true: isDisabled ? 'lightgray' : '#099F91', false: isDisabled ? 'gray' : 'black' }}              
+                />
+            <Text style={[basestyles.centered_text_black, {color: isDisabled ? 'gray' : 'black'}]}>{t('tuesday')}</Text>
           </View>
 
           {/* Wednesday */}
           <View style={basestyles.checkbox_text_div}>
-              <CheckBox
-                  disabled={isDisabled}
-                  value={isWednesday}
-                  onValueChange={(newValue) => setWednesday(newValue)}
-                  tintColors={{ true: isDisabled ? 'lightgray' : '#099F91', false: isDisabled ? 'gray' : 'black' }}              
-                  />
-              <Text style={[basestyles.centered_text_black, {color: isDisabled ? 'gray' : 'black'}]}>{t('wednesday')}</Text>
+            <CheckBox
+                disabled={isDisabled}
+                value={isWednesday}
+                onValueChange={(newValue) => setWednesday(newValue)}
+                tintColors={{ true: isDisabled ? 'lightgray' : '#099F91', false: isDisabled ? 'gray' : 'black' }}              
+                />
+            <Text style={[basestyles.centered_text_black, {color: isDisabled ? 'gray' : 'black'}]}>{t('wednesday')}</Text>
           </View>
 
           {/* Thursday */}
           <View style={basestyles.checkbox_text_div}>
-              <CheckBox
-                  disabled={isDisabled}
-                  value={isThursday}
-                  onValueChange={(newValue) => setThursday(newValue)}
-                  tintColors={{ true: isDisabled ? 'lightgray' : '#099F91', false: isDisabled ? 'gray' : 'black' }}              
-                  />
-              <Text style={[basestyles.centered_text_black, {color: isDisabled ? 'gray' : 'black'}]}>{t('thursday')}</Text>
+            <CheckBox
+                disabled={isDisabled}
+                value={isThursday}
+                onValueChange={(newValue) => setThursday(newValue)}
+                tintColors={{ true: isDisabled ? 'lightgray' : '#099F91', false: isDisabled ? 'gray' : 'black' }}              
+                />
+            <Text style={[basestyles.centered_text_black, {color: isDisabled ? 'gray' : 'black'}]}>{t('thursday')}</Text>
           </View>
 
           {/* Friday */}
           <View style={basestyles.checkbox_text_div}>
-              <CheckBox
-                  disabled={isDisabled}
-                  value={isFriday}
-                  onValueChange={(newValue) => setFriday(newValue)}
-                  tintColors={{ true: isDisabled ? 'lightgray' : '#099F91', false: isDisabled ? 'gray' : 'black' }}              
-                  />
-              <Text style={[basestyles.centered_text_black, {color: isDisabled ? 'gray' : 'black'}]}>{t('friday')}</Text>
+            <CheckBox
+                disabled={isDisabled}
+                value={isFriday}
+                onValueChange={(newValue) => setFriday(newValue)}
+                tintColors={{ true: isDisabled ? 'lightgray' : '#099F91', false: isDisabled ? 'gray' : 'black' }}              
+                />
+            <Text style={[basestyles.centered_text_black, {color: isDisabled ? 'gray' : 'black'}]}>{t('friday')}</Text>
           </View>
 
           {/* Saturday */}
           <View style={basestyles.checkbox_text_div}>
-              <CheckBox
-                  disabled={isDisabled}
-                  value={isSaturday}
-                  onValueChange={(newValue) => setSaturday(newValue)}
-                  tintColors={{ true: isDisabled ? 'lightgray' : '#099F91', false: isDisabled ? 'gray' : 'black' }}              
-                  />
-              <Text style={[basestyles.centered_text_black, {color: isDisabled ? 'gray' : 'black'}]}>{t('saturday')}</Text>
+            <CheckBox
+                disabled={isDisabled}
+                value={isSaturday}
+                onValueChange={(newValue) => setSaturday(newValue)}
+                tintColors={{ true: isDisabled ? 'lightgray' : '#099F91', false: isDisabled ? 'gray' : 'black' }}              
+                />
+            <Text style={[basestyles.centered_text_black, {color: isDisabled ? 'gray' : 'black'}]}>{t('saturday')}</Text>
           </View>
 
           {/* Sunday */}
           <View style={basestyles.checkbox_text_div}>
-              <CheckBox
-                  disabled={isDisabled}
-                  value={isSunday}
-                  onValueChange={(newValue) => setSunday(newValue)}
-                  tintColors={{ true: isDisabled ? 'lightgray' : '#099F91', false: isDisabled ? 'gray' : 'black' }}              
-                  />
-              <Text style={[basestyles.centered_text_black, {color: isDisabled ? 'gray' : 'black'}]}>{t('sunday')}</Text>
+            <CheckBox
+                disabled={isDisabled}
+                value={isSunday}
+                onValueChange={(newValue) => setSunday(newValue)}
+                tintColors={{ true: isDisabled ? 'lightgray' : '#099F91', false: isDisabled ? 'gray' : 'black' }}              
+                />
+            <Text style={[basestyles.centered_text_black, {color: isDisabled ? 'gray' : 'black'}]}>{t('sunday')}</Text>
           </View>
 
-          {/* Keep schedule switch */}
+          {/* keep schedule switch */}
           <View style={basestyles.switch_right_text_div}>
             <Text style={basestyles.text_small}>{t('rememberSchedule')}</Text>
             <Switch
