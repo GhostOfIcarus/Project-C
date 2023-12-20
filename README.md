@@ -3,8 +3,8 @@
 
 ## Server Probleem
 
-Wegens problemen op school met de server is dit project slecht lokaal te runnen,
-sommigen functionaliteiten zijn hierop dus ook afgesteld:
+Wegens problemen op school met de server is dit project slechts lokaal te runnen,
+sommige functionaliteiten zijn hierop dus ook afgesteld:
 
 - Invite Company
 
