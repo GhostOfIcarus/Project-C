@@ -1,10 +1,12 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';  
 import logo from './img/buurtboer_logo.png'; 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import postlogin from './Stylesheets/PostLogin.module.css';
 import Navbar from './Navbar';
 import withAuthentication from '../Controllers/withAuthentication';
+import { useEmpWeekOverviewController } from '../Controllers/Employee_WeekOverviewControllers';
+
 
 
 type DayType = {
@@ -13,7 +15,33 @@ type DayType = {
     absent: boolean;
   };
 
+interface Employee {
+  id: number;
+  first_name: string;
+  last_name: string;
+}
+
 function Employee_Week_Overview() {
+  const{ fetchEmployees, employees } = useEmpWeekOverviewController();
+  const [employeesList, setEmployeesList] = useState<Employee[]>(employees);
+  useEffect(() => {
+    const fetchData = async () => {
+      await fetchEmployees();
+    };
+
+    fetchData();
+  }, [fetchEmployees]);
+
+  // useEffect(() => {
+  //   fetchEmployees();
+  // }, []);
+
+  useEffect(() => {
+    setEmployeesList(employees);
+  }, [employees]);
+  console.log("employees from employees: ", employees);
+  console.log("employees from employeesList: ", employees);
+
 
     const [selectedWeek, setSelectedWeek] = useState(getCurrentWeek());
 
