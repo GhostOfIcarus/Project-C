@@ -34,7 +34,7 @@ const SettingsScreen = (props: SettingsProps) =>
 
   // navigation to other pages
   const Schedule_Form = () => props.navigation.navigate("Schedule_Form",  { employee })
-  const Change_Password = () => props.navigation.navigate("Change_Password", { employee })
+  const Change_Password = () => props.navigation.navigate("ChangePassword", { employee })
 
   // handles the login
   const handleLogout = async () => 
