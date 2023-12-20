@@ -344,6 +344,18 @@ const getSingleCompanyAdminData = async (email, password) => {
 	}
 };
 
+const getCompanyAdminById = async (adminId) => {
+	const db = await pool.connect();
+	try {
+		const results = await db.query("SELECT * FROM company WHERE id = $1", [adminId]);
+		return results.rows[0];
+	} catch (error) {
+		console.error(error);
+		console.error('Error in getting user data:', error);
+		throw new Error("Internal error wah wah");
+	}
+};
+
 const getSingleSuperAdminData = async (email, password) => {
 	try {
 		const db = await pool.connect();
@@ -421,7 +433,7 @@ const getAttendance = async (comp_id, week_number) => {
 	  const companyResults = await db.query(`
 		UPDATE company
 		SET password = $1
-		WHERE email = $2
+		WHERE email = $2	
 		RETURNING *;
 	  `, [newPassword, email]);
   
@@ -448,6 +460,51 @@ const getAttendance = async (comp_id, week_number) => {
 	  return false;
 	} catch (error) {
 	  console.error('Error in updating user password:', error);
+	  throw new Error('Internal error');
+	} finally {
+	  db.release(); // Release the connection back to the pool
+	}
+  };
+
+  const updateAdmin = async (adminId, updatedAdmin) => {
+	const db = await pool.connect();
+  
+	try {
+	  const results = await db.query(
+		`
+		UPDATE company
+		SET
+		  admin_first_name = $1,
+		  admin_last_name = $2,
+		  company_name = $3,
+		  full_schedule = $4,
+		  email = $5,
+		  password = $6
+		WHERE
+		  id = $7
+		RETURNING *;
+		`,
+		[
+		  updatedAdmin.admin_first_name,
+		  updatedAdmin.admin_last_name,
+		  updatedAdmin.company_name,
+		  updatedAdmin.full_schedule,
+		  updatedAdmin.email,
+		  updatedAdmin.password,
+		  adminId,
+		]
+	  );
+  
+	  if (results.rowCount > 0) {
+		// Rows updated, return true
+		return true;
+	  }
+  
+	  // No rows were updated, admin not found with the given adminId
+	  console.error('No admin found with this adminId:', adminId);
+	  return false;
+	} catch (error) {
+	  console.error('Error in updating admin:', error);
 	  throw new Error('Internal error');
 	} finally {
 	  db.release(); // Release the connection back to the pool
@@ -497,5 +554,7 @@ module.exports = {
 	getAttendance,
 	checkEmailExists,
 	ChangeAdminPassword,
+	updateAdmin,
+	getCompanyAdminById,
 	pool
 };

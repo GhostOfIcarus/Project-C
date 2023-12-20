@@ -447,6 +447,51 @@ app.post('/api/admin/registerAdmin', async (req, res) => {
     }
 })
 
+app.post('/api/admin/updateAdmin', async (req, res) => {
+	try {
+	  const { adminId, admin_first_name, admin_last_name, company_name, full_schedule, email, password } = req.body;
+  
+	  // Retrieve the existing admin information from the database
+	  const existingAdmin = await Functions.getCompanyAdminById(adminId);
+  
+	  if (!existingAdmin) {
+		return res.status(404).json({ error: 'Admin not found' });
+	  }
+  
+	  // Update only the fields that are provided in the request body
+	  if (admin_first_name) {
+		existingAdmin.admin_first_name = admin_first_name;
+	  }
+	  if (admin_last_name) {
+		existingAdmin.admin_last_name = admin_last_name;
+	  }
+	  if (company_name) {
+		existingAdmin.company_name = company_name;
+	  }
+	  if (full_schedule !== undefined) {
+		existingAdmin.full_schedule = full_schedule;
+	  }
+	  if (email) {
+		existingAdmin.email = email;
+	  }
+	  if (password) {
+		existingAdmin.password = password;
+	  }
+  
+	  // Save the updated admin information to the database
+	  const success = await Functions.updateAdmin(adminId, existingAdmin);
+  
+	  if (success) {
+		res.status(200).json({ message: 'Admin information updated successfully' });
+	  } else {
+		res.status(500).json({ error: 'An error occurred updating the admin information' });
+	  }
+	} catch (error) {
+	  console.error(error);
+	  res.status(500).json({ error: 'An error occurred updating the admin information' });
+	}
+  });
+  
 app.post('/api/logout', (req, res) => {
 	res.clearCookie('jwt-token');
 	res.status(200).json({ message: 'Logged out successfully' });

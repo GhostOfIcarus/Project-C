@@ -5,7 +5,7 @@ import genstyles from './Stylesheets/GeneralStyles.module.css';
 import NL from "./img/nl_flag.png";
 import EN from "./img/en_flag.png";
 import withAuthentication from '../Controllers/withAuthentication';
-import  {SettingsController, AdminInfo} from '../Controllers/SettingsController';
+import  {SettingsController, AdminInfo, updateAdminInfo} from '../Controllers/SettingsController';
 import { useTranslation } from 'react-i18next';
 import axios from 'axios';
 
@@ -16,14 +16,28 @@ interface UserData {
 function Settings() {
   const { t } = useTranslation();
   const [editable, setEditable] = useState(false);
-  const [selectedRosterValue, setSelectedRosterValue] = useState()
+  const [selectedRosterValue, setSelectedRosterValue] = useState();
   const [confirmationVisible, setConfirmationVisible] = useState(false);
   const { language, setLanguage} = SettingsController();
   const [companyName, setCompanyName] = useState('');
   const [userEmail, setUserEmail] = useState('');
+  const [userId, setUserId] = useState();
   const [userdata, setUserData] = useState<UserData | null>(null);
   const [userName, setUserName] = useState('');
-  const [selectedRoster, setSelectedRoster] = useState<string>('Ma-Vr');
+  const [selectedRoster, setSelectedRoster] = useState<string>('');
+  const [initialValues, setInitialValues] = useState({
+    userName: '',
+    userEmail: '',
+    companyName: '',
+    //selectedRosterValue: '',
+  });
+
+  const [confirmedValues, setConfirmedValues] = useState({
+    userName: '',
+    userEmail: '',
+    companyName: '',
+    selectedRoster: '',
+  });
 
   useEffect(() => {
     const fetchData = async () => {
@@ -38,22 +52,31 @@ function Settings() {
         const userData = response.data.userData;
         setUserData(userData);
 
+        const userId = userData.userId;
         const companyName = userData.companyName;
         const userEmail = userData.userEmail;
         const userName = userData.firstName;
         const selectedRosterValue = userData.full_schedule;
 
+        setUserId(userId);
         setCompanyName(companyName);
         setUserEmail(userEmail);
         setUserName(userName);
         setSelectedRosterValue(selectedRosterValue);
         console.log(userData);
         console.log(selectedRosterValue);
-        console.log('fetched data');
+        console.log('fetched data succesfully');
       } catch (error) {
         console.error('Error fetching user data:', error);
         // Handle error based on your requirements
       }
+      
+      setInitialValues({
+        userName,
+        userEmail,
+        companyName,
+        //selectedRosterValue: selectedRosterValue,
+      });
     };
 
     fetchData();
@@ -78,15 +101,77 @@ function Settings() {
     }
   };
 
-  const handleConfirmButtonClick = () => {
-    // Handle the confirmation logic here
-
-    // After handling the logic, hide the confirmation button
-    setConfirmationVisible(false);
-
-    // Disable further edits after confirming
-    setEditable(false);
+  const handleUserNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setUserName(e.target.value);
   };
+
+  const handleUserEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setUserEmail(e.target.value);
+  };
+
+  const handleCompanyNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setCompanyName(e.target.value);
+  };
+
+  const handleConfirmButtonClick = async () => {
+    // Check if any changes were made
+    const changesMade =
+      userName !== initialValues.userName ||
+      userEmail !== initialValues.userEmail ||
+      companyName !== initialValues.companyName;
+  
+    if (changesMade) {
+      try {
+        if (userId) {
+          // Check if userId is defined
+          const success = await updateAdminInfo(userId, {
+            admin_first_name: userName,
+            email: userEmail,
+            company_name: companyName,
+          });
+  
+          if (success) {
+            console.log('Admin information updated successfully');
+          } else {
+            console.log('Error updating admin information');
+          }
+        }
+      } catch (error) {
+        console.error('Error updating admin information:', error);
+        // Handle error based on your requirements
+      }
+  
+      // Update state variables with new values
+      setInitialValues({
+        userName,
+        userEmail,
+        companyName,
+      });
+  
+      // Set confirmed values
+      setConfirmedValues({
+        userName,
+        userEmail,
+        companyName,
+        selectedRoster,
+      });
+  
+      // Log confirmed values to the console
+      console.log('Confirmed Values:', confirmedValues);
+      console.log('Final Values:', userName, userEmail, companyName, selectedRoster);
+  
+      // After handling the logic, hide the confirmation button
+      setConfirmationVisible(false);
+  
+      // Disable further edits after confirming
+      setEditable(false);
+    }
+  };
+  
+  
+useEffect(() => {
+  console.log('Confirmed Values:', confirmedValues);
+}, [confirmedValues]); 
 
   return (
     <>
@@ -98,19 +183,18 @@ function Settings() {
             <h2>{t('settingsHeader')}</h2>
             <br /><br />
             <div className="justify-content-center">
-              {/* ... other input fields (admin naam, email and company naam) ... */}
               <div className="mb-3">
-                <input type="text" id="AdminNaam" placeholder={userName} readOnly={!editable} />
+                <input type="text" id="AdminNaam" placeholder={userName} readOnly={!editable} onChange={handleUserNameChange} />
               </div>
               <div className="mb-3">
-                <input type="text" id="adminEmail" placeholder={userEmail} readOnly={!editable} />
+                <input type="text" id="adminEmail" placeholder={userEmail} readOnly={!editable} onChange={handleUserEmailChange}/>
               </div>
               <div className="mb-3">
-                <input type="text" id="BedrijfNaam" placeholder={companyName} readOnly={!editable} />
+                <input type="text" id="BedrijfNaam" placeholder={companyName} readOnly={!editable} onChange={handleCompanyNameChange}/>
               </div>
               <div className="mb-3">
                 <label htmlFor="Rooster">{t('scheduleOverviewHeader')}</label>
-                <select id="Rooster" disabled={!editable} value= {selectedRosterValue} onChange={handleRoosterChange}>
+                <select id="Rooster" disabled={!editable} value= {selectedRoster} onChange={handleRoosterChange}>
                   <option value="Ma-Vr">{t('5weekday')}</option>
                   <option value="Ma-Sun">{t('7weekday')}</option>
                 </select>
