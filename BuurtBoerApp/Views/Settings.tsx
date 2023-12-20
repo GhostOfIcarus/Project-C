@@ -1,53 +1,69 @@
-// HomeScreen.js
+// generic react native imports
 import React, { useEffect, useState } from 'react';
-import { View, Image, Text, TouchableOpacity, ScrollView, Switch } from 'react-native';
+import { View, Image, Text, TouchableOpacity, ScrollView, Switch, Dimensions } from 'react-native';
 import { basestyles } from './css/styles';
 import { useTranslation } from 'react-i18next';
 import i18next from './../Controllers/i18next';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-interface SettingsProps {
+// props
+interface SettingsProps 
+{
   navigation: any;
   route: any;
 }
 
-const SettingsScreen = (props: SettingsProps) => {
+// main code
+const SettingsScreen = (props: SettingsProps) => 
+{
+  // for the languages
   const { t } = useTranslation();
-
   const [language, setLanguage] = useState(i18next.language);
 
-  const toggleLanguage = async () => {
+  // toggles the languages
+  const toggleLanguage = async () => 
+  {
     const newLanguage = language === 'en' ? 'nl' : 'en';
     setLanguage(newLanguage);
     i18next.changeLanguage(newLanguage);
     await AsyncStorage.setItem('language', JSON.stringify(newLanguage));
   };
 
+  // makes sure employee data gets transferred between screens
   const { employee } = props.route.params;
 
+  // navigation to other pages
   const Schedule_Form = () => props.navigation.navigate("Schedule_Form",  { employee })
-  const Change_Password = () => props.navigation.navigate("Change_Password", { employee }) 
-  const handleLogout = async () => {
-    // Clear the user's data from AsyncStorage
+  const Change_Password = () => props.navigation.navigate("Change_Password", { employee })
+
+  // handles the login
+  const handleLogout = async () => 
+  {
+    // clears the users data from async storage
     await AsyncStorage.removeItem('user');
   
-    // Navigate back to the login screen
+    // navigates back to the login screen
     props.navigation.reset({
       index: 0,
       routes: [{ name: 'Login' }],
     });
   };
 
-  const [isNotif, setNotif] = useState(employee.keepSchedule);
+  // var for notification switch
+  const [isNotif, setNotif] = useState(true);
 
-  useEffect(() => {
-    setNotif(employee.keepSchedule);
-  }, [employee]);
+  // takes dimensions from phone for dynamic screens
+  const { width, height } = Dimensions.get('window');
 
+  // screen
   return (
+    // base container
     <ScrollView contentContainerStyle={basestyles.container}>
+
+      {/* nav bar */}
       <View style={basestyles.nav_bar_div}>
 
+        {/* corner logo */}
         <View style={basestyles.nav_bar_image_div}>
           <Image
             source={require('./img/buurtboer_logo_no_texto.png')}
@@ -55,10 +71,12 @@ const SettingsScreen = (props: SettingsProps) => {
           />
         </View>
 
+        {/* nav bar title */}
         <View style={basestyles.nav_bar_title_div}>
             <Text style={basestyles.nav_bar_title}>{t('settingsHeader')}</Text>
         </View>
 
+        {/* back icon */}
         <View style={basestyles.nav_bar_settings_div}>
           <TouchableOpacity onPress={Schedule_Form}>
             <Image source={require('./img/arrow_icon.png')} style={basestyles.nav_bar_settings} />
@@ -66,65 +84,82 @@ const SettingsScreen = (props: SettingsProps) => {
         </View>
       </View>
 
+      {/* settings */}
       <View style={basestyles.schedule_padding}>
         <View style={basestyles.settings_div}>
 
+          {/* name */}
           <View style={basestyles.left_aligned_text_div}>
-              <Text style={basestyles.text_black}>{t('name')}:  {employee.firstName}</Text>
+              <Text style={basestyles.text_black}>{t('name')}</Text>
+              <Text style={basestyles.text_gray}>{employee.firstName}</Text>
           </View>
 
+          {/* surname */}
           <View style={basestyles.left_aligned_text_div}>
-              <Text style={basestyles.text_black}>{t('lastName')}:  {employee.lastName}</Text>
+              <Text style={basestyles.text_black}>{t('lastName')}</Text>
+              <Text style={basestyles.text_gray}>{employee.lastName}</Text>
+
           </View>
 
+          {/* company */}
           <View style={basestyles.left_aligned_text_div}>
-              <Text style={basestyles.text_black}>{t('company')}:  {employee.companyName}</Text>
+              <Text style={basestyles.text_black}>{t('company')}</Text>
+              <Text style={basestyles.text_gray}>{employee.companyName}</Text>
           </View>
 
+          {/* email */}
           <View style={basestyles.left_aligned_text_div}>
-              <Text style={basestyles.text_black}>{t('email')}: {employee.email}</Text>
+              <Text style={basestyles.text_black}>{t('email')}</Text>
+              <Text style={basestyles.text_gray}>{employee.email}</Text>
           </View>
 
-          <View style={basestyles.switch_left_text_div}>
+          {/* language select */}
+          <View style={basestyles.left_aligned_text_div}>
 
-            <Text style={basestyles.text_black}>{t('notifications')}  </Text>
+            {/* flags */}
+            <View style={basestyles.flags}>
 
+              {/* english */}
+              <TouchableOpacity onPress={toggleLanguage} disabled={language === 'en'}>
+                <Image 
+                  style={language === 'en' ? basestyles.inactive_flag : basestyles.active_flag} 
+                  source={require('./img/en_flag.png')} 
+                />
+              </TouchableOpacity>
+
+              {/* dutch */}
+              <TouchableOpacity onPress={toggleLanguage} disabled={language === 'nl'}>
+                <Image 
+                  style={language === 'nl' ? basestyles.inactive_flag : basestyles.active_flag} 
+                  source={require('./img/nl_flag.png')} 
+                />
+              </TouchableOpacity>
+
+            </View>
+          </View>
+
+          {/* notifications switch */}
+          <View style={[basestyles.switch_right_text_div, {marginLeft: width * 0.33,}]}>
+            <Text style={basestyles.text_small}>{t('notifications')}</Text>
             <Switch
               onValueChange={previousState => setNotif(previousState)}
               value={isNotif}
               trackColor={{false: "#B6B6B6", true: "#099F91"}}
             />
-            
           </View>
 
-          <View style={basestyles.left_aligned_text_div}>
-            <View style={basestyles.flags}>
-              <TouchableOpacity onPress={toggleLanguage} disabled={language === 'en'}>
-                <Image 
-                  style={language === 'en' ? basestyles.inactiveFlag : basestyles.activeFlag} 
-                  source={require('./img/en_flag.png')} 
-                />
-              </TouchableOpacity>
-              <TouchableOpacity onPress={toggleLanguage} disabled={language === 'nl'}>
-                <Image 
-                  style={language === 'nl' ? basestyles.inactiveFlag : basestyles.activeFlag} 
-                  source={require('./img/nl_flag.png')} 
-                />
-              </TouchableOpacity>
-            </View>
-          </View>
-
+          {/* change password */}
           <TouchableOpacity style={basestyles.button} onPress={Change_Password}>
             <Text style={{ color: 'white', textAlign: 'center' }}>{t('changePassword')}</Text>
           </TouchableOpacity>
 
+          {/* logout */}
           <TouchableOpacity style={basestyles.button} onPress={handleLogout}>
             <Text style={{ color: 'white', textAlign: 'center' }}>{t('logout')}</Text>
           </TouchableOpacity>
 
         </View>
       </View>
-      
     </ScrollView>
   );
 };

@@ -24,6 +24,8 @@ const WeekOverviewForm = (props: WeekOverviewFormProps) =>
 {
   // makes sure employee data gets transferred between screens
   const { employee } = props.route.params;
+
+  // navigation to other pages
   const Settings = () => props.navigation.navigate("Settings", { employee })
 
   // for the languages
@@ -249,7 +251,7 @@ const WeekOverviewForm = (props: WeekOverviewFormProps) =>
               <Text style={[basestyles.centered_text_black, {color: isDisabled ? 'gray' : 'black'}]}>{t('sunday')}</Text>
           </View>
 
-          {/* Keep schedule switch */}
+          {/* keep schedule switch */}
           <View style={basestyles.switch_right_text_div}>
             <Text style={basestyles.text_small}>{t('rememberSchedule')}</Text>
             <Switch

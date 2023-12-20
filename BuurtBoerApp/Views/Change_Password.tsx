@@ -43,6 +43,8 @@ const Change_Password = (props: ChangePasswordProps) => {
           <View style={before_login.content_header_div}>
               <Text style={before_login.content_header}>{t('changePasswordHeader')} </Text>
           </View>
+
+          <Text style={before_login.centered_text_small}>{t('password_requirements')}</Text>
           {/* New Password input */}
           <TextInput
             placeholder={t('newPassword')}

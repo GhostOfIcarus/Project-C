@@ -107,7 +107,11 @@ export const basestyles = StyleSheet.create({
     { 
         color: 'black', 
         fontSize: width * 0.05, 
-        // textAlign: 'center', 
+    },
+    text_gray:
+    { 
+        color: 'gray', 
+        fontSize: width * 0.05, 
     },
     centered_text_white: 
     { 
@@ -146,7 +150,7 @@ export const basestyles = StyleSheet.create({
     {
         paddingVertical: height * 0.01,
         flexDirection: 'row',
-        marginLeft: width * 0.27,
+        marginLeft: width * 0.25,
     },
     switch_left_text_div:
     {
@@ -158,6 +162,7 @@ export const basestyles = StyleSheet.create({
     {
         marginBottom: height * 0.01,
         paddingLeft: width * 0.05,
+        paddingTop: height * 0.01,
     },
 
     // buttons
@@ -200,24 +205,29 @@ export const basestyles = StyleSheet.create({
         shadowColor: 'black',
         shadowRadius: 10,
     },
-    //Flags
-    flags_div: {
+
+    // flags
+    flags_div: 
+    {
         flexDirection: 'row',
         justifyContent: 'flex-start',
         width: '100%',
         marginTop: '4%',
     },
-    flags: {
+    flags: 
+    {
         flexDirection: 'row',
         justifyContent: 'flex-start',
         width: '100%',
     },
-    activeFlag: {
+    active_flag: 
+    {
         width: 30,
         height: 30,
         marginHorizontal: '2%',
     },
-    inactiveFlag: {
+    inactive_flag: 
+    {
         width: 30,
         height: 30,
         opacity: 0.5,

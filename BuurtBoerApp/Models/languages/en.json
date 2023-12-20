@@ -41,8 +41,8 @@
     "email_error_text": "Email not found in our database, please try again.",
     "user_error": "Account not found!",
     "user_error_text": "Your email or password is incorrect, please try again.",
-    "passowrd_incorrect_error": "Wrong password!",
-    "passowrd_incorrect_error_text": "Your password is incorrect, please try again.",
+    "password_incorrect_error": "Wrong password!",
+    "password_incorrect_error_text": "Your password is incorrect, please try again.",
     "password_special_char_error": "No special character!",
     "password_special_char_error_text": "Password must contain a special character!",
     "password_lenght_error": "Password to short!",
@@ -51,5 +51,6 @@
     "password_match_error_text": "Please make sure your passwords match.",
     "succes": "Success!",
     "password_change_success": "Your Password has been changed!",
-    "deadline": "Deadline: "
+    "deadline": "Deadline: ",
+    "password_requirements": "At least 7 characters & 1 special character."
   }

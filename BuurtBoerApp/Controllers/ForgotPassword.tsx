@@ -27,7 +27,8 @@ class ForgotPasswordController {
     // Get the data from the response
     let data = await response.json();
     if (!data) {
-      Alert.alert(t('email_error'), t('email_error_text'));
+      // commented for now but is security risk
+      // Alert.alert(t('email_error'), t('email_error_text'));
       return;
     }
     console.log(data); 
@@ -46,7 +47,9 @@ class ForgotPasswordController {
       navigation.navigate("ChangePassword", { employee });
     } else {
       // Email doesn't exist, show an alert
-      Alert.alert(t('email_error'), t('email_error_text'));
+
+      // commented for now but is security risk
+      // Alert.alert(t('email_error'), t('email_error_text'));
     }
   };
 }

@@ -51,5 +51,6 @@
     "password_match_error_text": "Zorg ervoor dat de wachtwoorden overeenkomen.",
     "succes": "Geslaagd!",
     "password_change_success": "Je wachtwoord is veranderd!",
-    "deadline": "Uiterste Inleverdatum: "
+    "deadline": "Uiterste Inleverdatum: ",
+    "password_requirements": "Ten minste 7 karakters en 1 speciaal karakter."
   }
