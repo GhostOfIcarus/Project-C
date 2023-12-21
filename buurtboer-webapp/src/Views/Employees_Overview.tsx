@@ -14,20 +14,12 @@ interface Employee {
 }
 
 function EmployeesOverview() {
-  const{ fetchEmployees, employees, RemoveEmployee } = useEmployeesOverviewController();
+  const { fetchEmployees, employees, RemoveEmployee } = useEmployeesOverviewController();
   const [employeesList, setEmployeesList] = useState<Employee[]>(employees);
 
   useEffect(() => {
-    const fetchData = async () => {
-      await fetchEmployees();
-    };
-
-    fetchData();
-  }, [fetchEmployees]);
-
-  // useEffect(() => {
-  //   fetchEmployees();
-  // }, []);
+    fetchEmployees();
+  }, []);
 
   useEffect(() => {
     setEmployeesList(employees);
@@ -64,7 +56,7 @@ function EmployeesOverview() {
             <tbody>
             {employeesList.map((employee: Employee) => (
               <tr key={employee.id}>
-                <td>{employee.first_name} {employee.last_name}</td>
+                <td>{employee.first_name} {employee.last_name} {employee.id}</td>
                 <td className='text-end'>
                   <img
                     src={Cross}
