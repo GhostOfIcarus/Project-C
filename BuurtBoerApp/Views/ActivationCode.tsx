@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { View, TextInput, Image, Text, TouchableOpacity, KeyboardAvoidingView, ScrollView } from 'react-native';
 import { before_login } from './css/before_login';
-import ActivateAccountController from './../Controllers/Activate_Account_Controller';
+import ActivateAccountController from '../Controllers/Activation_Code_Controller';
 import { useTranslation } from 'react-i18next';
+import Employee from '../Models/Employee_Model';
 
 interface ChangePasswordProps {
   navigation: any;
@@ -11,8 +12,11 @@ interface ChangePasswordProps {
 
 const ActivateAccountScreen = (props: ChangePasswordProps) => {
   const { t } = useTranslation();
-  const [email, setEmail] = useState('');
   const [activation_code, setActivationCode] = useState('');
+
+  const employee: Employee = props.route.params.employee;
+  const { page_key } = props.route.params;
+  console.log(page_key);
 
   return (
     <KeyboardAvoidingView style={{ flex: 1 }}>
@@ -28,13 +32,7 @@ const ActivateAccountScreen = (props: ChangePasswordProps) => {
               <Text style={before_login.content_header}>{t('activateaccount')} </Text>
           </View>
 
-          <TextInput
-            placeholder={t('email')}
-            style={before_login.input}
-            value={email}
-            onChangeText={setEmail}
-          />
-          {/* Confirm Password input */}
+          {/* Activation code input */}
           <TextInput
             placeholder={t('activation_code')}
             style={before_login.input}
@@ -43,7 +41,7 @@ const ActivateAccountScreen = (props: ChangePasswordProps) => {
           />
          
           {/* Change Password button */}
-          <TouchableOpacity style={before_login.buttons} onPress={() => ActivateAccountController.ActivationCodeCheck(email, activation_code, t, props.navigation)}>
+          <TouchableOpacity style={before_login.buttons} onPress={() => ActivateAccountController.ActivationCodeCheck(employee.email, activation_code, t, props.navigation, page_key)}>
             <Text style={{ color: 'white', textAlign: 'center' }}>{t('changePassword')}</Text>
           </TouchableOpacity>
           

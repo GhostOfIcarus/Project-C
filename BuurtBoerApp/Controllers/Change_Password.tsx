@@ -29,7 +29,7 @@ class ChangePasswordController {
     return true;
   }
 
-  static handleChangePassword = async (password: string, confirmPassword: string, navigation: any, employee: Employee, t: Function) => {
+  static handleChangePassword = async (password: string, confirmPassword: string, navigation: any, employee: Employee, t: Function, page_key: string) => {
     if (!ChangePasswordController.CheckPassword(password, confirmPassword, t)) {
       return;
     }
@@ -54,7 +54,29 @@ class ChangePasswordController {
       Alert.alert('Error', responseBody.error || `HTTP ${response.status}: ${response.statusText}`);
       return;
     }
-    Alert.alert(t('succes'),t('password_change_success'));
+
+    let deleteresponse = await fetch('http://10.0.2.2:5000/api/activate/code/delete', {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        employee_id: employee.id,
+      }),
+    });
+
+    // Check if the response is ok
+    if (!deleteresponse.ok) {
+      const responseBody = await response.json();
+      Alert.alert('Error', responseBody.error || `HTTP ${response.status}: ${response.statusText}`);
+      return;
+    }
+    if (page_key == "activate_account") {
+      Alert.alert(t('succes'),t('account_activation_success'));
+    }
+    else if (page_key == "change_password") {
+      Alert.alert(t('succes'),t('password_change_success'));
+    }
     navigation.navigate("Login");
   };
 }

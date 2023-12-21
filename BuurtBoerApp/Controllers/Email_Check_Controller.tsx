@@ -1,15 +1,15 @@
 import Employee from '../Models/Employee_Model';
 import { Alert } from 'react-native';
 
-class ForgotPasswordController {
-  static handleSend = async (email: string, navigation: any, t: Function) => {
+class EmailCheckController {
+  static handleEmailSend = async (email: string, navigation: any, t: Function, page_key: string) => {
     // Check if the email is valid
     if (!email.includes("@")) {
       Alert.alert(t('invalid_email_error'), t('invalid_email_error_text'));
       return;
     }
     // Check if the entered email exists in the JSON file
-    let response = await fetch('http://10.0.2.2:5000/api/employee/forgot_password', {
+    let response = await fetch('http://10.0.2.2:5000/api/employee/email_code', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -43,8 +43,9 @@ class ForgotPasswordController {
     // Create an employee object
     let employee = new Employee(employeeData.id, employeeData.email, employeeData.first_name, employeeData.last_name, employeeData.keepschedule, employeeData.company_name);
     if (employee) {
+      console.log(employee);
       // Email exists, navigate to the ChangePassword screen with user data
-      navigation.navigate("ChangePassword", { employee });
+      navigation.navigate("ActivationCodeScreen", { employee, page_key });
     } else {
       // Email doesn't exist, show an alert
 
@@ -54,4 +55,4 @@ class ForgotPasswordController {
   };
 }
 
-export default ForgotPasswordController;
+export default EmailCheckController;

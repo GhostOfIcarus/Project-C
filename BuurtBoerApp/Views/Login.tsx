@@ -50,9 +50,7 @@ const LoginScreen = (props: LoginScreenProps) => {
     setPassword(text);
   };
 
-  const Create_Account = () => props.navigation.navigate("ActivateAccountScreen")
-
-  const ForgotPassword = () => props.navigation.navigate("ForgotPassword")
+  const Email_Check = (end_page: string) => props.navigation.navigate("EmailCheckScreen", { page_key: end_page });
 
   return (
     <ScrollView contentContainerStyle={before_login.test}>
@@ -85,7 +83,7 @@ const LoginScreen = (props: LoginScreenProps) => {
           />
           <View style={before_login.forgotPasswordRow}>
             {/* Forgot password */}
-            <TouchableOpacity onPress={ForgotPassword}>
+            <TouchableOpacity onPress={() => Email_Check("change_password")}>
               <Text style={{ color: '#099F91', marginVertical: 10, marginHorizontal: 5 }}>{t('forgotPassword')}</Text>
             </TouchableOpacity>
             {/* Show/hide password */}
@@ -115,7 +113,7 @@ const LoginScreen = (props: LoginScreenProps) => {
           <TouchableOpacity style={before_login.buttons} onPress={() => LoginController.handleLogin2(props.navigation, rememberMe)}>
             <Text style={{ color: 'white', textAlign: 'center' }}>{t('google')}</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={before_login.buttons} onPress={Create_Account}>
+          <TouchableOpacity style={before_login.buttons} onPress={() => Email_Check("activate_account")}>
             <Text style={{ color: 'white', textAlign: 'center' }}>{t('microsoft')}</Text>
           </TouchableOpacity>
           {/* Select Language icons */}

@@ -146,7 +146,8 @@ const getActivationKey = async (email, activation_key) => {
 		if (resultEmailFound.rowCount > 0) {
 			const resultKeyFound = await db.query(`SELECT * 
 											   	   FROM activationkeys 
-											       WHERE employee_id = $1`, [resultEmailFound.rows[0].id]);
+											       WHERE employee_id = $1
+												   ORDER BY id DESC`, [resultEmailFound.rows[0].id]);
 			if (resultKeyFound.rowCount > 0) {
 				let key = resultKeyFound.rows[0].key;
 				let decodedKey = jwt.verify(key, 'thisisaverysecretkeyspongebob');
@@ -172,6 +173,27 @@ const getActivationKey = async (email, activation_key) => {
 		db.release(); // Release the connection back to the pool
 	  }
 };
+
+const deleteActivationKey = async (employee_id) => {
+	const db = await pool.connect();
+	try {
+		const resultKeyDeletion = await db.query(`DELETE
+												 FROM activationkeys 
+												 WHERE employee_id = $1`, [employee_id]);
+
+		if (resultKeyDeletion.rowCount > 0) {
+			return true;
+		}
+		return false;
+		
+	} catch (error) {
+		console.error('Error in getting deleting key:', error);
+		throw new Error("Internal error wah wah");
+	} finally {
+		db.release(); // Release the connection back to the pool
+	  }
+};
+
 
 const getAllCompanies = async () => {
 	const db = await pool.connect();
@@ -351,6 +373,31 @@ const getSingleEmployeeByEmailData = async (email) => {
 	} finally {
 		db.release(); // Release the connection back to the pool
 	  }
+};
+
+const addKeyByEmployeeMail = async (email, activation_key) => {
+	const db = await pool.connect();
+	try {
+		const results = await db.query("SELECT * FROM employee WHERE email = $1", [email]);
+		if (results.rowCount > 0) 
+		{	
+			const resultAddKey = await db.query(`
+											INSERT INTO activationkeys (employee_id, key)
+											VALUES ($1, $2);
+											`, [results.rows[0].id, activation_key]);
+			if (resultAddKey.rowCount > 0) 
+			{	
+				console.log('Code created');
+				return results.rows[0];
+			}
+		} 
+	} catch (error) {
+		console.error(error);
+		console.error('Error in getting user data:', error);
+		throw new Error("Internal error wah wah");
+	} finally {
+		db.release(); 
+	}
 };
 
 const ChangePasswordEmployee = async (newPassword, email) => {
@@ -579,6 +626,7 @@ const getAttendance = async (comp_id, week_number) => {
 module.exports = {
 	createNewCompany,
 	deleteCompany,
+	deleteActivationKey,
 	createNewEmployee,
 	deleteEmployee,
 	getAllEmployeeData,	
@@ -586,6 +634,7 @@ module.exports = {
 	getAllCompanies,
 	getAllEmployeeDataByCompany,
 	getSingleEmployeeData,
+	addKeyByEmployeeMail,
 	getSingleEmployeeByEmailData,
 	getSingleCompanyAdminData,
 	getSingleSuperAdminData,

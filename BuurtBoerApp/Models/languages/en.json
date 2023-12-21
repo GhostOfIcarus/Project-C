@@ -37,6 +37,7 @@
     "logout": "Logout",
     "activateaccount": "Activate Account",
     "activation_code": "Activate code",
+    "account_activation_success": "Account succesfully activated!",
     "invalid_email_error": "Invalid Email!",
     "invalid_email_error_text": "Given Email is not a real email address!",
     "email_error": "Email not found!",
