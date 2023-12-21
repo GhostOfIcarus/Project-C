@@ -527,9 +527,25 @@ app.post('/api/admin/updateAdmin', async (req, res) => {
   
 	  // Save the updated admin information to the database
 	  const success = await Functions.updateAdmin(adminId, existingAdmin);
-  
+	  
 	  if (success) {
-		res.status(200).json({ message: 'Admin information updated successfully' });
+		// Generate a new token with updated information
+		const updatedUserData = existingAdmin; // Replace this with the actual way to get updated user data
+		const token = jwt.sign(
+			{
+				userId: updatedUserData.id,
+				firstName: updatedUserData.admin_first_name,
+				lastName: updatedUserData.admin_last_name,
+				userEmail: updatedUserData.email,
+				full_schedule: updatedUserData.full_schedule,
+				userRole: "CompanyAdmin",
+				companyName: updatedUserData.company_name
+			},
+			'thisisaverysecretkeyspongebob',
+			{ expiresIn: '2h' }
+		);
+
+		res.status(200).json({ message: 'Admin information updated successfully', token });
 	  } else {
 		res.status(500).json({ error: 'An error occurred updating the admin information' });
 	  }
@@ -577,7 +593,23 @@ app.post('/api/admin/updateAdmin', async (req, res) => {
 	  res.status(500).json({ error: 'An error occurred updating the super admin information' });
 	}
   });
+
+  app.post('/check-email', async (req, res) => {
+	try {
+	  const { email } = req.body;
   
+	  if (!email) {
+		return res.status(400).json({ error: 'Email is required' });
+	  }
+  
+	  const emailExists = await checkEmailExists(email);
+  
+	  res.json({ emailExists });
+	} catch (error) {
+	  console.error('Error in /check-email endpoint:', error);
+	  res.status(500).json({ error: 'Internal server error' });
+	}
+  });
   
 app.post('/api/logout', (req, res) => {
 	res.clearCookie('jwt-token');

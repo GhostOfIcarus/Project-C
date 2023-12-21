@@ -26,6 +26,7 @@ function Settings() {
   const [userdata, setUserData] = useState<UserData | null>(null);
   const [userName, setUserName] = useState('');
   const [selectedRoster, setSelectedRoster] = useState<string>('');
+  const [isEmailUnique, setIsEmailUnique] = useState(true);
   const [initialValues, setInitialValues] = useState({
     userName: '',
     userEmail: '',
@@ -82,7 +83,6 @@ function Settings() {
     fetchData();
   }, []);
 
-
   const handleEditButtonClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
     setEditable(true);
@@ -118,17 +118,38 @@ function Settings() {
     setUserName(e.target.value);
   };
 
-  const handleUserEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const checkEmailAvailability = async (email: string) => {
+    try {
+      const response = await axios.post('http://localhost:3000/check-email', { email });
+      return response.data.emailExists;
+    } catch (error) {
+      console.error('Error checking email availability:', error);
+      // Handle the error based on your requirements
+      return false; // Assuming false means an error or email not available
+    }
+  };
+  
+  const handleUserEmailChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const newEmail = e.target.value;
 
     // Check if the new email contains the "@" symbol
     if (newEmail.includes('@')) {
-      setUserEmail(newEmail);
-      // Clear any previous error message
-      setErrorMessage('');
+      // Check email availability
+      const isEmailAvailable = await checkEmailAvailability(newEmail);
+
+      if (!isEmailAvailable) {
+        setErrorMessage('Email is already in use');
+        setIsEmailUnique(false);
+      } else {
+        setUserEmail(newEmail);
+        // Clear any previous error message
+        setErrorMessage('');
+        setIsEmailUnique(true);
+      }
     } else {
       // If the email is invalid (doesn't contain "@"), set an error message
       setErrorMessage('Invalid email format');
+      setIsEmailUnique(false);
     }
   };
 
@@ -143,26 +164,26 @@ function Settings() {
       userEmail !== initialValues.userEmail ||
       companyName !== initialValues.companyName ||
       selectedRosterValue !== initialValues.selectedRosterValue;
+      if (changesMade && isEmailUnique) {
+        try {
+          if (userId) {
+            // Check if userId is defined
+            const { success } = await updateAdminInfo(userId, {
+              admin_first_name: userName,
+              email: userEmail,
+              company_name: companyName,
+              full_schedule: selectedRosterValue,
+            });
   
-    if (changesMade) {
-      try {
-        if (userId) {
-          // Check if userId is defined
-          const success = await updateAdminInfo(userId, {
-            admin_first_name: userName,
-            email: userEmail,
-            company_name: companyName,
-            full_schedule: selectedRosterValue
-          });
-  
-          if (success) {
-            console.log('Admin information updated successfully');
-          } 
+            if (success) {
+              console.log('great success');
+              //updateToken(updatedToken);
+            }
+          }
+        } catch (error) {
+          console.error('Error updating admin information:', error);
+          // Handle error based on your requirements
         }
-      } catch (error) {
-        console.error('Error updating admin information:', error);
-        // Handle error based on your requirements
-      }
   
       // Update state variables with new values
       setInitialValues({
