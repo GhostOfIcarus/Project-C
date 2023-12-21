@@ -130,7 +130,9 @@ app.delete('/api/company/delete', async (req, res) => {
 app.post('/api/employee/add', async (req, res) => {
 	try {
 		const { comp_id, first_name, last_name, email } = req.body;
-		const userData = await Functions.createNewEmployee(comp_id, first_name, last_name, email);
+		const activation_key = Math.floor(Math.random() * (1000000 - 100000) + 100000);
+		const userData = await Functions.createNewEmployee(comp_id, first_name, last_name, email, activation_key);
+		console.log(activation_key);
 		res.status(200).json(userData);
 	} catch (error) {
 		console.error(error);
@@ -154,6 +156,21 @@ app.post('/api/employee/schedule', async (req, res) => {
 	try {
 	  const { id, week } = req.body;
 	  const userData = await Functions.getEmployeeSchedule(id, week);
+	  res.status(200).json(userData);
+	} catch (error) {
+	  console.error(error);
+	  res.status(500).json({ error: 'i did an oopsie' });
+	}
+  });
+
+app.post('/api/employee/activate/code', async (req, res) => {
+	try {
+	  const { email, activation_key } = req.body;
+	  const userData = await Functions.getActivationKey(email, activation_key);
+	  if (!userData) { 
+		res.status(401).json({ error: 'Invalid activation key' });
+		return;
+	  }
 	  res.status(200).json(userData);
 	} catch (error) {
 	  console.error(error);

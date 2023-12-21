@@ -1,10 +1,10 @@
 const axios = require('axios');
 
 async function test1() {
-    const comp_id = 3;
+    const comp_id = 1;
     const first_name = 'John';
     const last_name = 'Doe';
-    const email = 'help@teste.com';
+    const email = 'test@test.com';
     try {
         const response = await axios.post('http://localhost:5000/api/employee/add', {
             comp_id, 
@@ -118,5 +118,5 @@ async function test5() {
     }
 }
 // test3();
-// test1();
-test5();
+test1();
+// test5();

@@ -3,8 +3,8 @@ import { Alert, LogBox } from 'react-native';
 
 
 class ActivateAccountController {
-    static ActivationCodeCheck = async (email: string, activationCode: string, t: Function, navigation: any) => {
-        console.log(email, activationCode);
+    static ActivationCodeCheck = async (email: string, activation_key: string, t: Function, navigation: any) => {
+        console.log(email, activation_key);
         // Check if the entered email exists in the JSON file
         let response = await fetch('http://10.0.2.2:5000/api/employee/activate/code', {
             method: 'POST',
@@ -13,12 +13,12 @@ class ActivateAccountController {
             },
             body: JSON.stringify({
                 email: email,
-                activationCode: activationCode,
+                activation_key: activation_key,
             }),
         });
         // Check if the response is ok
         if (!response.ok) {
-            Alert.alert('Error', `HTTP ${response.status}: ${response.statusText}`);
+            Alert.alert('Error', `HTTP ${response.status}: Invalid activation key`);
             return;
         }
         // Get the data from the response

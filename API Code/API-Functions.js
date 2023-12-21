@@ -62,7 +62,7 @@ const deleteCompany = async (company_id) => {
     }
 };
 
-const createNewEmployee = async (comp_id, first_name, last_name, email) => {
+const createNewEmployee = async (comp_id, first_name, last_name, email, activation_key) => {
 	const db = await pool.connect();
 	try {
 		const results = await db.query(`INSERT INTO employee (first_name, last_name, email, password, keepschedule) 
@@ -73,8 +73,13 @@ const createNewEmployee = async (comp_id, first_name, last_name, email) => {
 			const results2 = await db.query(`
 											INSERT INTO employeesincompany (employee_id, company_id)
 											VALUES ($1, $2);
-										`, [results.rows[0].id, comp_id]);
-			if (results2.rowCount > 0) 
+											`, [results.rows[0].id, comp_id]);
+
+			const resultAddKey = await db.query(`
+											INSERT INTO activationkeys (employee_id, key)
+											VALUES ($1, $2);
+											`, [results.rows[0].id, activation_key]);
+			if (results2.rowCount > 0 && resultAddKey.rowCount > 0) 
 			{	
 				console.log('Insert successful');
 				return true;
@@ -125,6 +130,35 @@ const getAllEmployeeData = async () => {
 	} catch (error) {
 		console.error(error);
 		console.error('Error in getting user data:', error);
+		throw new Error("Internal error wah wah");
+	} finally {
+		db.release(); // Release the connection back to the pool
+	  }
+};
+
+const getActivationKey = async (email, activation_key) => {
+	const db = await pool.connect();
+	try {
+		const resultEmailFound = await db.query(`SELECT *
+												 FROM employee 
+												 WHERE email = $1`, [email]);
+		
+		if (resultEmailFound.rowCount > 0) {
+			const resultKeyFound = await db.query(`SELECT * 
+											   	   FROM activationkeys 
+											       WHERE key = $1 AND employee_id = $2`, [activation_key, resultEmailFound.rows[0].id]);
+			if (resultKeyFound.rowCount > 0) {
+				return resultEmailFound.rows[0];
+			}
+			else {
+				console.error('No key found with this key:', activation_key);
+				return false;
+			}
+		}
+		return false;
+		
+	} catch (error) {
+		console.error('Error in getting activation key:', error);
 		throw new Error("Internal error wah wah");
 	} finally {
 		db.release(); // Release the connection back to the pool
@@ -540,6 +574,7 @@ module.exports = {
 	createNewEmployee,
 	deleteEmployee,
 	getAllEmployeeData,	
+	getActivationKey,
 	getAllCompanies,
 	getAllEmployeeDataByCompany,
 	getSingleEmployeeData,
