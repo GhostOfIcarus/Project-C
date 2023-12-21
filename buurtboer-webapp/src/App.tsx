@@ -14,6 +14,7 @@ import SettingsPage from "./Views/Settings_Page"
 import InviteCompany from "./Views/Invite_Company";
 import SuperAdmin_Settings_Page from './Views/SuperAdmin_Settings_Page';
 import EmployeesOverview from './Views/Employees_Overview';
+import Buurtboer_Order from './Views/Buurtboer_Order';
 
 
 function App() {
@@ -35,6 +36,7 @@ function App() {
         <Route path="/Settings_Page" element={< SettingsPage/>}/>
         <Route path="/SuperAdmin_Settings_Page" element={< SuperAdmin_Settings_Page/>}/>
         <Route path='/Employees_Overview' element={<EmployeesOverview/>} />
+        <Route path='/Buurtboer_Order' element={<Buurtboer_Order/>}/>
       </Routes>
     </Router>
   );

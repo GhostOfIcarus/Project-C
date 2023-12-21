@@ -61,9 +61,8 @@
     "Admin_lastname": "Admin last name",
     "send_invite": "Send invite",
     "invite_company": "Invite Company",
-    "company_Overview": "Company_Overview",
-
-
+    "Companys": "Companys",
+    "amount_order": "Amount of orders this week",
     "date": "date",
     "present": "present",
     "absent": "absent",
