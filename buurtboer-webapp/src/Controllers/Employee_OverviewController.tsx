@@ -26,7 +26,7 @@ export function useEmpOverviewController() {
   const [absentWednesday, setabsentWednesday] = useState<number>(0);
   const [absentThursday, setabsentThursday] = useState<number>(0);
   const [absentFriday, setabsentFriday] = useState<number>(0);
-  const [selectedWeek, setSelectedWeek] = useState<number>(49);
+  const [selectedWeek, setSelectedWeek] = useState<number>(0);
   const [userdata, setUserData] = useState<UserData | null>(null);
 
   useEffect(() => {
