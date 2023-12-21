@@ -42,34 +42,37 @@ function EmployeesOverview() {
         <h2 className="text-center">Medewerker Overview</h2>
         <div className="middle-buttons-container col-lg-7 content mt-5 mx-auto center-align">
           <div className="left-align top-buttons-container">
-            <a href="Invite_Employee">
+            <Link to="Invite_Employee">
               <button className={genstyles.button}>Medewerker Toevoegen</button>
-            </a>
+            </Link>
           </div>
-          <table className="table">
-            <thead>
-              <tr>
-                <th scope="col-11">Employee name</th>
-                <th scope="col-1"></th>
-              </tr>
-            </thead>
-            <tbody>
-            {employeesList.map((employee: Employee) => (
-              <tr key={employee.id}>
-                <td>{employee.first_name} {employee.last_name} {employee.id}</td>
-                <td className='text-end'>
-                  <img
-                    src={Cross}
-                    alt="cross"
-                    className={postlogin.delete_cross}
-                    onClick={() => handleRemoveEmployee(employee.id)}
-                  />
-                </td>
-              </tr>
-            ))}
-              
-            </tbody>
-          </table>
+          {employeesList.length === 0 ? (
+            <p className="text-center mt-3">No employees found.</p>
+          ) : (
+            <table className="table">
+              <thead>
+                <tr>
+                  <th scope="col-11">Employee name</th>
+                  <th scope="col-1"></th>
+                </tr>
+              </thead>
+              <tbody>
+                {employeesList.map((employee: Employee) => (
+                  <tr key={employee.id}>
+                    <td>{employee.first_name} {employee.last_name}</td>
+                    <td className='text-end'>
+                      <img
+                        src={Cross}
+                        alt="cross"
+                        className={postlogin.delete_cross}
+                        onClick={() => handleRemoveEmployee(employee.id)}
+                      />
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          )}
         </div>
       </div>
     </div>
