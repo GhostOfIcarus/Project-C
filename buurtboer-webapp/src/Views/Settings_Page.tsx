@@ -16,9 +16,10 @@ interface UserData {
 function Settings() {
   const { t } = useTranslation();
   const [editable, setEditable] = useState(false);
-  const [selectedRosterValue, setSelectedRosterValue] = useState();
+  const [selectedRosterValue, setSelectedRosterValue] = useState(false);
   const [confirmationVisible, setConfirmationVisible] = useState(false);
   const { language, setLanguage} = SettingsController();
+  const [errorMessage, setErrorMessage] = useState('');
   const [companyName, setCompanyName] = useState('');
   const [userEmail, setUserEmail] = useState('');
   const [userId, setUserId] = useState();
@@ -29,14 +30,14 @@ function Settings() {
     userName: '',
     userEmail: '',
     companyName: '',
-    //selectedRosterValue: '',
+    selectedRosterValue: false,
   });
 
   const [confirmedValues, setConfirmedValues] = useState({
     userName: '',
     userEmail: '',
     companyName: '',
-    selectedRoster: '',
+    selectedRosterValue: false,
   });
 
   useEffect(() => {
@@ -64,7 +65,6 @@ function Settings() {
         setUserName(userName);
         setSelectedRosterValue(selectedRosterValue);
         console.log(userData);
-        console.log(selectedRosterValue);
         console.log('fetched data succesfully');
       } catch (error) {
         console.error('Error fetching user data:', error);
@@ -75,7 +75,7 @@ function Settings() {
         userName,
         userEmail,
         companyName,
-        //selectedRosterValue: selectedRosterValue,
+        selectedRosterValue: selectedRosterValue,
       });
     };
 
@@ -90,23 +90,46 @@ function Settings() {
   };
 
   const handleRoosterChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    console.log(selectedRosterValue);
-    // Modify the logic based on your conditions
-    if (selectedRosterValue === true) {
-      // Set value to 'Mon-Sun' if selectedRosterValue is true
-      setSelectedRoster(t('7weekday'));
-    } else {
-      // Set value to 'Ma-Vr' if selectedRosterValue is false
-      setSelectedRoster(t('5weekday'));
+    const selectedValue = event.target.value;
+  
+    // Update the selectedRosterValue based on the selected option
+    if (selectedValue === t('5weekday')) {
+      setSelectedRosterValue((prevValue) => {
+        if (prevValue !== false) {
+          return false;
+        }
+        return prevValue;
+      });
+    } else if (selectedValue === t('7weekday')) {
+      setSelectedRosterValue((prevValue) => {
+        if (prevValue !== true) {
+          return true;
+        }
+        return prevValue;
+      });
     }
+  
+    setSelectedRoster(selectedValue);
   };
+  
+ 
 
   const handleUserNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setUserName(e.target.value);
   };
 
   const handleUserEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setUserEmail(e.target.value);
+    const newEmail = e.target.value;
+
+    // Check if the new email contains the "@" symbol
+    if (newEmail.includes('@')) {
+      setUserEmail(newEmail);
+      // Clear any previous error message
+      setErrorMessage('');
+    } else {
+      // If the email is invalid (doesn't contain "@"), set an error message
+      setErrorMessage('Invalid email format');
+    }
   };
 
   const handleCompanyNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -118,7 +141,8 @@ function Settings() {
     const changesMade =
       userName !== initialValues.userName ||
       userEmail !== initialValues.userEmail ||
-      companyName !== initialValues.companyName;
+      companyName !== initialValues.companyName ||
+      selectedRosterValue !== initialValues.selectedRosterValue;
   
     if (changesMade) {
       try {
@@ -128,13 +152,12 @@ function Settings() {
             admin_first_name: userName,
             email: userEmail,
             company_name: companyName,
+            full_schedule: selectedRosterValue
           });
   
           if (success) {
             console.log('Admin information updated successfully');
-          } else {
-            console.log('Error updating admin information');
-          }
+          } 
         }
       } catch (error) {
         console.error('Error updating admin information:', error);
@@ -146,6 +169,7 @@ function Settings() {
         userName,
         userEmail,
         companyName,
+        selectedRosterValue
       });
   
       // Set confirmed values
@@ -153,12 +177,12 @@ function Settings() {
         userName,
         userEmail,
         companyName,
-        selectedRoster,
+        selectedRosterValue,
       });
   
       // Log confirmed values to the console
-      console.log('Confirmed Values:', confirmedValues);
-      console.log('Final Values:', userName, userEmail, companyName, selectedRoster);
+      //console.log('Confirmed Values:', confirmedValues);
+      console.log('Final Values:', userName, userEmail, companyName, selectedRosterValue);
   
       // After handling the logic, hide the confirmation button
       setConfirmationVisible(false);
@@ -168,10 +192,9 @@ function Settings() {
     }
   };
   
-  
-useEffect(() => {
-  console.log('Confirmed Values:', confirmedValues);
-}, [confirmedValues]); 
+  useEffect(() => {
+    //console.log('Confirmed Values:', confirmedValues);
+  }, [confirmedValues]); 
 
   return (
     <>
@@ -184,19 +207,56 @@ useEffect(() => {
             <br /><br />
             <div className="justify-content-center">
               <div className="mb-3">
-                <input type="text" id="AdminNaam" placeholder={userName} readOnly={!editable} onChange={handleUserNameChange} />
-              </div>
-              <div className="mb-3">
-                <input type="text" id="adminEmail" placeholder={userEmail} readOnly={!editable} onChange={handleUserEmailChange}/>
-              </div>
-              <div className="mb-3">
-                <input type="text" id="BedrijfNaam" placeholder={companyName} readOnly={!editable} onChange={handleCompanyNameChange}/>
-              </div>
+                <a>{t('name')}: </a>
+                {editable ? (
+                  <input
+                    type="text"
+                    id="AdminNaam"
+                    placeholder={userName}
+                    value={userName}
+                    onChange={handleUserNameChange}
+                  />
+                ) : (
+                  <span>{userName}</span>
+                )}
+                </div>
+                <div className="mb-3">
+                  <a>Email: </a>
+                  {editable ? (
+                    <div>
+                      <input
+                        type="text"
+                        id="adminEmail"
+                        placeholder={userEmail}
+                        value={userEmail}
+                        onChange={handleUserEmailChange}
+                      />
+                      {errorMessage && <div style={{ color: 'red' }}>{errorMessage}</div>}
+                    </div>
+                  ) : (
+                    <span>{userEmail}</span>
+                  )}
+                </div>
+                <div className="mb-3">
+                  <a>{t('Company_name')}: </a>
+                  {editable ? (
+                    <input
+                      type="text"
+                      id="BedrijfNaam"
+                      placeholder={companyName}
+                      value={companyName}
+                      readOnly={!editable}
+                      onChange={handleCompanyNameChange}
+                    />
+                  ) : (
+                    <span>{companyName}</span>
+                  )}
+                </div>
               <div className="mb-3">
                 <label htmlFor="Rooster">{t('scheduleOverviewHeader')}</label>
                 <select id="Rooster" disabled={!editable} value= {selectedRoster} onChange={handleRoosterChange}>
-                  <option value="Ma-Vr">{t('5weekday')}</option>
-                  <option value="Ma-Sun">{t('7weekday')}</option>
+                  <option value={t('5weekday')}>{t('5weekday')}</option>
+                  <option value={t('yweekday')}>{t('7weekday')}</option>
                 </select>
                 <img
                   style={{ width: '20px', height: 'auto', marginRight: '5px', cursor: 'pointer' }}

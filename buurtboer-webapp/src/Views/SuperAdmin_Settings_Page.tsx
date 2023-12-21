@@ -5,7 +5,7 @@ import genstyles from './Stylesheets/GeneralStyles.module.css';
 import NL from "./img/nl_flag.png";
 import EN from "./img/en_flag.png";
 import withAuthentication from '../Controllers/withAuthentication';
-import { SettingsController } from '../Controllers/SettingsController';
+import { updateSuperAdminInfo, LanguageTranslator } from '../Controllers/Superadmin_SettingspageController';
 import { useTranslation } from 'react-i18next';
 import axios from 'axios';
 
@@ -13,17 +13,24 @@ interface UserData {
   firstName: string;
 }
 
-function Settings() {
+function SuperAdminSettings() {
   const [editable, setEditable] = useState(false);
   const [confirmationVisible, setConfirmationVisible] = useState(false);
   const { t } = useTranslation();
-  const { language, setLanguage } = SettingsController();
-  const [selectedRosterValue, setSelectedRosterValue] = useState();
-  const [companyName, setCompanyName] = useState('');
+  const { language, setLanguage } = LanguageTranslator();
   const [userEmail, setUserEmail] = useState('');
   const [userdata, setUserData] = useState<UserData | null>(null);
   const [userName, setUserName] = useState('');
-  const [selectedRoster, setSelectedRoster] = useState<string>('Ma-Vr');
+  const [userId, setUserId] = useState();
+  const [initialValues, setInitialValues] = useState({
+    userName: '',
+    userEmail: '',
+  });
+
+  const [confirmedValues, setConfirmedValues] = useState({
+    userName: '',
+    userEmail: '',
+  });
 
   useEffect(() => {
     const fetchData = async () => {
@@ -38,27 +45,35 @@ function Settings() {
         const userData = response.data.userData;
         setUserData(userData);
 
-        const companyName = userData.companyName;
+        const userId = userData.userId;
         const userEmail = userData.userEmail;
         const userName = userData.firstName;
-        const selectedRosterValue = userData.full_schedule;
-
-        setCompanyName(companyName);
         setUserEmail(userEmail);
         setUserName(userName);
-        setSelectedRosterValue(selectedRosterValue);
-        console.log(userData);
-        console.log(selectedRosterValue);
-        console.log('fetched data');
+        setUserId(userId);
+        console.log(userId);
       } catch (error) {
         console.error('Error fetching user data:', error);
         // Handle error based on your requirements
       }
+
+      setInitialValues({
+        userName,
+        userEmail,
+        //selectedRosterValue: selectedRosterValue,
+      });
     };
 
     fetchData();
   }, []);
 
+  const handleUserNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setUserName(e.target.value);
+  };
+
+  const handleUserEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setUserEmail(e.target.value);
+  };
 
   const handleEditButtonClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
@@ -66,15 +81,51 @@ function Settings() {
     setConfirmationVisible(true);
   };
 
-  const handleConfirmButtonClick = () => {
-    // Handle the confirmation logic here
+  const handleConfirmButtonClick = async () => {
+    const changesMade =
+    userName !== initialValues.userName ||
+    userEmail !== initialValues.userEmail;
+  if (changesMade) {
+    console.log('yuh1');
+    try {
+      if (userId) {
+        console.log('yuh2');
+        const success = await updateSuperAdminInfo(userId, {
+          admin_first_name: userName,
+          email: userEmail,
+        });
+
+        if (success) {
+          console.log('Admin information updated successfully');
+        }
+      }
+    } catch (error) {
+      console.error('Error updating admin information:', error);
+    }
+
+    // Update state variables with new values
+    setInitialValues({
+      userName,
+      userEmail,
+    });
+
+    // Set confirmed values
+    setConfirmedValues({
+      userName,
+      userEmail,
+    });
+
+    // Log confirmed values to the console
+    console.log('Final Values:', userName, userEmail);
 
     // After handling the logic, hide the confirmation button
     setConfirmationVisible(false);
 
     // Disable further edits after confirming
     setEditable(false);
+  }
   };
+
 
   return (
     <>
@@ -86,11 +137,33 @@ function Settings() {
             <h2>{t('settingsHeader')}</h2>
             <br /><br />
             <div className="justify-content-center">
+            <div className="mb-3">
+            <a>{t('name')}: </a>
+              {editable ? (
+                <input
+                  type="text"
+                  id="SuperAdminNaam"
+                  placeholder={userName}
+                  value={userName}
+                  onChange={handleUserNameChange}
+                />
+              ) : (
+                <span>{userName}</span>
+              )}
+            </div>
               <div className="mb-3">
-                <input type="text" id="SuperAdminNaam" placeholder={userName} readOnly={!editable} />
-              </div>
-              <div className="mb-3">
-                <input type="text" id="SuperadminEmail" placeholder={userEmail} readOnly={!editable} />
+                <a>email: </a>
+                {editable ? (
+                  <input
+                    type="text"
+                    id="SuperadminEmail"
+                    placeholder={userEmail}
+                    value={userEmail}
+                    onChange={handleUserEmailChange}
+                  />
+                ) : (
+                  <span>{userEmail}</span>
+                )}
               </div>
               <div className="mb-3 d-flex align-items-center">
                 <a href="Company_Overview">
@@ -129,4 +202,4 @@ function Settings() {
   );
 }
 
-export default withAuthentication(Settings);
+export default withAuthentication(SuperAdminSettings);

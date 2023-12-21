@@ -410,6 +410,19 @@ const getSingleSuperAdminData = async (email, password) => {
 	}
 }
 
+
+const getSuperAdminById = async (superadminId) => {
+	try {
+		const db = await pool.connect();
+		const results = await db.query("SELECT * FROM superadmin WHERE id = $1", [superadminId]);
+		return results.rows[0];
+	} catch (error) {
+		console.error(error);
+		console.error('Error in getting user data:', error);
+		throw new Error("Internal error wah wah");
+	}
+}
+
 const getAttendance = async (comp_id, week_number) => {
     try {
       const db = await pool.connect();
@@ -553,6 +566,47 @@ const getAttendance = async (comp_id, week_number) => {
 	}
   };
   
+
+  const updateSuperAdmin = async (adminId, updatedAdmin) => {
+	const db = await pool.connect();
+  
+	try {
+	  const results = await db.query(
+		`
+		UPDATE superadmin
+		SET
+		  first_name = $1,
+		  last_name = $2,
+		  email = $3,
+		  password = $4
+		WHERE
+		  id = $5
+		RETURNING *;
+		`,
+		[
+		  updatedAdmin.first_name,
+		  updatedAdmin.last_name,
+		  updatedAdmin.email,
+		  updatedAdmin.password,
+		  adminId,
+		]
+	  );
+  
+	  if (results.rowCount > 0) {
+		// Rows updated, return true
+		return true;
+	  }
+  
+	  // No rows were updated, admin not found with the given adminId
+	  console.error('No admin found with this adminId:', adminId);
+	  return false;
+	} catch (error) {
+	  console.error('Error in updating admin:', error);
+	  throw new Error('Internal error');
+	} finally {
+	  db.release(); // Release the connection back to the pool
+	}
+  };
   
 //   const fetchData = async () => {
 // 	try {
@@ -599,5 +653,7 @@ module.exports = {
 	ChangeAdminPassword,
 	updateAdmin,
 	getCompanyAdminById,
+	getSuperAdminById,
+	updateSuperAdmin,
 	pool
 };
