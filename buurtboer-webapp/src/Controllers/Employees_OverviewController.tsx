@@ -33,6 +33,16 @@ export interface UserData{
       fetchData();
     }, []); // Empty dependency array to run the effect only once when the component mounts
   
+    useEffect(() => {
+      if (userdata) {
+        fetchEmployees();
+      }
+    }, [userdata]);
+  
+    useEffect(() => {
+      console.log("Employees state updated:", employees);
+    }, [employees]); // Log whenever the employees state changes
+  
     const fetchEmployees = async () => {
       try {
         const response = await axios.post(
@@ -47,14 +57,18 @@ export interface UserData{
             },
           }
         );
-  
+          
+        console.log(response);
+
         if (response.data && response.data.length > 0) {
+          console.log("Employees found: ", response.data);
           const employeesData = response.data.map((employee: any) => ({
             id: employee.id,
             first_name: employee.first_name,
             last_name: employee.last_name,
           }));
-           setEmployees(employeesData);
+          await setEmployees(employeesData);
+          // console.log("setemployees: ", employees);
         } else {
           console.log("No employees found");
         }

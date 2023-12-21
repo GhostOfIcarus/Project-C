@@ -1,16 +1,19 @@
 import React, { useState } from 'react';
 import { View, TextInput, Image, Text, TouchableOpacity, KeyboardAvoidingView, ScrollView } from 'react-native';
 import { before_login } from './css/before_login';
-import ForgotPasswordController from './../Controllers/ForgotPassword';
+import EmailCheckController from '../Controllers/Email_Check_Controller';
 import { useTranslation } from 'react-i18next';
 
-interface ForgotPasswordScreenProps {
+interface EmailCheckControllerScreenProps {
   navigation: any;
+  route: any;
 }
 
-const ForgotPassword = (props: ForgotPasswordScreenProps) => {
+const ForgotPassword = (props: EmailCheckControllerScreenProps) => {
   const { t } = useTranslation();
   const [email, setEmail] = useState('');
+
+  const { page_key } = props.route.params;
 
   const handleEmailChange = (text: string) => {
     setEmail(text);
@@ -36,7 +39,7 @@ const ForgotPassword = (props: ForgotPasswordScreenProps) => {
             onChangeText={handleEmailChange}
           />
           {/* Send button */}
-          <TouchableOpacity style={[before_login.buttons, before_login.buttons_space]} onPress={() => ForgotPasswordController.handleSend(email, props.navigation, t)}>
+          <TouchableOpacity style={[before_login.buttons, before_login.buttons_space]} onPress={() => EmailCheckController.handleEmailSend(email, props.navigation, t, page_key)}>
             <Text style={{ color: 'white', textAlign: 'center' }}>{t('send')}</Text>
           </TouchableOpacity>
         </View>

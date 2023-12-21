@@ -3,7 +3,7 @@ import { Alert, LogBox } from 'react-native';
 
 
 class ActivateAccountController {
-    static ActivationCodeCheck = async (email: string, activation_key: string, t: Function, navigation: any) => {
+    static ActivationCodeCheck = async (email: string, activation_key: string, t: Function, navigation: any, page_key: string) => {
         console.log(email, activation_key);
         // Check if the entered email exists in the JSON file
         let response = await fetch('http://10.0.2.2:5000/api/employee/activate/code', {
@@ -40,7 +40,7 @@ class ActivateAccountController {
         let employee = new Employee(employeeData.id, employeeData.email, employeeData.first_name, employeeData.last_name, employeeData.keepschedule, employeeData.company_name);
         if (employee) {
             // Email exists, navigate to the ChangePassword screen with user data
-            navigation.navigate("CreateAccount", { employee });
+            navigation.navigate("ChangePassword", { employee, page_key });
         } else {
             return;
         }

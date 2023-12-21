@@ -185,6 +185,21 @@ app.post('/api/employee/activate/code', async (req, res) => {
 	}
   });
 
+app.delete('/api/activate/code/delete', async (req, res) => {
+	try {
+		const { employee_id } = req.body;
+		const userData = await Functions.deleteActivationKey(employee_id);
+		if (!userData) { 
+			res.status(401).json({ error: 'employee keys didnt delete' });
+			return;
+		  }
+		res.status(200).json(userData);
+	} catch (error) {
+		console.error(error);
+		res.status(500).json({ error: 'i did an oopsie' });
+	}
+});
+
 app.post('/api/employee/schedule/create', async (req, res) => {
 	try {
 		const { id, week } = req.body;
@@ -254,10 +269,19 @@ app.post('/api/employee/login', async (req, res) => {
 	}
 });
 
-app.post('/api/employee/forgot_password', async (req, res) => {
+app.post('/api/employee/email_code', async (req, res) => {
 	try {
-		const { email} = req.body;
-		const userData = await Functions.getSingleEmployeeByEmailData(email);
+		const { email } = req.body;
+		const activation_key = Math.floor(Math.random() * (1000000 - 100000) + 100000);
+		console.log(activation_key);
+		const token = jwt.sign(
+			{
+			  activation_key: activation_key, 
+			},
+			'thisisaverysecretkeyspongebob',
+			{ expiresIn: '1h' }
+		  );
+		const userData = await Functions.addKeyByEmployeeMail(email, token);
 		res.status(200).json(userData);
 	} catch (error) {
 		console.error(error);
