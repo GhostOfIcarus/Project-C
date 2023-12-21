@@ -74,7 +74,11 @@ const Change_Password = (props: ChangePasswordProps) => {
           </TouchableOpacity>
           {/* Change Password button */}
           <TouchableOpacity style={before_login.buttons} onPress={() => ChangePasswordController.handleChangePassword(password, confirmPassword, props.navigation, employee, t, page_key)}>
+          {page_key == "activate_account" ? (
+            <Text style={{ color: 'white', textAlign: 'center' }}>{t('createAccount')}</Text>
+          ) : page_key == "change_password" ? (
             <Text style={{ color: 'white', textAlign: 'center' }}>{t('changePassword')}</Text>
+          ) : null}
           </TouchableOpacity>
           
         </View>
