@@ -88,7 +88,7 @@ export function Company_Register() {
                   />
                   <br /><br />
                   <input
-                    type="text"
+                    type="password"
                     id="companyPass"
                     placeholder={t('password')}
                     value={companyPass}
@@ -96,7 +96,7 @@ export function Company_Register() {
                   />
                   <br /><br />
                   <input
-                    type="text"
+                    type="password"
                     id="companyPass2"
                     placeholder={t('repeatPassword')}
                     value={companyPass2}
