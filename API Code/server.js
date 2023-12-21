@@ -359,7 +359,6 @@ app.post('/api/SuperAdmin/login', async (req, res) => {
 				lastName: userData.last_name,
 				userEmail: userData.email,
 				userRole: "SuperAdmin",
-				companyName: userData.company_name
 			},
 			'thisisaverysecretkeyspongebob',
 			{ expiresIn: '2h' }
@@ -539,6 +538,46 @@ app.post('/api/admin/updateAdmin', async (req, res) => {
 	  res.status(500).json({ error: 'An error occurred updating the admin information' });
 	}
   });
+
+  app.post('/api/SuperAdmin/updateSuperAdmin', async (req, res) => {
+	try {
+	  const { superadminId, admin_first_name, admin_last_name, email, password } = req.body;
+  
+	  // Retrieve the existing super admin information from the database
+	  const existingSuperAdmin = await Functions.getSuperAdminById(superadminId);
+  
+	  if (!existingSuperAdmin) {
+		return res.status(404).json({ error: 'Super admin not found' });
+	  }
+  
+	  // Update only the fields that are provided in the request body
+	  if (admin_first_name) {
+		existingSuperAdmin.first_name = admin_first_name;
+	  }
+	  if (admin_last_name) {
+		existingSuperAdmin.last_name = admin_last_name;
+	  }
+	  if (email) {
+		existingSuperAdmin.email = email;
+	  }
+	  if (password) {
+		existingSuperAdmin.password = password;
+	  }
+  
+	  // Save the updated super admin information to the database
+	  const success = await Functions.updateSuperAdmin(superadminId, existingSuperAdmin);
+  
+	  if (success) {
+		res.status(200).json({ message: 'Super admin information updated successfully' });
+	  } else {
+		res.status(500).json({ error: 'An error occurred updating the super admin information' });
+	  }
+	} catch (error) {
+	  console.error(error);
+	  res.status(500).json({ error: 'An error occurred updating the super admin information' });
+	}
+  });
+  
   
 app.post('/api/logout', (req, res) => {
 	res.clearCookie('jwt-token');
