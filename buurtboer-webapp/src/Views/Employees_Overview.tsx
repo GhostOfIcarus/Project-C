@@ -42,7 +42,7 @@ function EmployeesOverview() {
         <h2 className="text-center">Medewerker Overview</h2>
         <div className="middle-buttons-container col-lg-7 content mt-5 mx-auto center-align">
           <div className="left-align top-buttons-container">
-            <Link to="Invite_Employee">
+            <Link to="/Invite_Employee">
               <button className={genstyles.button}>Medewerker Toevoegen</button>
             </Link>
           </div>

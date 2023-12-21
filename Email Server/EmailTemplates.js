@@ -22,5 +22,15 @@ module.exports = {
             <p>If you did not request this, please ignore this email and your registration will remain unconfirmed.</p>
             <p>Keep Yourself Safe</p>
         `;
+    },
+
+    employeeInvitation: (firstName, lastName, activationCode) => {
+        return `
+            <p>Hello ${firstName} ${lastName},</p>
+            <p>Please enter this activation code in the BuurtBoer mobile app to create your account: </p>
+            <p>${activationCode}</p>
+            <p>If you did not request this, please ignore this email and your registration will remain unconfirmed.</p>
+            <p>Kind regards</p>
+        `;
     }
 };

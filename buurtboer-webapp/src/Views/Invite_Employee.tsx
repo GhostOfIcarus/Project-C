@@ -5,6 +5,7 @@ import postlogin from './Stylesheets/PostLogin.module.css';
 import Navbar from './Navbar';
 import genstyles from './Stylesheets/GeneralStyles.module.css';
 import withAuthentication from '../Controllers/withAuthentication';
+import axios from 'axios';
 
 
 function Invite_Employee() {
@@ -27,9 +28,19 @@ function Invite_Employee() {
     setSubmitMessages("Uitnodiging verstuurd!");
     //console.log("First Name: ", employeeFirstName);
 
-    // Send user input to Employee_Register in the mobile app 
-    const emailURL = `?employeeEmail=${employeeEmail}&employeeFirstName=${employeeFirstName}&employeeLastName=${employeeLastName}`;
-    navigate(`/Company_Register${emailURL}`);
+    axios.post('http://localhost:5001/sendEmail/employeeInvitation', 
+    {
+      to: employeeEmail,
+      employeeFirstName: employeeFirstName,
+      employeeLastName: employeeLastName,
+    }, 
+    {
+      withCredentials: true,
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }
+  );
 
     // Clear the input fields after succesfully sending out the invite
     setEmployeeEmail('');
