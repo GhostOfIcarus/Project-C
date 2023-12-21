@@ -97,28 +97,16 @@ const createNewEmployee = async (comp_id, first_name, last_name, email, activati
 const deleteEmployee = async (employee_id) => {
     const db = await pool.connect();
     try {
-		const scheduleResult = await db.query(`DELETE FROM schedulefromemployee WHERE employee_id = $1`,[employee_id]);
-		console.log("BLBLBLLBLBLBL");
-		if (scheduleResult.rowCount > 0)
-		{
-			const results = await db.query(`DELETE FROM employeesincompany WHERE employee_id = $1`, [employee_id]);
-			console.log('Results from employeesincompany deletion:', results);
-			if (results.rowCount > 0 )
-			{
-				const results2 = await db.query(`DELETE FROM employee WHERE id = $1`, [employee_id]);
-				if (results2.rowCount > 0 ) {
-					console.log('Delete successful');
-					return true;
-				} else {
-					console.log('No rows were deleted2');
-					return false;
-				}
-			}
-	 	}
-		else {
-			console.log('No rows were deleted');
-			return false;
-		}
+        const scheduleResult = await db.query(`DELETE FROM schedulefromemployee WHERE employee_id = $1`,[employee_id]);
+        const results = await db.query(`DELETE FROM employeesincompany WHERE employee_id = $1`, [employee_id]);
+        const results2 = await db.query(`DELETE FROM employee WHERE id = $1`, [employee_id]);
+        if (scheduleResult.rowCount > 0 || results.rowCount > 0 || results2.rowCount > 0) {
+            console.log('Delete successful');
+            return true;
+        }
+        console.log('Delete ERROR');
+        return false
+        
     } catch (error) {
         console.error('Error in deleting user data:', error);
         throw new Error("Internal error");
@@ -126,8 +114,6 @@ const deleteEmployee = async (employee_id) => {
         db.release(); 
     }
 };
-
-// deleteEmployee(1);
 
 // Functions to fetch data from the database
 const getAllEmployeeData = async () => {
