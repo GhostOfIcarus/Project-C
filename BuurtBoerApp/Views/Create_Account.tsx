@@ -45,6 +45,7 @@ const Forgot_Password = (props: LoginScreenProps) => {
             <View style={before_login.content_header_div}>
                 <Text style={before_login.content_header}>{t('createAccountHeader')}</Text>
             </View>
+            <Text style={before_login.centered_text_small}>{t('password_requirements')}</Text>
             {/* Password input */}
             <TextInput
               placeholder={t('newPassword')}

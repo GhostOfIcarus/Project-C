@@ -4,7 +4,7 @@ async function test1() {
     const comp_id = 1;
     const first_name = 'John';
     const last_name = 'Doe';
-    const email = 'test@test.com';
+    const email = 'test2@test.com';
     try {
         const response = await axios.post('http://localhost:5000/api/employee/add', {
             comp_id, 

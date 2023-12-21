@@ -1,5 +1,5 @@
 const { Console } = require('console');
-
+const jwt = require('jsonwebtoken');
 const Pool = require('pg').Pool;
 
 const pool = new Pool({ 
@@ -146,9 +146,17 @@ const getActivationKey = async (email, activation_key) => {
 		if (resultEmailFound.rowCount > 0) {
 			const resultKeyFound = await db.query(`SELECT * 
 											   	   FROM activationkeys 
-											       WHERE key = $1 AND employee_id = $2`, [activation_key, resultEmailFound.rows[0].id]);
+											       WHERE employee_id = $1`, [resultEmailFound.rows[0].id]);
 			if (resultKeyFound.rowCount > 0) {
-				return resultEmailFound.rows[0];
+				let key = resultKeyFound.rows[0].key;
+				let decodedKey = jwt.verify(key, 'thisisaverysecretkeyspongebob');
+				if (decodedKey.activation_key.toString() === activation_key) {
+					return resultEmailFound.rows[0];
+				}
+				else {
+					console.error('No key found with this key:', activation_key);
+					return false;
+				}
 			}
 			else {
 				console.error('No key found with this key:', activation_key);

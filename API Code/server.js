@@ -131,7 +131,14 @@ app.post('/api/employee/add', async (req, res) => {
 	try {
 		const { comp_id, first_name, last_name, email } = req.body;
 		const activation_key = Math.floor(Math.random() * (1000000 - 100000) + 100000);
-		const userData = await Functions.createNewEmployee(comp_id, first_name, last_name, email, activation_key);
+		const token = jwt.sign(
+			{
+			  activation_key: activation_key, 
+			},
+			'thisisaverysecretkeyspongebob',
+			{ expiresIn: '1h' }
+		  );
+		const userData = await Functions.createNewEmployee(comp_id, first_name, last_name, email, token);
 		console.log(activation_key);
 		res.status(200).json(userData);
 	} catch (error) {
