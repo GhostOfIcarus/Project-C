@@ -100,6 +100,27 @@ app.post('/sendEmail/companyRegistration', (req, res) => {
     });
 });
 
+// Endpoint to send invitation to employee
+app.post('/sendEmail/employeeInvitation', (req, res) => {
+    mailOptions.to = req.body.to;
+    mailOptions.subject = "Activeer je account";
+
+    const tempToken = jwt.sign({ employeeEmail : req.body.to, employeeFirstName : req.body.employeeFirstName, employeeLastName : req.body.employeeLastName }, 'nothisispatrick', { expiresIn: '1h' });
+
+    // Hier moet de activation code nog meegegeven worden
+    mailOptions.html = EmailTemplates.employeeInvitation(req.body.employeeFirstName, req.body.employeeLastName, `12345`);
+
+    transporter.sendMail(mailOptions, function(error, info){
+        if (error) {
+            console.log(error);
+            res.status(500).send(error);
+        } else {
+            console.log('Email sent: ' + info.response);
+            res.status(200).send('Email sent: ' + info.response);
+        }
+    });
+});
+
 
 // Decode and verify JWT token
 app.post('/checkToken', async (req, res) => {
