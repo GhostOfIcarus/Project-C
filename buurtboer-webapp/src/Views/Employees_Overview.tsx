@@ -16,7 +16,7 @@ interface Employee {
 
 function EmployeesOverview() {
   const { t } = useTranslation();
-  const { fetchEmployees, employees, RemoveEmployee } = useEmployeesOverviewController();
+  const { fetchEmployees, employees, RemoveEmployee, fetchSchedule } = useEmployeesOverviewController();
   const [employeesList, setEmployeesList] = useState<Employee[]>(employees);
 
   useEffect(() => {
@@ -61,7 +61,11 @@ function EmployeesOverview() {
               <tbody>
                 {employeesList.map((employee: Employee) => (
                   <tr key={employee.id}>
-                    <td>{employee.first_name} {employee.last_name}</td>
+                    <td>
+                    <Link to={`/Employee_Week_Overview/${employee.id}/51/${employee.first_name}/${employee.last_name}`}>
+                      {employee.first_name} {employee.last_name}
+                    </Link>
+                    </td>
                     <td className='text-end'>
                       <img
                         src={Cross}

@@ -105,14 +105,19 @@ function Invite_Employee() {
         }
       );
 
-      // Clear the input fields after successfully sending out the invite
-      setEmployeeEmail('');
-      setEmployeeFirstName('');
-      setEmployeeLastName('');
+
     } catch (error) {
       console.log(error);
     }
   };
+
+
+  useEffect(() => {
+    // Clear input fields after successfully sending out the invite
+    setEmployeeEmail('');
+    setEmployeeFirstName('');
+    setEmployeeLastName('');
+  }, [submitMessages]);
 
   return (
     <>
