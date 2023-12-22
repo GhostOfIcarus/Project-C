@@ -1,7 +1,7 @@
 {
     "email": "E-mail",
     "password": "Password",
-    "forgotPassword": "Forgot password?",
+    "forgotPassword": "Forgot password",
     "showPassword": "Show password",
     "hidePassword": "Hide password",
     "login": "Login",
@@ -35,6 +35,8 @@
     "notifications": "Notifications",
     "rememberMe": "Remember Me",
     "logout": "Logout",
+    "email_send": "email gestuurt naar",
+    "backToLogin": "back to login",
     "email_error": "Email not found!",
     "email_error_text": "Email not found in our database, please try again.",
     "user_error": "Account not found!",
@@ -54,7 +56,7 @@
     "add_employee": "Add employee",
 
     "add_company": "Add company",
-    "register_company": "Eegister company",
+    "register_company": "Register company",
     "Company_name": "Company name",
     "company_overview": "Company overview",
     "Admin_firstname": "Admin first name",
@@ -73,5 +75,11 @@
     "edit": "edit",
     "confirm": "confirm",
     "5weekday": "mon-fr",
-    "7weekday": "mon-sun"
+    "7weekday": "mon-sun",
+
+    "Employee_Overview": "Employee overview",
+    "Week_select": "Select a week:",
+    "employeesNotFound": "No employees found",
+    "employee_name": "employee name",
+    "userdetails_Error": "User details were not found"
   }

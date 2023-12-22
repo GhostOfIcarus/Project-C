@@ -7,9 +7,11 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import genstyles from "./Stylesheets/GeneralStyles.module.css"
 import Navbar from './Navbar';
 import withAuthentication from '../Controllers/withAuthentication';
+import { useTranslation } from 'react-i18next';
 
 
 function OrderOverview(){
+    const { t } = useTranslation();
 
     return (
         <>

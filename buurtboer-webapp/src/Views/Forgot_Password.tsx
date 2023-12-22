@@ -6,8 +6,10 @@ import genstyles from './Stylesheets/GeneralStyles.module.css';
 import { useNavigate, Link } from 'react-router-dom';
 import { AxiosError } from 'axios';
 import axios from 'axios';
+import { useTranslation } from 'react-i18next';
 
 function Forgot_Password() {
+  const { t } = useTranslation();
   const [email, setEmail] = useState<string>('');
   const [error, setError] = useState<string | null>(null);
   const [emailSend, setEmailSend] = useState<boolean>(false); 
@@ -61,7 +63,7 @@ function Forgot_Password() {
       <div className={genstyles.container}>
         <div className='row'>
           <div className={`col-lg-6 ${genstyles.login_div}`}>
-            <div className={genstyles.title}>Wachtwoord Vergeten</div>
+            <div className={genstyles.title}>{t('forgotPassword')}</div>
             <form onSubmit={handleSubmit}>
               <input
                 type="email"
@@ -71,14 +73,14 @@ function Forgot_Password() {
                 onChange={handleEmailChange}
               />
               <button type="submit" className={genstyles.button}>
-                Verstuur
+                {t('send')}
               </button>
             </form>
             {
               emailSend && 
               <div>
-                <p>Er is een email gestuurd naar {email}</p>
-                <Link to="/Login" className={genstyles.link}>Terug naar inloggen</Link>
+                <p>{t('email_send')} {email}</p>
+                <Link to="/Login" className={genstyles.link}>{t('backToLogin')}</Link>
               </div>
             }
             {error && <p className={genstyles.error}>{error}</p>}

@@ -142,16 +142,18 @@ function Settings() {
   const handleConfirmButtonClick = async () => {
     // Check if any changes were made
     const changesMade =
-      userName !== initialValues.userName ||
-      userEmail !== initialValues.userEmail ||
-      companyName !== initialValues.companyName ||
+      userName.trim() !== initialValues.userName.trim() ||
+      userEmail.trim() !== initialValues.userEmail.trim() ||
+      companyName.trim() !== initialValues.companyName.trim() ||
       selectedRosterValue !== initialValues.selectedRosterValue;
 
     if (changesMade) {
+      console.log(userEmail);
+      console.log(initialValues.userEmail)
       // Validate email format and availability
       if (userEmail === '' || userEmail.includes('@')) {
         // Check email availability only if the new email is different from the original email
-        if (userEmail !== initialValues.userEmail) {
+        if (userEmail.trim() !== initialValues.userEmail.trim()) {
           //checkEmailAvailability checks if the email is already in use, if it is it returns true and doesnt allow the user to change the email.
           const EmailNotAvailable = await checkEmailAvailability(userEmail);
 
@@ -237,10 +239,6 @@ function Settings() {
       // Set the new token in the cookie or storage, wherever you store your tokens
       // For example, if using cookies:
       document.cookie = `jwt-token=${newToken}; max-age=${2 * 60 * 60}; path=/`;
-  
-      // You can also update the state or any other part of your application with the new token
-      // For example, if using state:
-      // setToken(newToken);
   
       // Log the success
       console.log('Token refreshed successfully');

@@ -6,6 +6,7 @@ import postlogin from './Stylesheets/PostLogin.module.css';
 import Navbar from './Navbar';
 import withAuthentication from '../Controllers/withAuthentication';
 import { useEmpWeekOverviewController } from '../Controllers/Employee_WeekOverviewControllers';
+import { useTranslation } from 'react-i18next';
 
 
 
@@ -22,6 +23,7 @@ interface Employee {
 }
 
 function Employee_Week_Overview() {
+  const { t } = useTranslation();
   const{ fetchEmployees, employees } = useEmpWeekOverviewController();
   const [employeesList, setEmployeesList] = useState<Employee[]>(employees);
   useEffect(() => {
@@ -93,9 +95,9 @@ function Employee_Week_Overview() {
           <div className="row">
             <div className="col-lg-12">
                 <div className="  form_items ms-5 justify-content-center p-5">
-                  <h2>Medewerker Overview</h2>
+                  <h2>{t('Employee_Overview')}</h2>
                   <form action="/action_page.php">
-                      <label htmlFor="week">Selecteer een week:</label>
+                      <label htmlFor="week">{t('Week_select')}</label>
                       {/* <input type="week" id="week" name="week" /> */}
                       <input
                           type="week"
@@ -111,9 +113,9 @@ function Employee_Week_Overview() {
                   <table className="table roundedCorners">
                       <thead>
                           <tr>
-                              <th>Datum</th>
-                              <th>Aanwezig</th>
-                              <th>Afwezig</th>
+                              <th>{t('date')}</th>
+                              <th>{t('present')}</th>
+                              <th>{t('absent')}</th>
                           </tr>
                       </thead>
                       <tbody>

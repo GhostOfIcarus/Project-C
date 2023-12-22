@@ -96,8 +96,8 @@ function SuperAdminSettings() {
 
   const handleConfirmButtonClick = async () => {
     const changesMade =
-    userName !== initialValues.userName ||
-    userEmail !== initialValues.userEmail;
+    userName.trim() !== initialValues.userName.trim() ||
+    userEmail.trim() !== initialValues.userEmail.trim();
     if (changesMade) {
       // Validate email format and availability
       if (userEmail === '' || userEmail.includes('@')) {
