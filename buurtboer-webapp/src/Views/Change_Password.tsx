@@ -6,8 +6,10 @@ import { useLocation } from 'react-router-dom';
 import { useNavigate, Link } from 'react-router-dom';
 import withAuthentication from '../Controllers/withAuthentication';
 import { as } from 'pg-promise';
+import { useTranslation } from 'react-i18next';
 
 function ChangePassword() {
+  const { t } = useTranslation();
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [errorMessages, setErrorMessages] = useState('');
@@ -45,20 +47,20 @@ function ChangePassword() {
       <div className={genstyles.container}>
         <div className='row'>
           <div className={`col-lg-6 ${genstyles.login_div}`}>
-            <div className={genstyles.title}>Wachtwoord Vergeten</div>
+            <div className={genstyles.title}>{t('changePasswordHeader')}</div>
             <input 
               type="password" 
-              placeholder="Nieuw wachtwoord" 
+              placeholder={t('newPassword')}
               value={newPassword}
               onChange={(e) => setNewPassword(e.target.value)}
             /> 
             <input 
               type="password" 
-              placeholder="Nieuw wachtwoord opnieuw invullen" 
+              placeholder={t('repeatPassword')}
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
             />
-            <button className={genstyles.button} onClick={handleChangePassword}>Verstuur</button>
+            <button className={genstyles.button} onClick={handleChangePassword}>{t('send')}</button>
             {errorMessages && <div className={genstyles.error}>{errorMessages}</div>}
           </div>
           <div className={`col-lg-6 ${genstyles.image_div}`}>

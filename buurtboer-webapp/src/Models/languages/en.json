@@ -1,7 +1,7 @@
 {
     "email": "E-mail",
     "password": "Password",
-    "forgotPassword": "Forgot password?",
+    "forgotPassword": "Forgot password",
     "showPassword": "Show password",
     "hidePassword": "Hide password",
     "login": "Login",
@@ -35,6 +35,8 @@
     "notifications": "Notifications",
     "rememberMe": "Remember Me",
     "logout": "Logout",
+    "email_send": "email gestuurt naar",
+    "backToLogin": "back to login",
     "email_error": "Email not found!",
     "email_error_text": "Email not found in our database, please try again.",
     "user_error": "Account not found!",

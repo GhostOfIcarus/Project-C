@@ -1,7 +1,8 @@
 {
+    "email_send": "email gestuurt naar",
     "email": "E-mail",
     "password": "Wachtwoord",
-    "forgotPassword": "Wachtwoord vergeten?",
+    "forgotPassword": "Wachtwoord vergeten",
     "showPassword": "Toon wachtwoord",
     "hidePassword": "Verberg wachtwoord",
     "login": "Inloggen",
@@ -9,6 +10,7 @@
     "google": "Login met Google",
     "microsoft": "Login met Microsoft",
     "forgotPasswordHeader": "Wachtwoord vergeten",
+    "backToLogin": "terug naar login",
     "send": "Verstuur",
     "changePasswordHeader": "Wachtwoord wijzigen",
     "newPassword": "Nieuw wachtwoord",
