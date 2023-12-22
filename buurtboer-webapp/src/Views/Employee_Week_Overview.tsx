@@ -5,7 +5,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import postlogin from './Stylesheets/PostLogin.module.css';
 import Navbar from './Navbar';
 import withAuthentication from '../Controllers/withAuthentication';
-import { useEmpWeekOverviewController } from '../Controllers/Employee_WeekOverviewControllers';
+// import { useEmpWeekOverviewController } from '../Controllers/Employee_WeekOverviewControllers';
 import { useTranslation } from 'react-i18next';
 
 
@@ -24,25 +24,26 @@ interface Employee {
 
 function Employee_Week_Overview() {
   const { t } = useTranslation();
-  const{ fetchEmployees, employees } = useEmpWeekOverviewController();
-  const [employeesList, setEmployeesList] = useState<Employee[]>(employees);
-  useEffect(() => {
-    const fetchData = async () => {
-      await fetchEmployees();
-    };
+  // const{ fetchEmployees, employees } = useEmpWeekOverviewController();
+  // const [employeesList, setEmployeesList] = useState<Employee[]>(employees);
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     await fetchEmployees();
+  //   };
 
-    fetchData();
-  }, [fetchEmployees]);
+  
+  //   fetchData();
+  // }, [fetchEmployees]);
+
+  // // useEffect(() => {
+  // //   fetchEmployees();
+  // // }, []);
 
   // useEffect(() => {
-  //   fetchEmployees();
-  // }, []);
-
-  useEffect(() => {
-    setEmployeesList(employees);
-  }, [employees]);
-  console.log("employees from employees: ", employees);
-  console.log("employees from employeesList: ", employees);
+  //   setEmployeesList(employees);
+  // }, [employees]);
+  // console.log("employees from employees: ", employees);
+  // console.log("employees from employeesList: ", employeesList);
 
 
     const [selectedWeek, setSelectedWeek] = useState(getCurrentWeek());

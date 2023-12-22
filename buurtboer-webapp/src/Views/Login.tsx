@@ -1,3 +1,5 @@
+
+
 import { useLoginController } from '../Controllers/LoginController';
 import { useNavigate, Link } from 'react-router-dom';
 import logo from './img/buurtboer_logo.png';
@@ -9,7 +11,29 @@ import withAuthentication from '../Controllers/withAuthentication';
 import { useTranslation } from 'react-i18next';
 
 
+{/* <script src="https://apis.google.com/js/platform.js" async defer></script> */}
 
+// interface GoogleUser {
+//   getBasicProfile(): {
+//     getId(): string;
+//     getName(): string;
+//     getEmail(): string;
+//   };
+// }
+
+// interface ExtendedWindow extends Window {
+//   gapi?: {
+//     auth2: {
+//       getAuthInstance(): {
+//         signIn(): Promise<GoogleUser>;
+//       };
+//       init(config: { client_id: string }): void;
+//     };
+//     load(api: string, callback: () => void): void;
+//   };
+// }
+
+// declare var window: ExtendedWindow;
 
 export function Login() {
   const { t } = useTranslation();
@@ -21,6 +45,43 @@ export function Login() {
       navigate('/Employee_Overview');
     }
   }, [isSubmitted]);
+
+//   useEffect(() => {
+//     // Load the Google Sign-In script
+//     const script = document.createElement('script');
+//     script.src = 'https://apis.google.com/js/platform.js';
+//     script.async = true;
+//     script.defer = true;
+//     document.head.appendChild(script);
+
+//     script.onload = () => {
+//       // Initialize Google Sign-In
+//       window.gapi?.load('auth2', () => {
+//         window.gapi?.auth2.init({
+//           client_id: '1075521165727-h558b9b3eg32llcsq606gbqbsvipjaqt.apps.googleusercontent.com',
+//         });
+//       });
+//     };
+
+//     return () => {
+//       // Clean up the script when the component is unmounted
+//       document.head.removeChild(script);
+//     };
+//   }, []);
+
+//   const handleGoogleLogin = () => {
+//     // Trigger Google Sign-In
+//     const auth2 = window.gapi?.auth2.getAuthInstance();
+//     auth2?.signIn().then((googleUser: GoogleUser) => {
+//       const profile = googleUser.getBasicProfile();
+//       console.log('ID: ' + profile.getId()); // Do something with the user's ID
+//       console.log('Name: ' + profile.getName()); // Do something with the user's name
+//       console.log('Email: ' + profile.getEmail()); // Do something with the user's email
+
+//       // Additional logic (e.g., send the user's Google information to your server)
+//     });
+//   };
+
 
   const renderForm = (
     <>    
