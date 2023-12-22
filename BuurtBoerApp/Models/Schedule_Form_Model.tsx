@@ -30,20 +30,23 @@ class Schedule
   // gets schedule data based on employee data from the database
   static async fetchScheduleData(Emp: Employee, offset: number = 1) : Promise<[Schedule | null, boolean]>
   {
-
+    
     // calculates the weeknumber one week into the future
     const now = new Date();
     const startOfTheYear = new Date(now.getFullYear(), 0, 1);
+
     // look if the day number is past 3, if so, it will be 1, else it will be 0
     const afterwednesday = now.getDay() > 3 ? 1 : 0;
 
+    // calculates weeknumber with offsets
     let weekNumber = Math.ceil((((now.getTime() - startOfTheYear.getTime()) / 86400000) + startOfTheYear.getDay() + 1) / 7) + offset + afterwednesday;
     
+    // if weeknumber is 53, changes it to 1
     if (weekNumber == 53)
     {
       weekNumber = 1;
     }
-    console.log(weekNumber);
+
     // emp id
     const employeeId = Emp.id;
 
