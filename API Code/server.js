@@ -271,9 +271,8 @@ app.post('/api/employee/login', async (req, res) => {
 
 app.post('/api/employee/email_code', async (req, res) => {
 	try {
-		const { email } = req.body;
+		const { email, activated } = req.body;
 		const activation_key = Math.floor(Math.random() * (1000000 - 100000) + 100000);
-		console.log(activation_key);
 		const token = jwt.sign(
 			{
 			  activation_key: activation_key, 
@@ -281,7 +280,7 @@ app.post('/api/employee/email_code', async (req, res) => {
 			'thisisaverysecretkeyspongebob',
 			{ expiresIn: '1h' }
 		  );
-		const userData = await Functions.addKeyByEmployeeMail(email, token);
+		const userData = await Functions.addKeyByEmployeeMail(email, activated, token);
 		res.status(200).json(userData);
 	} catch (error) {
 		console.error(error);

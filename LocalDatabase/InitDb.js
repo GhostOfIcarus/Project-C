@@ -32,7 +32,8 @@ async function createTables() {
         Last_Name VARCHAR(255) NOT NULL,
         Email VARCHAR(255) NOT NULL UNIQUE,
         Password VARCHAR(64) NOT NULL,
-        KeepSchedule BOOLEAN NOT NULL
+        KeepSchedule BOOLEAN NOT NULL,
+        Activated BOOLEAN NOT NULL
       );
 
       CREATE TABLE IF NOT EXISTS Company (
@@ -99,9 +100,9 @@ async function insertTestData() {
   try {
     // Write your insert queries here
     const insertDataQuery = `
-      INSERT INTO Employee (First_Name, Last_Name, Email, Password, KeepSchedule)
-      VALUES ('John', 'Doe', 'john.doe@example.com', '$2a$10$CrafwtV/9bbC.lkkPaj13.ZuRZLAlUhEEQ5VgruKtUyXzbmCkcam2', true),
-      ('OEMPA', 'LOEMPA', 'oempa@loempa.com', '$2a$10$CrafwtV/9bbC.lkkPaj13.ZuRZLAlUhEEQ5VgruKtUyXzbmCkcam2', true);
+      INSERT INTO Employee (First_Name, Last_Name, Email, Password, KeepSchedule, Activated)
+      VALUES ('John', 'Doe', 'john.doe@example.com', '$2a$10$CrafwtV/9bbC.lkkPaj13.ZuRZLAlUhEEQ5VgruKtUyXzbmCkcam2', true, true),
+      ('OEMPA', 'LOEMPA', 'oempa@loempa.com', '$2a$10$CrafwtV/9bbC.lkkPaj13.ZuRZLAlUhEEQ5VgruKtUyXzbmCkcam2', true, false);
 
       INSERT INTO Company (Admin_First_Name, Admin_Last_Name, Company_Name, Full_Schedule, Email, Password)
       VALUES ('Jane', 'Doe', 'Example Company', true, 'company@email.com', 'hashed');

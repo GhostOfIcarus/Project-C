@@ -3,7 +3,13 @@ import { Alert } from 'react-native';
 
 class EmailCheckController {
   static handleEmailSend = async (email: string, navigation: any, t: Function, page_key: string) => {
-    // Check if the email is valid
+    let need_to_be_activated: boolean;
+    if (page_key == "change_password") {
+      need_to_be_activated = true;
+    } 
+    else{
+      need_to_be_activated = false;
+    }
     if (!email.includes("@")) {
       Alert.alert(t('invalid_email_error'), t('invalid_email_error_text'));
       return;
@@ -16,6 +22,7 @@ class EmailCheckController {
       },
       body: JSON.stringify({
         email: email,
+        activated: need_to_be_activated,
       }),
     });
     // Check if the response is ok
@@ -26,9 +33,15 @@ class EmailCheckController {
 
     // Get the data from the response
     let data = await response.json();
+    console.log(data);
     if (!data) {
       // commented for now but is security risk
-      // Alert.alert(t('email_error'), t('email_error_text'));
+      if (page_key == "change_password") {
+        Alert.alert("Error", "Activate your account first");
+      }
+      else{
+        Alert.alert("Error", "Your account already has been activated");
+      }
       return;
     }
     console.log(data); 

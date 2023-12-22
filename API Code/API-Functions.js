@@ -369,10 +369,10 @@ const getSingleEmployeeByEmailData = async (email) => {
 	  }
 };
 
-const addKeyByEmployeeMail = async (email, activation_key) => {
+const addKeyByEmployeeMail = async (email, activated, activation_key) => {
 	const db = await pool.connect();
 	try {
-		const results = await db.query("SELECT * FROM employee WHERE email = $1", [email]);
+		const results = await db.query("SELECT * FROM employee WHERE email = $1 AND activated = $2", [email, activated]);
 		if (results.rowCount > 0) 
 		{	
 			const resultAddKey = await db.query(`
@@ -384,7 +384,8 @@ const addKeyByEmployeeMail = async (email, activation_key) => {
 				console.log('Code created');
 				return results.rows[0];
 			}
-		} 
+		}
+		return false;
 	} catch (error) {
 		console.error(error);
 		console.error('Error in getting user data:', error);
