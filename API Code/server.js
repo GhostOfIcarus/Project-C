@@ -531,24 +531,7 @@ app.post('/api/admin/updateAdmin', async (req, res) => {
   
 	  if (success) {
 		// Fetch the updated admin data from the database
-		const updatedAdminData = await Functions.getCompanyAdminById(adminId);
-  
-		// Generate a new token with the updated information
-		const token = jwt.sign(
-		  {
-			userId: updatedAdminData.id,
-			firstName: updatedAdminData.admin_first_name,
-			lastName: updatedAdminData.admin_last_name,
-			userEmail: updatedAdminData.email,
-			full_schedule: updatedAdminData.full_schedule,
-			userRole: "CompanyAdmin",
-			companyName: updatedAdminData.company_name
-		  },
-		  'thisisaverysecretkeyspongebob',
-		  { expiresIn: '2h' }
-		);
-  
-		res.status(200).json({ message: 'Admin information updated successfully', token });
+		res.status(200).json({ message: 'Admin information updated successfully'});
 	  } else {
 		res.status(500).json({ error: 'An error occurred updating the admin information' });
 	  }
@@ -605,6 +588,90 @@ app.post('/api/admin/updateAdmin', async (req, res) => {
 	  res.status(500).json({ error: 'An error occurred updating the super admin information' });
 	}
   });
+
+  // Middleware to verify the JWT token
+const verifyToken = (req, res, next) => {
+	const token = req.cookies['jwt-token'];
+	//console.log('token:', token);
+
+	if (!token) {
+	  return res.status(401).json({ error: 'Unauthorized' });
+	}
+  
+	jwt.verify(token, 'thisisaverysecretkeyspongebob', (err, decoded) => {
+	  if (err) {
+		return res.status(401).json({ error: 'Unauthorized' });
+	  }
+  
+	  req.decoded = decoded;
+	  next();
+	});
+  };
+  
+  // Endpoint for refreshing the token for admin
+  app.post('/api/CompanyAdmin/refreshToken', verifyToken, async (req, res) => {
+	try {
+	  const { userId } = req.decoded;
+  
+	  // Assuming you have a function to get admin data by ID
+	  const adminData = await Functions.getCompanyAdminById(userId);
+  
+	  // Generate a new token with the updated information
+	  const updatedToken = jwt.sign(
+		{
+		  userId: adminData.id,
+		  firstName: adminData.admin_first_name,
+		  lastName: adminData.admin_last_name,
+		  userEmail: adminData.email,
+		  full_schedule: adminData.full_schedule,
+		  userRole: "CompanyAdmin",
+		  companyName: adminData.company_name
+		},
+		'thisisaverysecretkeyspongebob',
+		{ expiresIn: '2h' }
+	  );
+  
+	  // Set the updated token as a cookie (HTTP-only)
+	  res.cookie('jwt-token', updatedToken, { maxAge: 2 * 60 * 60 * 1000 }); // 2 hours max age
+  
+	  res.status(200).json({ token: updatedToken, userData: jwt.decode(updatedToken) });
+	} catch (error) {
+	  console.error(error);
+	  res.status(500).json({ error: 'An error occurred refreshing the token' });
+	}
+  });
+
+  // Endpoint for refreshing the SuperAdmin token
+app.post('/api/SuperAdmin/refreshToken', verifyToken, async (req, res) => {
+	try {
+	  const { userId } = req.decoded;
+  
+	  // Assuming you have a function to get SuperAdmin data by ID
+	  const superAdminData = await Functions.getSuperAdminById(userId);
+  
+	  // Generate a new token with the updated information
+	  const updatedToken = jwt.sign(
+		{
+		  userId: superAdminData.id,
+		  firstName: superAdminData.first_name,
+		  lastName: superAdminData.last_name,
+		  userEmail: superAdminData.email,
+		  userRole: "SuperAdmin",
+		},
+		'thisisaverysecretkeyspongebob',
+		{ expiresIn: '2h' }
+	  );
+  
+	  // Set the updated token as a cookie (HTTP-only)
+	  res.cookie('jwt-token', updatedToken, { maxAge: 2 * 60 * 60 * 1000 }); // 2 hours max age
+  
+	  res.status(200).json({ token: updatedToken, userData: jwt.decode(updatedToken) });
+	} catch (error) {
+	  console.error(error);
+	  res.status(500).json({ error: 'An error occurred refreshing the SuperAdmin token' });
+	}
+  });
+  
 
   app.post('/api/check-email', async (req, res) => {
 	try {

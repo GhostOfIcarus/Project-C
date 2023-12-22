@@ -180,7 +180,9 @@ function Settings() {
           });
 
           if (success) {
-            console.log('great success');
+            // If the update is successful, trigger token refresh
+            await refreshAccessToken();
+            console.log('Token refreshed successfully');
           }
         }
       } catch (error) {
@@ -218,6 +220,35 @@ function Settings() {
   useEffect(() => {
     //console.log('Confirmed Values:', confirmedValues);
   }, [confirmedValues]); 
+
+  const refreshAccessToken = async () => {
+    try {
+      // Make a request to the refreshToken endpoint to get a new token
+      const response = await axios.post('http://localhost:5000/api/CompanyAdmin/refreshToken', {}, {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        withCredentials: true,
+      });
+  
+      // Extract the new token from the response
+      const newToken = response.data.token;
+  
+      // Set the new token in the cookie or storage, wherever you store your tokens
+      // For example, if using cookies:
+      document.cookie = `jwt-token=${newToken}; max-age=${2 * 60 * 60}; path=/`;
+  
+      // You can also update the state or any other part of your application with the new token
+      // For example, if using state:
+      // setToken(newToken);
+  
+      // Log the success
+      console.log('Token refreshed successfully');
+    } catch (error) {
+      console.error('Error refreshing token:', error);
+      // Handle the error based on your requirements
+    }
+  };
 
   return (
     <>

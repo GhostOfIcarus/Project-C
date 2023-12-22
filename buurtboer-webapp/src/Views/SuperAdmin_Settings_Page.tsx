@@ -118,18 +118,15 @@ function SuperAdminSettings() {
         setIsEmailUnique(false);
         return;
       }
-      console.log('yuh1');
       try {
         if (userId) {
-          console.log('yuh2');
           const success = await updateSuperAdminInfo(userId, {
             admin_first_name: userName,
             email: userEmail,
           });
 
-          if (success) {
-            console.log('Admin information updated successfully');
-          }
+          await refreshAccessToken2();
+          console.log('Token refreshed successfully');
         }
       } catch (error) {
         console.error('Error updating admin information:', error);
@@ -155,6 +152,32 @@ function SuperAdminSettings() {
 
       // Disable further edits after confirming
       setEditable(false);
+    }
+  };
+
+  const refreshAccessToken2 = async () => {
+    console.log('refreshaccestoken')
+    try {
+      // Make a request to the refreshToken endpoint to get a new token
+      const response = await axios.post('http://localhost:5000/api/SuperAdmin/refreshToken', {}, {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        withCredentials: true,
+      });
+  
+      // Extract the new token from the response
+      const newToken = response.data.token;
+  
+      // Set the new token in the cookie or storage, wherever you store your tokens
+      // For example, if using cookies:
+      document.cookie = `jwt-token=${newToken}; max-age=${2 * 60 * 60}; path=/`;
+  
+      // Log the success
+      console.log('Token refreshed successfully');
+    } catch (error) {
+      console.error('Error refreshing token:', error);
+      // Handle the error based on your requirements
     }
   };
 
