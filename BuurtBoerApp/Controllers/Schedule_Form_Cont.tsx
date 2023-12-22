@@ -18,10 +18,13 @@ class ScheduleController
     // calculates the wednesday of the deadline
     static getWednesdayDate(weekNumber: number): String
     {
+        // changes weeknumber if smaller than 1
         if (weekNumber == 0)
         {
             weekNumber = 52;
         }
+
+        // get current date
         const currentDate = new Date();
         const currentYear = currentDate.getFullYear();
     
