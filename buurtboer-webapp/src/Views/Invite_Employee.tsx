@@ -1,4 +1,4 @@
-import React, { useState, MouseEvent } from 'react';
+import React, { useState, useEffect, MouseEvent } from 'react';
 import { useNavigate, Link } from 'react-router-dom';  
 import 'bootstrap/dist/css/bootstrap.min.css';
 import postlogin from './Stylesheets/PostLogin.module.css';
@@ -6,17 +6,49 @@ import Navbar from './Navbar';
 import genstyles from './Stylesheets/GeneralStyles.module.css';
 import withAuthentication from '../Controllers/withAuthentication';
 import axios from 'axios';
+import { response } from 'express';
 
+
+export interface UserData{
+  userId: any;
+  firstName: string;
+  lastName: string;
+  email: string;
+  userRole: string;
+}
 
 function Invite_Employee() {
   const [employeeEmail, setEmployeeEmail] = useState('');
   const [employeeFirstName, setEmployeeFirstName] = useState('');
   const [employeeLastName, setEmployeeLastName] = useState('');
   const [submitMessages, setSubmitMessages] = useState('');
+  // const [activationKey, setActivationKey] = useState('');
   const navigate = useNavigate();
+  const [userdata, setUserData] = useState<UserData | null>(null);
 
+
+   //get companyID
+    useEffect(() => {
+      const fetchData = async () => {
+        try {
+          const response = await axios.get('http://localhost:5000/api/auth', {
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            withCredentials: true,
+          });
   
-  const sendInvite = (e: MouseEvent<HTMLFormElement>) => {
+          const userData = response.data.userData;
+          await setUserData(userData);
+        } catch (error) {
+          // Handle error
+        }
+      };
+  
+      fetchData();
+    }, []); // Empty dependency array to run the effect only once when the component mounts
+
+  const sendInvite = async (e: MouseEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     // Check if any input is empty and don't proceed with the submission if any input is empty
@@ -28,25 +60,59 @@ function Invite_Employee() {
     setSubmitMessages("Uitnodiging verstuurd!");
     //console.log("First Name: ", employeeFirstName);
 
-    axios.post('http://localhost:5001/sendEmail/employeeInvitation', 
-    {
-      to: employeeEmail,
-      employeeFirstName: employeeFirstName,
-      employeeLastName: employeeLastName,
-    }, 
-    {
-      withCredentials: true,
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    }
-  );
+   
+  
+    // Add employee to database
+    try {
+      const createResponse = await axios.post(
+        'http://localhost:5000/api/employee/add',
+        {
+          comp_id: userdata?.userId,
+          first_name: employeeFirstName,
+          last_name: employeeLastName,
+          email: employeeEmail,
+        },
+        {
+          withCredentials: true,
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        }
+      );
 
-    // Clear the input fields after succesfully sending out the invite
-    setEmployeeEmail('');
-    setEmployeeFirstName('');
-    setEmployeeLastName('');
-  }
+      console.log("createResponse: ", createResponse);
+
+      if (createResponse.data) {
+        console.log(createResponse.data);
+        // setActivationKey(createResponse.data);
+      }
+
+
+      // Send email
+      await axios.post(
+        'http://localhost:5001/sendEmail/employeeInvitation',
+        {
+          to: employeeEmail,
+          employeeFirstName: employeeFirstName,
+          employeeLastName: employeeLastName,
+          // activationKey: createResponse.data,
+        },
+        {
+          withCredentials: true,
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        }
+      );
+
+      // Clear the input fields after successfully sending out the invite
+      setEmployeeEmail('');
+      setEmployeeFirstName('');
+      setEmployeeLastName('');
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <>

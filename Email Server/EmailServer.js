@@ -2,6 +2,7 @@ const nodemailer = require('nodemailer');
 const express = require('express');
 const EmailTemplates = require('./EmailTemplates.js');
 const jwt = require('jsonwebtoken');
+const Functions = require('../API Code/API-Functions.js');
 
 
 // Specify the port and init the express app
@@ -102,13 +103,25 @@ app.post('/sendEmail/companyRegistration', (req, res) => {
 
 // Endpoint to send invitation to employee
 app.post('/sendEmail/employeeInvitation', (req, res) => {
+    
+    // const { to: employeeEmail } = req.body;
+
+    // const activationKey = Functions.getActivationKey(employeeEmail);
+    // if (!activationKey) {
+    //     console.error('Activation key not found for email:', employeeEmail);
+    //     res.status(500).json({ error: 'Internal Server Error' });
+    //     return;
+    // }
+
     mailOptions.to = req.body.to;
     mailOptions.subject = "Activeer je account";
 
-    const tempToken = jwt.sign({ employeeEmail : req.body.to, employeeFirstName : req.body.employeeFirstName, employeeLastName : req.body.employeeLastName }, 'nothisispatrick', { expiresIn: '1h' });
+    // const tempToken = jwt.sign({ employeeEmail: req.body.to, employeeFirstName: req.body.employeeFirstName, employeeLastName: req.body.employeeLastName, activationCode: req.body.activationCode }, 'nothisispatrick', { expiresIn: '1h' });
 
+    mailOptions.html = EmailTemplates.employeeInvitation(req.body.employeeFirstName, req.body.employeeLastName/*, req.body.activationKey*/);
+    
     // Hier moet de activation code nog meegegeven worden
-    mailOptions.html = EmailTemplates.employeeInvitation(req.body.employeeFirstName, req.body.employeeLastName, `12345`);
+    // mailOptions.html = EmailTemplates.employeeInvitation(req.body.employeeFirstName, req.body.employeeLastName, `12345`);
 
     transporter.sendMail(mailOptions, function(error, info){
         if (error) {

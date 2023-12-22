@@ -82,6 +82,8 @@ const createNewEmployee = async (comp_id, first_name, last_name, email, activati
 			if (results2.rowCount > 0 && resultAddKey.rowCount > 0) 
 			{	
 				console.log('Insert successful');
+				// console.log("Key: ", resultAddKey.rows[0].key);
+				// return resultAddKey.rows[0].key;
 				return true;
 			}
 		} 
