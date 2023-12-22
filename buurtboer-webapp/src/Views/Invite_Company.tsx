@@ -4,7 +4,7 @@ import withAuthentication from '../Controllers/withAuthentication';
 import genstyles from './Stylesheets/GeneralStyles.module.css';
 import postlogin from './Stylesheets/PostLogin.module.css';
 import { useTranslation } from 'react-i18next';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 function Invite_Company() {
@@ -14,35 +14,44 @@ function Invite_Company() {
   const [adminEmail, setAdminEmail] = useState('');
   const [adminFirstName, setAdminVoornaam] = useState('');
   const [adminLastName, setAdminAchternaam] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
+  const [successMessage, setSuccessMessage] = useState('');
 
   const handleInviteClick = () => {
-    // Do something with the stored variables, e.g., send them to an API or perform some action
-    console.log('CompanyName:', CompanyName);
-    console.log('adminEmail:', adminEmail);
-    console.log('adminFirstName:', adminFirstName);
-    console.log('adminLastName:', adminLastName);
-
-    //saves all the inputs so the next page can use it (this needs to change with the email functionality)
-    const queryString = `?CompanyName=${CompanyName}&adminEmail=${adminEmail}&adminFirstName=${adminFirstName}&adminLastName=${adminLastName}`;
-
-    //navigate(`/Company_Register${queryString}`);
-
-    axios.post('http://localhost:5001/sendEmail/companyRegistration', 
-    {
-      to: adminEmail,
-      CompanyName: CompanyName,
-      adminFirstName: adminFirstName,
-      adminLastName: adminLastName,
-    }, 
-    {
-      withCredentials: true,
-      headers: {
-        'Content-Type': 'application/json'
-      }
+    // Check if adminEmail contains '@' symbol
+    if (!adminEmail.includes('@')) {
+      setErrorMessage('Invalid email format');
+      return; // Stop further execution
     }
-  );
 
+    // Clear any previous error and success messages
+    setErrorMessage('');
+    setSuccessMessage('');
 
+    // Send email
+    axios.post('http://localhost:5001/sendEmail/companyRegistration', 
+      {
+        to: adminEmail,
+        CompanyName: CompanyName,
+        adminFirstName: adminFirstName,
+        adminLastName: adminLastName,
+      }, 
+      {
+        withCredentials: true,
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      }
+    )
+    .then(() => {
+      // Display success message
+      setSuccessMessage('Successfully sent email');
+    })
+    .catch(error => {
+      console.error('Error sending email:', error);
+      // Display error message
+      setErrorMessage('Failed to send email');
+    });
   };
 
   return (
@@ -72,8 +81,16 @@ function Invite_Company() {
                   placeholder="Admin email"
                   className="input-group input-group-lg"
                   value={adminEmail}
-                  onChange={(e) => setAdminEmail(e.target.value)}
+                  onChange={(e) => {
+                    setAdminEmail(e.target.value);
+                    // Reset email error on input change
+                    setErrorMessage('');
+                    // Reset success message on input change
+                    setSuccessMessage('');
+                  }}
                 />
+                {errorMessage && <div style={{ color: 'red' }}>{errorMessage}</div>}
+                
               </div>
               <div className="mb-3">
                 <input
@@ -94,6 +111,7 @@ function Invite_Company() {
                   value={adminLastName}
                   onChange={(e) => setAdminAchternaam(e.target.value)}
                 />
+                {successMessage && <div style={{ color: 'green' }}>{successMessage}</div>}
               </div>
               <br /><br /><br />
               <div className='d-flex justify-content-center'>

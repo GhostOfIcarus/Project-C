@@ -15,24 +15,42 @@ export function Company_Register() {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const location = useLocation();
-
-
-  //retrieved variables from the invite screen (this needs to change to the info from the cookies with the email stuff)
-  // const companyName = params.get('CompanyName') || '';
-  // const adminEmail = params.get('adminEmail') || '';
-  // const adminFirstName = params.get('adminFirstName') || '';
-  // const adminLastName = params.get('adminLastName') || '';
-
   const [companyEmail, setCompanyEmail] = useState<string>('');
   const [companyPass, setCompanyPass] = useState('');
   const [companyPass2, setCompanyPass2] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
+  const [isEmailUnique, setIsEmailUnique] = useState(true);
   const full_schedule = false;
+
+  const checkEmailAvailability = async (email: string) => {
+    try {
+      const response = await axios.post('http://localhost:5000/api/check-email', { email });
+      console.log(response.data.emailExists);
+      return response.data.emailExists;
+    } catch (error) {
+      console.error('Error checking email availability:', error);
+      return false; 
+    }
+  };
 
   const handleFormSubmit = async (e : React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const params = new URLSearchParams(location.search);
+    // Validate email format
+    if (!companyEmail.includes('@')) {
+    setErrorMessage('Invalid email format');
+    return; // Stop further execution
+    }
 
+    const EmailNotAvailable = await checkEmailAvailability(companyEmail);
+
+    if (EmailNotAvailable) {
+      setErrorMessage('Email is already in use');
+      setIsEmailUnique(false);
+      return;
+    }
+
+  const params = new URLSearchParams(location.search);
   const token = params.get('token') || '';
 
   const verifiedToken = await axios.post('http://localhost:5001/checkToken', {
@@ -79,13 +97,19 @@ export function Company_Register() {
               <div className="  form_items ms-5 justify-content-center p-5">
                 <h2>{t('register_company')}</h2>
                 <form onSubmit={handleFormSubmit}>
-                  <input
-                    type="email"
-                    id="companyEmail"
-                    placeholder="Email"
-                    value={companyEmail}
-                    onChange={(e) => setCompanyEmail(e.target.value)}
-                  />
+                <input
+                  type="email"
+                  id="companyEmail"
+                  placeholder="Email"
+                  value={companyEmail}
+                  onChange={(e) => {
+                    setCompanyEmail(e.target.value);
+                    // Reset email error on input change
+                    setErrorMessage('');
+                  }}
+                />
+                {/* Display email error message */}
+                {errorMessage && <div style={{ color: 'red' }}>{errorMessage}</div>}
                   <br /><br />
                   <input
                     type="password"
