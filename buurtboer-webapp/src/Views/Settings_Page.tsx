@@ -120,39 +120,21 @@ function Settings() {
 
   const checkEmailAvailability = async (email: string) => {
     try {
-      const response = await axios.post('http://localhost:3000/check-email', { email });
+      const response = await axios.post('http://localhost:5000/api/check-email', { email });
+      console.log(response.data.emailExists);
       return response.data.emailExists;
     } catch (error) {
       console.error('Error checking email availability:', error);
-      // Handle the error based on your requirements
-      return false; // Assuming false means an error or email not available
+      return false; 
     }
   };
   
   const handleUserEmailChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const newEmail = e.target.value;
+    setUserEmail(e.target.value);
+};
 
-    // Check if the new email contains the "@" symbol
-    if (newEmail.includes('@')) {
-      // Check email availability
-      const isEmailAvailable = await checkEmailAvailability(newEmail);
-
-      if (!isEmailAvailable) {
-        setErrorMessage('Email is already in use');
-        setIsEmailUnique(false);
-      } else {
-        setUserEmail(newEmail);
-        // Clear any previous error message
-        setErrorMessage('');
-        setIsEmailUnique(true);
-      }
-    } else {
-      // If the email is invalid (doesn't contain "@"), set an error message
-      setErrorMessage('Invalid email format');
-      setIsEmailUnique(false);
-    }
-  };
-
+  
+  
   const handleCompanyNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setCompanyName(e.target.value);
   };
@@ -164,35 +146,55 @@ function Settings() {
       userEmail !== initialValues.userEmail ||
       companyName !== initialValues.companyName ||
       selectedRosterValue !== initialValues.selectedRosterValue;
-      if (changesMade && isEmailUnique) {
-        try {
-          if (userId) {
-            // Check if userId is defined
-            const { success } = await updateAdminInfo(userId, {
-              admin_first_name: userName,
-              email: userEmail,
-              company_name: companyName,
-              full_schedule: selectedRosterValue,
-            });
-  
-            if (success) {
-              console.log('great success');
-              //updateToken(updatedToken);
-            }
+
+    if (changesMade) {
+      // Validate email format and availability
+      if (userEmail === '' || userEmail.includes('@')) {
+        // Check email availability only if the new email is different from the original email
+        if (userEmail !== initialValues.userEmail) {
+          //checkEmailAvailability checks if the email is already in use, if it is it returns true and doesnt allow the user to change the email.
+          const EmailNotAvailable = await checkEmailAvailability(userEmail);
+
+          if (EmailNotAvailable) {
+            setErrorMessage('Email is already in use');
+            setIsEmailUnique(false);
+            return;
           }
-        } catch (error) {
-          console.error('Error updating admin information:', error);
-          // Handle error based on your requirements
         }
-  
+      } else {
+        // If the email is invalid (doesn't contain "@"), set an error message
+        setErrorMessage('Invalid email format');
+        setIsEmailUnique(false);
+        return;
+      }
+
+      // after the conditions are met continue
+      try {
+        //checks if userId exists
+        if (userId) {
+          const { success } = await updateAdminInfo(userId, {
+            admin_first_name: userName,
+            email: userEmail,
+            company_name: companyName,
+            full_schedule: selectedRosterValue,
+          });
+
+          if (success) {
+            console.log('great success');
+          }
+        }
+      } catch (error) {
+        console.error('Error updating admin information:', error);
+      }
+
       // Update state variables with new values
       setInitialValues({
         userName,
         userEmail,
         companyName,
-        selectedRosterValue
+        selectedRosterValue,
       });
-  
+
       // Set confirmed values
       setConfirmedValues({
         userName,
@@ -200,14 +202,14 @@ function Settings() {
         companyName,
         selectedRosterValue,
       });
-  
+
       // Log confirmed values to the console
       //console.log('Confirmed Values:', confirmedValues);
       console.log('Final Values:', userName, userEmail, companyName, selectedRosterValue);
-  
+
       // After handling the logic, hide the confirmation button
       setConfirmationVisible(false);
-  
+
       // Disable further edits after confirming
       setEditable(false);
     }

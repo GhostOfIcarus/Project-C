@@ -402,7 +402,6 @@ app.post('/api/forgot_password', async (req, res) => {
 	try {
 	  const { email } = req.body;
   
-	  // Assuming you have a function to check if an email exists, replace 'checkEmailExists' with the appropriate function
 	  console.log('Received request with email:', email);
 	  const emailExists = await Functions.checkEmailExists(email);
   
@@ -506,54 +505,67 @@ app.post('/api/admin/updateAdmin', async (req, res) => {
 	  }
   
 	  // Update only the fields that are provided in the request body
-	  if (admin_first_name) {
+	  if (admin_first_name !== undefined) {
 		existingAdmin.admin_first_name = admin_first_name;
 	  }
-	  if (admin_last_name) {
+	  if (admin_last_name !== undefined) {
 		existingAdmin.admin_last_name = admin_last_name;
 	  }
-	  if (company_name) {
+	  if (company_name !== undefined) {
 		existingAdmin.company_name = company_name;
 	  }
 	  if (full_schedule !== undefined) {
 		existingAdmin.full_schedule = full_schedule;
 	  }
-	  if (email) {
+	  if (email !== undefined) {
 		existingAdmin.email = email;
 	  }
-	  if (password) {
-		existingAdmin.password = password;
+	  if (password !== undefined) {
+		// Hash the password securely before storing it in the database
+		const hashedPassword = await hashPassword(password);
+		existingAdmin.password = hashedPassword;
 	  }
   
 	  // Save the updated admin information to the database
 	  const success = await Functions.updateAdmin(adminId, existingAdmin);
-	  
+  
 	  if (success) {
-		// Generate a new token with updated information
-		const updatedUserData = existingAdmin; // Replace this with the actual way to get updated user data
+		// Fetch the updated admin data from the database
+		const updatedAdminData = await Functions.getCompanyAdminById(adminId);
+  
+		// Generate a new token with the updated information
 		const token = jwt.sign(
-			{
-				userId: updatedUserData.id,
-				firstName: updatedUserData.admin_first_name,
-				lastName: updatedUserData.admin_last_name,
-				userEmail: updatedUserData.email,
-				full_schedule: updatedUserData.full_schedule,
-				userRole: "CompanyAdmin",
-				companyName: updatedUserData.company_name
-			},
-			'thisisaverysecretkeyspongebob',
-			{ expiresIn: '2h' }
+		  {
+			userId: updatedAdminData.id,
+			firstName: updatedAdminData.admin_first_name,
+			lastName: updatedAdminData.admin_last_name,
+			userEmail: updatedAdminData.email,
+			full_schedule: updatedAdminData.full_schedule,
+			userRole: "CompanyAdmin",
+			companyName: updatedAdminData.company_name
+		  },
+		  'thisisaverysecretkeyspongebob',
+		  { expiresIn: '2h' }
 		);
-
+  
 		res.status(200).json({ message: 'Admin information updated successfully', token });
 	  } else {
 		res.status(500).json({ error: 'An error occurred updating the admin information' });
 	  }
 	} catch (error) {
 	  console.error(error);
-	  res.status(500).json({ error: 'An error occurred updating the admin information' });
+  
+	  // Handle specific types of errors if needed
+	  if (error.name === 'MongoError' && error.code === 11000) {
+		// Handle duplicate key error (example for MongoDB)
+		res.status(400).json({ error: 'Duplicate key error' });
+	  } else {
+		res.status(500).json({ error: 'An error occurred updating the admin information' });
+	  }
 	}
   });
+  
+
 
   app.post('/api/SuperAdmin/updateSuperAdmin', async (req, res) => {
 	try {
@@ -594,7 +606,7 @@ app.post('/api/admin/updateAdmin', async (req, res) => {
 	}
   });
 
-  app.post('/check-email', async (req, res) => {
+  app.post('/api/check-email', async (req, res) => {
 	try {
 	  const { email } = req.body;
   
@@ -602,7 +614,7 @@ app.post('/api/admin/updateAdmin', async (req, res) => {
 		return res.status(400).json({ error: 'Email is required' });
 	  }
   
-	  const emailExists = await checkEmailExists(email);
+	  const emailExists = await Functions.checkEmailExists(email);
   
 	  res.json({ emailExists });
 	} catch (error) {

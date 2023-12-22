@@ -16,6 +16,8 @@ interface UserData {
 function SuperAdminSettings() {
   const [editable, setEditable] = useState(false);
   const [confirmationVisible, setConfirmationVisible] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
+  const [isEmailUnique, setIsEmailUnique] = useState(true);
   const { t } = useTranslation();
   const { language, setLanguage } = LanguageTranslator();
   const [userEmail, setUserEmail] = useState('');
@@ -71,6 +73,17 @@ function SuperAdminSettings() {
     setUserName(e.target.value);
   };
 
+  const checkEmailAvailability = async (email: string) => {
+    try {
+      const response = await axios.post('http://localhost:5000/api/check-email', { email });
+      console.log(response.data.emailExists);
+      return response.data.emailExists;
+    } catch (error) {
+      console.error('Error checking email availability:', error);
+      return false; 
+    }
+  };
+
   const handleUserEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setUserEmail(e.target.value);
   };
@@ -85,45 +98,64 @@ function SuperAdminSettings() {
     const changesMade =
     userName !== initialValues.userName ||
     userEmail !== initialValues.userEmail;
-  if (changesMade) {
-    console.log('yuh1');
-    try {
-      if (userId) {
-        console.log('yuh2');
-        const success = await updateSuperAdminInfo(userId, {
-          admin_first_name: userName,
-          email: userEmail,
-        });
+    if (changesMade) {
+      // Validate email format and availability
+      if (userEmail === '' || userEmail.includes('@')) {
+        // Check email availability only if the new email is different from the original email
+        if (userEmail !== initialValues.userEmail) {
+          //checkEmailAvailability checks if the email is already in use, if it is it returns true and doesnt allow the user to change the email.
+          const EmailNotAvailable = await checkEmailAvailability(userEmail);
 
-        if (success) {
-          console.log('Admin information updated successfully');
+          if (EmailNotAvailable) {
+            setErrorMessage('Email is already in use');
+            setIsEmailUnique(false);
+            return;
+          }
         }
+      } else {
+        // If the email is invalid (doesn't contain "@"), set an error message
+        setErrorMessage('Invalid email format');
+        setIsEmailUnique(false);
+        return;
       }
-    } catch (error) {
-      console.error('Error updating admin information:', error);
+      console.log('yuh1');
+      try {
+        if (userId) {
+          console.log('yuh2');
+          const success = await updateSuperAdminInfo(userId, {
+            admin_first_name: userName,
+            email: userEmail,
+          });
+
+          if (success) {
+            console.log('Admin information updated successfully');
+          }
+        }
+      } catch (error) {
+        console.error('Error updating admin information:', error);
+      }
+
+      // Update state variables with new values
+      setInitialValues({
+        userName,
+        userEmail,
+      });
+
+      // Set confirmed values
+      setConfirmedValues({
+        userName,
+        userEmail,
+      });
+
+      // Log confirmed values to the console
+      console.log('Final Values:', userName, userEmail);
+
+      // After handling the logic, hide the confirmation button
+      setConfirmationVisible(false);
+
+      // Disable further edits after confirming
+      setEditable(false);
     }
-
-    // Update state variables with new values
-    setInitialValues({
-      userName,
-      userEmail,
-    });
-
-    // Set confirmed values
-    setConfirmedValues({
-      userName,
-      userEmail,
-    });
-
-    // Log confirmed values to the console
-    console.log('Final Values:', userName, userEmail);
-
-    // After handling the logic, hide the confirmation button
-    setConfirmationVisible(false);
-
-    // Disable further edits after confirming
-    setEditable(false);
-  }
   };
 
 
@@ -154,6 +186,7 @@ function SuperAdminSettings() {
               <div className="mb-3">
                 <a>email: </a>
                 {editable ? (
+                  <div>
                   <input
                     type="text"
                     id="SuperadminEmail"
@@ -161,6 +194,8 @@ function SuperAdminSettings() {
                     value={userEmail}
                     onChange={handleUserEmailChange}
                   />
+                   {errorMessage && <div style={{ color: 'red' }}>{errorMessage}</div>}
+                  </div>
                 ) : (
                   <span>{userEmail}</span>
                 )}
