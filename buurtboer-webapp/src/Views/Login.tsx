@@ -6,11 +6,13 @@ import genstyles from './Stylesheets/GeneralStyles.module.css';
 import loginstyles from './Stylesheets/Login.module.css';
 import { useEffect } from 'react';
 import withAuthentication from '../Controllers/withAuthentication';
+import { useTranslation } from 'react-i18next';
 
 
 
 
 export function Login() {
+  const { t } = useTranslation();
   const { isSubmitted, loginFailed, renderErrorMessage, handleSubmit } = useLoginController();
   const navigate = useNavigate();
 
@@ -22,18 +24,18 @@ export function Login() {
 
   const renderForm = (
     <>    
-      <div className={genstyles.title}>Inloggen</div>
+      <div className={genstyles.title}>{t('login')}</div>
       <form onSubmit={handleSubmit}>
         <input type='email' placeholder='Email' name='Email' required className={loginFailed ? loginstyles.errorInput : ''}/>
         {renderErrorMessage('Email')}
         <input type='password' placeholder='Wachtwoord' name='Pass' required className={loginFailed ? loginstyles.errorInput : ''} />
-        {loginFailed && <div className={loginstyles.errorInputs}>User details were not found</div>}
-        <Link to="/Forgot_Password" className={genstyles.link}>Wachtwoord vergeten?</Link>
+        {loginFailed && <div className={loginstyles.errorInputs}>{t('userdetails_Error')}</div>}
+        <Link to="/Forgot_Password" className={genstyles.link}>{t('forgotPassword')}</Link>
         <div className={loginstyles.login_button_div}>
           <button className={genstyles.button}>Login</button>
-          <p>OF</p>
-          <button className={genstyles.button}>Login met Google</button>
-          <button className={genstyles.button}>Login met Microsoft</button>
+          <p>{t('or')}</p>
+          <button className={genstyles.button}>{t('google')}</button>
+          <button className={genstyles.button}>{t('microsoft')}</button>
         </div>
       </form>
     </>

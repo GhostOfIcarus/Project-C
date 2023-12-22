@@ -56,7 +56,7 @@
     "add_employee": "Add employee",
 
     "add_company": "Add company",
-    "register_company": "Eegister company",
+    "register_company": "Register company",
     "Company_name": "Company name",
     "company_overview": "Company overview",
     "Admin_firstname": "Admin first name",
@@ -75,5 +75,11 @@
     "edit": "edit",
     "confirm": "confirm",
     "5weekday": "mon-fr",
-    "7weekday": "mon-sun"
+    "7weekday": "mon-sun",
+
+    "Employee_Overview": "Employee overview",
+    "Week_select": "Select a week:",
+    "employeesNotFound": "No employees found",
+    "employee_name": "employee name",
+    "userdetails_Error": "User details were not found"
   }
