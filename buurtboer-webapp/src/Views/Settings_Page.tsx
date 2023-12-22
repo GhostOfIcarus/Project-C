@@ -83,6 +83,17 @@ function Settings() {
     fetchData();
   }, []);
 
+  const getCompanyAdminEmail = async (adminId: number) => {
+    try {
+      const response = await axios.get(`http://localhost:5000/api/getCompanyAdminEmail/${adminId}`);
+      const email = response.data.email;
+      console.log('Company Admin Email:', email);
+      return email;
+    } catch (error) {
+      console.error('Error getting company admin email:', error);
+    }
+  };
+
   const handleEditButtonClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
     setEditable(true);
@@ -140,6 +151,8 @@ function Settings() {
   };
 
   const handleConfirmButtonClick = async () => {
+   if (userId){
+    const oldEmail = await getCompanyAdminEmail(userId);
     // Check if any changes were made
     const changesMade =
       userName.trim() !== initialValues.userName.trim() ||
@@ -148,12 +161,10 @@ function Settings() {
       selectedRosterValue !== initialValues.selectedRosterValue;
 
     if (changesMade) {
-      console.log(userEmail);
-      console.log(initialValues.userEmail)
       // Validate email format and availability
       if (userEmail === '' || userEmail.includes('@')) {
         // Check email availability only if the new email is different from the original email
-        if (userEmail.trim() !== initialValues.userEmail.trim()) {
+        if (userEmail !== oldEmail) {
           //checkEmailAvailability checks if the email is already in use, if it is it returns true and doesnt allow the user to change the email.
           const EmailNotAvailable = await checkEmailAvailability(userEmail);
 
@@ -169,6 +180,8 @@ function Settings() {
         setIsEmailUnique(false);
         return;
       }
+   } 
+      
 
       // after the conditions are met continue
       try {

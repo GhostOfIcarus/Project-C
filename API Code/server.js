@@ -694,6 +694,31 @@ app.post('/api/logout', (req, res) => {
 	res.status(200).json({ message: 'Logged out successfully' });
 });
 
+app.get('/api/getCompanyAdminEmail/:adminId', async (req, res) => {
+	const adminId = req.params.adminId;
+  
+	try {
+	  const email = await Functions.getCompanyAdminEmailById(adminId);
+	  res.status(200).json({ email });
+	} catch (error) {
+	  console.error('Error in getting company admin email:', error);
+	  res.status(500).json({ error: 'Internal server error' });
+	}
+  });
+
+  app.get('/api/getSuperAdminEmail/:superadminID', async (req, res) => {
+	const superadminID = req.params.superadminID;
+  
+	try {
+	  const superAdminEmail = await Functions.getSuperAdminEmail(superadminID);
+	  res.json({ email: superAdminEmail });
+	} catch (error) {
+	  console.error('Error in API endpoint:', error.message);
+	  res.status(500).json({ error: 'Internal server error' });
+	}
+  });
+  
+
 
 // Starting the API server
 app.listen(port, () => {

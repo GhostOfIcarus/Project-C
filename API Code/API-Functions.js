@@ -440,6 +440,38 @@ const getCompanyAdminById = async (adminId) => {
 	}
 };
 
+const getCompanyAdminEmailById = async (adminId) => {
+	const db = await pool.connect();
+	try {
+	  const results = await db.query("SELECT email FROM company WHERE id = $1", [adminId]);
+	  return results.rows[0]?.email; // Return the email or null if not found
+	} catch (error) {
+	  console.error('Error in getting user email:', error);
+	  throw new Error("Internal error wah wah");
+	} finally {
+	  await db.release();
+	}
+  };
+
+  const getSuperAdminEmail= async (superadminID) => {
+	const db = await pool.connect();
+	try {
+	  const results = await db.query("SELECT email FROM superadmin WHERE id = $1", [superadminID]);
+	  
+	  if (results.rows.length > 0) {
+		return results.rows[0].email;
+	  } else {
+		throw new Error("Superadmin with the specified id not found");
+	  }
+	} catch (error) {
+	  console.error('Error in getting user data:', error);
+	  throw new Error("Internal error wah wah");
+	} finally {
+	  db.release(); // Always release the database connection in a finally block
+	}
+  };
+  
+
 const getSingleSuperAdminData = async (email, password) => {
 	try {
 		const db = await pool.connect();
@@ -699,5 +731,7 @@ module.exports = {
 	getCompanyAdminById,
 	getSuperAdminById,
 	updateSuperAdmin,
+	getCompanyAdminEmailById,
+	getSuperAdminEmail,
 	pool
 };
