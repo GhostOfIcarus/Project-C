@@ -34,8 +34,16 @@ class Schedule
     // calculates the weeknumber one week into the future
     const now = new Date();
     const startOfTheYear = new Date(now.getFullYear(), 0, 1);
-    const weekNumber = Math.ceil((((now.getTime() - startOfTheYear.getTime()) / 86400000) + startOfTheYear.getDay() + 1) / 7) + offset;
+    // look if the day number is past 3, if so, it will be 1, else it will be 0
+    const afterwednesday = now.getDay() > 3 ? 1 : 0;
 
+    let weekNumber = Math.ceil((((now.getTime() - startOfTheYear.getTime()) / 86400000) + startOfTheYear.getDay() + 1) / 7) + offset + afterwednesday;
+    
+    if (weekNumber == 53)
+    {
+      weekNumber = 1;
+    }
+    console.log(weekNumber);
     // emp id
     const employeeId = Emp.id;
 
