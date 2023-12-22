@@ -114,7 +114,7 @@ const LoginScreen = (props: LoginScreenProps) => {
             <Text style={{ color: 'white', textAlign: 'center' }}>{t('google')}</Text>
           </TouchableOpacity>
           <TouchableOpacity style={before_login.buttons} onPress={() => Email_Check("activate_account")}>
-            <Text style={{ color: 'white', textAlign: 'center' }}>{t('microsoft')}</Text>
+            <Text style={{ color: 'white', textAlign: 'center' }}>{t('activateaccount')}</Text>
           </TouchableOpacity>
           {/* Select Language icons */}
           <View style={before_login.flags_div}>
