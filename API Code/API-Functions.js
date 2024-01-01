@@ -1,6 +1,9 @@
 const { Console } = require('console');
 const jwt = require('jsonwebtoken');
 const Pool = require('pg').Pool;
+const { hashPassword, comparePasswords } = require('./Pass-Encryption');
+const bcrypt = require('bcrypt');
+
 
 const pool = new Pool({ 
 	user: 'postgres',
@@ -12,9 +15,13 @@ const pool = new Pool({
 const createNewCompany = async (admin_first_name, admin_last_name, company_name, full_schedule, email, password) => {
 	const db = await pool.connect();
 	try {
-		const results = await db.query(`INSERT INTO company (admin_first_name, admin_last_name, company_name, full_schedule, email, password )  
-										VALUES ($1, $2, $3, $4, $5, $6) 
-										RETURNING id`, [admin_first_name, admin_last_name, company_name, full_schedule, email, password]);
+		const hashedPassword = await hashPassword(password);
+	
+		const results = await db.query(`
+		  INSERT INTO company (admin_first_name, admin_last_name, company_name, full_schedule, email, password )  
+		  VALUES ($1, $2, $3, $4, $5, $6) 
+		  RETURNING id`, [admin_first_name, admin_last_name, company_name, full_schedule, email, hashedPassword]);
+	
 		if (results.rowCount > 0) 
 		{	
 			console.log('Insert successful');
@@ -421,8 +428,22 @@ const ChangePasswordEmployee = async (newPassword, email) => {
 const getSingleCompanyAdminData = async (email, password) => {
 	const db = await pool.connect();
 	try {
-		const results = await db.query("SELECT * FROM company WHERE email = $1 AND password = $2", [email, password]);
-		return results.rows[0];
+		const results = await db.query("SELECT * FROM company WHERE email = $1", [email]);
+		
+		if (results.rowCount === 0) {
+			return false;
+		}
+
+		const storedHashedPassword = results.rows[0].password;
+
+		// Compare the entered password with the stored hashed password
+		const passwordMatch = await bcrypt.compare(password, storedHashedPassword);
+
+		if (passwordMatch) {
+			return results.rows[0];
+		} else {
+			return false;
+		}
 	} catch (error) {
 		console.error(error);
 		console.error('Error in getting user data:', error);
@@ -477,8 +498,21 @@ const getCompanyAdminEmailById = async (adminId) => {
 const getSingleSuperAdminData = async (email, password) => {
 	try {
 		const db = await pool.connect();
-		const results = await db.query("SELECT * FROM superadmin WHERE email = $1 AND password = $2", [email, password]);
-		return results.rows[0];
+		const results = await db.query("SELECT * FROM superadmin WHERE email = $1", [email]);
+		if (results.rowCount === 0) {
+			return false;
+		}
+
+		const storedHashedPassword = results.rows[0].password;
+
+		// Compare the entered password with the stored hashed password
+		const passwordMatch = await bcrypt.compare(password, storedHashedPassword);
+
+		if (passwordMatch) {
+			return results.rows[0];
+		} else {
+			return false;
+		}
 	} catch (error) {
 		console.error(error);
 		console.error('Error in getting user data:', error);
@@ -558,44 +592,47 @@ const getAttendance = async (comp_id, week_number) => {
   
 
   const ChangeAdminPassword = async (newPassword, email) => {
-	const db = await pool.connect();
-	try {
-	  // Try updating the password in the company table
-	  const companyResults = await db.query(`
-		UPDATE company
-		SET password = $1
-		WHERE email = $2	
-		RETURNING *;
-	  `, [newPassword, email]);
-  
-	  if (companyResults.rowCount > 0) {
-		// Password updated in the company table
-		return true;
-	  }
-  
-	  // If not found in the company table, try updating in the superadmin table
-	  const superadminResults = await db.query(`
-		UPDATE superadmin
-		SET password = $1
-		WHERE email = $2
-		RETURNING *;
-	  `, [newPassword, email]);
-  
-	  if (superadminResults.rowCount > 0) {
-		// Password updated in the superadmin table
-		return true;
-	  }
-  
-	  // No rows were updated, which means the email was not found in either table
-	  console.error('No user found with this email:', email);
-	  return false;
-	} catch (error) {
-	  console.error('Error in updating user password:', error);
-	  throw new Error('Internal error');
-	} finally {
-	  db.release(); // Release the connection back to the pool
-	}
-  };
+    const db = await pool.connect();
+    try {
+        const hashedPassword = await hashPassword(newPassword); // Hash the new password
+
+        // Try updating the password in the company table
+        const companyResults = await db.query(`
+            UPDATE company
+            SET password = $1
+            WHERE email = $2
+            RETURNING *;
+        `, [hashedPassword, email]);
+
+        if (companyResults.rowCount > 0) {
+            // Password updated in the company table
+            return true;
+        }
+
+        // If not found in the company table, try updating in the superadmin table
+        const superadminResults = await db.query(`
+            UPDATE superadmin
+            SET password = $1
+            WHERE email = $2
+            RETURNING *;
+        `, [hashedPassword, email]);
+
+        if (superadminResults.rowCount > 0) {
+            // Password updated in the superadmin table
+            return true;
+        }
+
+        // No rows were updated, which means the email was not found in either table
+        console.error('No user found with this email:', email);
+        return false;
+    } catch (error) {
+        console.error('Error in updating user password:', error);
+        throw new Error('Internal error');
+    } finally {
+        db.release(); // Release the connection back to the pool
+    }
+};
+
 
   const updateAdmin = async (adminId, updatedAdmin) => {
 	const db = await pool.connect();

@@ -1,4 +1,6 @@
 const pgPromise = require('pg-promise');
+const {hashPassword} = require('../API Code/Pass-Encryption');
+
 
 // Replace these values with your PostgreSQL connection details
 const connection = {
@@ -98,6 +100,7 @@ async function createTables() {
 
 async function insertTestData() {
   try {
+    const hashedPassword = await hashPassword('hashed'); 
     // Write your insert queries here
     const insertDataQuery = `
       INSERT INTO Employee (First_Name, Last_Name, Email, Password, KeepSchedule, Activated)
@@ -105,7 +108,7 @@ async function insertTestData() {
       ('OEMPA', 'LOEMPA', 'oempa@loempa.com', '$2a$10$CrafwtV/9bbC.lkkPaj13.ZuRZLAlUhEEQ5VgruKtUyXzbmCkcam2', true, false);
 
       INSERT INTO Company (Admin_First_Name, Admin_Last_Name, Company_Name, Full_Schedule, Email, Password)
-      VALUES ('Jane', 'Doe', 'Example Company', true, 'company@email.com', 'hashed');
+      VALUES ('Jane', 'Doe', 'Example Company', true, 'company@email.com', '${hashedPassword}');
 
       INSERT INTO Schedule (Week_Number, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday)
       VALUES (1, false, true, true, true, true, true, true),
@@ -130,7 +133,7 @@ async function insertTestData() {
             (2, 1);
 
       INSERT INTO SuperAdmin (First_Name, Last_Name, Email, Password)
-      VALUES ('Super', 'Admin', 'Admin@bleh.com', 'hashed');
+      VALUES ('Super', 'Admin', 'Admin@bleh.com', '${hashedPassword}');
 
     `;
 

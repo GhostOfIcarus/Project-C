@@ -81,6 +81,7 @@
     "Week_select": "Selecteer een week:",
     "employeesNotFound": "mederwerkers niet gevonden",
     "employee_name": "naam medewerker",
-    "userdetails_Error": "gebruiker details niet gevonden"
+    "userdetails_Error": "gebruiker details niet gevonden",
+    "change_Password": "vul uw nieuwe wachtwoord in en herhaal het"
 }
   
