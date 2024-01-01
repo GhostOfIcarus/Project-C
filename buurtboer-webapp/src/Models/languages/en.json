@@ -82,5 +82,6 @@
     "employeesNotFound": "No employees found",
     "employee_name": "employee name",
     "userdetails_Error": "User details were not found",
-    "change_Password": "please input your new password and repeat it"
+    "change_Password": "please input your new password and repeat it",
+    "successfullyChangedPassword": "Password was changed succesfully"
   }

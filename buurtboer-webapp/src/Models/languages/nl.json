@@ -82,6 +82,7 @@
     "employeesNotFound": "mederwerkers niet gevonden",
     "employee_name": "naam medewerker",
     "userdetails_Error": "gebruiker details niet gevonden",
-    "change_Password": "vul uw nieuwe wachtwoord in en herhaal het"
+    "change_Password": "vul uw nieuwe wachtwoord in en herhaal het",
+    "successfullyChangedPassword": "Wachtwoord succesvol veranderd"
 }
   

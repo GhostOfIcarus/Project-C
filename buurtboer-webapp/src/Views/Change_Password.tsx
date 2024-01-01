@@ -5,7 +5,6 @@ import { changePasswordController } from '../Controllers/Change_PasswordControll
 import { useLocation } from 'react-router-dom';
 import { useNavigate, Link } from 'react-router-dom';
 import withAuthentication from '../Controllers/withAuthentication';
-import { as } from 'pg-promise';
 import { useTranslation } from 'react-i18next';
 
 function ChangePassword() {
@@ -13,6 +12,7 @@ function ChangePassword() {
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [errorMessages, setErrorMessages] = useState('');
+  const [showSuccessModal, setShowSuccessModal] = useState(false); // Track success modal visibility
   const location = useLocation();
   const urlParams = new URLSearchParams(location.search);
   const token = urlParams.get('token') as string;
@@ -30,9 +30,7 @@ function ChangePassword() {
 
       if (result) {
         // Password changed successfully
-
-        console.log('Password changed successfully');
-        navigate('/Login');
+        setShowSuccessModal(true);
       } else {
         setErrorMessages('Failed to change password');
       }
@@ -40,6 +38,11 @@ function ChangePassword() {
       console.error('An error occurred while changing the password:', error);
       setErrorMessages('An error occurred while changing the password');
     }
+  };
+
+  const handleCloseModal = () => {
+    setShowSuccessModal(false);
+    navigate('/Login'); // Go back to login page after closing the modal
   };
 
   return (
@@ -62,12 +65,21 @@ function ChangePassword() {
             />
             <button className={genstyles.button} onClick={handleChangePassword}>{t('send')}</button>
             {errorMessages && <div className={genstyles.error}>{errorMessages}</div>}
+            {showSuccessModal && (
+              <div className={genstyles.modal}>
+                <div className={genstyles.modalContent}>
+                  <p>{t('successfullyChangedPassword')}</p>
+                  <Link to="/Login" className={genstyles.link}>{t('backToLogin')}</Link>
+                </div>
+              </div>
+            )}
           </div>
           <div className={`col-lg-6 ${genstyles.image_div}`}>
             <img className={genstyles.Buurtboerlogo} src={logo} alt="buurtboerLogo" />
           </div>
         </div>
       </div>
+
     </>
   );
 }
