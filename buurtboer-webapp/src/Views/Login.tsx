@@ -6,10 +6,14 @@ import logo from './img/buurtboer_logo.png';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import genstyles from './Stylesheets/GeneralStyles.module.css';
 import loginstyles from './Stylesheets/Login.module.css';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import withAuthentication from '../Controllers/withAuthentication';
 import { useTranslation } from 'react-i18next';
+import axios from 'axios';
 
+interface UserData {
+  firstName: string;
+}
 
 {/* <script src="https://apis.google.com/js/platform.js" async defer></script> */}
 
@@ -37,12 +41,17 @@ import { useTranslation } from 'react-i18next';
 
 export function Login() {
   const { t } = useTranslation();
-  const { isSubmitted, loginFailed, renderErrorMessage, handleSubmit } = useLoginController();
+  const { isSubmitted, loginFailed, renderErrorMessage, handleSubmit, role } = useLoginController();
   const navigate = useNavigate();
 
   useEffect(() => {
     if (isSubmitted) {
-      navigate('/Employee_Overview');
+      if (role === 'CompanyAdmin'){
+        navigate('/Employee_Overview');
+      }
+      else{
+        navigate('/Company_Overview');
+      }
     }
   }, [isSubmitted]);
 
