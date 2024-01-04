@@ -10,36 +10,25 @@ import { useEffect, useState } from 'react';
 import withAuthentication from '../Controllers/withAuthentication';
 import { useTranslation } from 'react-i18next';
 import axios from 'axios';
+import { jwtDecode, JwtPayload } from 'jwt-decode';
 
 interface UserData {
   firstName: string;
 }
 
-{/* <script src="https://apis.google.com/js/platform.js" async defer></script> */}
+const clientID = "1075521165727-h558b9b3eg32llcsq606gbqbsvipjaqt.apps.googleusercontent.com";
+declare global {
+  interface Window {
+    google: any;
+  }
+}
 
-// interface GoogleUser {
-//   getBasicProfile(): {
-//     getId(): string;
-//     getName(): string;
-//     getEmail(): string;
-//   };
-// }
-
-// interface ExtendedWindow extends Window {
-//   gapi?: {
-//     auth2: {
-//       getAuthInstance(): {
-//         signIn(): Promise<GoogleUser>;
-//       };
-//       init(config: { client_id: string }): void;
-//     };
-//     load(api: string, callback: () => void): void;
-//   };
-// }
-
-// declare var window: ExtendedWindow;
+interface GoogleAccountsResponse {
+  credential: string;
+}
 
 export function Login() {
+  const [user, setUser] = useState({});
   const { t } = useTranslation();
   const { isSubmitted, loginFailed, renderErrorMessage, handleSubmit, role } = useLoginController();
   const navigate = useNavigate();
@@ -55,42 +44,49 @@ export function Login() {
     }
   }, [isSubmitted]);
 
-//   useEffect(() => {
-//     // Load the Google Sign-In script
-//     const script = document.createElement('script');
-//     script.src = 'https://apis.google.com/js/platform.js';
-//     script.async = true;
-//     script.defer = true;
-//     document.head.appendChild(script);
+  function handleCallbackResponse(response: GoogleAccountsResponse) {
+    console.log("Encoded JWT token: ", response.credential);
+    var userObject: JwtPayload = jwtDecode(response.credential);
+    console.log(userObject);
+    setUser(userObject);
+    const signInDiv = document.getElementById("signInDiv");
+    if (signInDiv) {
+      signInDiv.hidden = true;
+    } else {
+      console.error("Element with ID 'signInDiv' not found");
+    }
+  }
 
-//     script.onload = () => {
-//       // Initialize Google Sign-In
-//       window.gapi?.load('auth2', () => {
-//         window.gapi?.auth2.init({
-//           client_id: '1075521165727-h558b9b3eg32llcsq606gbqbsvipjaqt.apps.googleusercontent.com',
-//         });
-//       });
-//     };
+  function handleSignOut(): void{
+    setUser({});
+    const signInDiv = document.getElementById("signInDiv");
+    if (signInDiv) {
+      signInDiv.hidden = false;
+    } else {
+      console.error("Element with ID 'signInDiv' not found");
+    }
+    console.log("user", user, "successfully signed out")
+  }
 
-//     return () => {
-//       // Clean up the script when the component is unmounted
-//       document.head.removeChild(script);
-//     };
-//   }, []);
+  useEffect(() => {
+    /* global google */
+    google.accounts.id.initialize({
+      client_id: clientID,
+      callback: handleCallbackResponse
+    });
+  
+    google.accounts.id.renderButton(
+      document.getElementById("signInDiv"),
+      { theme: "outline", size: "large" }
+    );
+  }, []);
 
-//   const handleGoogleLogin = () => {
-//     // Trigger Google Sign-In
-//     const auth2 = window.gapi?.auth2.getAuthInstance();
-//     auth2?.signIn().then((googleUser: GoogleUser) => {
-//       const profile = googleUser.getBasicProfile();
-//       console.log('ID: ' + profile.getId()); // Do something with the user's ID
-//       console.log('Name: ' + profile.getName()); // Do something with the user's name
-//       console.log('Email: ' + profile.getEmail()); // Do something with the user's email
 
-//       // Additional logic (e.g., send the user's Google information to your server)
-//     });
-//   };
-
+  useEffect(() => {
+    if (isSubmitted) {
+      navigate('/Employee_Overview');
+    }
+  }, [isSubmitted]);
 
   const renderForm = (
     <>    
@@ -104,9 +100,11 @@ export function Login() {
         <div className={loginstyles.login_button_div}>
           <button className={genstyles.button}>Login</button>
           <p>{t('or')}</p>
-          <button className={genstyles.button}>{t('google')}</button>
+          {/* <button className={genstyles.button}>{t('google')}</button> */}
+          <div id="signInDiv"></div>
           <button className={genstyles.button}>{t('microsoft')}</button>
         </div>
+        <button onClick={handleSignOut}>Sign Out</button>
       </form>
     </>
   );
