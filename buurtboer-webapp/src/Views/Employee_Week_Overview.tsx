@@ -46,7 +46,6 @@ function Employee_Week_Overview() {
       <Navbar />
       <div>
         <h2>{firstname} {lastname}</h2>
-        <p>Monday: {mondayTrue ? '✔' : '❌'}</p>
         {renderSchedule()}
       </div>
     </>
