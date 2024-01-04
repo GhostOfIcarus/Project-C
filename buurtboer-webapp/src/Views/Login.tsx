@@ -82,11 +82,6 @@ export function Login() {
   }, []);
 
 
-  useEffect(() => {
-    if (isSubmitted) {
-      navigate('/Employee_Overview');
-    }
-  }, [isSubmitted]);
 
   const renderForm = (
     <>    

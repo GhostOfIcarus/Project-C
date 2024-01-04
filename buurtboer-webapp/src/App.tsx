@@ -46,6 +46,10 @@ function App() {
           path="/Employee_Week_Overview/:id/:week/:firstname/:lastname"
           element={<Employee_Week_Overview />}
         />
+        <Route
+          path="/Employee_Overview/:id"
+          element={<EmployeeOverview />}
+        />
       </Routes>
     </Router>
   );

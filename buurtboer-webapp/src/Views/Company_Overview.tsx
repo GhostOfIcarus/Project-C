@@ -6,6 +6,7 @@ import Cross from "./img/kruisje_projectC.png";
 import { useCompaniesOverviewController } from '../Controllers/Company_OverviewController';
 import withAuthentication from '../Controllers/withAuthentication';
 import { useTranslation } from 'react-i18next';
+import { Link } from 'react-router-dom'; 
 
 interface Company {
   id: number;
@@ -57,7 +58,11 @@ function CompanyOverview() {
             <tbody>
             {companiesList.map((company: Company) => (
             <tr key={company.id}>
-              <td>{company.name}</td>
+              <td>
+              <Link to={`/Employee_Overview/${company.id}`}>
+                {company.name}
+              </Link>
+              </td>
               <td className='text-end'>
                 <img
                   src={Cross}
