@@ -42,7 +42,6 @@ function Employee_Overview() {
                       <tr>
                           <td>{t('monday')}</td>
                           <td>{countMonday}</td>
-                          {/*moet nog aangepast worden naar (totalEmployeesByCompany - countMonday)*/}
                           <td>{absentMonday}</td>
                       </tr>
                       <tr>
