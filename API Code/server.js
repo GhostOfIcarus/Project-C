@@ -339,6 +339,44 @@ app.post('/api/CompanyAdmin/login', async (req, res) => {
 	}
 });
 
+app.post('/api/CompanyAdmin/login-google', async (req, res) => {
+try {
+	const { email } = req.body;
+	// Check if the user exists in the database (you may need to adjust this based on your database schema)
+	const userData = await Functions.getSingleCompanyAdminDataByEmail(email);
+	console.log("EMAIL IN SERVERJS: ", email);
+
+	if (!userData) {
+	res.status(401).json({ error: 'User not found' });
+	console.log("gebruiker niet gevonden")
+	return;
+	}
+
+	// Generate an access token using JWT (JSON Web Token)
+	const token = jwt.sign(
+	{
+		userId: userData.id,
+		firstName: userData.admin_first_name,
+		lastName: userData.admin_last_name,
+		userEmail: userData.email,
+		full_schedule: userData.full_schedule,
+		userRole: 'CompanyAdmin',
+		companyName: userData.company_name,
+	},
+	'thisisaverysecretkeyspongebob', // Replace with a secure secret key
+	{ expiresIn: '2h' }
+	);
+
+	// Set the access token as a cookie (HTTP-only)
+	res.cookie('jwt-token', token, { maxAge: 2 * 60 * 60 * 1000 }); // 2 hours max age
+
+	res.status(200).json({ token, userData: jwt.decode(token) });
+} catch (error) {
+	console.error(error);
+	res.status(500).json({ error: 'An error occurred during login' });
+}
+});
+
 // POST endpoint to login, get the super admin data and send it back to the client
 app.post('/api/SuperAdmin/login', async (req, res) => {
 	try {

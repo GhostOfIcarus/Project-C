@@ -36,9 +36,9 @@ interface GoogleAccountsResponse {
 }
 
 export function Login() {
-  const [user, setUser] = useState({});
+  // const [user, setUser] = useState({});
   const { t } = useTranslation();
-  const { isSubmitted, loginFailed, renderErrorMessage, handleSubmit, role } = useLoginController();
+  const { isSubmitted, loginFailed, renderErrorMessage, handleSubmit, role, user, handleSignOut } = useLoginController();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -52,69 +52,89 @@ export function Login() {
     }
   }, [isSubmitted]);
 
-  function handleCallbackResponse(response: GoogleAccountsResponse) {
-    console.log("Encoded JWT token: ", response.credential);
-    var userObject: localJwtPayload = jwtDecode(response.credential);
-    console.log(userObject);
-    // Check if the user exists in the database
-  axios.post('http://localhost:5000/api/check-email', { email: userObject.email })
-  .then((response) => {
-    if (response.data.emailExists) {
-      console.log("User", userObject.email, "already exists");
-    } else {
-      console.log("User does not exist, inserting into the database: ", userObject.email);
-      // Insert the user into the database
-      axios.post('http://localhost:5000/api/admin/registerAdmin', {
-        admin_first_name: userObject.given_name,
-        admin_last_name: userObject.family_name,
-        company_name: userObject.name,
-        full_schedule: false, // Set the company name accordingly
-        email: userObject.email,
-        password: ''
-      })
-      .then((insertResponse) => {
-        console.log("User inserted successfully");
-      })
-      .catch((insertError) => {
-        console.error("Error inserting user into the database", insertError);
-      });
-    }
-  })
-  .catch((error) => {
-    console.error("Error checking user in the database", error);
-  });
-    setUser(userObject);
-    const signInDiv = document.getElementById("signInDiv");
-    if (signInDiv) {
-      signInDiv.hidden = true;
-    } else {
-      console.error("Element with ID 'signInDiv' not found");
-    }
-  }
+  // function handleCallbackResponse(response: GoogleAccountsResponse) {
+  //   console.log("Encoded JWT token: ", response.credential);
+  //   var userObject: localJwtPayload = jwtDecode(response.credential);
+  //   console.log(userObject);
+    
+  //   // Check if the user exists in the database
+  // axios.post('http://localhost:5000/api/check-email', { email: userObject.email })
+  // .then((response) => {
+  //   if (response.data.emailExists) {
+  //     console.log("User", userObject.email, "already exists");
 
-  function handleSignOut(): void{
-    setUser({});
-    const signInDiv = document.getElementById("signInDiv");
-    if (signInDiv) {
-      signInDiv.hidden = false;
-    } else {
-      console.error("Element with ID 'signInDiv' not found");
-    }
-    console.log("user", user, "successfully signed out")
-  }
+  //     axios.post('http://localhost:5000/api/CompanyAdmin/login-google', {
+  //       email: userObject.email,
+  //     },  {
+  //       withCredentials: true,
+  //       headers: {
+  //         'Content-Type': 'application/json'
+  //       }
+  //     })
+  //     .then((loginResponse) => {
+  //       // Handle the response, e.g., store the token in local storage or cookies
+  //       const { token, userData } = loginResponse.data;
+  //       isSubmitted;
+  //       // ... additional logic
+  //     })
+  //     .catch((loginError) => {
+  //       console.error('Error during CompanyAdmin login', loginError);
+  //     });
 
-  useEffect(() => {
-    /* global google */
-    google.accounts.id.initialize({
-      client_id: clientID,
-      callback: handleCallbackResponse
-    });
+  //   } else {
+  //     console.log("User does not exist, inserting into the database: ", userObject.email);
+  //     // Insert the user into the database
+  //     axios.post('http://localhost:5000/api/admin/registerAdmin', {
+  //       admin_first_name: userObject.given_name,
+  //       admin_last_name: userObject.family_name,
+  //       company_name: userObject.name,
+  //       full_schedule: false, // Set the company name accordingly
+  //       email: userObject.email,
+  //       password: ''
+  //     })
+  //     .then((insertResponse) => {
+  //       console.log("User inserted successfully");
+  //     })
+  //     .catch((insertError) => {
+  //       console.error("Error inserting user into the database", insertError);
+  //     });
+  //   }
+  // })
+  // .catch((error) => {
+  //   console.error("Error checking user in the database", error);
+  // });
+  //   setUser(userObject);
+  //   const signInDiv = document.getElementById("signInDiv");
+  //   if (signInDiv) {
+  //     signInDiv.hidden = true;
+  //   } else {
+  //     console.error("Element with ID 'signInDiv' not found");
+  //   }
+  // }
+
+  // function handleSignOut(): void{
+  //   setUser({});
+  //   const signInDiv = document.getElementById("signInDiv");
+  //   if (signInDiv) {
+  //     signInDiv.hidden = false;
+  //   } else {
+  //     console.error("Element with ID 'signInDiv' not found");
+  //   }
+  //   console.log("user", user, "successfully signed out")
+  // }
+
+  // useEffect(() => {
+  //   /* global google */
+  //   google.accounts.id.initialize({
+  //     client_id: clientID,
+  //     callback: handleCallbackResponse
+  //   });
   
-    google.accounts.id.renderButton(
-      document.getElementById("signInDiv"),
-      { theme: "outline", size: "large" }
-    );
-  }, []);
+  //   google.accounts.id.renderButton(
+  //     document.getElementById("signInDiv"),
+  //     { theme: "outline", size: "large" }
+  //   );
+  // }, []);
 
 
 

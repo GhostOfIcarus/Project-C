@@ -72,8 +72,8 @@ const deleteCompany = async (company_id) => {
 const createNewEmployee = async (comp_id, first_name, last_name, email, activation_key) => {
 	const db = await pool.connect();
 	try {
-		const results = await db.query(`INSERT INTO employee (first_name, last_name, email, password, keepschedule) 
-										VALUES ($1, $2, $3, 'password', false) 
+		const results = await db.query(`INSERT INTO employee (first_name, last_name, email, password, keepschedule, activated) 
+										VALUES ($1, $2, $3, 'password', false, false) 
 										RETURNING id`, [first_name, last_name, email]);
 		if (results.rowCount > 0) 
 		{	
@@ -451,6 +451,24 @@ const getSingleCompanyAdminData = async (email, password) => {
 	}
 };
 
+const getSingleCompanyAdminDataByEmail = async (email) => {
+	const db = await pool.connect();
+	console.log("email2:", email)
+	try {
+		const results = await db.query("SELECT * FROM company WHERE email = $1", [email]);
+		console.log("RESULTS: ", results.rowCount);
+		if (results.rowCount === 0) {
+			return false;
+		}
+		return results.rows[0];
+
+	} catch (error) {
+		console.error(error);
+		console.error('Error in getting user data:', error);
+		throw new Error("Internal error wah wah");
+	}
+};
+
 const getCompanyAdminById = async (adminId) => {
 	const db = await pool.connect();
 	try {
@@ -757,6 +775,7 @@ module.exports = {
 	addKeyByEmployeeMail,
 	getSingleEmployeeByEmailData,
 	getSingleCompanyAdminData,
+	getSingleCompanyAdminDataByEmail,
 	getSingleSuperAdminData,
 	ChangePasswordEmployee,	
 	getEmployeeSchedule,
