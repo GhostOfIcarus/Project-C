@@ -12,8 +12,16 @@ import { useTranslation } from 'react-i18next';
 import axios from 'axios';
 import { jwtDecode, JwtPayload } from 'jwt-decode';
 
-interface UserData {
-  firstName: string;
+interface localJwtPayload {
+  // ... other properties
+
+  // 'given_name' and 'family_name' are common properties for first and last names in Google JWT
+  given_name: string;
+  family_name: string;
+
+  // 'email' is a common property for the email address in Google JWT
+  email: string;
+  name: string;
 }
 
 const clientID = "1075521165727-h558b9b3eg32llcsq606gbqbsvipjaqt.apps.googleusercontent.com";
@@ -46,8 +54,35 @@ export function Login() {
 
   function handleCallbackResponse(response: GoogleAccountsResponse) {
     console.log("Encoded JWT token: ", response.credential);
-    var userObject: JwtPayload = jwtDecode(response.credential);
+    var userObject: localJwtPayload = jwtDecode(response.credential);
     console.log(userObject);
+    // Check if the user exists in the database
+  axios.post('http://localhost:5000/api/check-email', { email: userObject.email })
+  .then((response) => {
+    if (response.data.emailExists) {
+      console.log("User", userObject.email, "already exists");
+    } else {
+      console.log("User does not exist, inserting into the database: ", userObject.email);
+      // Insert the user into the database
+      axios.post('http://localhost:5000/api/admin/registerAdmin', {
+        admin_first_name: userObject.given_name,
+        admin_last_name: userObject.family_name,
+        company_name: userObject.name,
+        full_schedule: false, // Set the company name accordingly
+        email: userObject.email,
+        password: ''
+      })
+      .then((insertResponse) => {
+        console.log("User inserted successfully");
+      })
+      .catch((insertError) => {
+        console.error("Error inserting user into the database", insertError);
+      });
+    }
+  })
+  .catch((error) => {
+    console.error("Error checking user in the database", error);
+  });
     setUser(userObject);
     const signInDiv = document.getElementById("signInDiv");
     if (signInDiv) {
