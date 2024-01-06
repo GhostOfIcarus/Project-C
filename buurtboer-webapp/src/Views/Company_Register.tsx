@@ -8,10 +8,12 @@ import genstyles from './Stylesheets/GeneralStyles.module.css';
 import withAuthentication from '../Controllers/withAuthentication';
 import { useTranslation } from 'react-i18next';
 import {registerCompanyController} from '../Controllers/Company_RegisterController'
+import { useMicrosoftLogin } from '../Controllers/microsoftLogin_Controller';
 
 
 
 export function Company_Register() {
+  const {register} = useMicrosoftLogin();
   const { t } = useTranslation();
   const navigate = useNavigate();
   const location = useLocation();
@@ -30,6 +32,49 @@ export function Company_Register() {
     } catch (error) {
       console.error('Error checking email availability:', error);
       return false; 
+    }
+  };
+
+  const handleMicrosoftLogin = async () => {
+    const apiUrl = 'http://localhost:5000/api/admin/registerAdmin';
+    try {
+      const params = new URLSearchParams(location.search);
+      const token = params.get('token') || '';
+
+      const verifiedToken = await axios.post('http://localhost:5001/checkToken', {
+        token: token,
+        }, {
+          withCredentials: true,
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        });
+
+      const microsoftData = await register();
+      console.log(microsoftData);
+      if(microsoftData){
+        console.log(microsoftData);
+        const registrationSuccess = await axios.post(apiUrl, {
+                admin_first_name: microsoftData.firstname,
+                admin_last_name: microsoftData.lastname,
+                company_name: verifiedToken.data.data.companyName,
+                full_schedule: false,
+                email: microsoftData.email,
+                password: '',
+              });
+        if (registrationSuccess) {
+          // Redirect to the login page or show a success message
+          console.log('SUCCESSSS');
+          navigate(`/login`);
+        } else {
+          // Handle registration failure
+          console.error('Company registration failed');
+        }
+      }
+     
+    } catch (error) {
+      // Handle errors, e.g., display an error message
+      console.error('An error occurred during company registration', error);
     }
   };
 
@@ -128,6 +173,8 @@ export function Company_Register() {
                   />
                   <br /><br />
                   <input type="submit" value={t('submit')} className={genstyles.submmitbutton} />
+                  <a>{t('or')}</a>
+                  <button onClick={handleMicrosoftLogin} className={genstyles.button}>{t('microsoft')}</button>
                 </form>
               </div>
             </div>

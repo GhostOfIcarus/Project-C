@@ -25,9 +25,7 @@ const Navbar = () => {
           },
           withCredentials: true,
         });
-        // console.log("Response data: ", response.data);
         const userData = response.data.userData;
-        // console.log(userData.firstName);
         setUserData(userData);
         const userRole = userData.userRole;
         console.log(userRole);

@@ -1,5 +1,5 @@
 
-
+import { useMicrosoftLogin } from '../Controllers/microsoftLogin_Controller';
 import { useLoginController } from '../Controllers/LoginController';
 import { useNavigate, Link } from 'react-router-dom';
 import logo from './img/buurtboer_logo.png';
@@ -40,6 +40,8 @@ export function Login() {
   const { t } = useTranslation();
   const { isSubmitted, loginFailed, renderErrorMessage, handleSubmit, role, user, handleSignOut } = useLoginController();
   const navigate = useNavigate();
+  const { login, Logout } = useMicrosoftLogin();
+
 
   useEffect(() => {
     if (isSubmitted) {
@@ -152,7 +154,7 @@ export function Login() {
           <p>{t('or')}</p>
           {/* <button className={genstyles.button}>{t('google')}</button> */}
           <div id="signInDiv"></div>
-          <button className={genstyles.button}>{t('microsoft')}</button>
+          <button onClick={login} className={genstyles.button}>{t('microsoft')}</button>
         </div>
         <button onClick={handleSignOut}>Sign Out</button>
       </form>
