@@ -169,14 +169,14 @@ function Settings() {
           const EmailNotAvailable = await checkEmailAvailability(userEmail);
 
           if (EmailNotAvailable) {
-            setErrorMessage('Email is already in use');
+            setErrorMessage(t('email_inUse_error'));
             setIsEmailUnique(false);
             return;
           }
         }
       } else {
         // If the email is invalid (doesn't contain "@"), set an error message
-        setErrorMessage('Invalid email format');
+        setErrorMessage(t('email_format_error'));
         setIsEmailUnique(false);
         return;
       }

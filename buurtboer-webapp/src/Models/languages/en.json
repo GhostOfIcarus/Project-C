@@ -37,8 +37,11 @@
     "logout": "Logout",
     "email_send": "email gestuurt naar",
     "backToLogin": "back to login",
+    "email_invalid_error": "Email invalid",
     "email_error": "Email not found!",
     "email_error_text": "Email not found in our database, please try again.",
+    "email_format_error": "Email not valid. '@' missing",
+    "email_inUse_error": "email is already in use",
     "user_error": "Account not found!",
     "user_error_text": "Your email or password is incorrect, please try again.",
     "passowrd_incorrect_error": "Wrong password!",
@@ -84,5 +87,10 @@
     "userdetails_Error": "User details were not found",
     "change_Password": "please input your new password and repeat it",
     "successfullyChangedPassword": "Password was changed succesfully",
-    "successfullyMadeCompany": "Company created successfully"
+    "successfullyMadeCompany": "Company created successfully",
+    "confirmDelete_employee": "Are you sure you want to delete 1 employee?",
+    "Email_success": "Email successfully send",
+    "email_fail": "Failed to send email",
+    "input_error": "fill in all fields!",
+    "invite_send": "Invite send!"
   }

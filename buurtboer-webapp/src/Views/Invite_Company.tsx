@@ -20,7 +20,7 @@ function Invite_Company() {
   const handleInviteClick = () => {
     // Check if adminEmail contains '@' symbol
     if (!adminEmail.includes('@')) {
-      setErrorMessage('Invalid email format');
+      setErrorMessage(t('email_format_error'));
       return; // Stop further execution
     }
 
@@ -45,12 +45,12 @@ function Invite_Company() {
     )
     .then(() => {
       // Display success message
-      setSuccessMessage('Successfully sent email');
+      setSuccessMessage(t('Email_success'));
     })
     .catch(error => {
       console.error('Error sending email:', error);
       // Display error message
-      setErrorMessage('Failed to send email');
+      setErrorMessage(t('email_fail'));
     });
   };
 

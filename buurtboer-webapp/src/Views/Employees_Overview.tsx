@@ -28,7 +28,7 @@ function EmployeesOverview() {
   }, [employees]);
 
   const handleRemoveEmployee = async (employeeId: number) => {
-    const confirmDelete = window.confirm(`Are you sure you want to delete 1 employee?`);
+    const confirmDelete = window.confirm(t('confirmDelete_employee'));
 
     if (confirmDelete) {
       await RemoveEmployee(employeeId);

@@ -87,14 +87,14 @@ export function Company_Register() {
 
     // Validate email format
     if (!companyEmail.includes('@')) {
-    setErrorMessage('Invalid email format');
+    setErrorMessage(t('email_format_error'));
     return; // Stop further execution
     }
 
     const EmailNotAvailable = await checkEmailAvailability(companyEmail);
 
     if (EmailNotAvailable) {
-      setErrorMessage('Email is already in use');
+      setErrorMessage(t('email_inUse_error'));
       setIsEmailUnique(false);
       return;
     }
@@ -189,7 +189,7 @@ export function Company_Register() {
                   <div style={{ color: 'green' }}>
                     {successMessage}
                     <Link to="/login" className={postlogin.loginLink}>
-                      Go to Login
+                      {t('backToLogin')}
                     </Link>
                   </div>
                  )}

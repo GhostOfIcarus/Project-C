@@ -37,8 +37,11 @@
     "notifications": "Notificaties",
     "rememberMe": "Onthoud mij",
     "logout": "Log uit",
+    "email_invalid_error": "Email ongeldig",
     "email_error": "Email niet gevonden!",
     "email_error_text": "Email is niet gevonden in onze database.",
+    "email_format_error": "email niet geldig, '@' nodig",
+    "email_inUse_error": "Email al in gebruik,",
     "user_error": "Account niet gevonden!",
     "user_error_text": "Je Email of Wachtwoord is incorrect. Probeer het opnieuw.",
     "passowrd_incorrect_error": "Fout wachtwoord!",
@@ -84,6 +87,11 @@
     "userdetails_Error": "gebruiker details niet gevonden",
     "change_Password": "vul uw nieuwe wachtwoord in en herhaal het",
     "successfullyChangedPassword": "Wachtwoord succesvol veranderd",
-    "successfullyMadeCompany": "bedrijf succesvol aangemaakt"
+    "successfullyMadeCompany": "bedrijf succesvol aangemaakt",
+    "confirmDelete_employee": "Weet u zeker dat u 1 employee wilt verwijderen?",
+    "Email_success": "Email succesvol gestuurd",
+    "email_fail": "Failed to send email",
+    "input_error": "Vul alle velden in!",
+    "invite_send": "uitnodiging gestuurd"
 }
   

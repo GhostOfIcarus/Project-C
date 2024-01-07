@@ -5,6 +5,7 @@ import postlogin from './Stylesheets/PostLogin.module.css';
 import Navbar from './Navbar';
 import genstyles from './Stylesheets/GeneralStyles.module.css';
 import withAuthentication from '../Controllers/withAuthentication';
+import { useTranslation } from 'react-i18next';
 import axios from 'axios';
 import { response } from 'express';
 
@@ -18,6 +19,7 @@ export interface UserData{
 }
 
 function Invite_Employee() {
+  const { t } = useTranslation();
   const [employeeEmail, setEmployeeEmail] = useState('');
   const [employeeFirstName, setEmployeeFirstName] = useState('');
   const [employeeLastName, setEmployeeLastName] = useState('');
@@ -53,11 +55,11 @@ function Invite_Employee() {
 
     // Check if any input is empty and don't proceed with the submission if any input is empty
     if (!employeeEmail || !employeeFirstName || !employeeLastName) {
-      setSubmitMessages("Vul alle velden in!");
+      setSubmitMessages(t('input_error'));
       return;
     }
 
-    setSubmitMessages("Uitnodiging verstuurd!");
+    setSubmitMessages(t('invite_send'));
     //console.log("First Name: ", employeeFirstName);
 
    
@@ -142,7 +144,7 @@ function Invite_Employee() {
                       <br /><br />
                       <input type='text' id="lastName" placeholder="Achternaam" value={employeeLastName} onChange={(e) => setEmployeeLastName(e.target.value)}/>
                       <br /><br />
-                      <button className={genstyles.submmitbutton} type="submit">Stuur uitnodiging</button>
+                      <button className={genstyles.submmitbutton} type="submit">{t('send_invite')}</button>
                       {submitMessages && <div className={genstyles.error}>{submitMessages}</div>}
                   </form>
                 </div>
