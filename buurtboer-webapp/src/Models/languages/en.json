@@ -83,5 +83,6 @@
     "employee_name": "employee name",
     "userdetails_Error": "User details were not found",
     "change_Password": "please input your new password and repeat it",
-    "successfullyChangedPassword": "Password was changed succesfully"
+    "successfullyChangedPassword": "Password was changed succesfully",
+    "successfullyMadeCompany": "Company created successfully"
   }

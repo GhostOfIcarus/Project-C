@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { useLocation } from 'react-router-dom';
 import Navbar from './Navbar';
 import axios from 'axios';
@@ -17,6 +17,8 @@ export function Company_Register() {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const location = useLocation();
+  const [registrationSuccess, setRegistrationSuccess] = useState(false);
+  const [successMessage, setSuccessMessage] = useState('');
   const [companyEmail, setCompanyEmail] = useState<string>('');
   const [companyPass, setCompanyPass] = useState('');
   const [companyPass2, setCompanyPass2] = useState('');
@@ -65,8 +67,9 @@ export function Company_Register() {
               });
         if (registrationSuccess) {
           // Redirect to the login page or show a success message
-          console.log('SUCCESSSS');
-          navigate(`/login`);
+          setRegistrationSuccess(true);
+          setSuccessMessage(t('successfullyMadeCompany'))
+          console.log('created succesfully');
         } else {
           // Handle registration failure
           console.error('Company registration failed');
@@ -119,9 +122,10 @@ export function Company_Register() {
       const registrationSuccess = await registerCompanyController(verifiedToken.data.data.adminFirstName, verifiedToken.data.data.adminLastName, verifiedToken.data.data.companyName, full_schedule, companyEmail, companyPass);
 
       if (registrationSuccess) {
-        // Redirect to the login page or show a success message
+        setRegistrationSuccess(true);
+        setSuccessMessage(t('successfullyMadeCompany'));
         console.log('SUCCESSSS');
-        navigate(`/login`);
+        //navigate(`/login`);
       } else {
         // Handle registration failure
         console.error('Company registration failed');
@@ -176,7 +180,19 @@ export function Company_Register() {
                   <input type="submit" value={t('submit')} className={genstyles.submmitbutton} />
                   <a>{t('or')}</a>
                   <button onClick={handleMicrosoftLogin} className={genstyles.button}>{t('microsoft')}</button>
+
+                  <a><button className={genstyles.button}>{t('google')}</button> </a>
                 </form>
+
+                 {/* Display success message and link to login */}
+                 {registrationSuccess && (
+                  <div style={{ color: 'green' }}>
+                    {successMessage}
+                    <Link to="/login" className={postlogin.loginLink}>
+                      Go to Login
+                    </Link>
+                  </div>
+                 )}
               </div>
             </div>
           </div>
