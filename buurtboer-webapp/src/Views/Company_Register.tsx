@@ -34,7 +34,8 @@ export function Company_Register() {
       return false; 
     }
   };
-
+  
+  //function that handles the microsoft login
   const handleMicrosoftLogin = async () => {
     const apiUrl = 'http://localhost:5000/api/admin/registerAdmin';
     try {
