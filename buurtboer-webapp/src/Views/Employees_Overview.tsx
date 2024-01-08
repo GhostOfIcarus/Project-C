@@ -17,16 +17,9 @@ interface Employee {
 
 function EmployeesOverview() {
   const { t } = useTranslation();
-  const { fetchEmployees, employees, RemoveEmployee, fetchSchedule } = useEmployeesOverviewController();
+  const { fetchEmployees, employees, RemoveEmployee } = useEmployeesOverviewController();
   const [employeesList, setEmployeesList] = useState<Employee[]>(employees);
-  const{ isSubmitted, handleSubmit, countMonday, countTuesday, countWednesday, countThursday, countFriday, countSaturday, countSunday,
-    absentMonday,
-    absentTuesday,
-    absentWednesday,
-    absentThursday,
-    absentFriday,
-    absentSaturday,
-    absentSunday, userdata, selectedWeek} = useEmpOverviewController();
+
 
   useEffect(() => {
     fetchEmployees();

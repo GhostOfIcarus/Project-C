@@ -111,55 +111,53 @@ export function useEmployeesOverviewController() {
     }
   };
 
-  const fetchSchedule = async (id: number, elements: FormEvent<HTMLFormElement>) => {
-    elements.preventDefault();
-    const form = elements.currentTarget;
-    const wn = form.elements.namedItem('week') as HTMLInputElement;
-    const week_number = wn.value.split('-')[1].substring(1);
+  // const fetchSchedule = async (id: number, elements: FormEvent<HTMLFormElement>) => {
+  //   elements.preventDefault();
+  //   const form = elements.currentTarget;
+  //   const wn = form.elements.namedItem('week') as HTMLInputElement;
+  //   const week_number = wn.value.split('-')[1].substring(1);
 
-    try {
-      const response = await axios.post(
-        'http://localhost:5000/api/employee/schedule',
-        {
-          id,
-          week_number,
-        },
-        {
-          withCredentials: true,
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        }
-      );
+  //   try {
+  //     const response = await axios.post(
+  //       'http://localhost:5000/api/employee/schedule',
+  //       {
+  //         id,
+  //         week_number,
+  //       },
+  //       {
+  //         withCredentials: true,
+  //         headers: {
+  //           'Content-Type': 'application/json',
+  //         },
+  //       }
+  //     );
 
-      if (response.data) {
-        // Handle schedule data, e.g., set it in state
-        // For example, assuming you have a state variable 'schedule'
-        // const scheduleData = response.data;
-        // setSchedule(scheduleData);
-        return response.data;
-      }
-    } catch (error) {
-      console.log('Error fetching schedule from employee: ', error);
-    }
-  };
-
-  // const handleSubmitAttendance = async (event: FormEvent<HTMLFormElement>) => {
-  //   // ... (unchanged code for handling attendance)
+  //     if (response.data) {
+  //       // Handle schedule data, e.g., set it in state
+  //       // For example, assuming you have a state variable 'schedule'
+  //       const scheduleData = response.data;
+  //       setSchedule(scheduleData);
+  //       return response.data;
+  //     }
+  //   } catch (error) {
+  //     console.log('Error fetching schedule from employee: ', error);
+  //   }
   // };
 
-  const handleSubmitSchedule = async (event: FormEvent<HTMLFormElement>) => {
-    // Assuming you have an employee ID, replace 'employeeId' with the actual employee ID
-    const employeeId = 1; // Replace with the actual employee ID
-    await fetchSchedule(employeeId, event);
-  };
+  // // const handleSubmitAttendance = async (event: FormEvent<HTMLFormElement>) => {
+  // //   // ... (unchanged code for handling attendance)
+  // // };
+
+  // const handleSubmitSchedule = async (event: FormEvent<HTMLFormElement>) => {
+  //   // Assuming you have an employee ID, replace 'employeeId' with the actual employee ID
+  //   const employeeId = 1; // Replace with the actual employee ID
+  //   await fetchSchedule(employeeId, event);
+  // };
 
   return {
     fetchEmployees,
     employees,
     RemoveEmployee,
-    handleSubmitSchedule,
-    fetchSchedule,
     schedule,
   };
 }

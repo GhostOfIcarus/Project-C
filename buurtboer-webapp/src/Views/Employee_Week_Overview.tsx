@@ -3,34 +3,16 @@ import { Link, useParams } from 'react-router-dom';
 import Navbar from './Navbar';
 import postlogin from './Stylesheets/PostLogin.module.css';
 import withAuthentication from '../Controllers/withAuthentication';
-import { useEmployeesOverviewController } from '../Controllers/Employees_OverviewController';
+import { useEmployeeWeekOverviewController } from '../Controllers/Employee_WeekOverviewControllers';
 import { useEmpOverviewController } from '../Controllers/Employee_OverviewController';
 import { useTranslation } from 'react-i18next';
 
 function Employee_Week_Overview() {
   const { t } = useTranslation();
-  const { id, week, firstname, lastname } = useParams();
-  const { fetchSchedule, schedule } = useEmployeesOverviewController();
-  const{ isSubmitted, handleSubmit, countMonday, countTuesday, countWednesday, countThursday, countFriday, countSaturday, countSunday,
-    absentMonday,
-    absentTuesday,
-    absentWednesday,
-    absentThursday,
-    absentFriday,
-    absentSaturday,
-    absentSunday, userdata} = useEmpOverviewController();
+  const { id, week, firstname, lastname } = useParams() || {};
+  const { handleSubmit, schedule } = useEmployeeWeekOverviewController();
+  const{ userdata } = useEmpOverviewController();
 
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     try {
-  //       await fetchSchedule(Number(id), Number(week));
-  //     } catch (error) {
-  //       console.error('Error fetching schedule:', error);
-  //     }
-  //   };
-
-  //   fetchData();
-  // }, [id, week, fetchSchedule]);
 
   const renderSchedule = () => {
     if (!schedule) {
@@ -40,7 +22,7 @@ function Employee_Week_Overview() {
           <div className="row">
             <div className="col-lg-12 ">
               <h1>{firstname} {lastname}</h1>
-              <form onSubmit={handleSubmit}>
+              <form onSubmit={(event) => id && handleSubmit(event, id)}>
                   <input type="week" id="week" name="week" />
                   <input type="submit" value="Submit" />
               </form>
@@ -74,7 +56,7 @@ function Employee_Week_Overview() {
           <div className="row">
             <div className="col-lg-12 ">
               <h1>{firstname} {lastname}</h1>
-              <form onSubmit={handleSubmit}>
+              <form onSubmit={(event) => id && handleSubmit(event, id)}>
                   <input type="week" id="week" name="week" />
                   <input type="submit" value="Submit" />
               </form>
