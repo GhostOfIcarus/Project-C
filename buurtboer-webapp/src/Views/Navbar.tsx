@@ -84,17 +84,19 @@ const Navbar = () => {
           </li>
         </ul>
       </div>
-        <div className="nav-button me-5 "></div>
-        <div className="nav-button me-5 ">
-        <Link
-         to="/Choose_Order"
-             style={{ ...linkStyle, ...hoveredLinkStyle }}
-           onMouseEnter={() => setHoveredLinkStyle({ color: '#F9834C' })}
-             onMouseLeave={() => setHoveredLinkStyle({ color: '#000000' })}
-           >
-             {t('order')}
+      <div className="nav-button me-5 "></div>
+      {userRole === 'CompanyAdmin' && (
+        <div className="nav-button me-5">
+          <Link
+            to="/Choose_Order"
+            style={{ ...linkStyle, ...hoveredLinkStyle }}
+            onMouseEnter={() => setHoveredLinkStyle({ color: '#F9834C' })}
+            onMouseLeave={() => setHoveredLinkStyle({ color: '#000000' })}
+          >
+            {t('order')}
           </Link>
-       </div>
+        </div>
+      )}
       <div className="nav-button me-5">
         {userRole === 'SuperAdmin' ? (
           <Link
