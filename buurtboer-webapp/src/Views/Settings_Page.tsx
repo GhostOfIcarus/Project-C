@@ -65,6 +65,12 @@ function Settings() {
         setUserEmail(userEmail);
         setUserName(userName);
         setSelectedRosterValue(selectedRosterValue);
+        if (selectedRosterValue){
+          setSelectedRoster(t('7weekday'))
+        }
+        else{
+          setSelectedRoster(t('5weekday'))
+        }
         console.log(userData);
         console.log('fetched data succesfully');
       } catch (error) {
@@ -102,6 +108,7 @@ function Settings() {
 
   const handleRoosterChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const selectedValue = event.target.value;
+    console.log(selectedValue);
   
     // Update the selectedRosterValue based on the selected option
     if (selectedValue === t('5weekday')) {
@@ -321,7 +328,7 @@ function Settings() {
                 <label htmlFor="Rooster">{t('scheduleOverviewHeader')}</label>
                 <select id="Rooster" disabled={!editable} value= {selectedRoster} onChange={handleRoosterChange}>
                   <option value={t('5weekday')}>{t('5weekday')}</option>
-                  <option value={t('yweekday')}>{t('7weekday')}</option>
+                  <option value={t('7weekday')}>{t('7weekday')}</option>
                 </select>
                 <img
                   style={{ width: '20px', height: 'auto', marginRight: '5px', cursor: 'pointer' }}
