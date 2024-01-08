@@ -31,5 +31,15 @@ module.exports = {
             <p>If you did not request this, please ignore this email and your registration will remain unconfirmed.</p>
             <p>Kind regards</p>
         `;
+    },
+
+    employeeSecurityKey: (activationKey) => {
+        return `
+            <p>Hello,</p>
+            <p>Please enter this activation code in the BuurtBoer mobile app to confirm that this is you: </p>
+            <h3>${activationKey}</h3>
+            <p>If you did not request this, please contact a supervisor!.</p>
+            <p>Kind regards</p>
+        `;
     }
 };

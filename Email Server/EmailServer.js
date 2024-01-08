@@ -148,6 +148,24 @@ app.post('/checkToken', async (req, res) => {
     }
 });
 
+// Send company registration email endpoint
+app.post('/sendEmail/activaionkey', (req, res) => {
+    mailOptions.to = req.body.to;
+    mailOptions.subject = "Activatie code";
+
+    mailOptions.html = EmailTemplates.employeeSecurityKey(req.body.activationKey);
+
+    transporter.sendMail(mailOptions, function(error, info){
+        if (error) {
+            console.log(error);
+            res.status(500).send(error);
+        } else {
+            console.log('Email sent: ' + info.response);
+            res.status(200).send('Email sent: ' + info.response);
+        }
+    });
+});
+
 
 // Starting the email server
 app.listen(port, () => {

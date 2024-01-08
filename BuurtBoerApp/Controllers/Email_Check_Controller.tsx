@@ -33,8 +33,9 @@ class EmailCheckController {
 
     // Get the data from the response
     let data = await response.json();
-    console.log(data);
-    if (!data) {
+    console.log(data.userData);
+    console.log(data.activation_key);
+    if (!data.userData) {
       // commented for now but is security risk
       if (page_key == "change_password") {
         Alert.alert("Error", "Activate your account first");
@@ -47,12 +48,28 @@ class EmailCheckController {
     console.log(data); 
 
     // Check if the data contains the employee data
-    let employeeData = data;
+    let employeeData = data.userData;
     if (!employeeData) {
       Alert.alert('Error', 'Employee data not found in the response');
       return;
     }
-    
+    let email_response = await fetch('http://10.0.2.2:5001/sendEmail/activaionkey', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        to: "joeridekker2002@gmail.com",
+        activationKey: data.activation_key,
+      }),
+    });
+
+    console.log(email_response);
+    if (!email_response.ok) {
+      Alert.alert('Error', `HTTP ${response.status}: "Email not send"`);
+      return;
+    }
+
     // Create an employee object
     let employee = new Employee(employeeData.id, employeeData.email, employeeData.first_name, employeeData.last_name, employeeData.keepschedule, employeeData.company_name);
     if (employee) {

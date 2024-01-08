@@ -281,7 +281,7 @@ app.post('/api/employee/email_code', async (req, res) => {
 			{ expiresIn: '1h' }
 		  );
 		const userData = await Functions.addKeyByEmployeeMail(email, activated, token);
-		res.status(200).json(userData);
+		res.status(200).json({ userData, activation_key });
 	} catch (error) {
 		console.error(error);
 		res.status(500).json({ error: 'An error occurred getting the employee' });
