@@ -64,6 +64,7 @@ export function useLoginController() {
                 // Handle the response, e.g., store the token in local storage or cookies
                 const { token, userData } = loginResponse.data;
                 setIsSubmitted(true);
+                setRol('CompanyAdmin');
                 // ... additional logic
               })
               .catch((loginError) => {
