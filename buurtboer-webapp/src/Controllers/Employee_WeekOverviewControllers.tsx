@@ -116,6 +116,11 @@ export function useEmployeeWeekOverviewController() {
             setSchedule(scheduleData);
             return response.data;
         }
+
+        else
+        {
+            setSchedule(null);
+        }
       } catch (error) {
         console.log(error);
       }

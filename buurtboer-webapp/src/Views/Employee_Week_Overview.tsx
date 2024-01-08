@@ -47,7 +47,7 @@ function Employee_Week_Overview() {
         </div>
       </div>);
     }
-
+    else {
     return (
       <>
        {/* Week selecteren */}
@@ -151,7 +151,7 @@ function Employee_Week_Overview() {
         </div>
       </div>
       </>
-    );
+    );}
   };
 
   return (
