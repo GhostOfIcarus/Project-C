@@ -37,6 +37,7 @@
     "notifications": "Notificaties",
     "rememberMe": "Onthoud mij",
     "logout": "Log uit",
+    "password_error": "wachtwoord ongeldig",
     "email_invalid_error": "Email ongeldig",
     "email_error": "Email niet gevonden!",
     "email_error_text": "Email is niet gevonden in onze database.",
@@ -92,6 +93,6 @@
     "Email_success": "Email succesvol gestuurd",
     "email_fail": "Failed to send email",
     "input_error": "Vul alle velden in!",
-    "invite_send": "uitnodiging gestuurd"
+    "invite_send": "uitnodiging gestuurd!"
 }
   

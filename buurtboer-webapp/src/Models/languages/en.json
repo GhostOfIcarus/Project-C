@@ -37,6 +37,7 @@
     "logout": "Logout",
     "email_send": "email gestuurt naar",
     "backToLogin": "back to login",
+    "password_error": "invalid password",
     "email_invalid_error": "Email invalid",
     "email_error": "Email not found!",
     "email_error_text": "Email not found in our database, please try again.",

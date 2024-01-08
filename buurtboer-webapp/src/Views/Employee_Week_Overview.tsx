@@ -30,13 +30,13 @@ function Employee_Week_Overview() {
     return (
       <>
         <p>{t('Employee_Schedule')}:</p>
-        <p>t('monday'): {schedule.monday ? '✔' : '❌'}</p>
-        <p>t('tuesday'): {schedule.tuesday ? '✔' : '❌'}</p>
-        <p>t('wednesday'): {schedule.wednesday ? '✔' : '❌'}</p>
-        <p>t('thursday'): {schedule.thursday ? '✔' : '❌'}</p>
-        <p>t('friday'): {schedule.friday ? '✔' : '❌'}</p>
-        <p>t('saturday'): {schedule.saturday ? '✔' : '❌'}</p>
-        <p>t('sunday'): {schedule.sunday ? '✔' : '❌'}</p>
+        <p>{t('monday')}: {schedule.monday ? '✔' : '❌'}</p>
+        <p>{t('tuesday')}: {schedule.tuesday ? '✔' : '❌'}</p>
+        <p>{t('wednesday')}: {schedule.wednesday ? '✔' : '❌'}</p>
+        <p>{t('thursday')}: {schedule.thursday ? '✔' : '❌'}</p>
+        <p>{t('friday')}: {schedule.friday ? '✔' : '❌'}</p>
+        <p>{t('saturday')}: {schedule.saturday ? '✔' : '❌'}</p>
+        <p>{t('sunday')}: {schedule.sunday ? '✔' : '❌'}</p>
       </>
     );
   };
