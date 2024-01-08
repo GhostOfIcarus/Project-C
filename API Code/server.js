@@ -130,7 +130,16 @@ app.delete('/api/company/delete', async (req, res) => {
 app.post('/api/employee/add', async (req, res) => {
 	try {
 		const { comp_id, first_name, last_name, email } = req.body;
-		const userData = await Functions.createNewEmployee(comp_id, first_name, last_name, email);
+		const activation_key = Math.floor(Math.random() * (1000000 - 100000) + 100000);
+		const token = jwt.sign(
+			{
+			  activation_key: activation_key, 
+			},
+			'thisisaverysecretkeyspongebob',
+			{ expiresIn: '1h' }
+		  );
+		const userData = await Functions.createNewEmployee(comp_id, first_name, last_name, email, token);
+		console.log(activation_key);
 		res.status(200).json(userData);
 	} catch (error) {
 		console.error(error);
@@ -161,16 +170,46 @@ app.post('/api/employee/schedule', async (req, res) => {
 	}
   });
 
+app.post('/api/employee/activate/code', async (req, res) => {
+	try {
+	  const { email, activation_key } = req.body;
+	  const userData = await Functions.getActivationKey(email, activation_key);
+	  if (!userData) { 
+		res.status(401).json({ error: 'Invalid activation key' });
+		return;
+	  }
+	  res.status(200).json(userData);
+	} catch (error) {
+	  console.error(error);
+	  res.status(500).json({ error: 'i did an oopsie' });
+	}
+  });
+
+app.delete('/api/activate/code/delete', async (req, res) => {
+	try {
+		const { employee_id } = req.body;
+		const userData = await Functions.deleteActivationKey(employee_id);
+		if (!userData) { 
+			res.status(401).json({ error: 'employee keys didnt delete' });
+			return;
+		  }
+		res.status(200).json(userData);
+	} catch (error) {
+		console.error(error);
+		res.status(500).json({ error: 'i did an oopsie' });
+	}
+});
+
 app.post('/api/employee/schedule/create', async (req, res) => {
 	try {
 		const { id, week } = req.body;
 		const insertResult = await Functions.createEmployeeSchedule(id, week);
-
-		if (insertResult) {
-		  res.status(200).json({ message: 'Schedule inserted successfully' });
-		} else {
-		  res.status(500).json({ error: 'Failed to insert schedule' });
-		}
+		res.status(200).json(insertResult);
+		// if (insertResult) {
+		//   res.status(200).json({ message: 'Schedule inserted successfully' });
+		// } else {
+		//   res.status(500).json({ error: 'Failed to insert schedule' });
+		// }
 	  } catch (error) {
 		console.error(error);
 		res.status(500).json({ error: 'wah wah Internal server error' });
@@ -187,6 +226,23 @@ app.put('/api/employee/schedule/update', async (req, res) => {
 		  res.status(200).json({ message: 'Schedule updated successfully' });
 		} else {
 		  res.status(500).json({ error: 'Failed to updated schedule' });
+		}
+	  } catch (error) {
+		console.error(error);
+		res.status(500).json({ error: 'wah wah Internal server error' });
+	  }
+});
+
+app.put('/api/employee/rememberschedule/update', async (req, res) => {
+	try {
+		const { employee_id, keep_schedule } = req.body;
+		const updateResult = await Functions.updateEmployeeRememberSchedule(employee_id, keep_schedule);
+
+		if (updateResult)
+		{
+		  res.status(200).json({ message: 'Remember schedule updated successfully' });
+		} else {
+		  res.status(500).json({ error: 'Failed to update remember schedule' });
 		}
 	  } catch (error) {
 		console.error(error);
@@ -213,10 +269,18 @@ app.post('/api/employee/login', async (req, res) => {
 	}
 });
 
-app.post('/api/employee/forgot_password', async (req, res) => {
+app.post('/api/employee/email_code', async (req, res) => {
 	try {
-		const { email} = req.body;
-		const userData = await Functions.getSingleEmployeeByEmailData(email);
+		const { email, activated } = req.body;
+		const activation_key = Math.floor(Math.random() * (1000000 - 100000) + 100000);
+		const token = jwt.sign(
+			{
+			  activation_key: activation_key, 
+			},
+			'thisisaverysecretkeyspongebob',
+			{ expiresIn: '1h' }
+		  );
+		const userData = await Functions.addKeyByEmployeeMail(email, activated, token);
 		res.status(200).json(userData);
 	} catch (error) {
 		console.error(error);
@@ -258,7 +322,8 @@ app.post('/api/CompanyAdmin/login', async (req, res) => {
 				lastName: userData.admin_last_name,
 				userEmail: userData.email,
 				full_schedule: userData.full_schedule,
-				userRole: "CompanyAdmin"
+				userRole: "CompanyAdmin",
+				companyName: userData.company_name
 			},
 			'thisisaverysecretkeyspongebob',
 			{ expiresIn: '2h' }
@@ -272,6 +337,44 @@ app.post('/api/CompanyAdmin/login', async (req, res) => {
 		console.error(error);
 		res.status(500).json({ error: 'An error occurred getting the employee' });
 	}
+});
+
+app.post('/api/CompanyAdmin/login-google', async (req, res) => {
+try {
+	const { email } = req.body;
+	// Check if the user exists in the database (you may need to adjust this based on your database schema)
+	const userData = await Functions.getSingleCompanyAdminDataByEmail(email);
+	console.log("EMAIL IN SERVERJS: ", email);
+
+	if (!userData) {
+	res.status(401).json({ error: 'User not found' });
+	console.log("gebruiker niet gevonden")
+	return;
+	}
+
+	// Generate an access token using JWT (JSON Web Token)
+	const token = jwt.sign(
+	{
+		userId: userData.id,
+		firstName: userData.admin_first_name,
+		lastName: userData.admin_last_name,
+		userEmail: userData.email,
+		full_schedule: userData.full_schedule,
+		userRole: 'CompanyAdmin',
+		companyName: userData.company_name,
+	},
+	'thisisaverysecretkeyspongebob', // Replace with a secure secret key
+	{ expiresIn: '2h' }
+	);
+
+	// Set the access token as a cookie (HTTP-only)
+	res.cookie('jwt-token', token, { maxAge: 2 * 60 * 60 * 1000 }); // 2 hours max age
+
+	res.status(200).json({ token, userData: jwt.decode(token) });
+} catch (error) {
+	console.error(error);
+	res.status(500).json({ error: 'An error occurred during login' });
+}
 });
 
 // POST endpoint to login, get the super admin data and send it back to the client
@@ -292,7 +395,7 @@ app.post('/api/SuperAdmin/login', async (req, res) => {
 				firstName: userData.first_name,
 				lastName: userData.last_name,
 				userEmail: userData.email,
-				userRole: "SuperAdmin"
+				userRole: "SuperAdmin",
 			},
 			'thisisaverysecretkeyspongebob',
 			{ expiresIn: '2h' }
@@ -336,7 +439,6 @@ app.post('/api/forgot_password', async (req, res) => {
 	try {
 	  const { email } = req.body;
   
-	  // Assuming you have a function to check if an email exists, replace 'checkEmailExists' with the appropriate function
 	  console.log('Received request with email:', email);
 	  const emailExists = await Functions.checkEmailExists(email);
   
@@ -354,8 +456,11 @@ app.post('/api/forgot_password', async (req, res) => {
 
   app.post('/api/change_password', async (req, res) => {
 	try {
-	  const { newPassword, email } = req.body;
-	  const result = await Functions.ChangeAdminPassword(newPassword, email);
+	  let { newPassword, token } = req.body;
+
+	  token = jwt.decode(token);
+
+	  const result = await Functions.ChangeAdminPassword(newPassword, token.email);
 	  if (result) {
 		res.status(200).json({ message: 'Password changed successfully' });
 	  } else {
@@ -366,6 +471,291 @@ app.post('/api/forgot_password', async (req, res) => {
 	  res.status(500).json({ error: 'An error occurred while changing the password' });
 	}
   });
+
+  
+app.get('/api/admin/singleadmin', async (req, res) => {
+	try {
+	  const { email, password } = req.query;
+  
+	  if (!email) {
+		return res.status(400).json({ error: 'Admin email is required' });
+	  }
+  
+	  const adminData = await getSingleCompanyAdminDataByEmail(email, password);
+  
+	  if (!adminData) {
+		return res.status(404).json({ error: 'Admin not found' });
+	  }
+  
+	  res.status(200).json(adminData);
+	} catch (error) {
+	  console.error('Error in /api/admin/singleadmin endpoint:', error);
+	  res.status(500).json({ error: 'Internal server error' });
+	}
+  });
+
+app.get('/api/SuperAdmin/singlesuperadmin', async (req, res) => {
+	try {
+		const { email, password} = req.query;
+	
+		if (!email) {
+		  return res.status(400).json({ error: 'SuperAdmin email is required' });
+		}
+	
+		const adminData = await getSingleSuperAdminData(email, password);
+	
+		if (!adminData) {
+		  return res.status(404).json({ error: 'SuperAdmin not found' });
+		}
+	
+		res.status(200).json(adminData);
+	  } catch (error) {
+		console.error('Error in /api/admin/singleadmin endpoint:', error);
+		res.status(500).json({ error: 'Internal server error' });
+	  }
+  })
+
+app.post('/api/admin/registerAdmin', async (req, res) => {
+	try {
+        const { admin_first_name, admin_last_name, company_name, full_schedule, email, password } = req.body;
+        const success = await Functions.createNewCompany(admin_first_name, admin_last_name, company_name, full_schedule, email, password);
+        if (success) {
+            res.status(200).json({ message: 'Admin registration successful' });
+        } else {
+            res.status(500).json({ error: 'An error occurred registering the admin' });
+        }
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'An error occurred registering the admin' });
+    }
+})
+
+app.post('/api/admin/updateAdmin', async (req, res) => {
+	try {
+	  const { adminId, admin_first_name, admin_last_name, company_name, full_schedule, email, password } = req.body;
+  
+	  // Retrieve the existing admin information from the database
+	  const existingAdmin = await Functions.getCompanyAdminById(adminId);
+  
+	  if (!existingAdmin) {
+		return res.status(404).json({ error: 'Admin not found' });
+	  }
+  
+	  // Update only the fields that are provided in the request body
+	  if (admin_first_name !== undefined) {
+		existingAdmin.admin_first_name = admin_first_name;
+	  }
+	  if (admin_last_name !== undefined) {
+		existingAdmin.admin_last_name = admin_last_name;
+	  }
+	  if (company_name !== undefined) {
+		existingAdmin.company_name = company_name;
+	  }
+	  if (full_schedule !== undefined) {
+		existingAdmin.full_schedule = full_schedule;
+	  }
+	  if (email !== undefined) {
+		existingAdmin.email = email;
+	  }
+	  if (password !== undefined) {
+		// Hash the password securely before storing it in the database
+		const hashedPassword = await hashPassword(password);
+		existingAdmin.password = hashedPassword;
+	  }
+  
+	  // Save the updated admin information to the database
+	  const success = await Functions.updateAdmin(adminId, existingAdmin);
+  
+	  if (success) {
+		// Fetch the updated admin data from the database
+		res.status(200).json({ message: 'Admin information updated successfully'});
+	  } else {
+		res.status(500).json({ error: 'An error occurred updating the admin information' });
+	  }
+	} catch (error) {
+	  console.error(error);
+  
+	  // Handle specific types of errors if needed
+	  if (error.name === 'MongoError' && error.code === 11000) {
+		// Handle duplicate key error (example for MongoDB)
+		res.status(400).json({ error: 'Duplicate key error' });
+	  } else {
+		res.status(500).json({ error: 'An error occurred updating the admin information' });
+	  }
+	}
+  });
+  
+
+
+  app.post('/api/SuperAdmin/updateSuperAdmin', async (req, res) => {
+	try {
+	  const { superadminId, admin_first_name, admin_last_name, email, password } = req.body;
+  
+	  // Retrieve the existing super admin information from the database
+	  const existingSuperAdmin = await Functions.getSuperAdminById(superadminId);
+  
+	  if (!existingSuperAdmin) {
+		return res.status(404).json({ error: 'Super admin not found' });
+	  }
+  
+	  // Update only the fields that are provided in the request body
+	  if (admin_first_name) {
+		existingSuperAdmin.first_name = admin_first_name;
+	  }
+	  if (admin_last_name) {
+		existingSuperAdmin.last_name = admin_last_name;
+	  }
+	  if (email) {
+		existingSuperAdmin.email = email;
+	  }
+	  if (password) {
+		existingSuperAdmin.password = password;
+	  }
+  
+	  // Save the updated super admin information to the database
+	  const success = await Functions.updateSuperAdmin(superadminId, existingSuperAdmin);
+  
+	  if (success) {
+		res.status(200).json({ message: 'Super admin information updated successfully' });
+	  } else {
+		res.status(500).json({ error: 'An error occurred updating the super admin information' });
+	  }
+	} catch (error) {
+	  console.error(error);
+	  res.status(500).json({ error: 'An error occurred updating the super admin information' });
+	}
+  });
+
+  // Middleware to verify the JWT token
+const verifyToken = (req, res, next) => {
+	const token = req.cookies['jwt-token'];
+	//console.log('token:', token);
+
+	if (!token) {
+	  return res.status(401).json({ error: 'Unauthorized' });
+	}
+  
+	jwt.verify(token, 'thisisaverysecretkeyspongebob', (err, decoded) => {
+	  if (err) {
+		return res.status(401).json({ error: 'Unauthorized' });
+	  }
+  
+	  req.decoded = decoded;
+	  next();
+	});
+  };
+  
+  // Endpoint for refreshing the token for admin
+  app.post('/api/CompanyAdmin/refreshToken', verifyToken, async (req, res) => {
+	try {
+	  const { userId } = req.decoded;
+  
+	  // Assuming you have a function to get admin data by ID
+	  const adminData = await Functions.getCompanyAdminById(userId);
+  
+	  // Generate a new token with the updated information
+	  const updatedToken = jwt.sign(
+		{
+		  userId: adminData.id,
+		  firstName: adminData.admin_first_name,
+		  lastName: adminData.admin_last_name,
+		  userEmail: adminData.email,
+		  full_schedule: adminData.full_schedule,
+		  userRole: "CompanyAdmin",
+		  companyName: adminData.company_name
+		},
+		'thisisaverysecretkeyspongebob',
+		{ expiresIn: '2h' }
+	  );
+  
+	  // Set the updated token as a cookie (HTTP-only)
+	  res.cookie('jwt-token', updatedToken, { maxAge: 2 * 60 * 60 * 1000 }); // 2 hours max age
+  
+	  res.status(200).json({ token: updatedToken, userData: jwt.decode(updatedToken) });
+	} catch (error) {
+	  console.error(error);
+	  res.status(500).json({ error: 'An error occurred refreshing the token' });
+	}
+  });
+
+  // Endpoint for refreshing the SuperAdmin token
+app.post('/api/SuperAdmin/refreshToken', verifyToken, async (req, res) => {
+	try {
+	  const { userId } = req.decoded;
+  
+	  // Assuming you have a function to get SuperAdmin data by ID
+	  const superAdminData = await Functions.getSuperAdminById(userId);
+  
+	  // Generate a new token with the updated information
+	  const updatedToken = jwt.sign(
+		{
+		  userId: superAdminData.id,
+		  firstName: superAdminData.first_name,
+		  lastName: superAdminData.last_name,
+		  userEmail: superAdminData.email,
+		  userRole: "SuperAdmin",
+		},
+		'thisisaverysecretkeyspongebob',
+		{ expiresIn: '2h' }
+	  );
+  
+	  // Set the updated token as a cookie (HTTP-only)
+	  res.cookie('jwt-token', updatedToken, { maxAge: 2 * 60 * 60 * 1000 }); // 2 hours max age
+  
+	  res.status(200).json({ token: updatedToken, userData: jwt.decode(updatedToken) });
+	} catch (error) {
+	  console.error(error);
+	  res.status(500).json({ error: 'An error occurred refreshing the SuperAdmin token' });
+	}
+  });
+  
+
+  app.post('/api/check-email', async (req, res) => {
+	try {
+	  const { email } = req.body;
+  
+	  if (!email) {
+		return res.status(400).json({ error: 'Email is required' });
+	  }
+  
+	  const emailExists = await Functions.checkEmailExists(email);
+  
+	  res.json({ emailExists });
+	} catch (error) {
+	  console.error('Error in /check-email endpoint:', error);
+	  res.status(500).json({ error: 'Internal server error' });
+	}
+  });
+  
+app.post('/api/logout', (req, res) => {
+	res.clearCookie('jwt-token');
+	res.status(200).json({ message: 'Logged out successfully' });
+});
+
+app.get('/api/getCompanyAdminEmail/:adminId', async (req, res) => {
+	const adminId = req.params.adminId;
+  
+	try {
+	  const email = await Functions.getCompanyAdminEmailById(adminId);
+	  res.status(200).json({ email });
+	} catch (error) {
+	  console.error('Error in getting company admin email:', error);
+	  res.status(500).json({ error: 'Internal server error' });
+	}
+  });
+
+  app.get('/api/getSuperAdminEmail/:superadminID', async (req, res) => {
+	const superadminID = req.params.superadminID;
+  
+	try {
+	  const superAdminEmail = await Functions.getSuperAdminEmail(superadminID);
+	  res.json({ email: superAdminEmail });
+	} catch (error) {
+	  console.error('Error in API endpoint:', error.message);
+	  res.status(500).json({ error: 'Internal server error' });
+	}
+  });
+  
 
 
 // Starting the API server

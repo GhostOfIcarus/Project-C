@@ -1,6 +1,9 @@
 const { Console } = require('console');
-
+const jwt = require('jsonwebtoken');
 const Pool = require('pg').Pool;
+const { hashPassword, comparePasswords } = require('./Pass-Encryption');
+const bcrypt = require('bcrypt');
+
 
 const pool = new Pool({ 
 	user: 'postgres',
@@ -9,12 +12,16 @@ const pool = new Pool({
 	port: 5432
 });
 
-const createNewCompany = async (first_name, last_name, email, company_name) => {
+const createNewCompany = async (admin_first_name, admin_last_name, company_name, full_schedule, email, password) => {
 	const db = await pool.connect();
 	try {
-		const results = await db.query(`INSERT INTO company (admin_first_name, admin_last_name, company_name, full_schedule, email, password )  
-										VALUES ($1, $2, $3, false, $4, 'password') 
-										RETURNING id`, [first_name, last_name, email, company_name]);
+		const hashedPassword = await hashPassword(password);
+	
+		const results = await db.query(`
+		  INSERT INTO company (admin_first_name, admin_last_name, company_name, full_schedule, email, password )  
+		  VALUES ($1, $2, $3, $4, $5, $6) 
+		  RETURNING id`, [admin_first_name, admin_last_name, company_name, full_schedule, email, hashedPassword]);
+	
 		if (results.rowCount > 0) 
 		{	
 			console.log('Insert successful');
@@ -62,21 +69,28 @@ const deleteCompany = async (company_id) => {
     }
 };
 
-const createNewEmployee = async (comp_id, first_name, last_name, email) => {
+const createNewEmployee = async (comp_id, first_name, last_name, email, activation_key) => {
 	const db = await pool.connect();
 	try {
-		const results = await db.query(`INSERT INTO employee (first_name, last_name, email, password, keepschedule) 
-										VALUES ($1, $2, $3, 'password', false) 
+		const results = await db.query(`INSERT INTO employee (first_name, last_name, email, password, keepschedule, activated) 
+										VALUES ($1, $2, $3, 'password', false, false) 
 										RETURNING id`, [first_name, last_name, email]);
 		if (results.rowCount > 0) 
 		{	
 			const results2 = await db.query(`
 											INSERT INTO employeesincompany (employee_id, company_id)
 											VALUES ($1, $2);
-										`, [results.rows[0].id, comp_id]);
-			if (results2.rowCount > 0) 
+											`, [results.rows[0].id, comp_id]);
+
+			const resultAddKey = await db.query(`
+											INSERT INTO activationkeys (employee_id, key)
+											VALUES ($1, $2);
+											`, [results.rows[0].id, activation_key]);
+			if (results2.rowCount > 0 && resultAddKey.rowCount > 0) 
 			{	
 				console.log('Insert successful');
+				// console.log("Key: ", resultAddKey.rows[0].key);
+				// return resultAddKey.rows[0].key;
 				return true;
 			}
 		} 
@@ -92,22 +106,16 @@ const createNewEmployee = async (comp_id, first_name, last_name, email) => {
 const deleteEmployee = async (employee_id) => {
     const db = await pool.connect();
     try {
+        const scheduleResult = await db.query(`DELETE FROM schedulefromemployee WHERE employee_id = $1`,[employee_id]);
         const results = await db.query(`DELETE FROM employeesincompany WHERE employee_id = $1`, [employee_id]);
-		console.log('Results from employeesincompany deletion:', results);
-        if (results.rowCount > 0 ) {
-			const results2 = await db.query(`DELETE FROM employee WHERE id = $1`, [employee_id]);
-			if (results2.rowCount > 0 ) {
-            	console.log('Delete successful');
-            	return true;
-        	} else {
-				console.log('No rows were deleted2');
-				return false;
-        	}
-	 	}
-		else {
-			console.log('No rows were deleted');
-			return false;
-		}
+        const results2 = await db.query(`DELETE FROM employee WHERE id = $1`, [employee_id]);
+        if (scheduleResult.rowCount > 0 || results.rowCount > 0 || results2.rowCount > 0) {
+            console.log('Delete successful');
+            return true;
+        }
+        console.log('Delete ERROR');
+        return false
+        
     } catch (error) {
         console.error('Error in deleting user data:', error);
         throw new Error("Internal error");
@@ -130,6 +138,65 @@ const getAllEmployeeData = async () => {
 		db.release(); // Release the connection back to the pool
 	  }
 };
+
+const getActivationKey = async (email, activation_key) => {
+	const db = await pool.connect();
+	try {
+		const resultEmailFound = await db.query(`SELECT *
+												 FROM employee 
+												 WHERE email = $1`, [email]);
+		
+		if (resultEmailFound.rowCount > 0) {
+			const resultKeyFound = await db.query(`SELECT * 
+											   	   FROM activationkeys 
+											       WHERE employee_id = $1
+												   ORDER BY id DESC`, [resultEmailFound.rows[0].id]);
+			if (resultKeyFound.rowCount > 0) {
+				let key = resultKeyFound.rows[0].key;
+				let decodedKey = jwt.verify(key, 'thisisaverysecretkeyspongebob');
+				if (decodedKey.activation_key.toString() === activation_key) {
+					return resultEmailFound.rows[0];
+				}
+				else {
+					console.error('No key found with this key:', activation_key);
+					return false;
+				}
+			}
+			else {
+				console.error('No key found with this key:', activation_key);
+				return false;
+			}
+		}
+		return false;
+		
+	} catch (error) {
+		console.error('Error in getting activation key:', error);
+		throw new Error("Internal error wah wah");
+	} finally {
+		db.release(); // Release the connection back to the pool
+	  }
+};
+
+const deleteActivationKey = async (employee_id) => {
+	const db = await pool.connect();
+	try {
+		const resultKeyDeletion = await db.query(`DELETE
+												 FROM activationkeys 
+												 WHERE employee_id = $1`, [employee_id]);
+
+		if (resultKeyDeletion.rowCount > 0) {
+			return true;
+		}
+		return false;
+		
+	} catch (error) {
+		console.error('Error in getting deleting key:', error);
+		throw new Error("Internal error wah wah");
+	} finally {
+		db.release(); // Release the connection back to the pool
+	  }
+};
+
 
 const getAllCompanies = async () => {
 	const db = await pool.connect();
@@ -164,9 +231,6 @@ const getAllEmployeeDataByCompany = async (company_id) => {
 	  }
 };
 
-getAllEmployeeDataByCompany(1);
-
-
 const getEmployeeSchedule = async (employeeId, week) => {
 	const db = await pool.connect();
 	try {
@@ -200,7 +264,7 @@ const createEmployeeSchedule = async (employeeId, week) => {
 	  const results = await db.query(`
 										INSERT INTO schedule (week_number, monday, tuesday, wednesday, thursday, friday, saturday, sunday)
 										VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
-										RETURNING id;
+										RETURNING *;
 									`, [week, false, false, false, false, false, false, false]);
 	  
 	if (results.rowCount > 0) 
@@ -212,7 +276,7 @@ const createEmployeeSchedule = async (employeeId, week) => {
 		if (results2.rowCount > 0) 
 		{	
 			console.log('Insert successful');
-			return true;
+			return results.rows[0];
 		}
 	} 
 	else 
@@ -251,6 +315,28 @@ const updateEmployeeSchedule = async (schedule_id,  m, tu, w, th, f, sa, su) => 
 		db.release(); // Release the connection back to the pool
 	  }
 	};
+
+const updateEmployeeRememberSchedule = async (employee_id, keep_schedule) => {
+	const db = await pool.connect();
+
+	try {
+		const results = await db.query(`UPDATE employee SET keepschedule = $2
+										WHERE id = $1 RETURNING *`, [employee_id, keep_schedule]);
+	
+		if (results.rowCount === 0) {
+		  console.error('No employee found with this Id:', employee_id);
+		  return false;
+		}
+	
+		return true;
+	  } catch (error) {
+		console.error(error);
+		console.error('Error in updating employee:', error);
+		throw new Error("Internal error wah wah");
+	  } finally {
+		db.release(); // Release the connection back to the pool
+	  }
+};
 
 const getSingleEmployeeData = async (email, password) => {
 	const db = await pool.connect();
@@ -292,6 +378,32 @@ const getSingleEmployeeByEmailData = async (email) => {
 	  }
 };
 
+const addKeyByEmployeeMail = async (email, activated, activation_key) => {
+	const db = await pool.connect();
+	try {
+		const results = await db.query("SELECT * FROM employee WHERE email = $1 AND activated = $2", [email, activated]);
+		if (results.rowCount > 0) 
+		{	
+			const resultAddKey = await db.query(`
+											INSERT INTO activationkeys (employee_id, key)
+											VALUES ($1, $2);
+											`, [results.rows[0].id, activation_key]);
+			if (resultAddKey.rowCount > 0) 
+			{	
+				console.log('Code created');
+				return results.rows[0];
+			}
+		}
+		return false;
+	} catch (error) {
+		console.error(error);
+		console.error('Error in getting user data:', error);
+		throw new Error("Internal error wah wah");
+	} finally {
+		db.release(); 
+	}
+};
+
 const ChangePasswordEmployee = async (newPassword, email) => {
 	const db = await pool.connect();
 	try {
@@ -316,7 +428,51 @@ const ChangePasswordEmployee = async (newPassword, email) => {
 const getSingleCompanyAdminData = async (email, password) => {
 	const db = await pool.connect();
 	try {
-		const results = await db.query("SELECT * FROM company WHERE email = $1 AND password = $2", [email, password]);
+		const results = await db.query("SELECT * FROM company WHERE email = $1", [email]);
+		
+		if (results.rowCount === 0) {
+			return false;
+		}
+
+		const storedHashedPassword = results.rows[0].password;
+
+		// Compare the entered password with the stored hashed password
+		const passwordMatch = await bcrypt.compare(password, storedHashedPassword);
+
+		if (passwordMatch) {
+			return results.rows[0];
+		} else {
+			return false;
+		}
+	} catch (error) {
+		console.error(error);
+		console.error('Error in getting user data:', error);
+		throw new Error("Internal error wah wah");
+	}
+};
+
+const getSingleCompanyAdminDataByEmail = async (email) => {
+	const db = await pool.connect();
+	console.log("email2:", email)
+	try {
+		const results = await db.query("SELECT * FROM company WHERE email = $1", [email]);
+		console.log("RESULTS: ", results.rowCount);
+		if (results.rowCount === 0) {
+			return false;
+		}
+		return results.rows[0];
+
+	} catch (error) {
+		console.error(error);
+		console.error('Error in getting user data:', error);
+		throw new Error("Internal error wah wah");
+	}
+};
+
+const getCompanyAdminById = async (adminId) => {
+	const db = await pool.connect();
+	try {
+		const results = await db.query("SELECT * FROM company WHERE id = $1", [adminId]);
 		return results.rows[0];
 	} catch (error) {
 		console.error(error);
@@ -325,11 +481,68 @@ const getSingleCompanyAdminData = async (email, password) => {
 	}
 };
 
+const getCompanyAdminEmailById = async (adminId) => {
+	const db = await pool.connect();
+	try {
+	  const results = await db.query("SELECT email FROM company WHERE id = $1", [adminId]);
+	  return results.rows[0]?.email; // Return the email or null if not found
+	} catch (error) {
+	  console.error('Error in getting user email:', error);
+	  throw new Error("Internal error wah wah");
+	} finally {
+	  await db.release();
+	}
+  };
+
+  const getSuperAdminEmail= async (superadminID) => {
+	const db = await pool.connect();
+	try {
+	  const results = await db.query("SELECT email FROM superadmin WHERE id = $1", [superadminID]);
+	  
+	  if (results.rows.length > 0) {
+		return results.rows[0].email;
+	  } else {
+		throw new Error("Superadmin with the specified id not found");
+	  }
+	} catch (error) {
+	  console.error('Error in getting user data:', error);
+	  throw new Error("Internal error wah wah");
+	} finally {
+	  db.release(); // Always release the database connection in a finally block
+	}
+  };
+  
+
 const getSingleSuperAdminData = async (email, password) => {
 	try {
 		const db = await pool.connect();
+		const results = await db.query("SELECT * FROM superadmin WHERE email = $1", [email]);
+		if (results.rowCount === 0) {
+			return false;
+		}
 
-		const results = await db.query("SELECT * FROM superadmin WHERE email = $1 AND password = $2", [email, password]);
+		const storedHashedPassword = results.rows[0].password;
+
+		// Compare the entered password with the stored hashed password
+		const passwordMatch = await bcrypt.compare(password, storedHashedPassword);
+
+		if (passwordMatch) {
+			return results.rows[0];
+		} else {
+			return false;
+		}
+	} catch (error) {
+		console.error(error);
+		console.error('Error in getting user data:', error);
+		throw new Error("Internal error wah wah");
+	}
+}
+
+
+const getSuperAdminById = async (superadminId) => {
+	try {
+		const db = await pool.connect();
+		const results = await db.query("SELECT * FROM superadmin WHERE id = $1", [superadminId]);
 		return results.rows[0];
 	} catch (error) {
 		console.error(error);
@@ -397,45 +610,134 @@ const getAttendance = async (comp_id, week_number) => {
   
 
   const ChangeAdminPassword = async (newPassword, email) => {
+    const db = await pool.connect();
+    try {
+        const hashedPassword = await hashPassword(newPassword); // Hash the new password
+
+        // Try updating the password in the company table
+        const companyResults = await db.query(`
+            UPDATE company
+            SET password = $1
+            WHERE email = $2
+            RETURNING *;
+        `, [hashedPassword, email]);
+
+        if (companyResults.rowCount > 0) {
+            // Password updated in the company table
+            return true;
+        }
+
+        // If not found in the company table, try updating in the superadmin table
+        const superadminResults = await db.query(`
+            UPDATE superadmin
+            SET password = $1
+            WHERE email = $2
+            RETURNING *;
+        `, [hashedPassword, email]);
+
+        if (superadminResults.rowCount > 0) {
+            // Password updated in the superadmin table
+            return true;
+        }
+
+        // No rows were updated, which means the email was not found in either table
+        console.error('No user found with this email:', email);
+        return false;
+    } catch (error) {
+        console.error('Error in updating user password:', error);
+        throw new Error('Internal error');
+    } finally {
+        db.release(); // Release the connection back to the pool
+    }
+};
+
+
+  const updateAdmin = async (adminId, updatedAdmin) => {
 	const db = await pool.connect();
+  
 	try {
-	  // Try updating the password in the company table
-	  const companyResults = await db.query(`
+	  const results = await db.query(
+		`
 		UPDATE company
-		SET password = $1
-		WHERE email = $2
+		SET
+		  admin_first_name = $1,
+		  admin_last_name = $2,
+		  company_name = $3,
+		  full_schedule = $4,
+		  email = $5,
+		  password = $6
+		WHERE
+		  id = $7
 		RETURNING *;
-	  `, [newPassword, email]);
+		`,
+		[
+		  updatedAdmin.admin_first_name,
+		  updatedAdmin.admin_last_name,
+		  updatedAdmin.company_name,
+		  updatedAdmin.full_schedule,
+		  updatedAdmin.email,
+		  updatedAdmin.password,
+		  adminId,
+		]
+	  );
   
-	  if (companyResults.rowCount > 0) {
-		// Password updated in the company table
+	  if (results.rowCount > 0) {
+		// Rows updated, return true
 		return true;
 	  }
   
-	  // If not found in the company table, try updating in the superadmin table
-	  const superadminResults = await db.query(`
-		UPDATE superadmin
-		SET password = $1
-		WHERE email = $2
-		RETURNING *;
-	  `, [newPassword, email]);
-  
-	  if (superadminResults.rowCount > 0) {
-		// Password updated in the superadmin table
-		return true;
-	  }
-  
-	  // No rows were updated, which means the email was not found in either table
-	  console.error('No user found with this email:', email);
+	  // No rows were updated, admin not found with the given adminId
+	  console.error('No admin found with this adminId:', adminId);
 	  return false;
 	} catch (error) {
-	  console.error('Error in updating user password:', error);
+	  console.error('Error in updating admin:', error);
 	  throw new Error('Internal error');
 	} finally {
 	  db.release(); // Release the connection back to the pool
 	}
   };
   
+
+  const updateSuperAdmin = async (adminId, updatedAdmin) => {
+	const db = await pool.connect();
+  
+	try {
+	  const results = await db.query(
+		`
+		UPDATE superadmin
+		SET
+		  first_name = $1,
+		  last_name = $2,
+		  email = $3,
+		  password = $4
+		WHERE
+		  id = $5
+		RETURNING *;
+		`,
+		[
+		  updatedAdmin.first_name,
+		  updatedAdmin.last_name,
+		  updatedAdmin.email,
+		  updatedAdmin.password,
+		  adminId,
+		]
+	  );
+  
+	  if (results.rowCount > 0) {
+		// Rows updated, return true
+		return true;
+	  }
+  
+	  // No rows were updated, admin not found with the given adminId
+	  console.error('No admin found with this adminId:', adminId);
+	  return false;
+	} catch (error) {
+	  console.error('Error in updating admin:', error);
+	  throw new Error('Internal error');
+	} finally {
+	  db.release(); // Release the connection back to the pool
+	}
+  };
   
 //   const fetchData = async () => {
 // 	try {
@@ -462,21 +764,32 @@ const getAttendance = async (comp_id, week_number) => {
 module.exports = {
 	createNewCompany,
 	deleteCompany,
+	deleteActivationKey,
 	createNewEmployee,
 	deleteEmployee,
 	getAllEmployeeData,	
+	getActivationKey,
 	getAllCompanies,
 	getAllEmployeeDataByCompany,
 	getSingleEmployeeData,
+	addKeyByEmployeeMail,
 	getSingleEmployeeByEmailData,
 	getSingleCompanyAdminData,
+	getSingleCompanyAdminDataByEmail,
 	getSingleSuperAdminData,
 	ChangePasswordEmployee,	
 	getEmployeeSchedule,
 	createEmployeeSchedule,
 	updateEmployeeSchedule,
+	updateEmployeeRememberSchedule,
 	getAttendance,
 	checkEmailExists,
 	ChangeAdminPassword,
+	updateAdmin,
+	getCompanyAdminById,
+	getSuperAdminById,
+	updateSuperAdmin,
+	getCompanyAdminEmailById,
+	getSuperAdminEmail,
 	pool
 };

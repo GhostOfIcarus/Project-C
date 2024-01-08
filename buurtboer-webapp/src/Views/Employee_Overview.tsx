@@ -5,8 +5,10 @@ import postlogin from './Stylesheets/PostLogin.module.css';
 import Navbar from './Navbar';
 import withAuthentication from '../Controllers/withAuthentication';
 import { useEmpOverviewController } from '../Controllers/Employee_OverviewController';
+import { useTranslation } from 'react-i18next';
 
 function Employee_Overview() {
+  const { t } = useTranslation();
   const{ isSubmitted, handleSubmit, countMonday, countTuesday, countWednesday, countThursday, countFriday, absentMonday,
     absentTuesday,
     absentWednesday,
@@ -21,7 +23,7 @@ function Employee_Overview() {
         <div className="d-flex justify-content-center w-100">
           <div className="row">
             <div className="col-lg-12 ">
-              <h1>Medewerker Overview</h1>
+              <h1>{t('Employee_Overview')}</h1>
               <form onSubmit={handleSubmit}>
                   <input type="week" id="week" name="week" />
                   <input type="submit" value="Submit" />
@@ -31,35 +33,34 @@ function Employee_Overview() {
               <table className="table roundedCorners">
                   <thead>
                       <tr>
-                          <th>Datum</th>
-                          <th>Aanwezig</th>
-                          <th>Afwezig</th>
+                          <th>{t('date')}</th>
+                          <th>{t('present')}</th>
+                          <th>{t('absent')}</th>
                       </tr>
                   </thead>
                   <tbody>
                       <tr>
-                          <td>Maandag</td>
+                          <td>{t('monday')}</td>
                           <td>{countMonday}</td>
-                          {/*moet nog aangepast worden naar (totalEmployeesByCompany - countMonday)*/}
                           <td>{absentMonday}</td>
                       </tr>
                       <tr>
-                          <td>Dinsdag</td>
+                          <td>{t('tuesday')}</td>
                           <td>{countTuesday}</td>
                           <td>{absentTuesday}</td>
                       </tr>
                       <tr>
-                          <td>Woensdag</td>
+                          <td>{t('wednesday')}</td>
                           <td>{countWednesday}</td>
                           <td>{absentWednesday}</td>
                       </tr>
                       <tr>
-                          <td>Donderdag</td>
+                          <td>{t('thursday')}</td>
                           <td>{countThursday}</td>
                           <td>{absentThursday}</td>
                       </tr>
                       <tr>
-                          <td>Vrijdag</td>
+                          <td>{t('friday')}</td>
                           <td>{countFriday}</td>
                           <td>{absentFriday}</td>
                       </tr>

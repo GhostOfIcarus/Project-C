@@ -1,4 +1,6 @@
 const pgPromise = require('pg-promise');
+const {hashPassword} = require('../API Code/Pass-Encryption');
+
 
 // Replace these values with your PostgreSQL connection details
 const connection = {
@@ -32,7 +34,8 @@ async function createTables() {
         Last_Name VARCHAR(255) NOT NULL,
         Email VARCHAR(255) NOT NULL UNIQUE,
         Password VARCHAR(64) NOT NULL,
-        KeepSchedule BOOLEAN NOT NULL
+        KeepSchedule BOOLEAN NOT NULL,
+        Activated BOOLEAN NOT NULL
       );
 
       CREATE TABLE IF NOT EXISTS Company (
@@ -65,6 +68,13 @@ async function createTables() {
         FOREIGN KEY (Employee_ID) REFERENCES Employee(ID)
       );
 
+      CREATE TABLE IF NOT EXISTS ActivationKeys (
+        ID SERIAL PRIMARY KEY,
+        Employee_ID INTEGER NOT NULL,
+        Key VARCHAR(255) NOT NULL,
+        FOREIGN KEY (Employee_ID) REFERENCES Employee(ID)
+      );
+
       CREATE TABLE IF NOT EXISTS EmployeesInCompany (
         ID SERIAL PRIMARY KEY,
         Employee_ID INTEGER NOT NULL,
@@ -90,21 +100,23 @@ async function createTables() {
 
 async function insertTestData() {
   try {
+    const hashedPassword = await hashPassword('hashed'); 
     // Write your insert queries here
     const insertDataQuery = `
-      INSERT INTO Employee (First_Name, Last_Name, Email, Password, KeepSchedule)
-      VALUES ('John', 'Doe', 'john.doe@example.com', 'hashed-password', true),
-      ('OEMPA', 'LOEMPA', 'oempa@loempa.com', 'oempa', true);
+      INSERT INTO Employee (First_Name, Last_Name, Email, Password, KeepSchedule, Activated)
+      VALUES ('John', 'Doe', 'john.doe@example.com', '$2a$10$CrafwtV/9bbC.lkkPaj13.ZuRZLAlUhEEQ5VgruKtUyXzbmCkcam2', true, true),
+      ('OEMPA', 'LOEMPA', 'oempa@loempa.com', '$2a$10$CrafwtV/9bbC.lkkPaj13.ZuRZLAlUhEEQ5VgruKtUyXzbmCkcam2', true, false);
 
       INSERT INTO Company (Admin_First_Name, Admin_Last_Name, Company_Name, Full_Schedule, Email, Password)
-      VALUES ('Jane', 'Doe', 'Example Company', true, 'company@email.com', 'hashed');
+      VALUES ('Jane', 'Doe', 'Example Company', true, 'company@email.com', '${hashedPassword}');
 
       INSERT INTO Schedule (Week_Number, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday)
       VALUES (1, false, true, true, true, true, true, true),
          (49, true, false, true, true, true, true, true),
          (49, true, true, true, true, false, true, true),
          (50, true, true, false, true, true, true, true),
-         (51, true, true, true, false, true, true, true),
+         (51, true, false, true, false, true, false, true),
+         (51, true, true, false, false, false, true, true),
          (52, false, true, true, true, false, true, true);
 
       INSERT INTO ScheduleFromEmployee (Schedule_ID, Employee_ID)
@@ -113,14 +125,15 @@ async function insertTestData() {
             (3, 2),
             (4, 1),
             (5, 1),
-            (6, 1);
+            (6, 2),
+            (7, 1);
 
       INSERT INTO EmployeesInCompany (Employee_ID, Company_ID)
       VALUES (1, 1),
             (2, 1);
 
       INSERT INTO SuperAdmin (First_Name, Last_Name, Email, Password)
-      VALUES ('Super', 'Admin', 'Admin@bleh.com', 'hashed');
+      VALUES ('Super', 'Admin', 'Admin@bleh.com', '${hashedPassword}');
 
     `;
 

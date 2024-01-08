@@ -1,12 +1,51 @@
 import { useState, useEffect } from 'react';
 import i18next from 'i18next';
-import { initReactI18next } from 'react-i18next';
+import axios from 'axios';
+
+interface UpdatedAdminInfo {
+  admin_first_name?: string;
+  admin_last_name?: string;
+  company_name?: string;
+  full_schedule?: boolean;
+  email?: string;
+  password?: string;
+}
+
+export interface AdminInfo {
+  adminName: string;
+  adminEmail: string;
+  companyName: string;
+  userRole: string;
+  // Add other fields as needed
+}
+
+
+export const updateAdminInfo = async (adminId: string, updatedAdminInfo: UpdatedAdminInfo) => {
+  try {
+    const response = await axios.post('http://localhost:5000/api/admin/updateAdmin', {
+      adminId,
+      ...updatedAdminInfo,
+    });
+
+    if (response.data.message === 'Admin information updated successfully') {
+      console.log('Admin information updated successfully');
+      return { success: true };
+    } else {
+      console.error('Unexpected response:', response.data);
+      return { success: false };
+    }
+  } catch (error) {
+    console.error('Error updating admin information:', error);
+    throw error; // Rethrow the error to handle it in the component
+  }
+};
+
 
 export function SettingsController() {
   const [language, setLanguage] = useState(i18next.language);
+  
 
   useEffect(() => {
-    // This effect is used to update the local state when the language changes externally
     const updateLanguage = () => {
       setLanguage(i18next.language);
     };
@@ -33,13 +72,10 @@ export function SettingsController() {
     console.log('Language set directly to:', newLanguage);
   };
 
-  const getStoredLanguage = () => {
-    return localStorage.getItem('language');
-  };
-
   const storeLanguage = (newLanguage: string) => {
     localStorage.setItem('language', newLanguage);
   };
+
 
   return {
     language,

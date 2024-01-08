@@ -110,5 +110,11 @@ export const before_login = StyleSheet.create({
     rememberMeRow: {
       flexDirection: 'row',
     },
-    
+    centered_text_small: 
+    { 
+        paddingTop: height * 0.004,
+        color: 'gray', 
+        fontSize: width * 0.03, 
+        textAlign: 'center',
+    },
 });
