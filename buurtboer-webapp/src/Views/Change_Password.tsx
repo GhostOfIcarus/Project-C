@@ -40,10 +40,10 @@ function ChangePassword() {
     }
   };
 
-  const handleCloseModal = () => {
-    setShowSuccessModal(false);
-    navigate('/Login'); // Go back to login page after closing the modal
-  };
+  // const handleCloseModal = () => {
+  //   setShowSuccessModal(false);
+  //   navigate('/Login'); // Go back to login page after closing the modal
+  // };
 
   return (
     <>
