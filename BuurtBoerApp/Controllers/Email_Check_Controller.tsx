@@ -59,7 +59,7 @@ class EmailCheckController {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        to: "joeridekker2002@gmail.com",
+        to: employeeData.email,
         activationKey: data.activation_key,
       }),
     });
