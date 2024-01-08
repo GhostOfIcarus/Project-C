@@ -9,11 +9,14 @@ import { useTranslation } from 'react-i18next';
 
 function Employee_Overview() {
   const { t } = useTranslation();
-  const{ isSubmitted, handleSubmit, countMonday, countTuesday, countWednesday, countThursday, countFriday, absentMonday,
+  const{ isSubmitted, handleSubmit, countMonday, countTuesday, countWednesday, countThursday, countFriday, countSaturday, countSunday,
+    absentMonday,
     absentTuesday,
     absentWednesday,
     absentThursday,
-    absentFriday,} = useEmpOverviewController();
+    absentFriday,
+    absentSaturday,
+    absentSunday, userdata} = useEmpOverviewController();
 
   return (
     <>
@@ -30,42 +33,93 @@ function Employee_Overview() {
               </form>
 
               {/* Tabel voor aanwezigen (wordt later verbonden met de week die geselecteerd is) */}
-              <table className="table roundedCorners">
+              
+              {userdata?.full_schedule === false ? (
+                <table className="table roundedCorners">
                   <thead>
-                      <tr>
-                          <th>{t('date')}</th>
-                          <th>{t('present')}</th>
-                          <th>{t('absent')}</th>
-                      </tr>
+                    <tr>
+                      <th>{t('date')}</th>
+                      <th>{t('present')}</th>
+                      <th>{t('absent')}</th>
+                    </tr>
                   </thead>
                   <tbody>
-                      <tr>
-                          <td>{t('monday')}</td>
-                          <td>{countMonday}</td>
-                          <td>{absentMonday}</td>
-                      </tr>
-                      <tr>
-                          <td>{t('tuesday')}</td>
-                          <td>{countTuesday}</td>
-                          <td>{absentTuesday}</td>
-                      </tr>
-                      <tr>
-                          <td>{t('wednesday')}</td>
-                          <td>{countWednesday}</td>
-                          <td>{absentWednesday}</td>
-                      </tr>
-                      <tr>
-                          <td>{t('thursday')}</td>
-                          <td>{countThursday}</td>
-                          <td>{absentThursday}</td>
-                      </tr>
-                      <tr>
-                          <td>{t('friday')}</td>
-                          <td>{countFriday}</td>
-                          <td>{absentFriday}</td>
-                      </tr>
+                    <tr>
+                      <td>{t('monday')}</td>
+                      <td>{countMonday}</td>
+                      <td>{absentMonday}</td>
+                    </tr>
+                    <tr>
+                      <td>{t('tuesday')}</td>
+                      <td>{countTuesday}</td>
+                      <td>{absentTuesday}</td>
+                    </tr>
+                    <tr>
+                      <td>{t('wednesday')}</td>
+                      <td>{countWednesday}</td>
+                      <td>{absentWednesday}</td>
+                    </tr>
+                    <tr>
+                      <td>{t('thursday')}</td>
+                      <td>{countThursday}</td>
+                      <td>{absentThursday}</td>
+                    </tr>
+                    <tr>
+                      <td>{t('friday')}</td>
+                      <td>{countFriday}</td>
+                      <td>{absentFriday}</td>
+                    </tr>
                   </tbody>
-              </table>
+                </table>
+              ) : (
+                <table className="table roundedCorners">
+                  <thead>
+                    <tr>
+                      <th>{t('date')}</th>
+                      <th>{t('present')}</th>
+                      <th>{t('absent')}</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>{t('monday')}</td>
+                      <td>{countMonday}</td>
+                      <td>{absentMonday}</td>
+                    </tr>
+                    <tr>
+                      <td>{t('tuesday')}</td>
+                      <td>{countTuesday}</td>
+                      <td>{absentTuesday}</td>
+                    </tr>
+                    <tr>
+                      <td>{t('wednesday')}</td>
+                      <td>{countWednesday}</td>
+                      <td>{absentWednesday}</td>
+                    </tr>
+                    <tr>
+                      <td>{t('thursday')}</td>
+                      <td>{countThursday}</td>
+                      <td>{absentThursday}</td>
+                    </tr>
+                    <tr>
+                      <td>{t('friday')}</td>
+                      <td>{countFriday}</td>
+                      <td>{absentFriday}</td>
+                    </tr>
+                    <tr>
+                      <td>{t('saturday')}</td>
+                      <td>{countSaturday}</td>
+                      <td>{absentSaturday}</td>
+                    </tr>
+                    <tr>
+                      <td>{t('sunday')}</td>
+                      <td>{countSunday}</td>
+                      <td>{absentSunday}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              )}
+              
             </div>
           </div>
         </div>

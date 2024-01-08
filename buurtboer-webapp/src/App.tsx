@@ -43,7 +43,7 @@ function App() {
 
         <Route path="/Employees_Overview" element={<EmployeesOverview />} />
         <Route
-          path="/Employee_Week_Overview/:id/:week/:firstname/:lastname"
+          path="/Employee_Week_Overview/:id/:firstname/:lastname"
           element={<Employee_Week_Overview />}
         />
         <Route

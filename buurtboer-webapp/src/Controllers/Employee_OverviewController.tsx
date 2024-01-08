@@ -11,6 +11,7 @@ export interface UserData{
   firstName: string;
   lastName: string;
   email: string;
+  full_schedule: boolean;
 }
 
 export interface EmployeeData{
@@ -28,11 +29,15 @@ export function useEmpOverviewController() {
   const [countWednesday, setCountWednesday] = useState<number>(0);
   const [countThursday, setCountThursday] = useState<number>(0);
   const [countFriday, setCountFriday] = useState<number>(0);
+  const [countSaturday, setCountSaturday] = useState<number>(0);
+  const [countSunday, setCountSunday] = useState<number>(0);
   const [absentMonday, setabsentMonday] = useState<number>(0);
   const [absentTuesday, setabsentTuesday] = useState<number>(0);
   const [absentWednesday, setabsentWednesday] = useState<number>(0);
   const [absentThursday, setabsentThursday] = useState<number>(0);
   const [absentFriday, setabsentFriday] = useState<number>(0);
+  const [absentSaturday, setabsentSaturday] = useState<number>(0);
+  const [absentSunday, setabsentSunday] = useState<number>(0);
   const [selectedWeek, setSelectedWeek] = useState<number>(0);
   const [userdata, setUserData] = useState<UserData | null>(null);
   const [allEmployees, setAllEmployees] = useState(0);
@@ -50,6 +55,7 @@ export function useEmpOverviewController() {
         const userData = response.data.userData;
         // console.log(userData.firstName);
         setUserData(userData);
+        console.log("USERDATA: ", userData)
       } catch (error) {
         // Handle error
       }
@@ -90,6 +96,7 @@ export function useEmpOverviewController() {
       console.log('Error fetching employees:', error);
     }
   };
+
 
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
@@ -137,15 +144,18 @@ export function useEmpOverviewController() {
       await setCountWednesday(data.wednesday_true);
       await setCountThursday(data.thursday_true);
       await setCountFriday(data.friday_true);
+      await setCountSaturday(data.saturday_true);
+      await setCountSunday(data.sunday_true);
       await setabsentMonday(data.monday_false);
       await setabsentTuesday(data.tuesday_false);
       await setabsentWednesday(data.wednesday_false);
       await setabsentThursday(data.thursday_false);
       await setabsentFriday(data.friday_false);
-      // await setCountSaturday(data.saturday_true);
-      // await setCountSunday(data.sunday_true);
+      await setabsentSaturday(data.saturday_false);
+      await setabsentSunday(data.sunday_false);
+      
     
-    console.log(countMonday);
+    //console.log(countMonday);
     }
     else{
       await setCountMonday(0);
@@ -170,12 +180,17 @@ export function useEmpOverviewController() {
     countWednesday,
     countThursday,
     countFriday,
+    countSaturday,
+    countSunday,
     absentMonday,
     absentTuesday,
     absentWednesday,
     absentThursday,
     absentFriday,
+    absentSaturday,
+    absentSunday,
     attendanceData,
-    selectedWeek
+    selectedWeek,
+    userdata
   };
 }

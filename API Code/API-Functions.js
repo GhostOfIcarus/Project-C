@@ -242,7 +242,7 @@ const getEmployeeSchedule = async (employeeId, week) => {
 									`, [employeeId, week]);
 
 	if (results.rowCount === 0) {
-		console.error('No schedule found with this Id:', employeeId);
+		console.error('No schedule found with this Id:', employeeId, "and week:", week);
 		return false;
 	}
 	else{

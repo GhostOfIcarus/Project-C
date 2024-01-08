@@ -6,6 +6,7 @@ import Cross from "./img/kruisje_projectC.png";
 import withAuthentication from '../Controllers/withAuthentication';
 import Navbar from './Navbar';
 import { useEmployeesOverviewController } from '../Controllers/Employees_OverviewController';
+import { useEmpOverviewController } from '../Controllers/Employee_OverviewController';
 import { useTranslation } from 'react-i18next';
 
 interface Employee {
@@ -18,6 +19,14 @@ function EmployeesOverview() {
   const { t } = useTranslation();
   const { fetchEmployees, employees, RemoveEmployee, fetchSchedule } = useEmployeesOverviewController();
   const [employeesList, setEmployeesList] = useState<Employee[]>(employees);
+  const{ isSubmitted, handleSubmit, countMonday, countTuesday, countWednesday, countThursday, countFriday, countSaturday, countSunday,
+    absentMonday,
+    absentTuesday,
+    absentWednesday,
+    absentThursday,
+    absentFriday,
+    absentSaturday,
+    absentSunday, userdata, selectedWeek} = useEmpOverviewController();
 
   useEffect(() => {
     fetchEmployees();
@@ -62,7 +71,7 @@ function EmployeesOverview() {
                 {employeesList.map((employee: Employee) => (
                   <tr key={employee.id}>
                     <td>
-                    <Link to={`/Employee_Week_Overview/${employee.id}/51/${employee.first_name}/${employee.last_name}`}>
+                    <Link to={`/Employee_Week_Overview/${employee.id}/${employee.first_name}/${employee.last_name}`}>
                       {employee.first_name} {employee.last_name}
                     </Link>
                     </td>
