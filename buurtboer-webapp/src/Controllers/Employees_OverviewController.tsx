@@ -73,7 +73,7 @@ export interface ScheduleData {
           }
         );
           
-        // console.log(response);
+        console.log("companyID: ",userdata?.userId);
 
         if (response.data && response.data.length > 0) {
           // console.log("Employees found: ", response.data);
