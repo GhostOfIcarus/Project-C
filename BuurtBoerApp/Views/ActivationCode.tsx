@@ -16,7 +16,6 @@ const ActivateAccountScreen = (props: ChangePasswordProps) => {
 
   const employee: Employee = props.route.params.employee;
   const { page_key } = props.route.params;
-  console.log(page_key);
 
   return (
     <KeyboardAvoidingView style={{ flex: 1 }}>

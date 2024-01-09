@@ -33,19 +33,16 @@ class EmailCheckController {
 
     // Get the data from the response
     let data = await response.json();
-    console.log(data.userData);
-    console.log(data.activation_key);
     if (!data.userData) {
       // commented for now but is security risk
       if (page_key == "change_password") {
-        Alert.alert("Error", "Activate your account first");
+        Alert.alert("Error", t('account_not_activated_error'));
       }
       else{
-        Alert.alert("Error", "Your account already has been activated");
+        Alert.alert("Error", t('account_already_activated_error'));
       }
       return;
     }
-    console.log(data); 
 
     // Check if the data contains the employee data
     let employeeData = data.userData;
@@ -64,23 +61,18 @@ class EmailCheckController {
       }),
     });
 
-    console.log(email_response);
     if (!email_response.ok) {
       Alert.alert('Error', `HTTP ${response.status}: "Email not send"`);
       return;
     }
-    Alert.alert("Email send", "Check your email for the activation code");
+    Alert.alert(t('email_send_success'), t('email_send_success_text'));
     // Create an employee object
     let employee = new Employee(employeeData.id, employeeData.email, employeeData.first_name, employeeData.last_name, employeeData.keepschedule, employeeData.company_name);
     if (employee) {
-      console.log(employee);
       // Email exists, navigate to the ChangePassword screen with user data
       navigation.navigate("ActivationCodeScreen", { employee, page_key });
     } else {
-      // Email doesn't exist, show an alert
-
-      // commented for now but is security risk
-      // Alert.alert(t('email_error'), t('email_error_text'));
+      return;
     }
   };
 }

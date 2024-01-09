@@ -4,7 +4,6 @@ import { Alert, LogBox } from 'react-native';
 
 class ActivateAccountController {
     static ActivationCodeCheck = async (email: string, activation_key: string, t: Function, navigation: any, page_key: string) => {
-        console.log(email, activation_key);
         // Check if the entered email exists in the JSON file
         let response = await fetch('http://10.0.2.2:5000/api/employee/activate/code', {
             method: 'POST',
@@ -28,7 +27,6 @@ class ActivateAccountController {
             Alert.alert("code verkeerd");
             return;
         }
-        console.log(data); 
     
         // Check if the data contains the employee data
         let employeeData = data;
