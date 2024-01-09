@@ -58,6 +58,8 @@
     "employees_Overview": "Medewerkers overview",
     "employee_Overview": "Medewerkers overview",
     "add_employee": "Medewerker toevoegen",
+    "employee_invite": "Medewerker toevoegen",
+    "first_name": "Voor naam",
 
     "add_company": "Bedrijf aanmaken",
     "Company_name": "Bedrijf naam",
@@ -81,9 +83,9 @@
     "5weekday": "ma-vr",
     "7weekday": "ma-zon",
 
-    "Employee_Overview": "Mederwerker overview",
+    "Employee_Overview": "Medewerker overview",
     "Week_select": "Selecteer een week:",
-    "employeesNotFound": "mederwerkers niet gevonden",
+    "employeesNotFound": "medewerkers niet gevonden",
     "employee_name": "naam medewerker",
     "userdetails_Error": "gebruiker details niet gevonden",
     "change_Password": "vul uw nieuwe wachtwoord in en herhaal het",

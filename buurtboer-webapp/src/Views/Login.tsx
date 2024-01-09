@@ -156,7 +156,6 @@ export function Login() {
           <div id="signInDiv"></div>
           <button onClick={login} className={genstyles.button}>{t('microsoft')}</button>
         </div>
-        <button onClick={handleSignOut}>Sign Out</button>
       </form>
     </>
   );
