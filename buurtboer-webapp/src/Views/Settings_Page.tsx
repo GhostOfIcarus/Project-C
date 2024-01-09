@@ -25,6 +25,7 @@ function Settings() {
   const [userId, setUserId] = useState();
   const [userdata, setUserData] = useState<UserData | null>(null);
   const [userName, setUserName] = useState('');
+  const [password, setPassword] = useState('');
   const [selectedRoster, setSelectedRoster] = useState<string>('');
   const [isEmailUnique, setIsEmailUnique] = useState(true);
   const [initialValues, setInitialValues] = useState({
@@ -59,11 +60,13 @@ function Settings() {
         const userEmail = userData.userEmail;
         const userName = userData.firstName;
         const selectedRosterValue = userData.full_schedule;
+        const password = userData.password;
 
         setUserId(userId);
         setCompanyName(companyName);
         setUserEmail(userEmail);
         setUserName(userName);
+        setPassword(password);
         setSelectedRosterValue(selectedRosterValue);
         if (selectedRosterValue){
           setSelectedRoster(t('7weekday'))
@@ -71,8 +74,8 @@ function Settings() {
         else{
           setSelectedRoster(t('5weekday'))
         }
-        console.log(userData);
-        console.log('fetched data succesfully');
+        //console.log(userData);
+        //console.log('fetched data succesfully');
       } catch (error) {
         console.error('Error fetching user data:', error);
         // Handle error based on your requirements
@@ -108,7 +111,7 @@ function Settings() {
 
   const handleRoosterChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const selectedValue = event.target.value;
-    console.log(selectedValue);
+    //console.log(selectedValue);
   
     // Update the selectedRosterValue based on the selected option
     if (selectedValue === t('5weekday')) {
@@ -148,6 +151,12 @@ function Settings() {
   };
   
   const handleUserEmailChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    console.log('password', password);
+    if (password === undefined) {
+      setErrorMessage(t('change_email_not_possible'));
+      setIsEmailUnique(false);
+      return;
+    }
     setUserEmail(e.target.value);
 };
 

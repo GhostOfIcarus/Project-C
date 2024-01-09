@@ -97,6 +97,7 @@
     "confirmDelete_employee": "Weet u zeker dat u 1 employee wilt verwijderen?",
     "Email_success": "Email succesvol gestuurd",
     "email_fail": "Failed to send email",
+    "change_email_not_possible": "kan email niet veranderen",
     "input_error": "Vul alle velden in!",
     "invite_send": "uitnodiging gestuurd!"
 }

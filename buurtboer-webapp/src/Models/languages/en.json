@@ -97,6 +97,7 @@
     "confirmDelete_employee": "Are you sure you want to delete 1 employee?",
     "Email_success": "Email successfully send",
     "email_fail": "Failed to send email",
+    "change_email_not_possible": "cannot change email",
     "input_error": "fill in all fields!",
     "invite_send": "Invite send!"
   }
