@@ -58,6 +58,9 @@
     "employees_Overview": "Employees overview",
     "employee_Overview": "Employee overview",
     "add_employee": "Add employee",
+    "employee_invite": "Invite employee",
+    "first_name": "first name",
+    "last_name": "last name",
 
     "add_company": "Add company",
     "register_company": "Register company",

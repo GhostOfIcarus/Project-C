@@ -130,7 +130,7 @@ function Invite_Employee() {
           <div className="row">
             <div className="col-lg-12">
                 <div className="  form_items ms-5 justify-content-center p-5">
-                  <h2>Medewerker uitnodigen</h2>
+                  <h2>{t('employee_invite')}</h2>
                   {/* <div className="justify-content-center">
                       <input type="text" id="firstName" placeholder="Voornaam" /> 
                       <input type="text" id="lastName" placeholder="Achternaam" />
@@ -140,9 +140,9 @@ function Invite_Employee() {
                   <form onSubmit={sendInvite}>
                       <input type="email" id="emailInput" placeholder="Email" value={employeeEmail} onChange={(e) => setEmployeeEmail(e.target.value)}/> 
                       <br /><br />
-                      <input type='text' id="firstName" placeholder="Voornaam" value={employeeFirstName} onChange={(e) => setEmployeeFirstName(e.target.value)}/> 
+                      <input type='text' id="firstName" placeholder={t('first_name')} value={employeeFirstName} onChange={(e) => setEmployeeFirstName(e.target.value)}/> 
                       <br /><br />
-                      <input type='text' id="lastName" placeholder="Achternaam" value={employeeLastName} onChange={(e) => setEmployeeLastName(e.target.value)}/>
+                      <input type='text' id="lastName" placeholder={t('last_name')} value={employeeLastName} onChange={(e) => setEmployeeLastName(e.target.value)}/>
                       <br /><br />
                       <button className={genstyles.submmitbutton} type="submit">{t('send_invite')}</button>
                       {submitMessages && <div className={genstyles.error}>{submitMessages}</div>}
