@@ -21,7 +21,7 @@ function ChangePassword() {
   const handleChangePassword = async () => {
     try {
       if (newPassword !== confirmPassword) {
-        setErrorMessages('Please input the same password twice');
+        setErrorMessages(t('password_match_error_text'));
         return;
       }
 

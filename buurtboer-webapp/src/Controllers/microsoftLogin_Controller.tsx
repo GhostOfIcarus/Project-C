@@ -182,11 +182,7 @@ export function useMicrosoftLogin() {
     }
   };
 
-  const Logout = async () => {
-    await msalInstance.initialize();
-    await msalInstance.logoutPopup();
-    setIsAuthenticated(false);
-  };
 
-  return { login, Logout, register };
+
+  return { login, register };
 }

@@ -1,6 +1,7 @@
 import { useState, FormEvent, useEffect } from 'react';
 import axios, { AxiosError } from 'axios';
 import { jwtDecode, JwtPayload } from 'jwt-decode';
+import { useTranslation } from 'react-i18next';
 
 interface localJwtPayload {
   given_name: string;
@@ -14,10 +15,7 @@ interface ErrorMessages {
   message: string;
 }
 
-const errorMessages: { email: string; Pass: string } = {
-  email: 'Invalid email',
-  Pass: 'Invalid password',
-};
+
 
 interface GoogleAccountsResponse {
   credential: string;
@@ -31,11 +29,16 @@ declare global {
 }
 
 export function useLoginController() {
+  const { t } = useTranslation();
   const [errorMessage, setErrorMessage] = useState<ErrorMessages>({ name: '', message: '' });
   const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
   const [loginFailed, setLoginFailed] = useState<boolean>(false);
   const [role, setRol] = useState<string>('');
   const [user, setUser] = useState({});
+  const errorMessages: { email: string; Pass: string } = {
+    email: t('invalid_email'),
+    Pass: t('inalid_password'),
+  };
 
 
   const renderErrorMessage = (name: string) =>

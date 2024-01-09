@@ -60,6 +60,9 @@
     "add_employee": "Medewerker toevoegen",
     "employee_invite": "Medewerker toevoegen",
     "first_name": "Voor naam",
+    "totalAttendance": "aanwezig",
+    "totalAbsent": "afwezig",
+
 
     "add_company": "Bedrijf aanmaken",
     "Company_name": "Bedrijf naam",

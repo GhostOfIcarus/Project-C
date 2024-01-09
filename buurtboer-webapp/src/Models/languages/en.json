@@ -61,6 +61,8 @@
     "employee_invite": "Invite employee",
     "first_name": "first name",
     "last_name": "last name",
+    "totalAttendance": "present",
+    "totalAbsent": "absent",
 
     "add_company": "Add company",
     "register_company": "Register company",

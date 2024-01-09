@@ -24,7 +24,7 @@ function Employee_Week_Overview() {
               <h1>{firstname} {lastname}</h1>
               <form onSubmit={(event) => id && handleSubmit(event, id)}>
                   <input type="week" id="week" name="week" />
-                  <input type="submit" value="Submit" />
+                  <input type="submit" value={t('submit')} />
               </form>
                 <table className="table roundedCorners">
                   <thead>

@@ -29,7 +29,7 @@ function Employee_Overview() {
               <h1>{t('Employee_Overview')}</h1>
               <form onSubmit={handleSubmit}>
                   <input type="week" id="week" name="week" />
-                  <input type="submit" value="Submit" />
+                  <input type="submit" value={t('submit')} />
               </form>
 
               {/* Tabel voor aanwezigen (wordt later verbonden met de week die geselecteerd is) */}

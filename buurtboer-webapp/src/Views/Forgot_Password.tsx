@@ -45,12 +45,12 @@ function Forgot_Password() {
 
         console.log('Email exists');
       } else {
-        setError('Email not found in the database');
+        setError(t('email_error'));
       }
     } catch (error) {
       const axiosError = error as AxiosError;
       if (axiosError.response && axiosError.response.status === 404) {
-        setError('Email not found in the database!');
+        setError(t('email_error'));
       } else {
         console.error('An error occurred while fetching admin data:', axiosError.message || error);
         setError('An error occurred while fetching admin data.');

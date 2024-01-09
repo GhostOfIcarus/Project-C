@@ -40,7 +40,7 @@ export function Login() {
   const { t } = useTranslation();
   const { isSubmitted, loginFailed, renderErrorMessage, handleSubmit, role, user, handleSignOut } = useLoginController();
   const navigate = useNavigate();
-  const { login, Logout } = useMicrosoftLogin();
+  const { login} = useMicrosoftLogin();
 
 
   useEffect(() => {
