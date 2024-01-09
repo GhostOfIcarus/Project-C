@@ -404,9 +404,17 @@ const addKeyByEmployeeMail = async (email, activated, activation_key) => {
 	}
 };
 
-const ChangePasswordEmployee = async (newPassword, email) => {
+const ChangePasswordEmployee = async (newPassword, email, page_key) => {
 	const db = await pool.connect();
 	try {
+	  if (page_key == "activate_account") {
+		const activate_result = await db.query("UPDATE employee SET activated = $1 WHERE email = $2 RETURNING *", [true, email]);
+		if (activate_result.rowCount === 0) {
+			// No rows were updated, which means the email was not found in the database
+			console.error('No user found with this email:', email);
+			return false;
+		  }
+	  }
 	  const results = await db.query("UPDATE employee SET password = $1 WHERE email = $2 RETURNING *", [newPassword, email]);
   
 	  if (results.rowCount === 0) {

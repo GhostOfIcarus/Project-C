@@ -290,8 +290,8 @@ app.post('/api/employee/email_code', async (req, res) => {
 
 app.post('/api/employee/change_password', async (req, res) => {
 	try {
-	  const { newPassword, email } = req.body;
-	  const result = await Functions.ChangePasswordEmployee(newPassword, email);
+	  const { newPassword, email, page_key } = req.body;
+	  const result = await Functions.ChangePasswordEmployee(newPassword, email, page_key);
 	  if (result) {
 		res.status(200).json({ message: 'Password changed successfully' });
 	  } else {

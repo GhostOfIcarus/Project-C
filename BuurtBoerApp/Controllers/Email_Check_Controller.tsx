@@ -69,7 +69,7 @@ class EmailCheckController {
       Alert.alert('Error', `HTTP ${response.status}: "Email not send"`);
       return;
     }
-
+    Alert.alert("Email send", "Check your email for the activation code");
     // Create an employee object
     let employee = new Employee(employeeData.id, employeeData.email, employeeData.first_name, employeeData.last_name, employeeData.keepschedule, employeeData.company_name);
     if (employee) {

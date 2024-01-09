@@ -33,6 +33,7 @@ class ChangePasswordController {
     if (!ChangePasswordController.CheckPassword(password, confirmPassword, t)) {
       return;
     }
+    console.log(page_key);
     // Hash the password with bcrypt
     const salt = bcrypt.genSaltSync(10);
     const hashedPassword = bcrypt.hashSync(password, salt);
@@ -45,6 +46,7 @@ class ChangePasswordController {
       body: JSON.stringify({
         newPassword: hashedPassword,
         email: employee.email,
+        page_key: page_key,
       }),
     });
 

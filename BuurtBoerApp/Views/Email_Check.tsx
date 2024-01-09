@@ -30,8 +30,12 @@ const ForgotPassword = (props: EmailCheckControllerScreenProps) => {
             />
           </View>
           <View style={before_login.content_header_div}>
-              <Text style={before_login.content_header}>{t('forgotPasswordHeader')}</Text>
-          </View>
+                {page_key == "change_password" ? (
+                  <Text style={before_login.content_header}>{t('forgotPasswordHeader')} </Text>
+                ) : page_key == "activate_account" ? (
+                  <Text style={before_login.content_header}>{t('activateaccount')}</Text>
+                ) : null}
+            </View>
           {/* Email Input */}
           <TextInput
             placeholder={t('email')}
