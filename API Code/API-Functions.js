@@ -3,13 +3,13 @@ const jwt = require('jsonwebtoken');
 const Pool = require('pg').Pool;
 const { hashPassword, comparePasswords } = require('./Pass-Encryption');
 const bcrypt = require('bcrypt');
-
+require ('dotenv').config();
 
 const pool = new Pool({ 
-	user: 'postgres',
-	host: 'localhost',
-	database: 'BuurtBoer',
-	port: 5432
+	user: process.env.DB_USER,
+	host: process.env.DB_HOST,
+	database: process.env.DB_NAME,
+	port: process.env.DB_PORT
 });
 
 const createNewCompany = async (admin_first_name, admin_last_name, company_name, full_schedule, email, password) => {

@@ -2,9 +2,10 @@ const express = require('express');
 const jwt = require('jsonwebtoken');
 const cookieParser = require('cookie-parser');
 const Functions = require('./API-Functions.js');
+require ('dotenv').config();
 
 // Specify the port and express(Express framework for Node.js)
-const port = 5000;
+const port = process.env.API_PORT;
 const app = express();
 
 // Middleware for parching JSON requests
@@ -15,7 +16,7 @@ app.use(cookieParser());
 
 // Middleware to handle CORS
 app.use(function (req, res, next) {
-	const allowedOrigins = ['http://localhost:3000', 'http://localhost:5000','http://localhost:8081', 'http://10.0.2.2:3000', 'http://10.0.2.2:8081'];
+	const allowedOrigins = process.env.ALLOWED_ORIGINS.split(',');
 	const origin = req.headers.origin;
 	if (allowedOrigins.includes(origin)) {
 	  res.setHeader('Access-Control-Allow-Origin', origin);
@@ -24,7 +25,7 @@ app.use(function (req, res, next) {
 	res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
 	res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Access-Control-Allow-Headers');
 
-	// Allow credentials
+	// Allow credentials to be sent with the request
 	res.setHeader('Access-Control-Allow-Credentials', 'true');
 
 	next();
@@ -59,10 +60,8 @@ const verifyJWT = async (req, res, next) => {
   };
 
 
-// API endpoints to test the API
 
 // Using inspect element in the browser, you can see the JSON response and error messages (right click -> inspect -> console)
-
 // GET endpoint to test if the API is running
 app.get('/api/hello', verifyJWT, (req, res) => {
 	res.status(200).json({ message: 'Hello World!' });
@@ -445,7 +444,7 @@ app.post('/api/forgot_password', async (req, res) => {
 	  if (emailExists) {
 		res.status(200).json({ success: true });
 	  } else {
-		console.log('HELPPPPPPP')
+		// console.log('HELPPPPPPP')
 		res.status(404).json({ error: 'Email not found in the database' });
 	  }
 	} catch (error) {
