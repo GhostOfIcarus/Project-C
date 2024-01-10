@@ -67,7 +67,7 @@ class EmailCheckController {
     }
     Alert.alert(t('email_send_success'), t('email_send_success_text'));
     // Create an employee object
-    let employee = new Employee(employeeData.id, employeeData.email, employeeData.first_name, employeeData.last_name, employeeData.keepschedule, employeeData.company_name);
+    let employee = new Employee(employeeData.id, employeeData.email, employeeData.first_name, employeeData.last_name, employeeData.keepschedule, employeeData.company_name, employeeData.full_schedule);
     if (employee) {
       // Email exists, navigate to the ChangePassword screen with user data
       navigation.navigate("ActivationCodeScreen", { employee, page_key });
