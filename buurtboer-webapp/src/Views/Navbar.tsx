@@ -3,6 +3,9 @@ import { Link } from 'react-router-dom';
 import logo from './img/buurtboer_logo.png'; 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import postlogin from './Stylesheets/PostLogin.module.css';
+import  {SettingsController} from '../Controllers/SettingsController';
+import NL from "./img/nl_flag.png";
+import EN from "./img/en_flag.png";
 import { useTranslation } from 'react-i18next';
 import axios from 'axios';
 
@@ -11,6 +14,7 @@ interface UserData {
 }
 
 const Navbar = () => {
+  const { language, setLanguage} = SettingsController();
   const { t } = useTranslation();
   const [userdata, setUserData] = useState<UserData | null>(null);
   const [userRole, setUserRole] = useState(null);
@@ -80,10 +84,24 @@ const Navbar = () => {
       <div className="collapse navbar-collapse " id="navbarSupportedContent">
         <ul className="navbar-nav me-auto ms-3 mb-lg-0">
           <li className="nav-item">
-            {userdata && <span className="nav-link text-black"> Welkom, {userdata.firstName}!</span>}
+            {userdata && <span className="nav-link text-black"> {t('welcome')}, {userdata.firstName}!</span>}
           </li>
         </ul>
       </div>
+      <img
+        style={{ width: '20px', height: 'auto', marginRight: '5px', cursor: 'pointer' }}
+        src={NL}
+        alt="nl"
+        onClick={() => setLanguage('nl')} // Use setLanguage from SettingsController
+      />
+      <span style={{ margin: '0 5px', fontSize: '20px' }}>/</span>
+      <img
+        style={{ width: '20px', height: 'auto', marginLeft: '5px', cursor: 'pointer' }}
+        src={EN}
+        alt="en"
+        onClick={() => setLanguage('en')} // Use setLanguage from SettingsController
+      />
+
       <div className="nav-button me-5 "></div>
       {userRole === 'CompanyAdmin' && (
         <div className="nav-button me-5">
