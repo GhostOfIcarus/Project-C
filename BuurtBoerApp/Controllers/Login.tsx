@@ -53,7 +53,6 @@ class LoginController {
       Alert.alert(t('user_error'), t('user_error_text'));
       return;
     }
-    console.log(data); 
   
     if (data.error) {
       Alert.alert('Error', data.error);
@@ -67,7 +66,7 @@ class LoginController {
       return;
     }
     let employeeData = data;
-    let employee = new Employee(employeeData.id, employeeData.email, employeeData.first_name, employeeData.last_name, employeeData.keepschedule, employeeData.company_name);
+    let employee = new Employee(employeeData.id, employeeData.email, employeeData.first_name, employeeData.last_name, employeeData.keepschedule, employeeData.company_name, employeeData.full_schedule);
     
     // Save data to AsyncStorage
     if (rememberMe) {
@@ -82,7 +81,7 @@ class LoginController {
   };
 
   static handleLogin2 = async (navigation: any, rememberMe: boolean) => {
-    let employee = new Employee(1, "h", "h", "h", true, "beh");
+    let employee = new Employee(1, "h", "h", "h", true, "beh", false);
   
     if (rememberMe) {
       await AsyncStorage.setItem('user', JSON.stringify(employee));

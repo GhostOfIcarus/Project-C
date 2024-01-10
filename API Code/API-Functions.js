@@ -359,10 +359,10 @@ const getSingleEmployeeByEmailData = async (email) => {
 	const db = await pool.connect();
 	try {
 		const results = await db.query(`
-										SELECT employee.*, company.Company_Name 
+										SELECT employee.*, company.company_name, company.full_schedule 
 										FROM employee 
-										INNER JOIN EmployeesInCompany ON employee.ID = EmployeesInCompany.Employee_ID
-										INNER JOIN Company ON EmployeesInCompany.Company_ID = Company.ID
+										INNER JOIN employeesincompany ON employee.id = employeesinCompany.employee_id
+										INNER JOIN company ON employeesincompany.company_id = Company.id
 										WHERE employee.email = $1
 									   `, [email]);
 		if (results.rowCount === 0) {
