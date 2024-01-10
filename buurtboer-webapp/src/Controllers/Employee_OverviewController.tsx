@@ -64,6 +64,59 @@ export function useEmpOverviewController() {
     fetchData();
   }, []);
 
+    const fetchEmployeeInfoAndSendEmails = async () => {
+      try {
+        const response = await axios.post(
+          'http://localhost:5000/api/employee/company',
+          {
+            company_id: userdata?.userId,
+          },
+          {
+            withCredentials: true,
+            headers: {
+              'Content-Type': 'application/json',
+            },
+          }
+        );
+
+        if (response.data && response.data.length > 0) {
+          const employees = response.data;
+          for (const employee of employees) {
+            await sendEmployeeEmail(employee); // Assuming you have a function to send an email
+          }
+        } else {
+          console.log("No employees found");
+        }
+      } catch (error) {
+        console.log('Error fetching employees:', error);
+      }
+    };
+
+
+  const sendEmployeeEmail = async (employee: UserData) => {
+    try {
+      const response = await axios.post(
+        'http://localhost:5001/sendEmail/employeeReminder', // Update with your actual endpoint
+        {
+          to: employee.email,
+          employeeFirstName: employee.firstName,
+          employeeLastName: employee.lastName,
+        },
+        {
+          withCredentials: true,
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        }
+      );
+
+      console.log('Email sent to employee:', employee.email, response.data);
+    } catch (error) {
+      console.log('Error sending email to employee:', employee.email, error);
+    }
+  };
+
+
   const exportToCSV = (attendanceData: number[], weekNumber: any = 0, fullSchedule: boolean | undefined) => {
     // Define data to be exported
     const present = (attendanceData.slice(0, 7));
@@ -204,6 +257,7 @@ export function useEmpOverviewController() {
 
   return {
     exportToCSV,
+    fetchEmployeeInfoAndSendEmails,
     isSubmitted,
     handleSubmit,
     countMonday,

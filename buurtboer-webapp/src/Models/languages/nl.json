@@ -85,6 +85,9 @@
     "confirm": "Bevestig",
     "5weekday": "ma-vr",
     "7weekday": "ma-zon",
+    "export_data": "exporteer data",
+    "emails_send_succesfully": "Emails succesvol gestuurd",
+    "send_notification": "stuur notificatie",
 
     "Employee_Overview": "Medewerker overview",
     "Week_select": "Selecteer een week:",

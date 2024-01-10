@@ -63,6 +63,9 @@
     "last_name": "last name",
     "totalAttendance": "present",
     "totalAbsent": "absent",
+    "export_data": "export data",
+    "emails_send_succesfully": "Emails send succesfully",
+    "send_notification": "send notification",
 
     "add_company": "Add company",
     "register_company": "Register company",

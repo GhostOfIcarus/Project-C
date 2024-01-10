@@ -9,8 +9,10 @@ import { useTranslation } from 'react-i18next';
 import genstyles from './Stylesheets/GeneralStyles.module.css';
 
 function Employee_Overview() {
+  const {fetchEmployeeInfoAndSendEmails} = useEmpOverviewController()
   const { t } = useTranslation();
   const [selectedWeek, setSelectedWeek] = useState('');
+  const [successMessage, setSuccessMessage] = useState('');
 
   const{ exportToCSV, isSubmitted, handleSubmit, countMonday, countTuesday, countWednesday, countThursday, countFriday, countSaturday, countSunday,
     absentMonday,
@@ -23,6 +25,17 @@ function Employee_Overview() {
 
     const attendanceData = [countMonday, countTuesday, countWednesday, countThursday, countFriday, countSaturday, countSunday, absentMonday, absentTuesday, absentWednesday, absentThursday, absentFriday, absentSaturday, absentSunday];
     const Date = selectedWeek;
+
+    const handleSendNotification = async () => {
+      try {
+        await fetchEmployeeInfoAndSendEmails();
+        setSuccessMessage(t('emails_send_succesfully'));
+      } catch (error) {
+        console.error('Error sending email:', error);
+        // Handle error if needed
+      }
+    };
+  
 
   return (
     <>
@@ -123,12 +136,14 @@ function Employee_Overview() {
                       <td>{absentSunday}</td>
                     </tr>
                     
-                    <button onClick={() => exportToCSV(attendanceData, Date, userdata?.full_schedule)} className={genstyles.button}>{t('exporteer data')}</button>
+                    <button onClick={() => exportToCSV(attendanceData, Date, userdata?.full_schedule)} className={genstyles.button}>{t('export_data')}</button>
                   </tbody>
                 </table>
-              )}
-              
+              )}         
             </div>
+            <button onClick={handleSendNotification} className={genstyles.button}>{t('send_notification')}</button>
+            {/* the succesmessage does strech out the overview for no reason*/}
+            {successMessage && <div style={{ color: 'green' }}>{successMessage}</div>}
           </div>
         </div>
 

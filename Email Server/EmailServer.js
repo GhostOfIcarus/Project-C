@@ -134,6 +134,24 @@ app.post('/sendEmail/employeeInvitation', (req, res) => {
     });
 });
 
+// Endpoint to send employee reminder
+app.post('/sendEmail/employeeReminder', (req, res) => {
+    mailOptions.to = req.body.to; // Assuming you have the 'to' field in your request body
+    mailOptions.subject = "Herinnering: Vul je wekelijkse schema in";
+
+    mailOptions.html = EmailTemplates.employeeReminder(req.body.employeeFirstName, req.body.employeeLastName);
+
+    transporter.sendMail(mailOptions, function(error, info){
+        if (error) {
+            console.log(error);
+            res.status(500).send(error);
+        } else {
+            console.log('Email sent: ' + info.response);
+            res.status(200).send('Email sent: ' + info.response);
+        }
+    });
+});
+
 
 // Decode and verify JWT token
 app.post('/checkToken', async (req, res) => {
