@@ -84,7 +84,7 @@ const Navbar = () => {
       <div className="collapse navbar-collapse " id="navbarSupportedContent">
         <ul className="navbar-nav me-auto ms-3 mb-lg-0">
           <li className="nav-item">
-            {userdata && <span className="nav-link text-black"> Welkom, {userdata.firstName}!</span>}
+            {userdata && <span className="nav-link text-black"> {t('welcome')}, {userdata.firstName}!</span>}
           </li>
         </ul>
       </div>
