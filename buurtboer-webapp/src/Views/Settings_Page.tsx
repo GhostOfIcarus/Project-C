@@ -339,18 +339,19 @@ function Settings() {
                   <option value={t('5weekday')}>{t('5weekday')}</option>
                   <option value={t('7weekday')}>{t('7weekday')}</option>
                 </select>
-                <img
-                  style={{ width: '20px', height: 'auto', marginRight: '5px', cursor: 'pointer' }}
-                  src={NL}
-                  alt="nl"
-                  onClick={() => setLanguage('nl')} // Use setLanguage from SettingsController
-                />
-                <img
-                  style={{ width: '20px', height: 'auto', marginRight: '5px', cursor: 'pointer' }}
-                  src={EN}
-                  alt="en"
-                  onClick={() => setLanguage('en')} // Use setLanguage from SettingsController
-                />
+              <img
+                style={{ width: '20px', height: 'auto', marginRight: '5px', cursor: 'pointer' }}
+                src={NL}
+                alt="nl"
+                onClick={() => setLanguage('nl')} // Use setLanguage from SettingsController
+              />
+              <span style={{ margin: '0 5px', fontSize: '20px' }}>/</span>
+              <img
+                style={{ width: '20px', height: 'auto', marginLeft: '5px', cursor: 'pointer' }}
+                src={EN}
+                alt="en"
+                onClick={() => setLanguage('en')} // Use setLanguage from SettingsController
+              />
               </div>
               {confirmationVisible && (
                 <button className={genstyles.button} onClick={handleConfirmButtonClick}>
