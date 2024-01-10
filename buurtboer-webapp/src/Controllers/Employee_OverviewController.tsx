@@ -55,7 +55,7 @@ export function useEmpOverviewController() {
         const userData = response.data.userData;
         // console.log(userData.firstName);
         setUserData(userData);
-        console.log("USERDATA: ", userData)
+        // console.log("USERDATA: ", userData)
       } catch (error) {
         // Handle error
       }
@@ -64,6 +64,37 @@ export function useEmpOverviewController() {
     fetchData();
   }, []);
 
+  const exportToCSV = (attendanceData: number[], weekNumber: any = 0, fullSchedule: boolean | undefined) => {
+    // Define data to be exported
+    const present = (attendanceData.slice(0, 7));
+    const absent = (attendanceData.slice(7, 14));
+
+    // Define headers
+    const headers = ["Datum", "Aanwezig", "Afwezig"]
+    const sideHeaders = ["Maandag", "Dinsdag", "Woensdag", "Donderdag", "Vrijdag", "Zaterdag", "Zondag"]
+    
+    // Create a 2D array for the CSV content
+    const csvData = sideHeaders.map((day, index) => {
+      return [day, present[index], absent[index]];
+    });
+
+    // Add headers to the start of the CSV content
+    csvData.unshift(headers);
+
+    // Convert the CSV content to a string
+    const csvContent = csvData.map(row => row.join(',')).join('\n');
+
+
+    // Create a new CSV file
+    const csv = new Blob([csvContent], { type: 'text/csv' });
+    const url = window.URL.createObjectURL(csv);
+    const link = document.createElement('a');
+    link.href = url;
+    link.setAttribute('download', `week-${weekNumber}.csv`);
+    document.body.appendChild(link);
+    link.click();
+
+  }
 
   const fetchEmployees = async () => {
     try {
@@ -119,10 +150,9 @@ export function useEmpOverviewController() {
             'Content-Type': 'application/json'
           }
         });
-        
 
-        console.log("binkybonky")
-        console.log("company id:", userdata?.userId);
+        // console.log("binkybonky")
+        // console.log("company id:", userdata?.userId);
 
         if (response.data) {
           // console.log(response.data);
@@ -173,6 +203,7 @@ export function useEmpOverviewController() {
   };
 
   return {
+    exportToCSV,
     isSubmitted,
     handleSubmit,
     countMonday,

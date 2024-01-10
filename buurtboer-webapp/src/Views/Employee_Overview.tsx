@@ -6,10 +6,13 @@ import Navbar from './Navbar';
 import withAuthentication from '../Controllers/withAuthentication';
 import { useEmpOverviewController } from '../Controllers/Employee_OverviewController';
 import { useTranslation } from 'react-i18next';
+import genstyles from './Stylesheets/GeneralStyles.module.css';
 
 function Employee_Overview() {
   const { t } = useTranslation();
-  const{ isSubmitted, handleSubmit, countMonday, countTuesday, countWednesday, countThursday, countFriday, countSaturday, countSunday,
+  const [selectedWeek, setSelectedWeek] = useState('');
+
+  const{ exportToCSV, isSubmitted, handleSubmit, countMonday, countTuesday, countWednesday, countThursday, countFriday, countSaturday, countSunday,
     absentMonday,
     absentTuesday,
     absentWednesday,
@@ -17,6 +20,9 @@ function Employee_Overview() {
     absentFriday,
     absentSaturday,
     absentSunday, userdata} = useEmpOverviewController();
+
+    const attendanceData = [countMonday, countTuesday, countWednesday, countThursday, countFriday, countSaturday, countSunday, absentMonday, absentTuesday, absentWednesday, absentThursday, absentFriday, absentSaturday, absentSunday];
+    const Date = selectedWeek;
 
   return (
     <>
@@ -28,8 +34,8 @@ function Employee_Overview() {
             <div className="col-lg-12 ">
               <h1>{t('Employee_Overview')}</h1>
               <form onSubmit={handleSubmit}>
-                  <input type="week" id="week" name="week" />
-                  <input type="submit" value={t('submit')} />
+                <input type="week" id="week" name="week" value={selectedWeek} onChange={e => setSelectedWeek(e.target.value)} />
+                <input type="submit" value={t('submit')} />
               </form>
 
               {/* Tabel voor aanwezigen (wordt later verbonden met de week die geselecteerd is) */}
@@ -116,6 +122,8 @@ function Employee_Overview() {
                       <td>{countSunday}</td>
                       <td>{absentSunday}</td>
                     </tr>
+                    
+                    <button onClick={() => exportToCSV(attendanceData, Date, userdata?.full_schedule)} className={genstyles.button}>{t('exporteer data')}</button>
                   </tbody>
                 </table>
               )}
