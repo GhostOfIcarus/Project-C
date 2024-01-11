@@ -79,19 +79,6 @@ class LoginController {
       routes: [{ name: 'Schedule_Form', params: { employee } }],
     });
   };
-
-  static handleLogin2 = async (navigation: any, rememberMe: boolean) => {
-    let employee = new Employee(1, "h", "h", "h", true, "beh", false);
-  
-    if (rememberMe) {
-      await AsyncStorage.setItem('user', JSON.stringify(employee));
-    }
-  
-    navigation.reset({
-      index: 0,
-      routes: [{ name: 'Schedule_Form', params: { employee } }],
-    });
-  };
 }
 
 export default LoginController;

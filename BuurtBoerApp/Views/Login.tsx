@@ -109,10 +109,6 @@ const LoginScreen = (props: LoginScreenProps) => {
           <View style={before_login.centered_text}>
             <Text style={{ color: 'black' }}>{t('or')}</Text>
           </View>
-
-          <TouchableOpacity style={before_login.buttons} onPress={() => LoginController.handleLogin2(props.navigation, rememberMe)}>
-            <Text style={{ color: 'white', textAlign: 'center' }}>{t('google')}</Text>
-          </TouchableOpacity>
           <TouchableOpacity style={before_login.buttons} onPress={() => Email_Check("activate_account")}>
             <Text style={{ color: 'white', textAlign: 'center' }}>{t('activateaccount')}</Text>
           </TouchableOpacity>
