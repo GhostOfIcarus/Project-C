@@ -87,7 +87,9 @@
     "7weekday": "ma-zon",
     "export_data": "exporteer data",
     "emails_send_succesfully": "Emails succesvol gestuurd",
-    "send_notification": "stuur notificatie",
+    "email_send_failed": "Emails niet gestuurd",
+    "send_notification": "stuur Herinnering",
+    "password_format_error": "minstens 8 tekens lang en 1 special teken!",
 
     "Employee_Overview": "Medewerker overview",
     "Week_select": "Selecteer een week:",

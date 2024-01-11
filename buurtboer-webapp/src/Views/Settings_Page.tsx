@@ -9,6 +9,7 @@ import  {SettingsController, AdminInfo, updateAdminInfo} from '../Controllers/Se
 import { useTranslation } from 'react-i18next';
 import axios from 'axios';
 
+
 interface UserData {
   firstName: string;
 }
@@ -25,7 +26,6 @@ function Settings() {
   const [userId, setUserId] = useState();
   const [userdata, setUserData] = useState<UserData | null>(null);
   const [userName, setUserName] = useState('');
-  const [password, setPassword] = useState('');
   const [selectedRoster, setSelectedRoster] = useState<string>('');
   const [isEmailUnique, setIsEmailUnique] = useState(true);
   const [initialValues, setInitialValues] = useState({
@@ -41,6 +41,7 @@ function Settings() {
     companyName: '',
     selectedRosterValue: false,
   });
+
 
   useEffect(() => {
     const fetchData = async () => {
@@ -66,7 +67,6 @@ function Settings() {
         setCompanyName(companyName);
         setUserEmail(userEmail);
         setUserName(userName);
-        setPassword(password);
         setSelectedRosterValue(selectedRosterValue);
         if (selectedRosterValue){
           setSelectedRoster(t('7weekday'))
@@ -103,7 +103,7 @@ function Settings() {
     }
   };
 
-  const handleEditButtonClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+  const handleEditButtonClick = async (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
     setEditable(true);
     setConfirmationVisible(true);
@@ -151,12 +151,12 @@ function Settings() {
   };
   
   const handleUserEmailChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log('password', password);
-    if (password === undefined) {
-      setErrorMessage(t('change_email_not_possible'));
-      setIsEmailUnique(false);
-      return;
-    }
+    // console.log('password', password);
+    // if (password === undefined) {
+    //   setErrorMessage(t('change_email_not_possible'));
+    //   setIsEmailUnique(false);
+    //   return;
+    // }
     setUserEmail(e.target.value);
 };
 
@@ -303,20 +303,7 @@ function Settings() {
                 </div>
                 <div className="mb-3">
                   <a>Email: </a>
-                  {editable ? (
-                    <div>
-                      <input
-                        type="text"
-                        id="adminEmail"
-                        placeholder={userEmail}
-                        value={userEmail}
-                        onChange={handleUserEmailChange}
-                      />
-                      {errorMessage && <div style={{ color: 'red' }}>{errorMessage}</div>}
-                    </div>
-                  ) : (
-                    <span>{userEmail}</span>
-                  )}
+                  <span>{userEmail}</span>
                 </div>
                 <div className="mb-3">
                   <a>{t('Company_name')}: </a>

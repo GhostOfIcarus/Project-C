@@ -7,13 +7,11 @@ import postlogin from './Stylesheets/PostLogin.module.css';
 import genstyles from './Stylesheets/GeneralStyles.module.css';
 import withAuthentication from '../Controllers/withAuthentication';
 import { useTranslation } from 'react-i18next';
-import {registerCompanyController} from '../Controllers/Company_RegisterController'
+import { registerCompanyController } from '../Controllers/Company_RegisterController';
 import { useMicrosoftLogin } from '../Controllers/microsoftLogin_Controller';
 
-
-
 export function Company_Register() {
-  const {register} = useMicrosoftLogin();
+  const { register } = useMicrosoftLogin();
   const { t } = useTranslation();
   const navigate = useNavigate();
   const location = useLocation();
@@ -22,7 +20,6 @@ export function Company_Register() {
   const [companyEmail, setCompanyEmail] = useState<string>('');
   const [companyPass, setCompanyPass] = useState('');
   const [companyPass2, setCompanyPass2] = useState('');
-  const [errorMessage, setErrorMessage] = useState('');
   const [isEmailUnique, setIsEmailUnique] = useState(true);
   const full_schedule = false;
 
@@ -33,10 +30,10 @@ export function Company_Register() {
       return response.data.emailExists;
     } catch (error) {
       console.error('Error checking email availability:', error);
-      return false; 
+      return false;
     }
   };
-  
+
   //function that handles the microsoft login
   const handleMicrosoftLogin = async () => {
     const apiUrl = 'http://localhost:5000/api/admin/registerAdmin';
@@ -46,77 +43,88 @@ export function Company_Register() {
 
       const verifiedToken = await axios.post('http://localhost:5001/checkToken', {
         token: token,
-        }, {
-          withCredentials: true,
-          headers: {
-            'Content-Type': 'application/json'
-          }
-        });
+      }, {
+        withCredentials: true,
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
 
       const microsoftData = await register();
       console.log(microsoftData);
-      if(microsoftData){
+      if (microsoftData) {
         console.log(microsoftData);
         const registrationSuccess = await axios.post(apiUrl, {
-                admin_first_name: microsoftData.firstname,
-                admin_last_name: microsoftData.lastname,
-                company_name: verifiedToken.data.data.companyName,
-                full_schedule: false,
-                email: microsoftData.email,
-                password: '',
-              });
+          admin_first_name: microsoftData.firstname,
+          admin_last_name: microsoftData.lastname,
+          company_name: verifiedToken.data.data.companyName,
+          full_schedule: false,
+          email: microsoftData.email,
+          password: '',
+        });
         if (registrationSuccess) {
           // Redirect to the login page or show a success message
           setRegistrationSuccess(true);
           setSuccessMessage(t('successfullyMadeCompany'))
-          console.log('created succesfully');
+          console.log('created successfully');
         } else {
           // Handle registration failure
           console.error('Company registration failed');
         }
       }
-     
+
     } catch (error) {
       // Handle errors, e.g., display an error message
       console.error('An error occurred during company registration', error);
     }
   };
 
-  const handleFormSubmit = async (e : React.FormEvent<HTMLFormElement>) => {
+  const isPasswordValid = (password: string) => {
+    // Check if password is at least 8 characters long and contains at least one special character
+    const minLength = 8;
+    const hasSpecialCharacter = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/.test(password);
+    return password.length >= minLength && hasSpecialCharacter;
+  };
+
+  const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     // Validate email format
     if (!companyEmail.includes('@')) {
-    setErrorMessage(t('email_format_error'));
-    return; // Stop further execution
+      setIsEmailUnique(false);
+      return; // Stop further execution
     }
 
     const EmailNotAvailable = await checkEmailAvailability(companyEmail);
 
     if (EmailNotAvailable) {
-      setErrorMessage(t('email_inUse_error'));
-      setIsEmailUnique(false);
+      setIsEmailUnique(true);
       return;
     }
 
-  const params = new URLSearchParams(location.search);
-  const token = params.get('token') || '';
-
-  const verifiedToken = await axios.post('http://localhost:5001/checkToken', {
-    token: token,
-  }, {
-    withCredentials: true,
-    headers: {
-      'Content-Type': 'application/json'
+    // Validate password
+    if (!isPasswordValid(companyPass)) {
+      return;
     }
-  });
 
+    // Check if passwords match
+    if (companyPass !== companyPass2) {
+      return;
+    }
 
-    console.log('companyEmail:', companyEmail);
-    console.log('companyPass:', companyPass);
-    console.log('companyPass2:', companyPass2);
+    const params = new URLSearchParams(location.search);
+    const token = params.get('token') || '';
 
-    //TODO: succesfully made company email or screen needs to be made before sending the user to the login page
+    const verifiedToken = await axios.post('http://localhost:5001/checkToken', {
+      token: token,
+    }, {
+      withCredentials: true,
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+
+    // TODO: Successfully made company email or screen needs to be made before sending the user to the login page
     try {
       // Make a call to the registerCompanyController function
       const registrationSuccess = await registerCompanyController(verifiedToken.data.data.adminFirstName, verifiedToken.data.data.adminLastName, verifiedToken.data.data.companyName, full_schedule, companyEmail, companyPass);
@@ -125,7 +133,7 @@ export function Company_Register() {
         setRegistrationSuccess(true);
         setSuccessMessage(t('successfullyMadeCompany'));
         console.log('SUCCESSSS');
-        //navigate(`/login`);
+        // navigate(`/login`);
       } else {
         // Handle registration failure
         console.error('Company registration failed');
@@ -147,27 +155,36 @@ export function Company_Register() {
               <div className="  form_items ms-5 justify-content-center p-5">
                 <h2>{t('register_company')}</h2>
                 <form onSubmit={handleFormSubmit}>
-                <input
-                  type="email"
-                  id="companyEmail"
-                  placeholder="Email"
-                  value={companyEmail}
-                  onChange={(e) => {
-                    setCompanyEmail(e.target.value);
-                    // Reset email error on input change
-                    setErrorMessage('');
-                  }}
-                />
-                {/* Display email error message */}
-                {errorMessage && <div style={{ color: 'red' }}>{errorMessage}</div>}
+                  <input
+                    type="email"
+                    id="companyEmail"
+                    placeholder="Email"
+                    value={companyEmail}
+                    onChange={(e) => {
+                      setCompanyEmail(e.target.value);
+                      // Reset email error on input change
+                      setIsEmailUnique(true);
+                    }}
+                  />
+                  {/* Display email error message */}
+                  {!isEmailUnique && (
+                    <div style={{ color: 'red' }}>{t('email_inUse_error')}</div>
+                  )}
                   <br /><br />
                   <input
                     type="password"
                     id="companyPass"
                     placeholder={t('password')}
                     value={companyPass}
-                    onChange={(e) => setCompanyPass(e.target.value)}
+                    onChange={(e) => {
+                      setCompanyPass(e.target.value);
+                      // Reset password error on input change
+                    }}
                   />
+                  {/* Display password error message */}
+                  {!isPasswordValid(companyPass) && (
+                    <div style={{ color: 'red' }}>{t('password_format_error')}</div>
+                  )}
                   <br /><br />
                   <input
                     type="password"
@@ -176,6 +193,10 @@ export function Company_Register() {
                     value={companyPass2}
                     onChange={(e) => setCompanyPass2(e.target.value)}
                   />
+                  {/* Display password match error message */}
+                  {companyPass !== companyPass2 && (
+                    <div style={{ color: 'red' }}>{t('password_match_error')}</div>
+                  )}
                   <br /><br />
                   <input type="submit" value={t('submit')} className={genstyles.submmitbutton} />
                   <a>{t('or')}</a>
@@ -184,15 +205,15 @@ export function Company_Register() {
                   <a><button className={genstyles.button}>{t('google')}</button> </a>
                 </form>
 
-                 {/* Display success message and link to login */}
-                 {registrationSuccess && (
+                {/* Display success message and link to login */}
+                {registrationSuccess && (
                   <div style={{ color: 'green' }}>
                     {successMessage}
                     <Link to="/login" className={postlogin.loginLink}>
                       {t('backToLogin')}
                     </Link>
                   </div>
-                 )}
+                )}
               </div>
             </div>
           </div>

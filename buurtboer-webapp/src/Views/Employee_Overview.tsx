@@ -32,7 +32,7 @@ function Employee_Overview() {
         setSuccessMessage(t('emails_send_succesfully'));
       } catch (error) {
         console.error('Error sending email:', error);
-        // Handle error if needed
+        setSuccessMessage(t('email_send_failed'));
       }
     };
   
@@ -143,7 +143,6 @@ function Employee_Overview() {
             </div>
             <button onClick={() => exportToCSV(attendanceData, Date, userdata?.full_schedule)} className={genstyles.button}>{t('export_data')}</button>
             <button onClick={handleSendNotification} className={genstyles.button}>{t('send_notification')}</button>
-            {/* the succesmessage does strech out the overview for no reason*/}
             {successMessage && <div style={{ color: 'green' }}>{successMessage}</div>}
           </div>
         </div>

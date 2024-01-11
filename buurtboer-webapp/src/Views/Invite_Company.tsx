@@ -125,4 +125,4 @@ function Invite_Company() {
   );
 }
 
-export default withAuthentication(Invite_Company);
+export default withAuthentication(Invite_Company, "/Employee_Overview", true);

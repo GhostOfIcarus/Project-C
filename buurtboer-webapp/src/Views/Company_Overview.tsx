@@ -83,4 +83,4 @@ function CompanyOverview() {
   );
 }
 
-export default withAuthentication(CompanyOverview);
+export default withAuthentication(CompanyOverview, "/Employee_Overview", true);
