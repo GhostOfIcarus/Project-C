@@ -276,4 +276,4 @@ function SuperAdminSettings() {
   );
 }
 
-export default withAuthentication(SuperAdminSettings, "/Login", true);
+export default withAuthentication(SuperAdminSettings, "/Employee_Overview", true);
