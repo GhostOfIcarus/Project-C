@@ -37,7 +37,7 @@ export function useLoginController() {
   const [user, setUser] = useState({});
   const errorMessages: { email: string; Pass: string } = {
     email: t('invalid_email'),
-    Pass: t('inalid_password'),
+    Pass: t('invalid_password'),
   };
 
 
