@@ -14,7 +14,7 @@ const ActivateAccountScreen = (props: ChangePasswordProps) => {
   const { t } = useTranslation();
   const [activation_code, setActivationCode] = useState('');
 
-  const employee: Employee = props.route.params.employee;
+  const employee_mail: string  = props.route.params.employee_mail;
   const { page_key } = props.route.params;
 
   return (
@@ -40,7 +40,7 @@ const ActivateAccountScreen = (props: ChangePasswordProps) => {
           />
          
           {/* Change Password button */}
-          <TouchableOpacity style={before_login.buttons} onPress={() => ActivateAccountController.ActivationCodeCheck(employee.email, activation_code, t, props.navigation, page_key)}>
+          <TouchableOpacity style={before_login.buttons} onPress={() => ActivateAccountController.ActivationCodeCheck(employee_mail, activation_code, t, props.navigation, page_key)}>
             <Text style={{ color: 'white', textAlign: 'center' }}>{t('changePassword')}</Text>
           </TouchableOpacity>
           

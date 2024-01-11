@@ -273,6 +273,7 @@ app.post('/api/employee/email_code', async (req, res) => {
 	try {
 		const { email, activated } = req.body;
 		const activation_key = Math.floor(Math.random() * (1000000 - 100000) + 100000);
+		console.log(activation_key);
 		const token = jwt.sign(
 			{
 			  activation_key: activation_key, 
