@@ -241,7 +241,7 @@ function SuperAdminSettings() {
                 <a href="Company_Overview">
                     <button className={genstyles.button}>{t('Companys')}</button>
                 </a>
-                <div style={{ marginRight: '15px' }}></div> 
+              <div style={{ marginRight: '15px' }}></div> 
               <img
                 style={{ width: '20px', height: 'auto', marginRight: '5px', cursor: 'pointer' }}
                 src={NL}
@@ -276,4 +276,4 @@ function SuperAdminSettings() {
   );
 }
 
-export default withAuthentication(SuperAdminSettings);
+export default withAuthentication(SuperAdminSettings, "/Login", true);
