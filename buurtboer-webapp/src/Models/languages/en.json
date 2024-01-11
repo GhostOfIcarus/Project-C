@@ -65,6 +65,7 @@
     "totalAbsent": "absent",
     "export_data": "export data",
     "emails_send_succesfully": "Emails send succesfully",
+    "password_format_error": "needs at least 8 characters and a special character!",
     "send_notification": "send notification",
 
     "add_company": "Add company",

@@ -13,15 +13,30 @@ function ChangePassword() {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [errorMessages, setErrorMessages] = useState('');
   const [showSuccessModal, setShowSuccessModal] = useState(false); // Track success modal visibility
+  const [formSubmitted, setFormSubmitted] = useState(false); // Track whether the form has been submitted
   const location = useLocation();
   const urlParams = new URLSearchParams(location.search);
   const token = urlParams.get('token') as string;
   const navigate = useNavigate();
 
+  const isPasswordValid = (password: any) => {
+    // Add your password conditions here
+    const minLength = 8;
+    const hasSpecialCharacter = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/.test(password);
+    return password.length >= minLength && hasSpecialCharacter;
+  };
+
   const handleChangePassword = async () => {
     try {
+      setFormSubmitted(true); // Mark the form as submitted
+
       if (newPassword !== confirmPassword) {
-        setErrorMessages(t('password_match_error_text'));
+        setErrorMessages(t('password_match_error'));
+        return;
+      }
+
+      if (!isPasswordValid(newPassword)) {
+        setErrorMessages(t('password_format_error'));
         return;
       }
 
@@ -40,11 +55,6 @@ function ChangePassword() {
     }
   };
 
-  // const handleCloseModal = () => {
-  //   setShowSuccessModal(false);
-  //   navigate('/Login'); // Go back to login page after closing the modal
-  // };
-
   return (
     <>
       <div className={genstyles.container}>
@@ -57,14 +67,22 @@ function ChangePassword() {
               value={newPassword}
               onChange={(e) => setNewPassword(e.target.value)}
             /> 
+            {/* Display password error message after form submission */}
+            {formSubmitted && !isPasswordValid(newPassword) && (
+              <div className={genstyles.error}>{t('password_format_error')}</div>
+            )}
             <input 
               type="password" 
               placeholder={t('repeatPassword')}
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
             />
+            {/* Display password match error message after form submission */}
             <button className={genstyles.button} onClick={handleChangePassword}>{t('send')}</button>
-            {errorMessages && <div className={genstyles.error}>{errorMessages}</div>}
+            {formSubmitted && newPassword !== confirmPassword && (
+              <div className={genstyles.error}>{t('password_match_error')}</div>
+            )}
+            {/* Display general error message after form submission */}
             {showSuccessModal && (
               <div className={genstyles.modal}>
                 <div className={genstyles.modalContent}>
@@ -79,9 +97,8 @@ function ChangePassword() {
           </div>
         </div>
       </div>
-
     </>
   );
 }
 
-export default ChangePassword;
+export default withAuthentication(ChangePassword);
