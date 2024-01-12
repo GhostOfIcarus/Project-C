@@ -1,5 +1,5 @@
 import Employee from '../Models/Employee_Model';
-import { Alert, LogBox } from 'react-native';
+import { Alert } from 'react-native';
 
 
 class ActivateAccountController {
@@ -24,14 +24,14 @@ class ActivateAccountController {
         let data = await response.json();
         if (!data) {
             // commented for now but is security risk
-            Alert.alert("code verkeerd");
+            Alert.alert(t('code_error'), t('code_error_text'));
             return;
         }
     
         // Check if the data contains the employee data
         let employeeData = data;
         if (!employeeData) {
-            Alert.alert('Error', 'Employee data not found in the response');
+            Alert.alert(t('employee_data_error'), t('employee_data_error_text'));
             return;
         }
         // Create an employee object
