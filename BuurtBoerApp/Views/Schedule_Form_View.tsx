@@ -280,6 +280,3 @@ const WeekOverviewForm = (props: WeekOverviewFormProps) =>
 };
 
 export default WeekOverviewForm;
-
-
-
