@@ -43,7 +43,7 @@ function CompanyOverview() {
       <div className={`container ${postlogin.page_container}  mt-5 p-5`}>
         <h2 className="text-center">Bedrijf Overview</h2>
         <div className="middle-buttons-container col-lg-7 content mt-5 mx-auto center-align">
-          <div className="left-align top-buttons-container">
+          <div className="left-align top-buttons-container col-lg-4">
             <a href="Invite_Company">
               <button className={genstyles.button}>{t('add_company')}</button> 
             </a>
@@ -59,7 +59,7 @@ function CompanyOverview() {
             {companiesList.map((company: Company) => (
             <tr key={company.id}>
               <td>
-              <Link to={`/Employee_Overview/${company.id}`}>
+              <Link className={genstyles.link_button} to={`/Employee_Overview/${company.id}`}>
                 {company.name}
               </Link>
               </td>

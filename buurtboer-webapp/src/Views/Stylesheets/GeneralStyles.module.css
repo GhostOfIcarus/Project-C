@@ -66,6 +66,16 @@
     background-color: #c95f3f;
   }
 
+  .link_button{
+    color: #099f91;
+    text-decoration: none;
+  }
+
+  .link_button:hover{
+    color: #c95f3f;
+    text-decoration: underline;
+  }
+
   .link {
     font-size: 10px;
     text-align: right;

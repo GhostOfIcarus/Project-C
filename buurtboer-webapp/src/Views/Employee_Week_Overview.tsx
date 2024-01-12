@@ -22,10 +22,14 @@ function Employee_Week_Overview() {
           <div className="row">
             <div className="col-lg-12 ">
               <h1>{firstname} {lastname}</h1>
-              <form onSubmit={(event) => id && handleSubmit(event, id)}>
-                  <input type="week" id="week" name="week" />
-                  <input type="submit" value={t('submit')} />
-              </form>
+              <div className='row'>
+                <div className='col-lg-12'>
+                  <form className='input-group mb-3' onSubmit={(event) => id && handleSubmit(event, id)}>
+                    <input className="form-control" type="week" id="week" name="week" />
+                    <input className="btn btn-outline-secondary" type="submit" value="Submit" />
+                  </form>
+                </div>
+              </div>
                 <table className="table roundedCorners">
                   <thead>
                     <tr>
@@ -37,6 +41,7 @@ function Employee_Week_Overview() {
                   <tbody>
                     <tr>
                       <td>{t('No schedule found for this week.')}</td>
+                      <td></td><td></td>
                     </tr>
                     
                   </tbody>
@@ -56,10 +61,15 @@ function Employee_Week_Overview() {
           <div className="row">
             <div className="col-lg-12 ">
               <h1>{firstname} {lastname}</h1>
-              <form onSubmit={(event) => id && handleSubmit(event, id)}>
-                  <input type="week" id="week" name="week" />
-                  <input type="submit" value="Submit" />
-              </form>
+              <div className='row'>
+                <div className='col-lg-12'>
+                  <form className='input-group mb-3' onSubmit={(event) => id && handleSubmit(event, id)}>
+                    <input className="form-control" type="week" id="week" name="week" />
+                    <input className="btn btn-outline-secondary" type="submit" value="Submit" />
+                  </form>
+                </div>
+              </div>
+              
               {userdata?.full_schedule === false ? (
                 <table className="table roundedCorners">
                   <thead>

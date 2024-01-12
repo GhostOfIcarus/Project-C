@@ -138,12 +138,12 @@ function Invite_Employee() {
                       <a href="index.html"><button className={genstyles.button}>Stuur Invite</button></a>
                   </div> */}
                   <form onSubmit={sendInvite}>
-                      <input type="email" id="emailInput" placeholder="Email" value={employeeEmail} onChange={(e) => setEmployeeEmail(e.target.value)}/> 
-                      <br /><br />
-                      <input type='text' id="firstName" placeholder={t('first_name')} value={employeeFirstName} onChange={(e) => setEmployeeFirstName(e.target.value)}/> 
-                      <br /><br />
-                      <input type='text' id="lastName" placeholder={t('last_name')} value={employeeLastName} onChange={(e) => setEmployeeLastName(e.target.value)}/>
-                      <br /><br />
+                      <input className='form-control mt-3' type="email" id="emailInput" placeholder="Email" value={employeeEmail} onChange={(e) => setEmployeeEmail(e.target.value)}/> 
+                      <br />
+                      <input className='form-control' type='text' id="firstName" placeholder={t('first_name')} value={employeeFirstName} onChange={(e) => setEmployeeFirstName(e.target.value)}/> 
+                      <br />
+                      <input className='form-control' type='text' id="lastName" placeholder={t('last_name')} value={employeeLastName} onChange={(e) => setEmployeeLastName(e.target.value)}/>
+                      <br />
                       <button className={genstyles.submmitbutton} type="submit">{t('send_invite')}</button>
                       {submitMessages && <div className={genstyles.error}>{submitMessages}</div>}
                   </form>

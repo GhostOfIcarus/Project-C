@@ -46,10 +46,17 @@ function Employee_Overview() {
           <div className="row">
             <div className="col-lg-12 ">
               <h1>{t('Employee_Overview')}</h1>
-              <form onSubmit={handleSubmit}>
-                <input type="week" id="week" name="week" value={selectedWeek} onChange={e => setSelectedWeek(e.target.value)} />
-                <input type="submit" value={t('submit')} />
-              </form>
+              <div className='row'>
+                <div className='col-lg-6'>
+                  <form onSubmit={handleSubmit} className='input-group mb-3 col-5'>
+                    <div className="input-group mb-3 mt-2">
+                      <input className="form-control" type="week" id="week" name="week" value={selectedWeek} onChange={e => setSelectedWeek(e.target.value)} />
+                      <input className="btn btn-outline-secondary" type="submit" value={t('submit')} />
+                    </div>
+                  </form>
+                </div>
+              </div>
+              
 
               {/* Tabel voor aanwezigen (wordt later verbonden met de week die geselecteerd is) */}
               
@@ -141,8 +148,15 @@ function Employee_Overview() {
                 </table>
               )}         
             </div>
-            <button onClick={() => exportToCSV(attendanceData, Date, userdata?.full_schedule)} className={genstyles.button}>{t('export_data')}</button>
-            <button onClick={handleSendNotification} className={genstyles.button}>{t('send_notification')}</button>
+            <div className="col-lg-4">
+              <button onClick={() => exportToCSV(attendanceData, Date, userdata?.full_schedule)} className={genstyles.button}>{t('export_data')}</button>
+            </div>
+            <br></br>
+            <div className="col-lg-4">
+              <button onClick={handleSendNotification} className={genstyles.button}>{t('send_notification')}</button>
+            </div>
+            
+            
             {successMessage && <div style={{ color: 'green' }}>{successMessage}</div>}
           </div>
         </div>

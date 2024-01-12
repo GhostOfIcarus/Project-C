@@ -326,6 +326,7 @@ function Settings() {
                   <option value={t('5weekday')}>{t('5weekday')}</option>
                   <option value={t('7weekday')}>{t('7weekday')}</option>
                 </select>
+              <br />
               <img
                 style={{ width: '20px', height: 'auto', marginRight: '5px', cursor: 'pointer' }}
                 src={NL}

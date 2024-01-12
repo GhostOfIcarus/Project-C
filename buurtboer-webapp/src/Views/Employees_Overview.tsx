@@ -45,7 +45,7 @@ function EmployeesOverview() {
       <div className={`container ${postlogin.page_container}  mt-5 p-5`}>
         <h2 className="text-center">{t('Employee_Overview')}</h2>
         <div className="middle-buttons-container col-lg-7 content mt-5 mx-auto center-align">
-          <div className="left-align top-buttons-container">
+          <div className="left-align top-buttons-container col-lg-4">
             <Link to="/Invite_Employee">
               <button className={genstyles.button}>{t('add_employee')}</button>
             </Link>
@@ -64,7 +64,7 @@ function EmployeesOverview() {
                 {employeesList.map((employee: Employee) => (
                   <tr key={employee.id}>
                     <td>
-                    <Link to={`/Employee_Week_Overview/${employee.id}/${employee.first_name}/${employee.last_name}`}>
+                    <Link className={genstyles.link_button} to={`/Employee_Week_Overview/${employee.id}/${employee.first_name}/${employee.last_name}`}>
                       {employee.first_name} {employee.last_name}
                     </Link>
                     </td>
