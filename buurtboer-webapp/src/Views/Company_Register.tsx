@@ -265,10 +265,13 @@ export function Company_Register() {
                       // Reset password error on input change
                     }}
                   />
-                  {/* Display password error message */}
-                  {!isPasswordValid(companyPass) && (
-                    <div style={{ color: 'red' }}>{t('password_format_error')}</div>
-                  )}
+                  <div className="col-12">
+                    {/* Display password error message */}
+                    {!isPasswordValid(companyPass) && (
+                      <div style={{ color: 'red' }}>{t('password_format_error')}</div>
+                    )}  
+                  </div>
+                  
                   <br />
                   <input
                     className="form-control"
@@ -279,9 +282,12 @@ export function Company_Register() {
                     onChange={(e) => setCompanyPass2(e.target.value)}
                   />
                   {/* Display password match error message */}
-                  {companyPass !== companyPass2 && (
-                    <div style={{ color: 'red' }}>{t('password_match_error')}</div>
-                  )}
+                  <div className="col-12">
+                    {companyPass !== companyPass2 && (
+                      <div style={{ color: 'red' }}>{t('password_match_error')}</div>
+                    )} 
+                  </div>
+                 
                   <br />
                   <input type="submit" value={t('submit')} className={genstyles.submmitbutton} />
                   
@@ -296,9 +302,13 @@ export function Company_Register() {
                 {registrationSuccess && (
                   <div style={{ color: 'green' }}>
                     {successMessage}
+                    <br>
+                    </br>
                     <Link to="/login" className={postlogin.loginLink}>
                       {t('backToLogin')}
                     </Link>
+                   
+                    
                   </div>
                 )}
               </div>      
