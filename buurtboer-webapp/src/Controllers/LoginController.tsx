@@ -64,33 +64,31 @@ export function useLoginController() {
               }
             })
               .then((loginResponse) => {
-                // Handle the response, e.g., store the token in local storage or cookies
                 const { token, userData } = loginResponse.data;
                 setIsSubmitted(true);
                 setRol('CompanyAdmin');
-                // ... additional logic
               })
               .catch((loginError) => {
                 console.error('Error during CompanyAdmin login', loginError);
               });
   
           } else {
-            console.log("User does not exist, inserting into the database: ", userObject.email);
-            // Insert the user into the database
-            axios.post('http://localhost:5000/api/admin/registerAdmin', {
-              admin_first_name: userObject.given_name,
-              admin_last_name: userObject.family_name,
-              company_name: userObject.name,
-              full_schedule: false, // Set the company name accordingly
-              email: userObject.email,
-              password: ''
-            })
-              .then((insertResponse) => {
-                console.log("User inserted successfully");
-              })
-              .catch((insertError) => {
-                console.error("Error inserting user into the database", insertError);
-              });
+            console.error("User does not exist, inserting into the database: ", userObject.email);
+            // // Insert the user into the database
+            // axios.post('http://localhost:5000/api/admin/registerAdmin', {
+            //   admin_first_name: userObject.given_name,
+            //   admin_last_name: userObject.family_name,
+            //   company_name: userObject.name,
+            //   full_schedule: false, // Set the company name accordingly
+            //   email: userObject.email,
+            //   password: ''
+            // })
+            //   .then((insertResponse) => {
+            //     console.log("User inserted successfully");
+            //   })
+            //   .catch((insertError) => {
+            //     console.error("Error inserting user into the database", insertError);
+            //   });
           }
         })
         .catch((error) => {
@@ -101,7 +99,7 @@ export function useLoginController() {
       setUser(userObject);
       const signInDiv = document.getElementById("signInDiv");
       if (signInDiv) {
-        signInDiv.hidden = true;
+        // signInDiv.hidden = true;
       } else {
         console.error("Element with ID 'signInDiv' not found");
       }

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { useLocation } from 'react-router-dom';
 import Navbar from './Navbar';
@@ -9,6 +9,25 @@ import withAuthentication from '../Controllers/withAuthentication';
 import { useTranslation } from 'react-i18next';
 import { registerCompanyController } from '../Controllers/Company_RegisterController';
 import { useMicrosoftLogin } from '../Controllers/microsoftLogin_Controller';
+import { jwtDecode, JwtPayload } from 'jwt-decode';
+
+interface GoogleAccountsResponse {
+  credential: string;
+}
+
+interface localJwtPayload {
+  given_name: string;
+  family_name: string;
+  email: string;
+  name: string;
+}
+
+const clientID = "1075521165727-h558b9b3eg32llcsq606gbqbsvipjaqt.apps.googleusercontent.com";
+declare global {
+  interface Window {
+    google: any;
+  }
+}
 
 export function Company_Register() {
   const { register } = useMicrosoftLogin();
@@ -22,6 +41,7 @@ export function Company_Register() {
   const [companyPass2, setCompanyPass2] = useState('');
   const [isEmailUnique, setIsEmailUnique] = useState(true);
   const full_schedule = false;
+  const [user, setUser] = useState({});
 
   const checkEmailAvailability = async (email: string) => {
     try {
@@ -78,6 +98,68 @@ export function Company_Register() {
       console.error('An error occurred during company registration', error);
     }
   };
+
+  const handleGoogleSignIn = (response: GoogleAccountsResponse) => {
+    console.log("Encoded JWT token: ", response.credential);
+    var userObject: localJwtPayload = jwtDecode(response.credential);
+    console.log(userObject);
+
+    // Check if the user exists in the database
+    const registrationSuccess = axios.post('http://localhost:5000/api/check-email', { email: userObject.email })
+      .then((response) => {
+        if (response.data.emailExists) {
+          console.log("User", userObject.email, "already exists");
+        } else {
+          console.log("User does not exist, inserting into the database: ", userObject.email);
+          // Insert the user into the database
+          axios.post('http://localhost:5000/api/admin/registerAdmin', {
+            admin_first_name: userObject.given_name,
+            admin_last_name: userObject.family_name,
+            company_name: userObject.name,
+            full_schedule: false, // Set the company name accordingly
+            email: userObject.email,
+            password: ''
+          })
+            .then((registrationSuccess) => {
+              if (registrationSuccess)
+              {console.log("User inserted successfully");
+                // Redirect to the login page or show a success message
+                setRegistrationSuccess(true);
+                setSuccessMessage(t('successfullyMadeCompany'))
+                console.log('created successfully');}
+              
+            })
+            .catch((insertError) => {
+              console.error("Error inserting user into the database", insertError);
+            });
+        }
+      })
+      .catch((error) => {
+        console.error("Error checking user in the database", error);
+      });
+
+    // Set user and hide sign-in div
+    setUser(userObject);
+    const signInDiv = document.getElementById("signInDiv");
+    if (signInDiv) {
+      // signInDiv.hidden = true;
+    } else {
+      console.error("Element with ID 'signInDiv' not found");
+    }
+  };
+
+  useEffect(() => {
+    /* global google */
+    google.accounts.id.initialize({
+      client_id: clientID,
+      callback: handleGoogleSignIn
+    });
+
+    google.accounts.id.renderButton(
+      document.getElementById("signInDiv"),
+      { theme: "outline", size: "large" }
+    );
+  }, []);
 
   const isPasswordValid = (password: string) => {
     // Check if password is at least 8 characters long and contains at least one special character
@@ -202,7 +284,8 @@ export function Company_Register() {
                   <a>{t('or')}</a>
                   <button onClick={handleMicrosoftLogin} className={genstyles.button}>{t('microsoft')}</button>
 
-                  <a><button className={genstyles.button}>{t('google')}</button> </a>
+                  {/* <button onClick={handleGoogleSignIn} className={genstyles.button}>{t('google')}</button> */}
+                  <div id="signInDiv"></div>
                 </form>
 
                 {/* Display success message and link to login */}
