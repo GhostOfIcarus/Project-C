@@ -27,8 +27,12 @@ const ActivateAccountScreen = (props: ChangePasswordProps) => {
             />
           </View>
           <View style={before_login.content_header_div}>
-              <Text style={before_login.content_header}>{t('activateaccount')} </Text>
-          </View>
+                {page_key == "change_password" ? (
+                  <Text style={before_login.content_header}>{t('forgotPasswordHeader')} </Text>
+                ) : page_key == "activate_account" ? (
+                  <Text style={before_login.content_header}>{t('activateaccount')}</Text>
+                ) : null}
+            </View>
 
           {/* Activation code input */}
           <TextInput
@@ -40,7 +44,7 @@ const ActivateAccountScreen = (props: ChangePasswordProps) => {
          
           {/* Change Password button */}
           <TouchableOpacity style={before_login.buttons} onPress={() => ActivateAccountController.ActivationCodeCheck(employee_mail, activation_code, t, props.navigation, page_key)}>
-            <Text style={{ color: 'white', textAlign: 'center' }}>{t('changePassword')}</Text>
+            <Text style={{ color: 'white', textAlign: 'center' }}>{t('send')}</Text>
           </TouchableOpacity>
           
         </View>
