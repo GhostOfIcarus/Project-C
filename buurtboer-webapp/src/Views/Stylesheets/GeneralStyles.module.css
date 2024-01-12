@@ -71,7 +71,12 @@
     text-decoration: none;
   }
 
-  .link_button:hover{
+  .nav_link_button{
+    color: black;
+    text-decoration: none;
+  }
+
+  .link_button:hover, .nav_link_button:hover{
     color: #c95f3f;
     text-decoration: underline;
   }

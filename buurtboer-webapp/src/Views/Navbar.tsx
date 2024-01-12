@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import logo from './img/buurtboer_logo.png'; 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import postlogin from './Stylesheets/PostLogin.module.css';
+import genstyles from './Stylesheets/GeneralStyles.module.css';
 import  {SettingsController} from '../Controllers/SettingsController';
 import NL from "./img/nl_flag.png";
 import EN from "./img/en_flag.png";
@@ -47,28 +48,13 @@ const Navbar = () => {
     handleUserRole();
     //console.log("users role is: ", userRole)
   }, []); // The empty dependency array ensures that this effect runs once on mount
-
-  const buurtboer_nav = {
-    backgroundColor: '#FFFFFF',
-    padding: '5px',
-    // borderRadius: '5px', // Add border-radius or other styles as needed
-  };
-
+  
   const imageContainerStyle = {
     backgroundColor: '#09a090',
     padding: '5px',
     // borderRadius: '5px', // Add border-radius or other styles as needed
   };
 
-  const linkStyle = {
-    color: '#000000', // Replace with your desired color
-    textDecoration: 'none', // Remove underline
-    transition: 'color 0.3s ease'
-  };
-
-  const [hoveredLinkStyle, setHoveredLinkStyle] = useState({
-    color: '#F9834C', // Replace with your desired hover color
-  });
   return (
     <nav className={`navbar navbar-expand-lg p-0 ${postlogin.buurtboer_nav}`}>
       <a className="navbar-brand p-0 img_logo" href="/">
@@ -107,9 +93,7 @@ const Navbar = () => {
         <div className="nav-button me-5">
           <Link
             to="/Choose_Order"
-            style={{ ...linkStyle, ...hoveredLinkStyle }}
-            onMouseEnter={() => setHoveredLinkStyle({ color: '#F9834C' })}
-            onMouseLeave={() => setHoveredLinkStyle({ color: '#000000' })}
+            className={genstyles.nav_link_button}
           >
             {t('order')}
           </Link>
@@ -119,18 +103,14 @@ const Navbar = () => {
         {userRole === 'SuperAdmin' ? (
           <Link
             to="/Company_Overview"
-            style={{ ...linkStyle, ...hoveredLinkStyle }}
-            onMouseEnter={() => setHoveredLinkStyle({ color: '#F9834C' })}
-            onMouseLeave={() => setHoveredLinkStyle({ color: '#000000' })}
+            className={genstyles.nav_link_button}
           >
             {t('company_overview')}
           </Link>
         ) : (
           <Link
             to="/Employees_Overview"
-            style={{ ...linkStyle, ...hoveredLinkStyle }}
-            onMouseEnter={() => setHoveredLinkStyle({ color: '#F9834C' })}
-            onMouseLeave={() => setHoveredLinkStyle({ color: '#000000' })}
+            className={genstyles.nav_link_button}
           >
             {t('employee_Overview')}
           </Link>
@@ -140,18 +120,14 @@ const Navbar = () => {
         {userRole === 'SuperAdmin' ? (
           <Link
             to="/Invite_Company"
-            style={{ ...linkStyle, ...hoveredLinkStyle }}
-            onMouseEnter={() => setHoveredLinkStyle({ color: '#F9834C' })}
-            onMouseLeave={() => setHoveredLinkStyle({ color: '#000000' })}
+            className={genstyles.nav_link_button}
           >
             {t('invite_company')}
           </Link>
         ) : (
           <Link
             to="/Invite_Employee"
-            style={{ ...linkStyle, ...hoveredLinkStyle }}
-            onMouseEnter={() => setHoveredLinkStyle({ color: '#F9834C' })}
-            onMouseLeave={() => setHoveredLinkStyle({ color: '#000000' })}
+            className={genstyles.nav_link_button}
           >
             {t('add_employee')}
           </Link>
@@ -161,18 +137,14 @@ const Navbar = () => {
         {userRole === 'SuperAdmin' ? (
           <Link
             to="/SuperAdmin_Settings_Page"
-            style={{ ...linkStyle, ...hoveredLinkStyle }}
-            onMouseEnter={() => setHoveredLinkStyle({ color: '#F9834C' })}
-            onMouseLeave={() => setHoveredLinkStyle({ color: '#000000' })}
+            className={genstyles.nav_link_button}
           >
             {t('settingsHeader')}
           </Link>
         ) : (
           <Link
             to="/Settings_Page"
-            style={{ ...linkStyle, ...hoveredLinkStyle }}
-            onMouseEnter={() => setHoveredLinkStyle({ color: '#F9834C' })}
-            onMouseLeave={() => setHoveredLinkStyle({ color: '#000000' })}
+            className={genstyles.nav_link_button}
           >
             {t('settingsHeader')}
           </Link>
@@ -181,9 +153,7 @@ const Navbar = () => {
       <div className="nav-button me-5">
         <Link
             to="/Login"
-            style={{ ...linkStyle, ...hoveredLinkStyle }}
-            onMouseEnter={() => setHoveredLinkStyle({ color: '#F9834C' })}
-            onMouseLeave={() => setHoveredLinkStyle({ color: '#000000' })}
+            className={genstyles.nav_link_button}
             onClick={() => {
               axios.post('http://localhost:5000/api/logout', {}, {
                 headers: {
