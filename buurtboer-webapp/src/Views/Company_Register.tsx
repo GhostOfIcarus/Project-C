@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { useLocation } from 'react-router-dom';
 import Navbar from './Navbar';
+import logo from './img/buurtboer_logo.png';
 import axios from 'axios';
 import postlogin from './Stylesheets/PostLogin.module.css';
 import genstyles from './Stylesheets/GeneralStyles.module.css';
@@ -228,15 +229,16 @@ export function Company_Register() {
 
   return (
     <>
-
-      <div className={`container ${postlogin.page_container} mt-5 p-5`}>
-        <div className="d-flex justify-content-center w-100">
-          <div className="row">
-            <div className="col-lg-12">
-              <div className="  form_items ms-5 justify-content-center p-5">
-                <h2>{t('register_company')}</h2>
-                <form onSubmit={handleFormSubmit}>
-                  <input
+      <div className={genstyles.register_container}>
+        <div className="row">
+          <div className={`col-lg-6 ${genstyles.login_div}`}>
+            <div className="row">
+              <div className="col-lg-12">
+                <h2 className="text-center">{t('register_company')}</h2>
+              </div>
+              <form className="col-lg-12 justify-content-center mt-4" onSubmit={handleFormSubmit}>
+              <input
+                    className="form-control"
                     type="email"
                     id="companyEmail"
                     placeholder="Email"
@@ -251,8 +253,9 @@ export function Company_Register() {
                   {!isEmailUnique && (
                     <div style={{ color: 'red' }}>{t('email_inUse_error')}</div>
                   )}
-                  <br /><br />
+                  <br />
                   <input
+                    className="form-control"
                     type="password"
                     id="companyPass"
                     placeholder={t('password')}
@@ -266,8 +269,9 @@ export function Company_Register() {
                   {!isPasswordValid(companyPass) && (
                     <div style={{ color: 'red' }}>{t('password_format_error')}</div>
                   )}
-                  <br /><br />
+                  <br />
                   <input
+                    className="form-control"
                     type="password"
                     id="companyPass2"
                     placeholder={t('repeatPassword')}
@@ -278,15 +282,16 @@ export function Company_Register() {
                   {companyPass !== companyPass2 && (
                     <div style={{ color: 'red' }}>{t('password_match_error')}</div>
                   )}
-                  <br /><br />
+                  <br />
                   <input type="submit" value={t('submit')} className={genstyles.submmitbutton} />
-                  <a>{t('or')}</a>
-                  <button onClick={handleMicrosoftLogin} className={genstyles.button}>{t('microsoft')}</button>
+                  
+                  <div  className="text-center"><span>{t('or')}</span></div>
+                  <button onClick={handleMicrosoftLogin} className={genstyles.button}>{t('register_microsoft')}</button>
 
                   {/* <button onClick={handleGoogleSignIn} className={genstyles.button}>{t('google')}</button> */}
-                  <div id="signInDiv"></div>
-                </form>
-
+                  <div className="d-flex justify-content-center" id="signInDiv"></div>
+              </form> 
+              <div className="col-lg-12">
                 {/* Display success message and link to login */}
                 {registrationSuccess && (
                   <div style={{ color: 'green' }}>
@@ -296,11 +301,15 @@ export function Company_Register() {
                     </Link>
                   </div>
                 )}
-              </div>
+              </div>      
             </div>
+          </div>
+          <div className={`col-lg-6 ${genstyles.image_div}`}>
+            <img src={logo} alt="Buurtboer Logo" className={genstyles.register_Buurtboerlogo} />
           </div>
         </div>
       </div>
+
     </>
   );
 }

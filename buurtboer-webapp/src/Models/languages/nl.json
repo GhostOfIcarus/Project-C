@@ -9,6 +9,8 @@
     "or": "OF",
     "google": "Login met Google",
     "microsoft": "Login met Microsoft",
+    "register_google": "Registreer met Google",
+    "register_microsoft": "Registreer met Microsoft",
     "forgotPasswordHeader": "Wachtwoord vergeten",
     "backToLogin": "terug naar login",
     "send": "Verstuur",

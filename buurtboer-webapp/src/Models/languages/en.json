@@ -8,6 +8,8 @@
     "or": "OR",
     "google": "Login with Google",
     "microsoft": "Login with Microsoft",
+    "register_google": "Register with Google",
+    "register_microsoft": "Register with Microsoft",
     "forgotPasswordHeader": "Forgot Password",
     "createAccountHeader": "Create Account",
     "send": "Send",
