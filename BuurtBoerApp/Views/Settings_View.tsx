@@ -138,16 +138,6 @@ const SettingsScreen = (props: SettingsProps) =>
             </View>
           </View>
 
-          {/* notifications switch */}
-          <View style={[basestyles.switch_right_text_div, {marginLeft: width * 0.33,}]}>
-            <Text style={basestyles.text_small}>{t('notifications')}</Text>
-            <Switch
-              onValueChange={previousState => setNotif(previousState)}
-              value={isNotif}
-              trackColor={{false: "#B6B6B6", true: "#099F91"}}
-            />
-          </View>
-
           {/* change password */}
           <TouchableOpacity style={basestyles.button} onPress={Change_Password}>
             <Text style={{ color: 'white', textAlign: 'center' }}>{t('changePassword')}</Text>

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { View, TextInput, Image, Text, TouchableOpacity, KeyboardAvoidingView, ScrollView } from 'react-native';
 import { before_login } from './css/before_login';
-import ChangePasswordController from './../Controllers/Change_Password';
+import ChangePasswordController from '../Controllers/Change_Password_Controller';
 import Employee from '../Models/Employee_Model';
 import { useTranslation } from 'react-i18next';
 

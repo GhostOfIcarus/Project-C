@@ -6,16 +6,19 @@
     "hidePassword": "Verberg wachtwoord",
     "login": "Inloggen",
     "or": "OF",
-    "google": "Login met Google",
-    "microsoft": "Login met Microsoft",
+    "activateaccount": "Activeer Account",
+    "rememberMe": "Onthoud mij",
+
     "forgotPasswordHeader": "Wachtwoord vergeten",
-    "send": "Verstuur",
     "changePasswordHeader": "Wachtwoord wijzigen",
+    "createAccountHeader": "Account aanmaken",
+
+    "send": "Verstuur",
+
     "newPassword": "Nieuw wachtwoord",
     "confirmPassword": "Bevestig wachtwoord",
     "changePassword": "Wachtwoord wijzigen",
-    "createAccountHeader": "Account aanmaken",
-    "repeatPassword": "Herhaal wachtwoord",
+
     "scheduleOverviewHeader": "Rooster",
     "week": "Week",
     "monday": "Maandag",
@@ -28,41 +31,44 @@
     "rememberSchedule": "Onthoud Rooster",
     "change": "Bewerk",
     "submit": "Indienen",
+    "deadline": "Uiterste Inleverdatum: ",
+
     "settingsHeader": "Instellingen",
     "name": "Naam",
     "lastName": "Achternaam",
     "company": "Bedrijf",
-    "notifications": "Notificaties",
-    "rememberMe": "Onthoud mij",
     "logout": "Log uit",
-    "activateaccount": "Activeer Account",
+
     "activation_code": "Activatie code",
     "createAccount": "Maak Account",
     "account_activation_success": "Account succesvol geactiveerd!",
+
     "invalid_email_error": "Ongeldige Email!",
     "invalid_email_error_text": "Ingevoerde Email is geen geldig email adres!",
-    "email_error": "Email niet gevonden!",
+
     "email_send_success": "Email Verzonden!",
     "email_send_success_text": "We hebben een email verzonden met een activatie code.",
+
     "account_not_activated_error": "Activeer eerst je account!",
     "account_already_activated_error": "Je account is al geactiveerd!",
-    "email_error_text": "Email is niet gevonden in onze database.",
+
     "user_error": "Account niet gevonden!",
     "user_error_text": "Je Email of Wachtwoord is incorrect. Probeer het opnieuw.",
+
     "code_error": "Ongeldige Code!",
     "code_error_text": "De ingevoerde code is ongeldig. Probeer het opnieuw.",
+
     "employee_data_error": "Geen account gevonden",
     "employee_data_error_text": "Er is geen account gevonden met deze gegevens. Probeer het opnieuw.",
-    "passowrd_incorrect_error": "Fout wachtwoord!",
-    "passowrd_incorrect_error_text": "Je wachtwoord is incorrect. Probeer het opnieuw.",
+
+    "password_requirements": "Ten minste 7 karakters en 1 speciaal karakter.",
     "password_special_char_error": "Geen speciale tekens!",
     "password_special_char_error_text": "Wachtwoord moet minimaal 1 speciaal teken bevatten.",
     "password_lenght_error": "Wachtwoord te kort!",
     "password_lenght_error_text": "Wachtwoord moet minimaal 5 tekens lang zijn.",
     "password_match_error": "Wachtwoorden komen niet overeen!",
     "password_match_error_text": "Zorg ervoor dat de wachtwoorden overeenkomen.",
+
     "succes": "Geslaagd!",
-    "password_change_success": "Je wachtwoord is veranderd!",
-    "deadline": "Uiterste Inleverdatum: ",
-    "password_requirements": "Ten minste 7 karakters en 1 speciaal karakter."
+    "password_change_success": "Je wachtwoord is veranderd!"
   }

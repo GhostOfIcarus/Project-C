@@ -1,3 +1,5 @@
+
+// model for employee based on database columns
 class Employee {
   id: number;
   email: string;

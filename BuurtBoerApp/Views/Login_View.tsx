@@ -3,7 +3,7 @@ import { Switch, LogBox, View, TextInput, Image, Text, TouchableOpacity, Keyboar
 import { before_login } from './css/before_login';
 import { useTranslation } from 'react-i18next';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import LoginController from './../Controllers/Login';
+import LoginController from '../Controllers/Login_Controller';
 LogBox.ignoreLogs(['Using Math.random is not cryptographically secure!']);
 interface LoginScreenProps {
   navigation: any;
@@ -53,7 +53,7 @@ const LoginScreen = (props: LoginScreenProps) => {
   const Email_Check = (end_page: string) => props.navigation.navigate("EmailCheckScreen", { page_key: end_page });
 
   return (
-    <ScrollView contentContainerStyle={before_login.test}>
+    <ScrollView contentContainerStyle={before_login.scrollview_container}>
     <KeyboardAvoidingView style={before_login.container}>
       
         <View style={before_login.content_div}>

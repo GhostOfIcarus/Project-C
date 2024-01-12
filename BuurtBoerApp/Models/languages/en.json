@@ -6,16 +6,19 @@
     "hidePassword": "Hide password",
     "login": "Login",
     "or": "OR",
-    "google": "Login with Google",
-    "microsoft": "Login with Microsoft",
+    "activateaccount": "Activate Account",
+    "rememberMe": "Remember Me",
+
     "forgotPasswordHeader": "Forgot Password",
-    "createAccountHeader": "Create Account",
-    "send": "Send",
     "changePasswordHeader": "Change Password",
+    "createAccountHeader": "Create Account",
+
+    "send": "Send",
+
     "newPassword": "New Password",
     "confirmPassword": "Confirm Password",
-    "repeatPassword": "Repeat Password",
     "changePassword": "Change Password",
+
     "scheduleOverviewHeader": "Schedule",
     "week": "Week",
     "monday": "Monday",
@@ -28,41 +31,44 @@
     "rememberSchedule": "Remember Schedule",
     "change": "Change",
     "submit": "Submit",
+    "deadline": "Deadline: ",
+
     "settingsHeader": "Settings",
     "name": "Name",
     "lastName": "Last Name",
     "company": "Company",
-    "notifications": "Notifications",
-    "rememberMe": "Remember Me",
     "logout": "Logout",
-    "activateaccount": "Activate Account",
-    "activation_code": "Activate code",
+
+    "activation_code": "Activation code",
     "createAccount": "Create Account",
     "account_activation_success": "Account succesfully activated!",
+
     "invalid_email_error": "Invalid Email!",
     "invalid_email_error_text": "Given Email is not a real email address!",
-    "email_error": "Email not found!",
-    "email_error_text": "Email not found in our database, please try again.",
+
     "email_send_success": "Email send!",
     "email_send_success_text": "We have send you an email with an activation code.",
+
     "account_not_activated_error": "Activate your account first!",
     "account_already_activated_error": "Your account already has been activated",
-    "code_error": "Invalid code!",
-    "code_error_text": "The code you have entered is invalid, please try again.",
-    "employee_data_error": "Employee data not found!",
-    "employee_data_error_text": "Employee data not found in our database, please try again.",
+
     "user_error": "Account not found!",
     "user_error_text": "Your email or password is incorrect, please try again.",
-    "password_incorrect_error": "Wrong password!",
-    "password_incorrect_error_text": "Your password is incorrect, please try again.",
+
+    "code_error": "Invalid code!",
+    "code_error_text": "The code you have entered is invalid, please try again.",
+
+    "employee_data_error": "Employee data not found!",
+    "employee_data_error_text": "Employee data not found in our database, please try again.",
+
+    "password_requirements": "At least 7 characters & 1 special character.",
     "password_special_char_error": "No special character!",
     "password_special_char_error_text": "Password must contain a special character!",
-    "password_lenght_error": "Password to short!",
-    "password_lenght_error_text": "Password must be at least 5 characters long.",
+    "password_lenght_error": "Password too short!",
+    "password_lenght_error_text": "Password must be at least 7 characters long.",
     "password_match_error": "Password doesn't match!",
     "password_match_error_text": "Please make sure your passwords match.",
+
     "succes": "Success!",
-    "password_change_success": "Your Password has been changed!",
-    "deadline": "Deadline: ",
-    "password_requirements": "At least 7 characters & 1 special character."
+    "password_change_success": "Your Password has been changed!"
   }

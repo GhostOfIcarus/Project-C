@@ -10,7 +10,7 @@ import { basestyles } from './css/styles';
 
 // model and controller import
 import ScheduleModel from '../Models/Schedule_Form_Model'
-import ScheduleController from './../Controllers/Schedule_Form_Cont'
+import ScheduleController from '../Controllers/Schedule_Form_Controller'
 
 // props
 interface WeekOverviewFormProps 
