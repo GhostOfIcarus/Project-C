@@ -228,7 +228,6 @@ export function Company_Register() {
 
   return (
     <>
-      <Navbar />
 
       <div className={`container ${postlogin.page_container} mt-5 p-5`}>
         <div className="d-flex justify-content-center w-100">
@@ -306,4 +305,4 @@ export function Company_Register() {
   );
 }
 
-export default withAuthentication(Company_Register);
+export default Company_Register;
