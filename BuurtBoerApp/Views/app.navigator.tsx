@@ -6,7 +6,7 @@ import EmailCheckScreen from './Email_Check';
 import Schedule_Form from './Schedule_Form_View';
 import ChangePassword from './Change_Password';
 import ActivationCodeScreen from './ActivationCode';
-import Settings from './Settings';
+import Settings from './Settings_View';
 
 const { Navigator, Screen } = createStackNavigator();
 

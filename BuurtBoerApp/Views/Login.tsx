@@ -86,6 +86,7 @@ const LoginScreen = (props: LoginScreenProps) => {
             <TouchableOpacity onPress={() => Email_Check("change_password")}>
               <Text style={{ color: '#099F91', marginVertical: 10, marginHorizontal: 5 }}>{t('forgotPassword')}</Text>
             </TouchableOpacity>
+            
             {/* Show/hide password */}
             <TouchableOpacity onPress={toggleShowPassword}>
               <Text style={{ color: '#099F91', marginVertical: 10, marginHorizontal: 5 }}>
@@ -93,6 +94,7 @@ const LoginScreen = (props: LoginScreenProps) => {
               </Text>
             </TouchableOpacity>
           </View>
+
           {/* Remember me */}
           <View style={before_login.rememberMeRow}>
             <Text style={{marginVertical: 10, marginHorizontal: 5, justifyContent: 'flex-start' }}>{t('rememberMe')}</Text>
@@ -102,16 +104,20 @@ const LoginScreen = (props: LoginScreenProps) => {
               onValueChange={setRememberMe}
             />
           </View>
+
           {/* Login button */}
           <TouchableOpacity style={before_login.buttons} onPress={() => LoginController.handleLogin(email, password, props.navigation, rememberMe, t)}>
             <Text style={{ color: 'white', textAlign: 'center' }}>{t('login')}</Text>
           </TouchableOpacity>
+
           <View style={before_login.centered_text}>
             <Text style={{ color: 'black' }}>{t('or')}</Text>
           </View>
+
           <TouchableOpacity style={before_login.buttons} onPress={() => Email_Check("activate_account")}>
             <Text style={{ color: 'white', textAlign: 'center' }}>{t('activateaccount')}</Text>
           </TouchableOpacity>
+
           {/* Select Language icons */}
           <View style={before_login.flags_div}>
             <View style={before_login.flags}>

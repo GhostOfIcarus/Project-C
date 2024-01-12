@@ -3,7 +3,6 @@ import { View, TextInput, Image, Text, TouchableOpacity, KeyboardAvoidingView, S
 import { before_login } from './css/before_login';
 import ActivateAccountController from '../Controllers/Activation_Code_Controller';
 import { useTranslation } from 'react-i18next';
-import Employee from '../Models/Employee_Model';
 
 interface ChangePasswordProps {
   navigation: any;

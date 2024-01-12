@@ -36,12 +36,14 @@ const ForgotPassword = (props: EmailCheckControllerScreenProps) => {
                   <Text style={before_login.content_header}>{t('activateaccount')}</Text>
                 ) : null}
             </View>
+
           {/* Email Input */}
           <TextInput
             placeholder={t('email')}
             style={before_login.input}
             onChangeText={handleEmailChange}
           />
+          
           {/* Send button */}
           <TouchableOpacity style={[before_login.buttons, before_login.buttons_space]} onPress={() => EmailCheckController.handleEmailSend(email, props.navigation, t, page_key)}>
             <Text style={{ color: 'white', textAlign: 'center' }}>{t('send')}</Text>

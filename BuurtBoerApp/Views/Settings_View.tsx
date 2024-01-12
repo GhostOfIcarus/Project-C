@@ -1,9 +1,9 @@
 // generic react native imports
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { View, Image, Text, TouchableOpacity, ScrollView, Switch, Dimensions } from 'react-native';
 import { basestyles } from './css/styles';
 import { useTranslation } from 'react-i18next';
-import i18next from './../Controllers/i18next';
+import i18next from '../Controllers/i18next';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 // props
