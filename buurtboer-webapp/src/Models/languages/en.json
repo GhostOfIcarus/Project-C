@@ -90,6 +90,7 @@
     "confirm": "confirm",
     "5weekday": "mon-fr",
     "7weekday": "mon-sun",
+    "lunch_amount": "amount of lunches",
 
     "Employee_Overview": "Employee overview",
     "Week_select": "Select a week:",
