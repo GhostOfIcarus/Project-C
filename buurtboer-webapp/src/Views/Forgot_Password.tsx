@@ -77,13 +77,10 @@ function Forgot_Password() {
                 {t('send')}
               </button>
             </form>
-            {
-              emailSend && 
               <div>
-                <p>{t('email_send')} {email}</p>
+                {emailSend && <p>{t('email_send')}</p>}
                 <Link to="/Login" className={genstyles.link}>{t('backToLogin')}</Link>
               </div>
-            }
             {error && <p className={genstyles.error}>{error}</p>}
           </div>
           <div className={`col-lg-6 ${genstyles.image_div}`}>
