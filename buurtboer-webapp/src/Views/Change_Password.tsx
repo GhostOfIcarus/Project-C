@@ -64,6 +64,7 @@ function ChangePassword() {
             <input 
               type="password" 
               placeholder={t('newPassword')}
+              className='form-control'
               value={newPassword}
               onChange={(e) => setNewPassword(e.target.value)}
             /> 
@@ -71,9 +72,11 @@ function ChangePassword() {
             {formSubmitted && !isPasswordValid(newPassword) && (
               <div className={genstyles.error}>{t('password_format_error')}</div>
             )}
+
             <input 
               type="password" 
               placeholder={t('repeatPassword')}
+              className='form-control mt-3 mb-3'
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
             />
