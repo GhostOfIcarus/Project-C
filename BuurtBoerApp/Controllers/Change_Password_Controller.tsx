@@ -77,9 +77,7 @@ class ChangePasswordController {
 
     // Check if the response is ok
     if (!deleteresponse.ok) {
-      const responseBody = await response.json();
-      Alert.alert('Error', responseBody.error || `HTTP ${response.status}: ${response.statusText}`);
-      return;
+      
     }
 
     // gives alert based on page key
