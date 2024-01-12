@@ -1,13 +1,13 @@
 import React, { useEffect } from 'react';
-import axios, { AxiosResponse, AxiosError } from 'axios'; // Import AxiosError
+import axios, { AxiosResponse, AxiosError } from 'axios'; 
 import { useNavigate } from 'react-router-dom';
 
-const withAuthentication = (WrappedComponent: React.FC, SendBackRoute: string = "/Login", superAdminOnly: boolean = false) => {
+const withAuthentication = (WrappedComponent: React.FC, SendBackRoute: string = "/Login", superAdminOnly: boolean = false, sendToLandingPageIfAuthenticated: boolean = false) => {
   const WithAuthentication: React.FC = (props) => {
     const navigate = useNavigate();
 
     useEffect(() => {
-      // Implement your authentication check here
+      // Fetch authentication data from the API
       axios.get('http://localhost:5000/api/auth', {
         headers: {
           'Content-Type': 'application/json',
@@ -15,9 +15,13 @@ const withAuthentication = (WrappedComponent: React.FC, SendBackRoute: string = 
             withCredentials: true,
       })
         .then((response: AxiosResponse) => {
-          // User is authenticated, proceed
+          // User is authenticated, proceed to render the wrapped component
           if (superAdminOnly && response.data.userData.userRole !== 'SuperAdmin') {
             navigate(SendBackRoute);
+          }
+
+          else if (sendToLandingPageIfAuthenticated) {
+            navigate('/');
           }
         })
         .catch((error: AxiosError) => {
@@ -28,7 +32,6 @@ const withAuthentication = (WrappedComponent: React.FC, SendBackRoute: string = 
           
           else {
             console.log('Error fetching authentication data:', error);
-            // Handle other errors as needed
           }
         });
     }, [navigate]);

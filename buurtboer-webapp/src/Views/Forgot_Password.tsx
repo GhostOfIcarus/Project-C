@@ -6,6 +6,7 @@ import genstyles from './Stylesheets/GeneralStyles.module.css';
 import { useNavigate, Link } from 'react-router-dom';
 import { AxiosError } from 'axios';
 import axios from 'axios';
+import withAuthentication from '../Controllers/withAuthentication';
 import { useTranslation } from 'react-i18next';
 
 function Forgot_Password() {
@@ -94,5 +95,5 @@ function Forgot_Password() {
   );
 }
 
-export default Forgot_Password;
+export default withAuthentication(Forgot_Password, "/forgot_password", false, true)
 
