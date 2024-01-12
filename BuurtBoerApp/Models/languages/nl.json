@@ -61,6 +61,9 @@
     "employee_data_error": "Geen account gevonden",
     "employee_data_error_text": "Er is geen account gevonden met deze gegevens. Probeer het opnieuw.",
 
+    "password_incorrect_error": "Wachtwoord of Email verkeerd",
+    "password_incorrect_error_text": "Het Wachtwoord of Email adres is verkeerd",
+
     "password_requirements": "Ten minste 7 karakters en 1 speciaal karakter.",
     "password_special_char_error": "Geen speciale tekens!",
     "password_special_char_error_text": "Wachtwoord moet minimaal 1 speciaal teken bevatten.",

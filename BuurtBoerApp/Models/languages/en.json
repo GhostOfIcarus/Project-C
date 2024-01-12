@@ -61,6 +61,9 @@
     "employee_data_error": "Employee data not found!",
     "employee_data_error_text": "Employee data not found in our database, please try again.",
 
+    "password_incorrect_error": "Password or Email incorrect",
+    "password_incorrect_error_text": "The Password or Email address is incorrect",
+
     "password_requirements": "At least 7 characters & 1 special character.",
     "password_special_char_error": "No special character!",
     "password_special_char_error_text": "Password must contain a special character!",
