@@ -55,44 +55,62 @@ function ChangePassword() {
     }
   };
 
+
+  const noTokenInUrlScreen = (
+    <div className={genstyles.error}>
+      {t('Geen token gevonden in de url.')}
+      <br />
+      {t('Vraag een nieuwe link aan bij wachtwoord vergeten op het loginscherm.')}
+      <Link to="/Login" className={genstyles.link}>{t('backToLogin')}</Link>
+    </div>
+
+  );
+
+
   return (
     <>
       <div className={genstyles.container}>
         <div className='row'>
           <div className={`col-lg-6 ${genstyles.login_div}`}>
-            <div className={genstyles.title}>{t('changePasswordHeader')}</div>
-            <input 
-              type="password" 
-              placeholder={t('newPassword')}
-              className='form-control'
-              value={newPassword}
-              onChange={(e) => setNewPassword(e.target.value)}
-            /> 
-            {/* Display password error message after form submission */}
-            {formSubmitted && !isPasswordValid(newPassword) && (
-              <div className={genstyles.error}>{t('password_format_error')}</div>
-            )}
+            {/* Check if the token is inside of the url in the address bar 
+                 if it isn't display an error screen containing instructions */}
+            {!token? noTokenInUrlScreen : (
+              <>
+                <div className={genstyles.title}>{t('changePasswordHeader')}</div>
+                <input 
+                  type="password" 
+                  placeholder={t('newPassword')}
+                  className='form-control'
+                  value={newPassword}
+                  onChange={(e) => setNewPassword(e.target.value)}
+                /> 
+                {/* Display password error message after form submission */}
+                {formSubmitted && !isPasswordValid(newPassword) && (
+                  <div className={genstyles.error}>{t('password_format_error')}</div>
+                )}
 
-            <input 
-              type="password" 
-              placeholder={t('repeatPassword')}
-              className='form-control mt-3 mb-3'
-              value={confirmPassword}
-              onChange={(e) => setConfirmPassword(e.target.value)}
-            />
-            {/* Display password match error message after form submission */}
-            <button className={genstyles.button} onClick={handleChangePassword}>{t('send')}</button>
-            {formSubmitted && newPassword !== confirmPassword && (
-              <div className={genstyles.error}>{t('password_match_error')}</div>
-            )}
-            {/* Display general error message after form submission */}
-            {showSuccessModal && (
-              <div className={genstyles.modal}>
-                <div className={genstyles.modalContent}>
-                  <p>{t('successfullyChangedPassword')}</p>
-                  <Link to="/Login" className={genstyles.link}>{t('backToLogin')}</Link>
-                </div>
-              </div>
+                <input 
+                  type="password" 
+                  placeholder={t('repeatPassword')}
+                  className='form-control mt-3 mb-3'
+                  value={confirmPassword}
+                  onChange={(e) => setConfirmPassword(e.target.value)}
+                />
+                {/* Display password match error message after form submission */}
+                <button className={genstyles.button} onClick={handleChangePassword}>{t('send')}</button>
+                {formSubmitted && newPassword !== confirmPassword && (
+                  <div className={genstyles.error}>{t('password_match_error')}</div>
+                )}
+                {/* Display general error message after form submission */}
+                {showSuccessModal && (
+                  <div className={genstyles.modal}>
+                    <div className={genstyles.modalContent}>
+                      <p>{t('successfullyChangedPassword')}</p>
+                      <Link to="/Login" className={genstyles.link}>{t('backToLogin')}</Link>
+                    </div>
+                  </div>
+                )}
+              </>
             )}
           </div>
           <div className={`col-lg-6 ${genstyles.image_div}`}>
@@ -104,4 +122,5 @@ function ChangePassword() {
   );
 }
 
-export default withAuthentication(ChangePassword, "/change_password", false, true);
+export default ChangePassword;
+
