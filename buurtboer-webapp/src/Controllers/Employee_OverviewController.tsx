@@ -118,7 +118,7 @@ export function useEmpOverviewController() {
 
 
   const exportToCSV = (attendanceData: number[], weekNumber: any = 0, fullSchedule: boolean | undefined) => {
-    // Define data to be exported
+    // Define and split the attendance data
     const present = (attendanceData.slice(0, 7));
     const absent = (attendanceData.slice(7, 14));
 
@@ -138,7 +138,7 @@ export function useEmpOverviewController() {
     const csvContent = csvData.map(row => row.join(',')).join('\n');
 
 
-    // Create a new CSV file
+    // Create a new CSV file using a blob and download it by creating a link and clicking it
     const csv = new Blob([csvContent], { type: 'text/csv' });
     const url = window.URL.createObjectURL(csv);
     const link = document.createElement('a');
@@ -146,7 +146,6 @@ export function useEmpOverviewController() {
     link.setAttribute('download', `week-${weekNumber}.csv`);
     document.body.appendChild(link);
     link.click();
-
   }
 
   const fetchEmployees = async () => {

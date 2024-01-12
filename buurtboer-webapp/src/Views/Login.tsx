@@ -176,5 +176,5 @@ export function Login() {
   );
 }
 
-export default Login;
+export default withAuthentication(Login, "/Login", false, true);
 

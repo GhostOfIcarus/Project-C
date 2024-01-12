@@ -74,8 +74,6 @@ function Settings() {
         else{
           setSelectedRoster(t('5weekday'))
         }
-        //console.log(userData);
-        //console.log('fetched data succesfully');
       } catch (error) {
         console.error('Error fetching user data:', error);
         // Handle error based on your requirements
@@ -96,7 +94,6 @@ function Settings() {
     try {
       const response = await axios.get(`http://localhost:5000/api/getCompanyAdminEmail/${adminId}`);
       const email = response.data.email;
-      console.log('Company Admin Email:', email);
       return email;
     } catch (error) {
       console.error('Error getting company admin email:', error);
@@ -111,7 +108,6 @@ function Settings() {
 
   const handleRoosterChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const selectedValue = event.target.value;
-    //console.log(selectedValue);
   
     // Update the selectedRosterValue based on the selected option
     if (selectedValue === t('5weekday')) {
@@ -142,7 +138,6 @@ function Settings() {
   const checkEmailAvailability = async (email: string) => {
     try {
       const response = await axios.post('http://localhost:5000/api/check-email', { email });
-      console.log(response.data.emailExists);
       return response.data.emailExists;
     } catch (error) {
       console.error('Error checking email availability:', error);
@@ -151,12 +146,6 @@ function Settings() {
   };
   
   const handleUserEmailChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    // console.log('password', password);
-    // if (password === undefined) {
-    //   setErrorMessage(t('change_email_not_possible'));
-    //   setIsEmailUnique(false);
-    //   return;
-    // }
     setUserEmail(e.target.value);
 };
 
@@ -213,7 +202,6 @@ function Settings() {
           if (success) {
             // If the update is successful, trigger token refresh
             await refreshAccessToken();
-            console.log('Token refreshed successfully');
           }
         }
       } catch (error) {
@@ -235,21 +223,12 @@ function Settings() {
         companyName,
         selectedRosterValue,
       });
-
-      // Log confirmed values to the console
-      //console.log('Confirmed Values:', confirmedValues);
-      console.log('Final Values:', userName, userEmail, companyName, selectedRosterValue);
-
-      // After handling the logic, hide the confirmation button
       setConfirmationVisible(false);
-
-      // Disable further edits after confirming
       setEditable(false);
     }
   };
   
   useEffect(() => {
-    //console.log('Confirmed Values:', confirmedValues);
   }, [confirmedValues]); 
 
   const refreshAccessToken = async () => {
@@ -261,19 +240,11 @@ function Settings() {
         },
         withCredentials: true,
       });
-  
-      // Extract the new token from the response
       const newToken = response.data.token;
-  
-      // Set the new token in the cookie or storage, wherever you store your tokens
-      // For example, if using cookies:
       document.cookie = `jwt-token=${newToken}; max-age=${2 * 60 * 60}; path=/`;
   
-      // Log the success
-      console.log('Token refreshed successfully');
     } catch (error) {
       console.error('Error refreshing token:', error);
-      // Handle the error based on your requirements
     }
   };
 

@@ -101,4 +101,4 @@ function ChangePassword() {
   );
 }
 
-export default withAuthentication(ChangePassword);
+export default withAuthentication(ChangePassword, "/change_password", false, true);

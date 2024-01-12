@@ -73,7 +73,7 @@ function Buurtboer_Order() {
                 <h2>{t('order')}</h2>
                 <form onSubmit={handleSubmit}>
                   <div className="justify-content-center">
-                    <p>{t('totalAttendance')}: {totalAttendance}</p>
+                    <p>{t('lunch_amount')}: {totalAttendance}</p>
                     <p>{t('totalAbsent')}: {totalAbsent}</p>
                     <button
                       type="button"

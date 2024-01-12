@@ -53,7 +53,6 @@ function SuperAdminSettings() {
         setUserEmail(userEmail);
         setUserName(userName);
         setUserId(userId);
-        console.log(userId);
       } catch (error) {
         console.error('Error fetching user data:', error);
         // Handle error based on your requirements
@@ -86,7 +85,6 @@ function SuperAdminSettings() {
   const checkEmailAvailability = async (email: string) => {
     try {
       const response = await axios.post('http://localhost:5000/api/check-email', { email });
-      console.log(response.data.emailExists);
       return response.data.emailExists;
     } catch (error) {
       console.error('Error checking email availability:', error);
@@ -140,7 +138,6 @@ function SuperAdminSettings() {
           });
 
           await refreshAccessToken2();
-          console.log('Token refreshed successfully');
         }
       } catch (error) {
         console.error('Error updating admin information:', error);
@@ -157,20 +154,12 @@ function SuperAdminSettings() {
         userName,
         userEmail,
       });
-
-      // Log confirmed values to the console
-      console.log('Final Values:', userName, userEmail);
-
-      // After handling the logic, hide the confirmation button
       setConfirmationVisible(false);
-
-      // Disable further edits after confirming
       setEditable(false);
     }
   };
 
   const refreshAccessToken2 = async () => {
-    console.log('refreshaccestoken')
     try {
       // Make a request to the refreshToken endpoint to get a new token
       const response = await axios.post('http://localhost:5000/api/SuperAdmin/refreshToken', {}, {
@@ -186,9 +175,6 @@ function SuperAdminSettings() {
       // Set the new token in the cookie or storage, wherever you store your tokens
       // For example, if using cookies:
       document.cookie = `jwt-token=${newToken}; max-age=${2 * 60 * 60}; path=/`;
-  
-      // Log the success
-      console.log('Token refreshed successfully');
     } catch (error) {
       console.error('Error refreshing token:', error);
       // Handle the error based on your requirements

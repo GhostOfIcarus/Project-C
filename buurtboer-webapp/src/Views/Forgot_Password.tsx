@@ -6,6 +6,7 @@ import genstyles from './Stylesheets/GeneralStyles.module.css';
 import { useNavigate, Link } from 'react-router-dom';
 import { AxiosError } from 'axios';
 import axios from 'axios';
+import withAuthentication from '../Controllers/withAuthentication';
 import { useTranslation } from 'react-i18next';
 
 function Forgot_Password() {
@@ -76,13 +77,10 @@ function Forgot_Password() {
                 {t('send')}
               </button>
             </form>
-            {
-              emailSend && 
               <div>
-                <p>{t('email_send')} {email}</p>
+                {emailSend && <p>{t('email_send')}</p>}
                 <Link to="/Login" className={genstyles.link}>{t('backToLogin')}</Link>
               </div>
-            }
             {error && <p className={genstyles.error}>{error}</p>}
           </div>
           <div className={`col-lg-6 ${genstyles.image_div}`}>
@@ -94,5 +92,5 @@ function Forgot_Password() {
   );
 }
 
-export default Forgot_Password;
+export default withAuthentication(Forgot_Password, "/forgot_password", false, true)
 
