@@ -205,11 +205,6 @@ app.post('/api/employee/schedule/create', async (req, res) => {
 		const { id, week } = req.body;
 		const insertResult = await Functions.createEmployeeSchedule(id, week);
 		res.status(200).json(insertResult);
-		// if (insertResult) {
-		//   res.status(200).json({ message: 'Schedule inserted successfully' });
-		// } else {
-		//   res.status(500).json({ error: 'Failed to insert schedule' });
-		// }
 	  } catch (error) {
 		console.error(error);
 		res.status(500).json({ error: 'Error in creating Employee schedule' });
