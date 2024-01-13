@@ -6,6 +6,7 @@ import Cross from "./img/kruisje_projectC.png";
 import withAuthentication from '../Controllers/withAuthentication';
 import Navbar from './Navbar';
 import { useEmployeesOverviewController } from '../Controllers/Employees_OverviewController';
+import { useEmpOverviewController } from '../Controllers/Employee_OverviewController';
 import { useTranslation } from 'react-i18next';
 
 interface Employee {
@@ -16,8 +17,9 @@ interface Employee {
 
 function EmployeesOverview() {
   const { t } = useTranslation();
-  const { fetchEmployees, employees, RemoveEmployee, fetchSchedule } = useEmployeesOverviewController();
+  const { fetchEmployees, employees, RemoveEmployee } = useEmployeesOverviewController();
   const [employeesList, setEmployeesList] = useState<Employee[]>(employees);
+
 
   useEffect(() => {
     fetchEmployees();
@@ -43,7 +45,7 @@ function EmployeesOverview() {
       <div className={`container ${postlogin.page_container}  mt-5 p-5`}>
         <h2 className="text-center">{t('Employee_Overview')}</h2>
         <div className="middle-buttons-container col-lg-7 content mt-5 mx-auto center-align">
-          <div className="left-align top-buttons-container">
+          <div className="left-align top-buttons-container col-lg-4">
             <Link to="/Invite_Employee">
               <button className={genstyles.button}>{t('add_employee')}</button>
             </Link>
@@ -62,7 +64,7 @@ function EmployeesOverview() {
                 {employeesList.map((employee: Employee) => (
                   <tr key={employee.id}>
                     <td>
-                    <Link to={`/Employee_Week_Overview/${employee.id}/51/${employee.first_name}/${employee.last_name}`}>
+                    <Link className={genstyles.link_button} to={`/Employee_Week_Overview/${employee.id}/${employee.first_name}/${employee.last_name}`}>
                       {employee.first_name} {employee.last_name}
                     </Link>
                     </td>

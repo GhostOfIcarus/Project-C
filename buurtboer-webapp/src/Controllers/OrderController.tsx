@@ -43,49 +43,17 @@ export function Buurtboer_OrderController() {
     fetchData();
   }, []);
 
-  // Function to calculate total attendance and absent counts
   const calculateTotals = (data: any) => {
-    if (selectedRosterValue == true){
-        const totalAttendanceCount =
-        parseInt(data.monday_true, 10) +
-        parseInt(data.tuesday_true, 10) +
-        parseInt(data.wednesday_true, 10) +
-        parseInt(data.thursday_true, 10) +
-        parseInt(data.friday_true, 10) +
-        parseInt(data.saturday_true) +
-        parseInt(data.sunday_true);
-      const totalAbsentCount =
-        parseInt(data.monday_false, 10) +
-        parseInt(data.tuesday_false, 10) +
-        parseInt(data.wednesday_false, 10) +
-        parseInt(data.thursday_false, 10) +
-        parseInt(data.friday_false, 10) +
-        parseInt(data.saturday_true) +
-        parseInt(data.sunday_true);
-      // Update state
-      setTotalAttendance(totalAttendanceCount);
-      setTotalAbsent(totalAbsentCount);
-      setIsSubmitted(true);
-    }else{
-        const totalAttendanceCount =
-        parseInt(data.monday_true, 10) +
-        parseInt(data.tuesday_true, 10) +
-        parseInt(data.wednesday_true, 10) +
-        parseInt(data.thursday_true, 10) +
-        parseInt(data.friday_true, 10);
-      const totalAbsentCount =
-        parseInt(data.monday_false, 10) +
-        parseInt(data.tuesday_false, 10) +
-        parseInt(data.wednesday_false, 10) +
-        parseInt(data.thursday_false, 10) +
-        parseInt(data.friday_false, 10);
-  
-      // Update state
-      setTotalAttendance(totalAttendanceCount);
-      setTotalAbsent(totalAbsentCount);
-      setIsSubmitted(true);
-    }
-  };
+    const daysOfWeek = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
+    const selectedDays = daysOfWeek.slice(0, selectedRosterValue ? 7 : 5);
+
+    const totalAttendanceCount = selectedDays.reduce((acc, day) => acc + parseInt(data[`${day}_true`] || 0, 10), 0);
+    const totalAbsentCount = selectedDays.reduce((acc, day) => acc + parseInt(data[`${day}_false`] || 0, 10), 0);
+
+    setTotalAttendance(totalAttendanceCount);
+    setTotalAbsent(totalAbsentCount);
+    setIsSubmitted(true);
+};
 
   useEffect(() => {
     const fetchData = async () => {

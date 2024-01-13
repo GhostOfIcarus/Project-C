@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import i18next from 'i18next';
 import Employee from '../Models/Employee_Model';
 import { Alert } from 'react-native';
@@ -9,6 +8,7 @@ class LoginController {
   static language = i18next.language;
   static showPassword = false;
 
+  // changes language to any found language if there is one in async
   static sync_language = async () => {
     const language = await AsyncStorage.getItem('language');
 
@@ -18,6 +18,7 @@ class LoginController {
     }
   }
 
+  // toggles language
   static toggleLanguage = async () => {
     const newLanguage = LoginController.language === 'en' ? 'nl' : 'en';
     LoginController.language = newLanguage;
@@ -25,12 +26,16 @@ class LoginController {
     await AsyncStorage.setItem('language', JSON.stringify(newLanguage));
   };
 
+  // login method
   static handleLogin = async (email: string, password: string, navigation: any, rememberMe: boolean, t: Function) => {
+    
     //check if it is an real email
     if (!email.includes("@")) {
       Alert.alert(t('invalid_email_error'), t('invalid_email_error_text'));
       return;
     }
+
+    // fetches from api
     let response = await fetch('http://10.0.2.2:5000/api/employee/login', {
       method: 'POST',
       headers: {
@@ -53,21 +58,23 @@ class LoginController {
       Alert.alert(t('user_error'), t('user_error_text'));
       return;
     }
-    console.log(data); 
   
+    // gives error alert if there is one
     if (data.error) {
       Alert.alert('Error', data.error);
       return;
     }
 
-    // Compaires the password with the hashed password
+    // Compares the password with the hashed password
     const passwordsMatch = bcrypt.compareSync(password, data.password);
     if (!passwordsMatch) {
       Alert.alert(t('password_incorrect_error'), t('password_incorrect_error_text'));
       return;
     }
+
+    // converts data to employee object
     let employeeData = data;
-    let employee = new Employee(employeeData.id, employeeData.email, employeeData.first_name, employeeData.last_name, employeeData.keepschedule, employeeData.company_name);
+    let employee = new Employee(employeeData.id, employeeData.email, employeeData.first_name, employeeData.last_name, employeeData.keepschedule, employeeData.company_name, employeeData.full_schedule);
     
     // Save data to AsyncStorage
     if (rememberMe) {
@@ -75,19 +82,6 @@ class LoginController {
     }
     
     // Navigate to the Schedule_Form screen
-    navigation.reset({
-      index: 0,
-      routes: [{ name: 'Schedule_Form', params: { employee } }],
-    });
-  };
-
-  static handleLogin2 = async (navigation: any, rememberMe: boolean) => {
-    let employee = new Employee(1, "h", "h", "h", true, "beh");
-  
-    if (rememberMe) {
-      await AsyncStorage.setItem('user', JSON.stringify(employee));
-    }
-  
     navigation.reset({
       index: 0,
       routes: [{ name: 'Schedule_Form', params: { employee } }],

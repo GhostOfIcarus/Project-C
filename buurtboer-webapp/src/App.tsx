@@ -17,6 +17,7 @@ import SuperAdmin_Settings_Page from './Views/SuperAdmin_Settings_Page';
 import Buurtboer_Order from './Views/Buurtboer_Order';
 import EmployeesOverview from './Views/Employees_Overview';
 import Employee_Week_Overview from './Views/Employee_Week_Overview';
+import AH_Order from './Views/AH_Order';
 
 
 
@@ -40,10 +41,11 @@ function App() {
         <Route path="/SuperAdmin_Settings_Page" element={< SuperAdmin_Settings_Page/>}/>
         {/* <Route path='/Employees_Overview' element={<EmployeesOverview/>} /> */}
         <Route path='/Buurtboer_Order' element={<Buurtboer_Order/>}/>
+        <Route path='/AH_order' element={<Buurtboer_Order/>}/>
 
         <Route path="/Employees_Overview" element={<EmployeesOverview />} />
         <Route
-          path="/Employee_Week_Overview/:id/:week/:firstname/:lastname"
+          path="/Employee_Week_Overview/:id/:firstname/:lastname"
           element={<Employee_Week_Overview />}
         />
         <Route

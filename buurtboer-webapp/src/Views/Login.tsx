@@ -40,7 +40,7 @@ export function Login() {
   const { t } = useTranslation();
   const { isSubmitted, loginFailed, renderErrorMessage, handleSubmit, role, user, handleSignOut } = useLoginController();
   const navigate = useNavigate();
-  const { login, Logout } = useMicrosoftLogin();
+  const { login} = useMicrosoftLogin();
 
 
   useEffect(() => {
@@ -156,7 +156,6 @@ export function Login() {
           <div id="signInDiv"></div>
           <button onClick={login} className={genstyles.button}>{t('microsoft')}</button>
         </div>
-        <button onClick={handleSignOut}>Sign Out</button>
       </form>
     </>
   );
@@ -177,5 +176,5 @@ export function Login() {
   );
 }
 
-export default Login;
+export default withAuthentication(Login, "/Login", false, true);
 

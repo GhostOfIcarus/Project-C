@@ -75,7 +75,7 @@ app.get('/api/employee/allemployees', async (req, res) => {
 		res.status(200).json(userData);
 	} catch (error) {
 		console.error(error);
-		res.status(500).json({ error: 'i did an oopsie' });
+		res.status(500).json({ error: 'Error in getting all Employee data' });
 	}
 });
 
@@ -85,7 +85,7 @@ app.get('/api/company/allcompanies', async (req, res) => {
 		res.status(200).json(userData);
 	} catch (error) {
 		console.error(error);
-		res.status(500).json({ error: 'i did an oopsie' });
+		res.status(500).json({ error: 'Error in getting all Company data' });
 	}
 });
 
@@ -97,7 +97,7 @@ app.post('/api/employee/company', async (req, res) => {
         res.status(200).json(userData);
     } catch (error) {
         console.error(error);
-        res.status(500).json({ error: 'i did an oopsie' });
+        res.status(500).json({ error: 'Error in getting all Employees from Company' });
     }
 });
 
@@ -110,7 +110,7 @@ app.post('/api/company/add', async (req, res) => {
 		res.status(200).json(userData);
 	} catch (error) {
 		console.error(error);
-		res.status(500).json({ error: 'i did an oopsie' });
+		res.status(500).json({ error: 'Error in Adding new Company' });
 	}
 });
 
@@ -122,7 +122,7 @@ app.delete('/api/company/delete', async (req, res) => {
 		res.status(200).json(userData);
 	} catch (error) {
 		console.error(error);
-		res.status(500).json({ error: 'i did an oopsie' });
+		res.status(500).json({ error: 'Error in Deleting company' });
 	}
 });
 
@@ -143,7 +143,7 @@ app.post('/api/employee/add', async (req, res) => {
 		res.status(200).json(userData);
 	} catch (error) {
 		console.error(error);
-		res.status(500).json({ error: 'i did an oopsie' });
+		res.status(500).json({ error: 'Error in Creating new Employee' });
 	}
 });
 
@@ -155,7 +155,7 @@ app.delete('/api/employee/delete', async (req, res) => {
 		res.status(200).json(userData);
 	} catch (error) {
 		console.error(error);
-		res.status(500).json({ error: 'i did an oopsie' });
+		res.status(500).json({ error: 'Error in Deleting Employee' });
 	}
 });
 
@@ -166,7 +166,7 @@ app.post('/api/employee/schedule', async (req, res) => {
 	  res.status(200).json(userData);
 	} catch (error) {
 	  console.error(error);
-	  res.status(500).json({ error: 'i did an oopsie' });
+	  res.status(500).json({ error: 'Error in getting Employee Schedule data' });
 	}
   });
 
@@ -181,7 +181,7 @@ app.post('/api/employee/activate/code', async (req, res) => {
 	  res.status(200).json(userData);
 	} catch (error) {
 	  console.error(error);
-	  res.status(500).json({ error: 'i did an oopsie' });
+	  res.status(500).json({ error: 'Error with Activating the code' });
 	}
   });
 
@@ -196,7 +196,7 @@ app.delete('/api/activate/code/delete', async (req, res) => {
 		res.status(200).json(userData);
 	} catch (error) {
 		console.error(error);
-		res.status(500).json({ error: 'i did an oopsie' });
+		res.status(500).json({ error: 'Error in Deleting activation key' });
 	}
 });
 
@@ -212,7 +212,7 @@ app.post('/api/employee/schedule/create', async (req, res) => {
 		// }
 	  } catch (error) {
 		console.error(error);
-		res.status(500).json({ error: 'wah wah Internal server error' });
+		res.status(500).json({ error: 'Error in creating Employee schedule' });
 	  }
 });
 
@@ -229,7 +229,7 @@ app.put('/api/employee/schedule/update', async (req, res) => {
 		}
 	  } catch (error) {
 		console.error(error);
-		res.status(500).json({ error: 'wah wah Internal server error' });
+		res.status(500).json({ error: 'Error in updating employee schedule' });
 	  }
 });
 
@@ -246,7 +246,7 @@ app.put('/api/employee/rememberschedule/update', async (req, res) => {
 		}
 	  } catch (error) {
 		console.error(error);
-		res.status(500).json({ error: 'wah wah Internal server error' });
+		res.status(500).json({ error: 'Error in updating Employee remember me' });
 	  }
 });
 
@@ -273,6 +273,7 @@ app.post('/api/employee/email_code', async (req, res) => {
 	try {
 		const { email, activated } = req.body;
 		const activation_key = Math.floor(Math.random() * (1000000 - 100000) + 100000);
+		console.log(activation_key);
 		const token = jwt.sign(
 			{
 			  activation_key: activation_key, 
@@ -281,7 +282,7 @@ app.post('/api/employee/email_code', async (req, res) => {
 			{ expiresIn: '1h' }
 		  );
 		const userData = await Functions.addKeyByEmployeeMail(email, activated, token);
-		res.status(200).json(userData);
+		res.status(200).json({ userData, activation_key });
 	} catch (error) {
 		console.error(error);
 		res.status(500).json({ error: 'An error occurred getting the employee' });
@@ -290,8 +291,8 @@ app.post('/api/employee/email_code', async (req, res) => {
 
 app.post('/api/employee/change_password', async (req, res) => {
 	try {
-	  const { newPassword, email } = req.body;
-	  const result = await Functions.ChangePasswordEmployee(newPassword, email);
+	  const { newPassword, email, page_key } = req.body;
+	  const result = await Functions.ChangePasswordEmployee(newPassword, email, page_key);
 	  if (result) {
 		res.status(200).json({ message: 'Password changed successfully' });
 	  } else {

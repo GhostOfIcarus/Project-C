@@ -1,9 +1,9 @@
 // generic react native imports
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { View, Image, Text, TouchableOpacity, ScrollView, Switch, Dimensions } from 'react-native';
 import { basestyles } from './css/styles';
 import { useTranslation } from 'react-i18next';
-import i18next from './../Controllers/i18next';
+import i18next from '../Controllers/i18next';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 // props
@@ -34,7 +34,7 @@ const SettingsScreen = (props: SettingsProps) =>
 
   // navigation to other pages
   const Schedule_Form = () => props.navigation.navigate("Schedule_Form",  { employee })
-  const Change_Password = () => props.navigation.navigate("ChangePassword", { employee })
+  const Change_Password = () => props.navigation.navigate("ChangePassword", { employee, page_key: "change_password" })
 
   // handles the login
   const handleLogout = async () => 
@@ -136,16 +136,6 @@ const SettingsScreen = (props: SettingsProps) =>
               </TouchableOpacity>
 
             </View>
-          </View>
-
-          {/* notifications switch */}
-          <View style={[basestyles.switch_right_text_div, {marginLeft: width * 0.33,}]}>
-            <Text style={basestyles.text_small}>{t('notifications')}</Text>
-            <Switch
-              onValueChange={previousState => setNotif(previousState)}
-              value={isNotif}
-              trackColor={{false: "#B6B6B6", true: "#099F91"}}
-            />
           </View>
 
           {/* change password */}

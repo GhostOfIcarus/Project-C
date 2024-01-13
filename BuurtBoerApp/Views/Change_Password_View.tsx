@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { View, TextInput, Image, Text, TouchableOpacity, KeyboardAvoidingView, ScrollView } from 'react-native';
 import { before_login } from './css/before_login';
-import ChangePasswordController from './../Controllers/Change_Password';
+import ChangePasswordController from '../Controllers/Change_Password_Controller';
 import Employee from '../Models/Employee_Model';
 import { useTranslation } from 'react-i18next';
 
@@ -50,6 +50,7 @@ const Change_Password = (props: ChangePasswordProps) => {
             </View>
 
           <Text style={before_login.centered_text_small}>{t('password_requirements')}</Text>
+          
           {/* New Password input */}
           <TextInput
             placeholder={t('newPassword')}
@@ -58,6 +59,7 @@ const Change_Password = (props: ChangePasswordProps) => {
             onChangeText={handlePasswordChange}
             value={password}
           />
+
           {/* Confirm Password input */}
           <TextInput
             placeholder={t('confirmPassword')}
@@ -66,12 +68,14 @@ const Change_Password = (props: ChangePasswordProps) => {
             onChangeText={handleConfirmPasswordChange}
             value={confirmPassword}
           />
+
           {/* Hide / Show password */}
           <TouchableOpacity onPress={toggleShowPassword}>
             <Text style={{ color: '#099F91', marginVertical: '2%', textAlign: 'center', marginTop: 10 }}>
               {showPassword ? t('hidePassword') : t('showPassword')}
             </Text>
           </TouchableOpacity>
+
           {/* Change Password button */}
           <TouchableOpacity style={before_login.buttons} onPress={() => ChangePasswordController.handleChangePassword(password, confirmPassword, props.navigation, employee, t, page_key)}>
           {page_key == "activate_account" ? (

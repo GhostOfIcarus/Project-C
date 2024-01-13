@@ -242,7 +242,7 @@ const getEmployeeSchedule = async (employeeId, week) => {
 									`, [employeeId, week]);
 
 	if (results.rowCount === 0) {
-		console.error('No schedule found with this Id:', employeeId);
+		console.error('No schedule found with this Id:', employeeId, "and week:", week);
 		return false;
 	}
 	else{
@@ -359,10 +359,10 @@ const getSingleEmployeeByEmailData = async (email) => {
 	const db = await pool.connect();
 	try {
 		const results = await db.query(`
-										SELECT employee.*, company.Company_Name 
+										SELECT employee.*, company.company_name, company.full_schedule 
 										FROM employee 
-										INNER JOIN EmployeesInCompany ON employee.ID = EmployeesInCompany.Employee_ID
-										INNER JOIN Company ON EmployeesInCompany.Company_ID = Company.ID
+										INNER JOIN employeesincompany ON employee.id = employeesinCompany.employee_id
+										INNER JOIN company ON employeesincompany.company_id = Company.id
 										WHERE employee.email = $1
 									   `, [email]);
 		if (results.rowCount === 0) {
@@ -404,9 +404,17 @@ const addKeyByEmployeeMail = async (email, activated, activation_key) => {
 	}
 };
 
-const ChangePasswordEmployee = async (newPassword, email) => {
+const ChangePasswordEmployee = async (newPassword, email, page_key) => {
 	const db = await pool.connect();
 	try {
+	  if (page_key == "activate_account") {
+		const activate_result = await db.query("UPDATE employee SET activated = $1 WHERE email = $2 RETURNING *", [true, email]);
+		if (activate_result.rowCount === 0) {
+			// No rows were updated, which means the email was not found in the database
+			console.error('No user found with this email:', email);
+			return false;
+		  }
+	  }
 	  const results = await db.query("UPDATE employee SET password = $1 WHERE email = $2 RETURNING *", [newPassword, email]);
   
 	  if (results.rowCount === 0) {

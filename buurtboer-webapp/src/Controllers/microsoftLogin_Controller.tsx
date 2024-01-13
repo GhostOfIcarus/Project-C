@@ -122,31 +122,31 @@ export function useMicrosoftLogin() {
 
         const EmailInDatabase = await checkEmailAvailability(userInfo.mail);
 
-        if (!EmailInDatabase) {
-          const apiUrl = 'http://localhost:5000/api/admin/registerAdmin';
+        // if (!EmailInDatabase) {
+        //   const apiUrl = 'http://localhost:5000/api/admin/registerAdmin';
 
-          try {
-            const response: AxiosResponse<RegisterCompanyResponse> = await axios.post(apiUrl, {
-              admin_first_name: userInfo.givenName,
-              admin_last_name: userInfo.surname,
-              company_name: 'tempname',
-              full_schedule: false,
-              email: userInfo.mail,
-              password: '',
-            });
+        //   try {
+        //     const response: AxiosResponse<RegisterCompanyResponse> = await axios.post(apiUrl, {
+        //       admin_first_name: userInfo.givenName,
+        //       admin_last_name: userInfo.surname,
+        //       company_name: 'tempname',
+        //       full_schedule: EmailInDatabase ? true : false,
+        //       email: userInfo.mail,
+        //       password: '',
+        //     });
 
-            if (response.status === 200) {
-              navigate('/Employee_Overview');
-              return true;
-            } else {
-              console.error('Unexpected response:', response);
-              return false;
-            }
-          } catch (error) {
-            console.log(error);
-            return false;
-          }
-        }
+        //     if (response.status === 200) {
+        //       navigate('/Employee_Overview');
+        //       return true;
+        //     } else {
+        //       console.error('Unexpected response:', response);
+        //       return false;
+        //     }
+        //   } catch (error) {
+        //     console.log(error);
+        //     return false;
+        //   }
+        // }
 
         if (EmailInDatabase) {
           const email = userInfo.mail;
@@ -182,11 +182,7 @@ export function useMicrosoftLogin() {
     }
   };
 
-  const Logout = async () => {
-    await msalInstance.initialize();
-    await msalInstance.logoutPopup();
-    setIsAuthenticated(false);
-  };
 
-  return { login, Logout, register };
+
+  return { login, register };
 }

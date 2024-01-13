@@ -3,12 +3,23 @@
     text-align: center;
   }
 
+  body{
+    overflow:hidden;
+  }
+
   .container {
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
-    scale: 1.8;
+    scale: 1.7;
+  }
+
+  .register_container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
   }
 
   .login_div{
@@ -28,6 +39,14 @@
     padding: 10px 30px 10px 30px;
     scale: 1.010;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+  }
+
+  .register_Buurtboerlogo{
+    background-color: #099f91; 
+    border-radius: 10px;
+    padding: 10px 30px 10px 30px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+    width: 100%;
   }
 
   .submmitbutton{
@@ -64,6 +83,21 @@
   
   .button:active{
     background-color: #c95f3f;
+  }
+
+  .link_button{
+    color: #099f91;
+    text-decoration: none;
+  }
+
+  .nav_link_button{
+    color: black;
+    text-decoration: none;
+  }
+
+  .link_button:hover, .nav_link_button:hover{
+    color: #c95f3f;
+    text-decoration: underline;
   }
 
   .link {

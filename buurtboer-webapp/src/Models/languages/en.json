@@ -8,6 +8,8 @@
     "or": "OR",
     "google": "Login with Google",
     "microsoft": "Login with Microsoft",
+    "register_google": "Register with Google",
+    "register_microsoft": "Register with Microsoft",
     "forgotPasswordHeader": "Forgot Password",
     "createAccountHeader": "Create Account",
     "send": "Send",
@@ -58,6 +60,16 @@
     "employees_Overview": "Employees overview",
     "employee_Overview": "Employee overview",
     "add_employee": "Add employee",
+    "employee_invite": "Invite employee",
+    "first_name": "first name",
+    "last_name": "last name",
+    "totalAttendance": "present",
+    "totalAbsent": "absent",
+    "export_data": "export data",
+    "emails_send_succesfully": "Emails send succesfully",
+    "email_send_failed": "unable to send email",
+    "password_format_error": "needs at least 8 characters and a special character!",
+    "send_notification": "send reminder",
 
     "add_company": "Add company",
     "register_company": "Register company",
@@ -80,6 +92,7 @@
     "confirm": "confirm",
     "5weekday": "mon-fr",
     "7weekday": "mon-sun",
+    "lunch_amount": "amount of lunches",
 
     "Employee_Overview": "Employee overview",
     "Week_select": "Select a week:",
@@ -92,6 +105,7 @@
     "confirmDelete_employee": "Are you sure you want to delete 1 employee?",
     "Email_success": "Email successfully send",
     "email_fail": "Failed to send email",
+    "change_email_not_possible": "cannot change email",
     "input_error": "fill in all fields!",
     "invite_send": "Invite send!"
   }

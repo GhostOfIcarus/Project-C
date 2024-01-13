@@ -11,7 +11,7 @@ interface UserData {
   firstName: string;
 }
 
-function Buurtboer_Order() {
+function AH_Order() {
   const [userdata, setUserData] = useState<UserData | null>(null);
   const { t } = useTranslation();
 
@@ -21,7 +21,7 @@ function Buurtboer_Order() {
     totalAttendance,
     totalAbsent,
     selectedWeek,
-    updateSelectedWeek, // Add this function from the controller
+    updateSelectedWeek, 
   } = Buurtboer_OrderController();
 
   useEffect(() => {
@@ -78,7 +78,7 @@ function Buurtboer_Order() {
                     <button
                       type="button"
                       onClick={() => {
-                        window.location.href = "https://debuurtboer.nl/?utm_term=de%20buurtboer&utm_campaign=Generiek%20%7C%20Kantoorlunch&utm_source=adwords&utm_medium=ppc&hsa_acc=9525047286&hsa_cam=18198650116&hsa_grp=146257286368&hsa_ad=619023574966&hsa_src=g&hsa_tgt=kwd-303886323808&hsa_kw=de%20buurtboer&hsa_mt=e&hsa_net=adwords&hsa_ver=3&gad_source=1&gclid=Cj0KCQiA4Y-sBhC6ARIsAGXF1g50oe73chkrIRknUu0cerUyFv9pM63wctK-9to3DFS8ghovCo9vdd8aAvjeEALw_wcB";
+                        window.location.href = "https://www.ah.nl/producten";
                       }}
                       className={genstyles.button}
                     >
@@ -95,4 +95,4 @@ function Buurtboer_Order() {
   );
 }
 
-export default withAuthentication(Buurtboer_Order);
+export default withAuthentication(AH_Order);

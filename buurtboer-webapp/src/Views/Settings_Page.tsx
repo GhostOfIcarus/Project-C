@@ -9,6 +9,7 @@ import  {SettingsController, AdminInfo, updateAdminInfo} from '../Controllers/Se
 import { useTranslation } from 'react-i18next';
 import axios from 'axios';
 
+
 interface UserData {
   firstName: string;
 }
@@ -41,6 +42,7 @@ function Settings() {
     selectedRosterValue: false,
   });
 
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -59,14 +61,19 @@ function Settings() {
         const userEmail = userData.userEmail;
         const userName = userData.firstName;
         const selectedRosterValue = userData.full_schedule;
+        const password = userData.password;
 
         setUserId(userId);
         setCompanyName(companyName);
         setUserEmail(userEmail);
         setUserName(userName);
         setSelectedRosterValue(selectedRosterValue);
-        console.log(userData);
-        console.log('fetched data succesfully');
+        if (selectedRosterValue){
+          setSelectedRoster(t('7weekday'))
+        }
+        else{
+          setSelectedRoster(t('5weekday'))
+        }
       } catch (error) {
         console.error('Error fetching user data:', error);
         // Handle error based on your requirements
@@ -87,14 +94,13 @@ function Settings() {
     try {
       const response = await axios.get(`http://localhost:5000/api/getCompanyAdminEmail/${adminId}`);
       const email = response.data.email;
-      console.log('Company Admin Email:', email);
       return email;
     } catch (error) {
       console.error('Error getting company admin email:', error);
     }
   };
 
-  const handleEditButtonClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+  const handleEditButtonClick = async (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
     setEditable(true);
     setConfirmationVisible(true);
@@ -132,7 +138,6 @@ function Settings() {
   const checkEmailAvailability = async (email: string) => {
     try {
       const response = await axios.post('http://localhost:5000/api/check-email', { email });
-      console.log(response.data.emailExists);
       return response.data.emailExists;
     } catch (error) {
       console.error('Error checking email availability:', error);
@@ -197,7 +202,6 @@ function Settings() {
           if (success) {
             // If the update is successful, trigger token refresh
             await refreshAccessToken();
-            console.log('Token refreshed successfully');
           }
         }
       } catch (error) {
@@ -219,21 +223,12 @@ function Settings() {
         companyName,
         selectedRosterValue,
       });
-
-      // Log confirmed values to the console
-      //console.log('Confirmed Values:', confirmedValues);
-      console.log('Final Values:', userName, userEmail, companyName, selectedRosterValue);
-
-      // After handling the logic, hide the confirmation button
       setConfirmationVisible(false);
-
-      // Disable further edits after confirming
       setEditable(false);
     }
   };
   
   useEffect(() => {
-    //console.log('Confirmed Values:', confirmedValues);
   }, [confirmedValues]); 
 
   const refreshAccessToken = async () => {
@@ -245,19 +240,11 @@ function Settings() {
         },
         withCredentials: true,
       });
-  
-      // Extract the new token from the response
       const newToken = response.data.token;
-  
-      // Set the new token in the cookie or storage, wherever you store your tokens
-      // For example, if using cookies:
       document.cookie = `jwt-token=${newToken}; max-age=${2 * 60 * 60}; path=/`;
   
-      // Log the success
-      console.log('Token refreshed successfully');
     } catch (error) {
       console.error('Error refreshing token:', error);
-      // Handle the error based on your requirements
     }
   };
 
@@ -287,20 +274,7 @@ function Settings() {
                 </div>
                 <div className="mb-3">
                   <a>Email: </a>
-                  {editable ? (
-                    <div>
-                      <input
-                        type="text"
-                        id="adminEmail"
-                        placeholder={userEmail}
-                        value={userEmail}
-                        onChange={handleUserEmailChange}
-                      />
-                      {errorMessage && <div style={{ color: 'red' }}>{errorMessage}</div>}
-                    </div>
-                  ) : (
-                    <span>{userEmail}</span>
-                  )}
+                  <span>{userEmail}</span>
                 </div>
                 <div className="mb-3">
                   <a>{t('Company_name')}: </a>
@@ -321,20 +295,22 @@ function Settings() {
                 <label htmlFor="Rooster">{t('scheduleOverviewHeader')}</label>
                 <select id="Rooster" disabled={!editable} value= {selectedRoster} onChange={handleRoosterChange}>
                   <option value={t('5weekday')}>{t('5weekday')}</option>
-                  <option value={t('yweekday')}>{t('7weekday')}</option>
+                  <option value={t('7weekday')}>{t('7weekday')}</option>
                 </select>
-                <img
-                  style={{ width: '20px', height: 'auto', marginRight: '5px', cursor: 'pointer' }}
-                  src={NL}
-                  alt="nl"
-                  onClick={() => setLanguage('nl')} // Use setLanguage from SettingsController
-                />
-                <img
-                  style={{ width: '20px', height: 'auto', marginRight: '5px', cursor: 'pointer' }}
-                  src={EN}
-                  alt="en"
-                  onClick={() => setLanguage('en')} // Use setLanguage from SettingsController
-                />
+              <br />
+              <img
+                style={{ width: '20px', height: 'auto', marginRight: '5px', cursor: 'pointer' }}
+                src={NL}
+                alt="nl"
+                onClick={() => setLanguage('nl')} // Use setLanguage from SettingsController
+              />
+              <span style={{ margin: '0 5px', fontSize: '20px' }}>/</span>
+              <img
+                style={{ width: '20px', height: 'auto', marginLeft: '5px', cursor: 'pointer' }}
+                src={EN}
+                alt="en"
+                onClick={() => setLanguage('en')} // Use setLanguage from SettingsController
+              />
               </div>
               {confirmationVisible && (
                 <button className={genstyles.button} onClick={handleConfirmButtonClick}>

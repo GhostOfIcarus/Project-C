@@ -11,6 +11,7 @@ export interface UserData{
   firstName: string;
   lastName: string;
   email: string;
+  full_schedule: boolean;
 }
 
 export interface EmployeeData{
@@ -28,11 +29,15 @@ export function useEmpOverviewController() {
   const [countWednesday, setCountWednesday] = useState<number>(0);
   const [countThursday, setCountThursday] = useState<number>(0);
   const [countFriday, setCountFriday] = useState<number>(0);
+  const [countSaturday, setCountSaturday] = useState<number>(0);
+  const [countSunday, setCountSunday] = useState<number>(0);
   const [absentMonday, setabsentMonday] = useState<number>(0);
   const [absentTuesday, setabsentTuesday] = useState<number>(0);
   const [absentWednesday, setabsentWednesday] = useState<number>(0);
   const [absentThursday, setabsentThursday] = useState<number>(0);
   const [absentFriday, setabsentFriday] = useState<number>(0);
+  const [absentSaturday, setabsentSaturday] = useState<number>(0);
+  const [absentSunday, setabsentSunday] = useState<number>(0);
   const [selectedWeek, setSelectedWeek] = useState<number>(0);
   const [userdata, setUserData] = useState<UserData | null>(null);
   const [allEmployees, setAllEmployees] = useState(0);
@@ -50,6 +55,7 @@ export function useEmpOverviewController() {
         const userData = response.data.userData;
         // console.log(userData.firstName);
         setUserData(userData);
+        // console.log("USERDATA: ", userData)
       } catch (error) {
         // Handle error
       }
@@ -58,6 +64,89 @@ export function useEmpOverviewController() {
     fetchData();
   }, []);
 
+    const fetchEmployeeInfoAndSendEmails = async () => {
+      try {
+        const response = await axios.post(
+          'http://localhost:5000/api/employee/company',
+          {
+            company_id: userdata?.userId,
+          },
+          {
+            withCredentials: true,
+            headers: {
+              'Content-Type': 'application/json',
+            },
+          }
+        );
+
+        if (response.data && response.data.length > 0) {
+          const employees = response.data;
+          for (const employee of employees) {
+            await sendEmployeeEmail(employee); // Assuming you have a function to send an email
+          }
+        } else {
+          console.log("No employees found");
+        }
+      } catch (error) {
+        console.log('Error fetching employees:', error);
+      }
+    };
+
+
+  const sendEmployeeEmail = async (employee: UserData) => {
+    try {
+      const response = await axios.post(
+        'http://localhost:5001/sendEmail/employeeReminder', // Update with your actual endpoint
+        {
+          to: employee.email,
+          employeeFirstName: employee.firstName,
+          employeeLastName: employee.lastName,
+        },
+        {
+          withCredentials: true,
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        }
+      );
+
+      console.log('Email sent to employee:', employee.email, response.data);
+    } catch (error) {
+      console.log('Error sending email to employee:', employee.email, error);
+    }
+  };
+
+
+  const exportToCSV = (attendanceData: number[], weekNumber: any = 0, fullSchedule: boolean | undefined) => {
+    // Define and split the attendance data
+    const present = (attendanceData.slice(0, 7));
+    const absent = (attendanceData.slice(7, 14));
+
+    // Define headers
+    const headers = ["Datum", "Aanwezig", "Afwezig"]
+    const sideHeaders = ["Maandag", "Dinsdag", "Woensdag", "Donderdag", "Vrijdag", "Zaterdag", "Zondag"]
+    
+    // Create a 2D array for the CSV content
+    const csvData = sideHeaders.map((day, index) => {
+      return [day, present[index], absent[index]];
+    });
+
+    // Add headers to the start of the CSV content
+    csvData.unshift(headers);
+
+    // Convert the CSV content to a string
+    const csvContent = csvData.map(row => row.join(',')).join('\n');
+
+
+    // Create a new CSV file using a blob and download it by creating a link and clicking it
+    const csv = new Blob([csvContent], { type: 'text/csv' });
+    const url = window.URL.createObjectURL(csv);
+    const link = document.createElement('a');
+    link.href = url;
+    link.setAttribute('download', `week-${weekNumber}.csv`);
+    document.body.appendChild(link);
+    link.click();
+  }
 
   const fetchEmployees = async () => {
     try {
@@ -92,6 +181,7 @@ export function useEmpOverviewController() {
   };
 
 
+
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     
     const getAttendance = async (elements: FormEvent<HTMLFormElement>) => {
@@ -112,10 +202,9 @@ export function useEmpOverviewController() {
             'Content-Type': 'application/json'
           }
         });
-        
 
-        console.log("binkybonky")
-        console.log("company id:", userdata?.userId);
+        // console.log("binkybonky")
+        // console.log("company id:", userdata?.userId);
 
         if (response.data) {
           // console.log(response.data);
@@ -137,15 +226,18 @@ export function useEmpOverviewController() {
       await setCountWednesday(data.wednesday_true);
       await setCountThursday(data.thursday_true);
       await setCountFriday(data.friday_true);
+      await setCountSaturday(data.saturday_true);
+      await setCountSunday(data.sunday_true);
       await setabsentMonday(data.monday_false);
       await setabsentTuesday(data.tuesday_false);
       await setabsentWednesday(data.wednesday_false);
       await setabsentThursday(data.thursday_false);
       await setabsentFriday(data.friday_false);
-      // await setCountSaturday(data.saturday_true);
-      // await setCountSunday(data.sunday_true);
+      await setabsentSaturday(data.saturday_false);
+      await setabsentSunday(data.sunday_false);
+      
     
-    console.log(countMonday);
+    //console.log(countMonday);
     }
     else{
       await setCountMonday(0);
@@ -163,6 +255,8 @@ export function useEmpOverviewController() {
   };
 
   return {
+    exportToCSV,
+    fetchEmployeeInfoAndSendEmails,
     isSubmitted,
     handleSubmit,
     countMonday,
@@ -170,12 +264,17 @@ export function useEmpOverviewController() {
     countWednesday,
     countThursday,
     countFriday,
+    countSaturday,
+    countSunday,
     absentMonday,
     absentTuesday,
     absentWednesday,
     absentThursday,
     absentFriday,
+    absentSaturday,
+    absentSunday,
     attendanceData,
-    selectedWeek
+    selectedWeek,
+    userdata
   };
 }

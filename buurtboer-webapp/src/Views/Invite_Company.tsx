@@ -69,7 +69,7 @@ function Invite_Company() {
                   type="text"
                   id="CompanyName"
                   placeholder={t('company_name')}
-                  className="input-group input-group-lg"
+                  className="input-group form-control input-group-lg"
                   value={CompanyName}
                   onChange={(e) => setBedrijfNaam(e.target.value)}
                 />
@@ -79,7 +79,7 @@ function Invite_Company() {
                   type="text"
                   id="adminEmail"
                   placeholder="Admin email"
-                  className="input-group input-group-lg"
+                  className="input-group form-control input-group-lg"
                   value={adminEmail}
                   onChange={(e) => {
                     setAdminEmail(e.target.value);
@@ -97,7 +97,7 @@ function Invite_Company() {
                   type="text"
                   id="adminFirstName"
                   placeholder={t('admin_firstname')}
-                  className="input-group input-group-lg"
+                  className="input-group form-control input-group-lg"
                   value={adminFirstName}
                   onChange={(e) => setAdminVoornaam(e.target.value)}
                 />
@@ -107,13 +107,13 @@ function Invite_Company() {
                   type="text"
                   id="adminLastName"
                   placeholder={t('admin_lastname')}
-                  className="input-group input-group-lg"
+                  className="input-group form-control input-group-lg"
                   value={adminLastName}
                   onChange={(e) => setAdminAchternaam(e.target.value)}
                 />
                 {successMessage && <div style={{ color: 'green' }}>{successMessage}</div>}
               </div>
-              <br /><br /><br />
+              <br />
               <div className='d-flex justify-content-center'>
                 <button className={genstyles.submmitbutton} onClick={handleInviteClick}>{t('send_invite')}</button>
               </div>
@@ -125,4 +125,4 @@ function Invite_Company() {
   );
 }
 
-export default withAuthentication(Invite_Company);
+export default withAuthentication(Invite_Company, "/Employee_Overview", true);
