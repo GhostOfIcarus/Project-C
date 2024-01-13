@@ -21,7 +21,7 @@ function Invite_Company() {
     // Check if adminEmail contains '@' symbol
     if (!adminEmail.includes('@')) {
       setErrorMessage(t('email_format_error'));
-      return; // Stop further execution
+      return; 
     }
 
     // Clear any previous error and success messages
@@ -44,12 +44,10 @@ function Invite_Company() {
       }
     )
     .then(() => {
-      // Display success message
       setSuccessMessage(t('Email_success'));
     })
     .catch(error => {
       console.error('Error sending email:', error);
-      // Display error message
       setErrorMessage(t('email_fail'));
     });
   };
@@ -83,9 +81,7 @@ function Invite_Company() {
                   value={adminEmail}
                   onChange={(e) => {
                     setAdminEmail(e.target.value);
-                    // Reset email error on input change
                     setErrorMessage('');
-                    // Reset success message on input change
                     setSuccessMessage('');
                   }}
                 />

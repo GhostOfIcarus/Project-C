@@ -10,6 +10,7 @@ import EN from "./img/en_flag.png";
 import { useTranslation } from 'react-i18next';
 import axios from 'axios';
 
+
 interface UserData {
   firstName: string;
 }
@@ -173,78 +174,3 @@ const Navbar = () => {
   
   export default Navbar;
 
-//old nav bar if shit breaks LMAO
-  // if (userRole == 'SuperAdmin'){
-  //   return (
-  //     <nav className={`navbar navbar-expand-lg p-0 ${postlogin.buurtboer_nav}`}>
-  //       <a className="navbar-brand p-0 img_logo" href="/">
-  //         <div style={imageContainerStyle}>
-  //           <img
-  //             src={logo}
-  //             className="img-fluid buurtboerlogo"
-  //             style={{ width: '100px', height: 'auto' }}
-  //             alt="Buurtboer Logo"
-  //           />
-  //         </div>
-  //       </a>
-  //       <div className="collapse navbar-collapse " id="navbarSupportedContent">
-  //         <ul className="navbar-nav me-auto ms-3 mb-lg-0">
-  //           <li className="nav-item">
-  //             {userdata && <span className="nav-link text-black"> Welkom, {userdata.firstName}!</span>}
-  //           </li>
-  //         </ul>
-  //       </div>
-  //         <div className="nav-button me-5 ">
-  //         <Link
-  //             to="/Choose_Order"
-  //             style={{ ...linkStyle, ...hoveredLinkStyle }}
-  //             onMouseEnter={() => setHoveredLinkStyle({ color: '#F9834C' })}
-  //             onMouseLeave={() => setHoveredLinkStyle({ color: '#000000' })}
-  //           >
-  //             {t('order')}
-  //           </Link>
-  //         </div>
-  //         <div className="nav-button me-5">
-  //         <Link
-  //             to="/Company_overview"
-  //             style={{ ...linkStyle, ...hoveredLinkStyle }}
-  //             onMouseEnter={() => setHoveredLinkStyle({ color: '#F9834C' })}
-  //             onMouseLeave={() => setHoveredLinkStyle({ color: '#000000' })}
-  //           >
-  //             {t('company_overview')}
-  //         </Link>        
-  //         </div>
-  //         <div className="nav-button me-5">
-  //         <Link
-  //             to="/Invite_Company"
-  //             style={{ ...linkStyle, ...hoveredLinkStyle }}
-  //             onMouseEnter={() => setHoveredLinkStyle({ color: '#F9834C' })}
-  //             onMouseLeave={() => setHoveredLinkStyle({ color: '#000000' })}
-  //           >
-  //             {t('add_company')}
-  //         </Link>        
-  //         </div>
-  //         <div className="nav-button me-5">
-  //         <Link
-  //             to="/SuperAdmin_Settings_Page"
-  //             style={{ ...linkStyle, ...hoveredLinkStyle }}
-  //             onMouseEnter={() => setHoveredLinkStyle({ color: '#F9834C' })}
-  //             onMouseLeave={() => setHoveredLinkStyle({ color: '#000000' })}
-  //           >
-  //              {t('settingsHeader')}
-  //         </Link>        
-  //         </div>
-  
-  //         <div className="nav-button me-5">
-  //         <Link
-  //             to="/"
-  //             style={{ ...linkStyle, ...hoveredLinkStyle }}
-  //             onMouseEnter={() => setHoveredLinkStyle({ color: '#F9834C' })}
-  //             onMouseLeave={() => setHoveredLinkStyle({ color: '#000000' })}
-  //           >
-  //             {t('logout')}
-  //         </Link>        
-  //         </div>
-  //       </nav>
-  //     );
-  //   }
