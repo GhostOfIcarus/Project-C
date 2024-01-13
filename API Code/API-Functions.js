@@ -187,7 +187,7 @@ const deleteActivationKey = async (employee_id) => {
 		if (resultKeyDeletion.rowCount > 0) {
 			return true;
 		}
-		return false;
+		return true;
 		
 	} catch (error) {
 		console.error('Error in getting deleting key:', error);
