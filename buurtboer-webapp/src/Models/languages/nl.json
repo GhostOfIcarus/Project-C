@@ -62,10 +62,13 @@
     "add_employee": "Medewerker toevoegen",
     "employee_invite": "Medewerker toevoegen",
     "first_name": "Voor naam",
+    "amount_attendance": "hoeveelheid aanwezig:",
+    "bread_amount": "aanbevolen hoeveelheid brood:",
+    "add_product": "voeg product toe",
+    "cancel_editing": "annuleer wijziging",
+    "place_order": "Plaats bestelling",
     "totalAttendance": "aanwezig",
     "totalAbsent": "afwezig",
-
-
     "add_company": "Bedrijf aanmaken",
     "Company_name": "Bedrijf naam",
     "register_company": "Bedrijf registreren",
@@ -80,7 +83,14 @@
     "present": "aanwezig",
     "absent": "afwezig",
     "order": "Bestellen",
+    "cancel": "wijzig",
+    "save": "opslaan",
+    "amount": "aantal",
+    "actions": "acties",
+    "add": "toevoegen",
+    "quantity": "hoeveelheid",
     "lunch_amount": "hoeveel lunches",
+    "oder_overview": "Bestelling overzicht",
     "order_from": "Bestel via:",
     "invite_employee": "Invite medewerker",
     "welcome": "Welkom",
@@ -93,7 +103,6 @@
     "email_send_failed": "Emails niet gestuurd",
     "send_notification": "stuur Herinnering",
     "password_format_error": "minstens 8 tekens lang en 1 special teken!",
-
     "Employee_Overview": "Medewerker overview",
     "Week_select": "Selecteer een week:",
     "employeesNotFound": "medewerkers niet gevonden",
@@ -107,6 +116,17 @@
     "email_fail": "Failed to send email",
     "change_email_not_possible": "kan email niet veranderen",
     "input_error": "Vul alle velden in!",
-    "invite_send": "uitnodiging gestuurd!"
+    "invite_send": "uitnodiging gestuurd!",
+
+    "Bread": "Brood",
+    "Ham": "Ham",
+    "Cheese": "Kaas",
+    "Lettuce": "Sla",
+    "Mayonnaise": "Mayonnaise",
+    "Apples": "Appels",
+    "Chicken": "Kipfilet",
+    "Pasta": "Pasta",
+    "Canned_Beans": "Bonen in blik",
+    "Soup": "tomaten soep"
 }
   

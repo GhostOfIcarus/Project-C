@@ -5,7 +5,7 @@ import genstyles from './Stylesheets/GeneralStyles.module.css';
 import postlogin from './Stylesheets/PostLogin.module.css';
 import withAuthentication from '../Controllers/withAuthentication';
 import { useTranslation } from 'react-i18next';
-import { Buurtboer_OrderController } from '../Controllers/OrderController';
+import { OrderController } from '../Controllers/OrderController';
 
 interface UserData {
   firstName: string;
@@ -22,7 +22,7 @@ function Buurtboer_Order() {
     totalAbsent,
     selectedWeek,
     updateSelectedWeek, // Add this function from the controller
-  } = Buurtboer_OrderController();
+  } = OrderController();
 
   useEffect(() => {
     const fetchData = async () => {
