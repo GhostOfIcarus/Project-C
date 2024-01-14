@@ -28,10 +28,10 @@ const withAuthentication = (WrappedComponent: React.FC, SendBackRoute: string = 
           if (error.response?.status === 401) {
             // User is not authenticated, redirect to login page
             navigate(SendBackRoute);
-          } else {
-            // Handle other errors
-            console.error('An error occurred:', error.message);
-            navigate(SendBackRoute);
+          } 
+          
+          else {
+            console.log('Error fetching authentication data:', error);
           }
         });
     }, [navigate]);
