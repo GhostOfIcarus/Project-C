@@ -752,7 +752,10 @@ app.get('/api/getCompanyAdminEmail/:adminId', async (req, res) => {
 	}
   });
   
-
+// If no routes match, return a 404 error
+app.use((req, res) => {
+	res.status(404).json({ error: 'Not Found' });
+});
 
 // Starting the API server
 app.listen(port, () => {
