@@ -441,7 +441,7 @@ app.post('/api/forgot_password', async (req, res) => {
 	  if (emailExists) {
 		res.status(200).json({ success: true });
 	  } else {
-		console.log('HELPPPPPPP')
+		console.log('error checking email exists')
 		res.status(404).json({ error: 'Email not found in the database' });
 	  }
 	} catch (error) {
@@ -554,7 +554,6 @@ app.post('/api/admin/updateAdmin', async (req, res) => {
 		existingAdmin.email = email;
 	  }
 	  if (password !== undefined) {
-		// Hash the password securely before storing it in the database
 		const hashedPassword = await hashPassword(password);
 		existingAdmin.password = hashedPassword;
 	  }
@@ -563,7 +562,6 @@ app.post('/api/admin/updateAdmin', async (req, res) => {
 	  const success = await Functions.updateAdmin(adminId, existingAdmin);
   
 	  if (success) {
-		// Fetch the updated admin data from the database
 		res.status(200).json({ message: 'Admin information updated successfully'});
 	  } else {
 		res.status(500).json({ error: 'An error occurred updating the admin information' });
@@ -587,14 +585,12 @@ app.post('/api/admin/updateAdmin', async (req, res) => {
 	try {
 	  const { superadminId, admin_first_name, admin_last_name, email, password } = req.body;
   
-	  // Retrieve the existing super admin information from the database
 	  const existingSuperAdmin = await Functions.getSuperAdminById(superadminId);
   
 	  if (!existingSuperAdmin) {
 		return res.status(404).json({ error: 'Super admin not found' });
 	  }
-  
-	  // Update only the fields that are provided in the request body
+
 	  if (admin_first_name) {
 		existingSuperAdmin.first_name = admin_first_name;
 	  }
@@ -625,7 +621,6 @@ app.post('/api/admin/updateAdmin', async (req, res) => {
   // Middleware to verify the JWT token
 const verifyToken = (req, res, next) => {
 	const token = req.cookies['jwt-token'];
-	//console.log('token:', token);
 
 	if (!token) {
 	  return res.status(401).json({ error: 'Unauthorized' });
@@ -646,10 +641,8 @@ const verifyToken = (req, res, next) => {
 	try {
 	  const { userId } = req.decoded;
   
-	  // Assuming you have a function to get admin data by ID
 	  const adminData = await Functions.getCompanyAdminById(userId);
-  
-	  // Generate a new token with the updated information
+
 	  const updatedToken = jwt.sign(
 		{
 		  userId: adminData.id,
@@ -679,10 +672,8 @@ app.post('/api/SuperAdmin/refreshToken', verifyToken, async (req, res) => {
 	try {
 	  const { userId } = req.decoded;
   
-	  // Assuming you have a function to get SuperAdmin data by ID
 	  const superAdminData = await Functions.getSuperAdminById(userId);
   
-	  // Generate a new token with the updated information
 	  const updatedToken = jwt.sign(
 		{
 		  userId: superAdminData.id,
@@ -695,7 +686,6 @@ app.post('/api/SuperAdmin/refreshToken', verifyToken, async (req, res) => {
 		{ expiresIn: '2h' }
 	  );
   
-	  // Set the updated token as a cookie (HTTP-only)
 	  res.cookie('jwt-token', updatedToken, { maxAge: 2 * 60 * 60 * 1000 }); // 2 hours max age
   
 	  res.status(200).json({ token: updatedToken, userData: jwt.decode(updatedToken) });

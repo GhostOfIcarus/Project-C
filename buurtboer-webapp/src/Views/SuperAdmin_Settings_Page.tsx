@@ -109,9 +109,7 @@ function SuperAdminSettings() {
       userName.trim() !== initialValues.userName.trim() ||
       userEmail.trim() !== initialValues.userEmail.trim();
       if (changesMade) {
-        // Validate email format and availability
         if (userEmail === '' || userEmail.includes('@')) {
-          // Check email availability only if the new email is different from the original email
           if (userEmail !== initialValues.userEmail) {
             //checkEmailAvailability checks if the email is already in use, if it is it returns true and doesnt allow the user to change the email.
             const EmailNotAvailable = await checkEmailAvailability(userEmail);
@@ -172,12 +170,9 @@ function SuperAdminSettings() {
       // Extract the new token from the response
       const newToken = response.data.token;
   
-      // Set the new token in the cookie or storage, wherever you store your tokens
-      // For example, if using cookies:
       document.cookie = `jwt-token=${newToken}; max-age=${2 * 60 * 60}; path=/`;
     } catch (error) {
       console.error('Error refreshing token:', error);
-      // Handle the error based on your requirements
     }
   };
 

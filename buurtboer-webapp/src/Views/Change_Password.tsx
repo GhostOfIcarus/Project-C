@@ -20,7 +20,7 @@ function ChangePassword() {
   const navigate = useNavigate();
 
   const isPasswordValid = (password: any) => {
-    // Add your password conditions here
+    //these are the password conditions
     const minLength = 8;
     const hasSpecialCharacter = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/.test(password);
     return password.length >= minLength && hasSpecialCharacter;
@@ -40,7 +40,6 @@ function ChangePassword() {
         return;
       }
 
-      // Add validation for newPassword and confirmPassword if needed
       const result = await changePasswordController(newPassword, token);
 
       if (result) {
@@ -72,8 +71,6 @@ function ChangePassword() {
       <div className={genstyles.container}>
         <div className='row'>
           <div className={`col-lg-6 ${genstyles.login_div}`}>
-            {/* Check if the token is inside of the url in the address bar 
-                 if it isn't display an error screen containing instructions */}
             {!token? noTokenInUrlScreen : (
               <>
                 <div className={genstyles.title}>{t('changePasswordHeader')}</div>

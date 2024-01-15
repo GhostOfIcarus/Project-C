@@ -109,7 +109,6 @@ function Settings() {
   const handleRoosterChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const selectedValue = event.target.value;
   
-    // Update the selectedRosterValue based on the selected option
     if (selectedValue === t('5weekday')) {
       setSelectedRosterValue((prevValue) => {
         if (prevValue !== false) {
@@ -144,13 +143,7 @@ function Settings() {
       return false; 
     }
   };
-  
-  const handleUserEmailChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    setUserEmail(e.target.value);
-};
-
-  
-  
+   
   const handleCompanyNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setCompanyName(e.target.value);
   };
@@ -166,9 +159,7 @@ function Settings() {
       selectedRosterValue !== initialValues.selectedRosterValue;
 
     if (changesMade) {
-      // Validate email format and availability
       if (userEmail === '' || userEmail.includes('@')) {
-        // Check email availability only if the new email is different from the original email
         if (userEmail !== oldEmail) {
           //checkEmailAvailability checks if the email is already in use, if it is it returns true and doesnt allow the user to change the email.
           const EmailNotAvailable = await checkEmailAvailability(userEmail);
@@ -180,14 +171,12 @@ function Settings() {
           }
         }
       } else {
-        // If the email is invalid (doesn't contain "@"), set an error message
         setErrorMessage(t('email_format_error'));
         setIsEmailUnique(false);
         return;
       }
    } 
       
-
       // after the conditions are met continue
       try {
         //checks if userId exists

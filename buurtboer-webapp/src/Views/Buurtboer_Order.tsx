@@ -44,7 +44,6 @@ function Buurtboer_Order() {
     fetchData();
   }, []); // No dependencies needed here
 
-  // Add a function to update the selected week based on the current date
     const updateSelectedWeekBasedOnCurrentDate = () => {
     const currentDate = new Date();
     const startDate = new Date(currentDate.getFullYear(), 0, 1);
@@ -56,7 +55,6 @@ function Buurtboer_Order() {
         updateSelectedWeek(currentWeek);
     };
 
-  // Call the function when the component mounts
   useEffect(() => {
     updateSelectedWeekBasedOnCurrentDate();
   }, [updateSelectedWeek]);
