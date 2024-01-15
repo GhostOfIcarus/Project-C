@@ -13,7 +13,7 @@ export interface UserData {
   email: string;
 }
 
-export function Buurtboer_OrderController() {
+export function OrderController() {
   const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
   const [attendanceData, setAttendanceData] = useState<AttendanceData[]>([]);
   const [totalAttendance, setTotalAttendance] = useState<number>(0);

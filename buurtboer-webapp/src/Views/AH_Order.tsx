@@ -5,7 +5,7 @@ import genstyles from './Stylesheets/GeneralStyles.module.css';
 import postlogin from './Stylesheets/PostLogin.module.css';
 import withAuthentication from '../Controllers/withAuthentication';
 import { useTranslation } from 'react-i18next';
-import { Buurtboer_OrderController } from '../Controllers/OrderController';
+import { OrderController } from '../Controllers/OrderController';
 
 interface UserData {
   firstName: string;
@@ -22,7 +22,7 @@ function AH_Order() {
     totalAbsent,
     selectedWeek,
     updateSelectedWeek, 
-  } = Buurtboer_OrderController();
+  } = OrderController();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -42,9 +42,8 @@ function AH_Order() {
     };
 
     fetchData();
-  }, []); // No dependencies needed here
+  }, []); 
 
-  // Add a function to update the selected week based on the current date
     const updateSelectedWeekBasedOnCurrentDate = () => {
     const currentDate = new Date();
     const startDate = new Date(currentDate.getFullYear(), 0, 1);
@@ -56,7 +55,6 @@ function AH_Order() {
         updateSelectedWeek(currentWeek);
     };
 
-  // Call the function when the component mounts
   useEffect(() => {
     updateSelectedWeekBasedOnCurrentDate();
   }, [updateSelectedWeek]);

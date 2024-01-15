@@ -131,12 +131,7 @@ function Invite_Employee() {
             <div className="col-lg-12">
                 <div className="  form_items ms-5 justify-content-center p-5">
                   <h2>{t('employee_invite')}</h2>
-                  {/* <div className="justify-content-center">
-                      <input type="text" id="firstName" placeholder="Voornaam" /> 
-                      <input type="text" id="lastName" placeholder="Achternaam" />
-                      <input type="email" id="emailInput" placeholder="Email" /> 
-                      <a href="index.html"><button className={genstyles.button}>Stuur Invite</button></a>
-                  </div> */}
+                  
                   <form onSubmit={sendInvite}>
                       <input className='form-control mt-3' type="email" id="emailInput" placeholder="Email" value={employeeEmail} onChange={(e) => setEmployeeEmail(e.target.value)}/> 
                       <br />

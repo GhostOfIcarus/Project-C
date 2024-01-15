@@ -24,13 +24,11 @@ const createNewCompany = async (admin_first_name, admin_last_name, company_name,
 	
 		if (results.rowCount > 0) 
 		{	
-			console.log('Insert successful');
 			return true;
 		} 
 	} catch (error) {
-		console.error(error);
 		console.error('Error in getting company data:', error);
-		throw new Error("Internal error wah wah");
+		throw new Error('Error in getting company data:', error);
 	} finally {
 		db.release(); 
 	}
@@ -55,15 +53,13 @@ const deleteCompany = async (company_id) => {
         const companyResult = await db.query(`DELETE FROM company WHERE id = $1`, [company_id]);
 
         if (scheduleResult.rowCount > 0 || empincompResult.rowCount > 0 || employeeResult.rowCount > 0 || companyResult.rowCount > 0) {
-            console.log('Delete successful');
             return true;
         } else {
-            console.log('No rows were deleted');
             return false;
         }
     } catch (error) {
         console.error('Error in deleting user data:', error);
-        throw new Error("Internal error");
+        throw new Error('Error in deleting user data:', error);
     } finally {
         db.release(); 
     }
@@ -88,16 +84,12 @@ const createNewEmployee = async (comp_id, first_name, last_name, email, activati
 											`, [results.rows[0].id, activation_key]);
 			if (results2.rowCount > 0 && resultAddKey.rowCount > 0) 
 			{	
-				console.log('Insert successful');
-				// console.log("Key: ", resultAddKey.rows[0].key);
-				// return resultAddKey.rows[0].key;
 				return true;
 			}
 		} 
 	} catch (error) {
-		console.error(error);
 		console.error('Error in getting user data:', error);
-		throw new Error("Internal error wah wah");
+		throw new Error('Error in getting user data:', error);
 	} finally {
 		db.release(); 
 	}
@@ -110,15 +102,13 @@ const deleteEmployee = async (employee_id) => {
         const results = await db.query(`DELETE FROM employeesincompany WHERE employee_id = $1`, [employee_id]);
         const results2 = await db.query(`DELETE FROM employee WHERE id = $1`, [employee_id]);
         if (scheduleResult.rowCount > 0 || results.rowCount > 0 || results2.rowCount > 0) {
-            console.log('Delete successful');
             return true;
         }
-        console.log('Delete ERROR');
         return false
         
     } catch (error) {
         console.error('Error in deleting user data:', error);
-        throw new Error("Internal error");
+        throw new Error('Error in deleting user data:', error);
     } finally {
         db.release(); 
     }
@@ -131,9 +121,8 @@ const getAllEmployeeData = async () => {
 		const results = await db.query("SELECT * FROM employee");
 		return results.rows;
 	} catch (error) {
-		console.error(error);
 		console.error('Error in getting user data:', error);
-		throw new Error("Internal error wah wah");
+		throw new Error('Error in getting user data:', error);
 	} finally {
 		db.release(); // Release the connection back to the pool
 	  }
@@ -171,7 +160,7 @@ const getActivationKey = async (email, activation_key) => {
 		
 	} catch (error) {
 		console.error('Error in getting activation key:', error);
-		throw new Error("Internal error wah wah");
+		throw new Error('Error in getting activation key:', error);
 	} finally {
 		db.release(); // Release the connection back to the pool
 	  }
@@ -191,7 +180,7 @@ const deleteActivationKey = async (employee_id) => {
 		
 	} catch (error) {
 		console.error('Error in getting deleting key:', error);
-		throw new Error("Internal error wah wah");
+		throw new Error('Error in getting deleting key:', error);
 	} finally {
 		db.release(); // Release the connection back to the pool
 	  }
@@ -204,9 +193,8 @@ const getAllCompanies = async () => {
 		const results = await db.query("SELECT id, company_name FROM company");
 		return results.rows;
 	} catch (error) {
-		console.error(error);
 		console.error('Error in getting user data:', error);
-		throw new Error("Internal error wah wah");
+		throw new Error('Error in getting user data:', error);
 	} finally {
 		db.release(); // Release the connection back to the pool
 	  }
@@ -220,12 +208,10 @@ const getAllEmployeeDataByCompany = async (company_id) => {
 										FROM employee 
 										JOIN employeesincompany ON employeesincompany.employee_id = employee.id
 										WHERE company_id = $1`, [company_id]);
-		console.log(results.rows);
 		return results.rows;
 	} catch (error) {
-		console.error(error);
 		console.error('Error in getting user data:', error);
-		throw new Error("Internal error wah wah");
+		throw new Error('Error in getting user data:', error);
 	} finally {
 		db.release(); // Release the connection back to the pool
 	  }
@@ -250,9 +236,8 @@ const getEmployeeSchedule = async (employeeId, week) => {
 	}
 	  
 	} catch (error) {
-	  console.error(error);
 	  console.error('Error in getting user data:', error);
-	  throw new Error("Internal error wah wah");
+	  throw new Error('Error in getting user data:', error);
 	} finally {
 		db.release(); // Release the connection back to the pool
 	  }
@@ -275,13 +260,11 @@ const createEmployeeSchedule = async (employeeId, week) => {
 									`, [results.rows[0].id, employeeId]);
 		if (results2.rowCount > 0) 
 		{	
-			console.log('Insert successful');
 			return results.rows[0];
 		}
 	} 
 	else 
 	{
-		console.log('Insert failed');
 		return false;
 	}
 
@@ -289,7 +272,7 @@ const createEmployeeSchedule = async (employeeId, week) => {
 	{
 	  console.error(error);
 	  console.error('Error in getting user data:', error);
-	  throw new Error("Internal error wah wah");
+	  throw new Error('Error in getting user data:', error);
 	}finally {
 		db.release(); // Release the connection back to the pool
 	  }
@@ -310,7 +293,7 @@ const updateEmployeeSchedule = async (schedule_id,  m, tu, w, th, f, sa, su) => 
 	  } catch (error) {
 		console.error(error);
 		console.error('Error in updating schedule:', error);
-		throw new Error("Internal error wah wah");
+		throw new Error('Error in updating schedule:', error);
 	  } finally {
 		db.release(); // Release the connection back to the pool
 	  }
@@ -332,7 +315,7 @@ const updateEmployeeRememberSchedule = async (employee_id, keep_schedule) => {
 	  } catch (error) {
 		console.error(error);
 		console.error('Error in updating employee:', error);
-		throw new Error("Internal error wah wah");
+		throw new Error('Error in updating employee:', error);
 	  } finally {
 		db.release(); // Release the connection back to the pool
 	  }
@@ -349,7 +332,7 @@ const getSingleEmployeeData = async (email, password) => {
 	} catch (error) {
 		console.error(error);
 		console.error('Error in getting user data:', error);
-		throw new Error("Internal error wah wah");
+		throw new Error('Error in getting user data:', error);
 	} finally {
 		db.release(); // Release the connection back to the pool
 	  }
@@ -370,11 +353,10 @@ const getSingleEmployeeByEmailData = async (email) => {
 		  }
 		return results.rows[0];
 	} catch (error) {
-		console.error(error);
 		console.error('Error in getting user data:', error);
-		throw new Error("Internal error wah wah");
+		throw new Error('Error in getting user data:', error);
 	} finally {
-		db.release(); // Release the connection back to the pool
+		db.release();
 	  }
 };
 
@@ -390,7 +372,6 @@ const addKeyByEmployeeMail = async (email, activated, activation_key) => {
 											`, [results.rows[0].id, activation_key]);
 			if (resultAddKey.rowCount > 0) 
 			{	
-				console.log('Code created');
 				return results.rows[0];
 			}
 		}
@@ -398,7 +379,7 @@ const addKeyByEmployeeMail = async (email, activated, activation_key) => {
 	} catch (error) {
 		console.error(error);
 		console.error('Error in getting user data:', error);
-		throw new Error("Internal error wah wah");
+		throw new Error('Error in getting user data:', error);
 	} finally {
 		db.release(); 
 	}
@@ -427,7 +408,7 @@ const ChangePasswordEmployee = async (newPassword, email, page_key) => {
 	} catch (error) {
 	  console.error(error);
 	  console.error('Error in updating user password:', error);
-	  throw new Error("Internal error wah wah");
+	  throw new Error('Error in updating user password:', error);
 	} finally {
 		db.release(); // Release the connection back to the pool
 	  }
@@ -455,16 +436,14 @@ const getSingleCompanyAdminData = async (email, password) => {
 	} catch (error) {
 		console.error(error);
 		console.error('Error in getting user data:', error);
-		throw new Error("Internal error wah wah");
+		throw new Error('Error in getting user data:', error);
 	}
 };
 
 const getSingleCompanyAdminDataByEmail = async (email) => {
 	const db = await pool.connect();
-	console.log("email2:", email)
 	try {
 		const results = await db.query("SELECT * FROM company WHERE email = $1", [email]);
-		console.log("RESULTS: ", results.rowCount);
 		if (results.rowCount === 0) {
 			return false;
 		}
@@ -473,7 +452,7 @@ const getSingleCompanyAdminDataByEmail = async (email) => {
 	} catch (error) {
 		console.error(error);
 		console.error('Error in getting user data:', error);
-		throw new Error("Internal error wah wah");
+		throw new Error('Error in getting user data:', error);
 	}
 };
 
@@ -485,7 +464,7 @@ const getCompanyAdminById = async (adminId) => {
 	} catch (error) {
 		console.error(error);
 		console.error('Error in getting user data:', error);
-		throw new Error("Internal error wah wah");
+		throw new Error('Error in getting user data:', error);
 	}
 };
 
@@ -496,7 +475,7 @@ const getCompanyAdminEmailById = async (adminId) => {
 	  return results.rows[0]?.email; // Return the email or null if not found
 	} catch (error) {
 	  console.error('Error in getting user email:', error);
-	  throw new Error("Internal error wah wah");
+	  throw new Error('Error in getting user email:', error);
 	} finally {
 	  await db.release();
 	}
@@ -514,7 +493,7 @@ const getCompanyAdminEmailById = async (adminId) => {
 	  }
 	} catch (error) {
 	  console.error('Error in getting user data:', error);
-	  throw new Error("Internal error wah wah");
+	  throw new Error('Error in getting user data:', error);
 	} finally {
 	  db.release(); // Always release the database connection in a finally block
 	}
@@ -542,7 +521,7 @@ const getSingleSuperAdminData = async (email, password) => {
 	} catch (error) {
 		console.error(error);
 		console.error('Error in getting user data:', error);
-		throw new Error("Internal error wah wah");
+		throw new Error('Error in getting user data:', error);
 	}
 }
 
@@ -555,7 +534,7 @@ const getSuperAdminById = async (superadminId) => {
 	} catch (error) {
 		console.error(error);
 		console.error('Error in getting user data:', error);
-		throw new Error("Internal error wah wah");
+		throw new Error('Error in getting user data:', error);
 	}
 }
 
@@ -606,11 +585,10 @@ const getAttendance = async (comp_id, week_number) => {
 	  `, [email]);
   
 	  // If the count is greater than 0, the email exists
-	  console.log(result);
 	  return result.rows[0].count > 0;
 	} catch (error) {
 	  console.error('Error in checking email existence:', error);
-	  throw new Error('Internal error');
+	  throw new Error('Error in checking email existence:', error);
 	} finally {
 	  db.release();
 	}
@@ -653,7 +631,7 @@ const getAttendance = async (comp_id, week_number) => {
         return false;
     } catch (error) {
         console.error('Error in updating user password:', error);
-        throw new Error('Internal error');
+        throw new Error('Error in updating user password:', error);
     } finally {
         db.release(); // Release the connection back to the pool
     }
@@ -741,33 +719,11 @@ const getAttendance = async (comp_id, week_number) => {
 	  return false;
 	} catch (error) {
 	  console.error('Error in updating admin:', error);
-	  throw new Error('Internal error');
+	  throw new Error('Error in updating admin:', error);
 	} finally {
 	  db.release(); // Release the connection back to the pool
 	}
   };
-  
-//   const fetchData = async () => {
-// 	try {
-// 	  const results = await getAttendance(49);
-	  
-// 	  if (results && results.rows) {
-// 		results.rows.forEach(row => {
-// 		  console.log("Monday", row.monday);
-// 		  console.log("Tuesday:", row.tuesday);
-// 		  // Add more properties as needed
-// 		});
-// 	  } else {
-// 		console.log("No results or rows found.");
-// 	  }
-// 	} catch (error) {
-// 	  console.error(error);
-// 	}
-//   };
-
-
-//   fetchData();
-
 
 module.exports = {
 	createNewCompany,

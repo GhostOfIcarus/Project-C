@@ -9,12 +9,12 @@ module.exports = {
     forgotPassword: (username, resetPasswordLink) => {
         return `
             <p><i> For English, please scroll down </i></p>
-            <p>Hallo ${username},</p>
+            <p>Hallo,</p>
             <p>Klik alsjeblieft <a href="${resetPasswordLink}">hier</a> om je wachtwoord te resetten.</p>
             <p>Als je dit niet hebt aangevraagd, negeer deze e-mail dan alsjeblieft en je wachtwoord blijft ongewijzigd.</p>
             <p>Met vriendelijke groet</p>
             <p>---------------------------------------------------------------------------------------------------------</p>
-            <p>Hello ${username},</p>
+            <p>Hello,</p>
             <p>Please click <a href="${resetPasswordLink}">here</a> to reset your password.</p>
             <p>If you did not request this, please ignore this email and your password will remain unchanged.</p>
             <p>Kind regards</p>
@@ -42,13 +42,13 @@ module.exports = {
         return `
             <p><i> For English, please scroll down </i></p>
             <p>Hallo ${firstName} ${lastName},</p>
-            <p>Voer alsjeblieft deze activeringscode in de BuurtBoer mobiele app in om je account aan te maken:</p>
-            <p>Als je dit niet hebt aangevraagd, negeer dan deze e-mail en je registratie blijft onbevestigd.</p>
+            <p>Open de buurtboer mobile app en klik op "activeer account" om de registratie van je account te voltooien.</p>
+            <p>Als je dit niet hebt aangevraagd, neem dan contact op met je supervisor.</p>
             <p>Met vriendelijke groet</p>
             <p>---------------------------------------------------------------------------------------------------------</p>
             <p>Hello ${firstName} ${lastName},</p>
-            <p>Please enter this activation code in the BuurtBoer mobile app to create your account: </p>
-            <p>If you did not request this, please ignore this email and your registration will remain unconfirmed.</p>
+            <p>Please open the buurtboer mobile app and click on "activate account" to complete your registration.</p>
+            <p>If you did not request this, please contact a supervisor.</p>
             <p>Kind regards</p>
         `;
     },

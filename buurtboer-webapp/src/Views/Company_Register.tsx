@@ -89,13 +89,11 @@ export function Company_Register() {
           setSuccessMessage(t('successfullyMadeCompany'))
           console.log('created successfully');
         } else {
-          // Handle registration failure
           console.error('Company registration failed');
         }
       }
 
     } catch (error) {
-      // Handle errors, e.g., display an error message
       console.error('An error occurred during company registration', error);
     }
   };
