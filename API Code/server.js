@@ -139,7 +139,6 @@ app.post('/api/employee/add', async (req, res) => {
 			{ expiresIn: '1h' }
 		  );
 		const userData = await Functions.createNewEmployee(comp_id, first_name, last_name, email, token);
-		console.log(activation_key);
 		res.status(200).json(userData);
 	} catch (error) {
 		console.error(error);
@@ -268,7 +267,6 @@ app.post('/api/employee/email_code', async (req, res) => {
 	try {
 		const { email, activated } = req.body;
 		const activation_key = Math.floor(Math.random() * (1000000 - 100000) + 100000);
-		console.log(activation_key);
 		const token = jwt.sign(
 			{
 			  activation_key: activation_key, 
@@ -340,11 +338,9 @@ try {
 	const { email } = req.body;
 	// Check if the user exists in the database (you may need to adjust this based on your database schema)
 	const userData = await Functions.getSingleCompanyAdminDataByEmail(email);
-	console.log("EMAIL IN SERVERJS: ", email);
 
 	if (!userData) {
 	res.status(401).json({ error: 'User not found' });
-	console.log("gebruiker niet gevonden")
 	return;
 	}
 
@@ -435,13 +431,11 @@ app.post('/api/forgot_password', async (req, res) => {
 	try {
 	  const { email } = req.body;
   
-	  console.log('Received request with email:', email);
 	  const emailExists = await Functions.checkEmailExists(email);
   
 	  if (emailExists) {
 		res.status(200).json({ success: true });
 	  } else {
-		console.log('error checking email exists')
 		res.status(404).json({ error: 'Email not found in the database' });
 	  }
 	} catch (error) {

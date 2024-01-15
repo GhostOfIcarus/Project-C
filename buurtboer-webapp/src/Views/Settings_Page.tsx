@@ -291,14 +291,14 @@ function Settings() {
                 style={{ width: '20px', height: 'auto', marginRight: '5px', cursor: 'pointer' }}
                 src={NL}
                 alt="nl"
-                onClick={() => setLanguage('nl')} // Use setLanguage from SettingsController
+                onClick={() => setLanguage('nl')} 
               />
               <span style={{ margin: '0 5px', fontSize: '20px' }}>/</span>
               <img
                 style={{ width: '20px', height: 'auto', marginLeft: '5px', cursor: 'pointer' }}
                 src={EN}
                 alt="en"
-                onClick={() => setLanguage('en')} // Use setLanguage from SettingsController
+                onClick={() => setLanguage('en')} 
               />
               </div>
               {confirmationVisible && (

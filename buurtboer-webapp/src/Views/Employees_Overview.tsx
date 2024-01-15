@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';  // Assuming you are using React Router
+import { Link } from 'react-router-dom'; 
 import postlogin from './Stylesheets/PostLogin.module.css';
 import genstyles from './Stylesheets/GeneralStyles.module.css';
 import Cross from "./img/kruisje_projectC.png";

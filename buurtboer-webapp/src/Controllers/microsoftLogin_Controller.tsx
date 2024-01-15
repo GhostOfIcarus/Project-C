@@ -78,7 +78,6 @@ export function useMicrosoftLogin() {
         const firstname = userInfo.givenName;
 
         return {email, lastname, firstname};
-        //const EmailInDatabase = await checkEmailAvailability(userInfo.mail);
       }
     } catch (error) {
       console.log(error);

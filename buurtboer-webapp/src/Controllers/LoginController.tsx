@@ -74,21 +74,7 @@ export function useLoginController() {
   
           } else {
             console.error("User does not exist, inserting into the database: ", userObject.email);
-            // // Insert the user into the database
-            // axios.post('http://localhost:5000/api/admin/registerAdmin', {
-            //   admin_first_name: userObject.given_name,
-            //   admin_last_name: userObject.family_name,
-            //   company_name: userObject.name,
-            //   full_schedule: false, // Set the company name accordingly
-            //   email: userObject.email,
-            //   password: ''
-            // })
-            //   .then((insertResponse) => {
-            //     console.log("User inserted successfully");
-            //   })
-            //   .catch((insertError) => {
-            //     console.error("Error inserting user into the database", insertError);
-            //   });
+            
           }
         })
         .catch((error) => {

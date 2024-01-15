@@ -21,7 +21,7 @@ function Buurtboer_Order() {
     totalAttendance,
     totalAbsent,
     selectedWeek,
-    updateSelectedWeek, // Add this function from the controller
+    updateSelectedWeek, 
   } = OrderController();
 
   useEffect(() => {

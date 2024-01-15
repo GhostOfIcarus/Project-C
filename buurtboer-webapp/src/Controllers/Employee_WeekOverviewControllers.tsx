@@ -53,7 +53,6 @@ export function useEmployeeWeekOverviewController() {
   }, [userdata]);
 
   useEffect(() => {
-    // console.log("Employees state updated:", employees);
   }, [employees]); // Log whenever the employees state changes
 
   const fetchEmployees = async () => {

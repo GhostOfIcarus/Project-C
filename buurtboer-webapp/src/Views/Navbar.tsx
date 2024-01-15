@@ -47,13 +47,11 @@ const Navbar = () => {
 
     fetchData();
     handleUserRole();
-    //console.log("users role is: ", userRole)
   }, []); // The empty dependency array ensures that this effect runs once on mount
   
   const imageContainerStyle = {
     backgroundColor: '#09a090',
     padding: '5px',
-    // borderRadius: '5px', // Add border-radius or other styles as needed
   };
 
   return (
