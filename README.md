@@ -1,36 +1,83 @@
 # Project-C Buurtboer/ Team 1
 
 
-## Run dit project lokaal
+## Run this project locally 
 
-Om dit project lokaal te runnen en te testen heb je de volgende dingen nodig:
+To run this project you need the following software installed
 
-    docker
-    nodejs
-    react
+    docker - https://www.docker.com/products/docker-desktop/
+    nodejs - https://nodejs.org/en/download version 18.0.0 +
 
 
-Run de volgende commands elk in hun eigen aparte terminal:
+## Set-up web-app
+
+When the repository is first cloned some dependencies still need to be installed:
+
+    - On open the command line (cmd) or the terminal on mac at the project-c folder 
+
+    - paste and run this command into the terminal: 'cd .\buurtboer-webapp\'
+
+    - paste and run 'npm install', if this does not work try running 'npm --force install'
+
+Next we will initialize the database
+
+    - navigate back to the project-c folder
+
+    - paste and run 'docker-compose up'
+
+The pgadmin software will now be running a postgres database on the following address 'localhost:8080'
+
+    - type the address into a browser, you will see a pgadmin login screen you can login with email:admin@ad.min and password:admin
+
+    - You will see an object explorer on the left where you have a list of servers, right click here -> register -> server, there are some fields here that have to be filled in
+
+    - Under general -> name = BuurtBoer
+    - Under Connection -> Host name/address = postgres, port = 5432, Maintenance database = postgres, Username = postgres
+    
+    - This will finish setting up the server, now when you try to access this it will probably ask for a password, you can just click ok as we did not set a password
+
+    - you should be able to fold out the buurtboer server on the left and see Databases(1), right click -> create -> database
+
+    - under general name the database "Buurtboer" and save
+
+
+
+    - Finally return to the the command screen and paste and run the following command: 'node .\LocalDatabase\InitDb.js'
+
+        this will initialize the tables + table relations with some test data in them.
+
+
+
+
+Run these commands each in their own terminal starting from the project-c folder:
 
     cd buurtboer-webapp && npm start
 
     node '.\API Code\server.js'
 
-    docker-compose up
+    docker-compose up (if your docker container was not still running)
 
     node '.\Email Server\EmailServer.js'
 
 
+The web-app should now be available at 'localhost:3000', type this in your webbrowser to start using the application
+
+The credentials for the test accounts are:
+
+                    email             password
+
+    - superadmin: 'admin@admin.com' -   'hashed'
+    - companyadmin: 'company@example.com' - 'hashed'
+
+
 ## Server Probleem
 
-Wegens problemen op school met de server is dit project slechts lokaal te runnen,
-sommige functionaliteiten zijn hierop dus ook afgesteld:
+Due to some trouble concerining the school servers this project is only able to be ran locally,
+some functionalities are designed to work with this in mind.
 
 - Invite Company
 
-    Wanneer een bedrijf wordt uitgenodigd krijgt dit bedrijf een mailtje op het gegeven email addres
-    met een link naar het afmaken van de registratie.
+    When a company get invited they receive an email on the given email address containing a link for finishing the registration.
 
-    Deze link zal echter alleen functioneel zijn als de ontvanger ook dit project met alle services heeft draaien
-
+    This link will only be functional if the receiver also has this project and all other services running
 

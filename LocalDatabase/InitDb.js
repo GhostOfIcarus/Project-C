@@ -105,7 +105,7 @@ async function insertTestData() {
     const insertDataQuery = `
       INSERT INTO Employee (First_Name, Last_Name, Email, Password, KeepSchedule, Activated)
       VALUES ('John', 'Doe', 'john.doe@example.com', '$2a$10$CrafwtV/9bbC.lkkPaj13.ZuRZLAlUhEEQ5VgruKtUyXzbmCkcam2', true, true),
-      ('OEMPA', 'LOEMPA', 'oempa@loempa.com', '$2a$10$CrafwtV/9bbC.lkkPaj13.ZuRZLAlUhEEQ5VgruKtUyXzbmCkcam2', true, false);
+      ('Jane', 'Doe', 'jane.doe@example.com', '$2a$10$CrafwtV/9bbC.lkkPaj13.ZuRZLAlUhEEQ5VgruKtUyXzbmCkcam2', true, false);
 
       INSERT INTO Company (Admin_First_Name, Admin_Last_Name, Company_Name, Full_Schedule, Email, Password)
       VALUES ('Jane', 'Doe', 'Example Company', true, 'company@email.com', '${hashedPassword}');
@@ -133,7 +133,7 @@ async function insertTestData() {
             (2, 1);
 
       INSERT INTO SuperAdmin (First_Name, Last_Name, Email, Password)
-      VALUES ('Super', 'Admin', 'Admin@bleh.com', '${hashedPassword}');
+      VALUES ('Super', 'Admin', 'admin@admin.com', '${hashedPassword}');
 
     `;
 
